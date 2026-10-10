@@ -30,6 +30,10 @@ const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fo
 function scene(){const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';return '<div class="exp100-scene exp100-scene-live"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div><span class="exp100-scene-label">THE OLD ROAD <i>•</i> ASHMERE FRONTIER</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>'}
 function shell(body){
  root().innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>';
+ root().querySelectorAll('.exp100 button').forEach(btn=>btn.addEventListener('click',()=>{
+  if(btn.id==='exp100-sound')return;
+  tone(['strike','heavy','skill'].includes(btn.id)?'impact':'tap');
+ }));
  document.getElementById('exp100-sound')?.addEventListener('click',e=>{
   try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on')}catch(err){}
   e.currentTarget.textContent='Sound: '+(soundOn()?'On':'Off');
@@ -79,7 +83,7 @@ function renderExpedition(note=''){
   });
   document.getElementById('campCraft')?.addEventListener('click',()=>{
     if(Number(pl.inventory?.roadHerb||0)<1||Number(pl.inventory?.clothScrap||0)<1)return;
-    pl.inventory.roadHerb--;pl.inventory.clothScrap--;inv(pl,'potion',1);tone('success');save(pl);
+    pl.inventory.roadHerb--;pl.inventory.clothScrap--;inv(pl,'potion',1);save(pl);
     renderExpedition('You bind a Road Herb into clean cloth and make a healing potion.');
   });
 }
