@@ -29,17 +29,32 @@ function tone(kind='tap'){
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(){const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';return '<div class="exp100-scene exp100-scene-live"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div><span class="exp100-scene-label">THE OLD ROAD <i>•</i> ASHMERE FRONTIER</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>'}
 function shell(body){
- root().innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>';
- root().querySelectorAll('.exp100 button').forEach(btn=>btn.addEventListener('click',()=>{
-  if(btn.id==='exp100-sound')return;
-  tone(['strike','heavy','skill'].includes(btn.id)?'impact':'tap');
- }));
- document.getElementById('exp100-sound')?.addEventListener('click',e=>{
-  try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on')}catch(err){}
-  e.currentTarget.textContent='Sound: '+(soundOn()?'On':'Off');
-  e.currentTarget.setAttribute('aria-label','Toggle sound effects');
-  if(soundOn())tone('success');
+ const host=root(),current=host.querySelector('.exp100-wrap');
+ if(current){
+  const holder=document.createElement('div');holder.innerHTML=body;
+  const nextScene=holder.querySelector('.exp100-scene');
+  const liveScene=current.querySelector(':scope > .exp100-scene');
+  if(nextScene&&liveScene){
+   nextScene.remove();
+   current.querySelectorAll(':scope > :not(.exp100-scene)').forEach(el=>el.remove());
+   current.append(...holder.childNodes);
+  }else host.innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>';
+ }else host.innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>';
+ host.querySelectorAll('.exp100 button').forEach(btn=>{
+  if(btn.id==='exp100-sound'||btn.dataset.soundBound)return;
+  btn.dataset.soundBound='1';
+  btn.addEventListener('click',()=>tone(['strike','heavy','skill'].includes(btn.id)?'impact':'tap'));
  });
+ const soundButton=document.getElementById('exp100-sound');
+ if(soundButton&&!soundButton.dataset.toggleBound){
+  soundButton.dataset.toggleBound='1';
+  soundButton.addEventListener('click',e=>{
+   try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on')}catch(err){}
+   e.currentTarget.textContent='Sound: '+(soundOn()?'On':'Off');
+   e.currentTarget.setAttribute('aria-label','Toggle sound effects');
+   if(soundOn())tone('success');
+  });
+ }
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene()+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
