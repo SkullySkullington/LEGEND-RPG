@@ -6,7 +6,23 @@ This project is an HTML5 fantasy RPG. Earlier remake history is retained below a
 
 ---
 
-## [Current] v0.12.0 — Road Sub-areas & Waystations
+## [Current] v0.13.0 — Interactive Exploration & Turn-Based Combat
+
+### Added
+
+- Replaced hit-chance checks in the active Old Road controller with predictable weapon damage shaped by character stats and gear.
+- Added telegraphed enemy intentions and Attack, Heavy Strike, Guard, class technique, healing item, and retreat actions.
+- Added an illustrated SVG Old Road scene, lightweight scene drift and arrival feedback, and optional synthesized sound effects with an in-game toggle.
+- Kept expedition discoveries and results in the road flow instead of forcing a separate continue page after every action.
+
+### Changed
+
+- Road choices now resolve through character attributes and resource trade-offs rather than hidden pass/fail dice checks.
+- Combat and exploration controls are tuned for touch screens and respect reduced-motion preferences.
+
+---
+
+## v0.12.0 — Road Sub-areas & Waystations
 
 ### Added
 
