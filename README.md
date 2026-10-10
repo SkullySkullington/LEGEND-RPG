@@ -20,13 +20,13 @@ The intended loop is:
 
 **Ashmere → prepare → choose an expedition → survive encounters → bring home loot and proof → improve the traveler → unlock more of Ashmere and the road → go farther**
 
-The Old Road is being shaped around stages, pressure, meaningful choices, combat, discoveries, rewards, and a clear return to town.
+The Old Road now has named route stops, including two waystations where travelers can spend supplies to recover or craft healing potions from gathered materials. The expedition still uses stages, pressure, meaningful choices, combat, discoveries, rewards, and a clear return to town.
 
 The earlier skill-check philosophy remains useful under the hood, but the player-facing experience is moving toward **choices first, resolution second**. Stats, gear, traits, supplies, and preparation should influence outcomes without making every interaction feel like a tabletop dice prompt.
 
 ## Current Build
 
-### v0.10.x — Ashmere & Old Road Rework
+### v0.12.0 — Road Sub-areas & Waystations
 
 The current development pass is focused on making the first-town loop feel like a complete game rather than a collection of screens.
 
