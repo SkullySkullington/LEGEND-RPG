@@ -6,7 +6,23 @@ This project is an HTML5 fantasy RPG. Earlier remake history is retained below a
 
 ---
 
-## [Current] v0.10.x — Ashmere & Old Road Rework
+## [Current] v0.12.0 — Road Sub-areas & Waystations
+
+### Added
+
+- Added named sub-areas along the Old Road: South Fork, Lantern Ditch, Wayfarer’s Camp, Blackroot Bend, Reedwatch Shelter, and Greyfen Approach.
+- Added camp rest actions that consume a Camp Supply or Ration, restore health, reduce fatigue and Road Pressure, and advance the day.
+- Added a camp crafting action to turn a Road Herb and Cloth Scrap into a healing potion.
+- Added mobile-first route cards and dedicated waystation layouts.
+
+### Changed
+
+- The Old Road now presents a named location for each expedition stage, making the journey feel like connected places rather than abstract stages.
+- Existing save keys and traveler fields remain compatible.
+
+---
+
+## Historical v0.10.x — Ashmere & Old Road Rework
 
 ### Added
 
