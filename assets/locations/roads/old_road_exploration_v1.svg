@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 560" role="img" aria-labelledby="title desc">
+<title id="title">The Old Road beyond Ashmere</title><desc id="desc">A weathered road winds through dark pines toward a warm lantern in the mist.</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#182a2b"/><stop offset=".58" stop-color="#52625a"/><stop offset="1" stop-color="#c0a875"/></linearGradient>
+ <linearGradient id="road" x2="0" y2="1"><stop stop-color="#6c6653"/><stop offset="1" stop-color="#272e29"/></linearGradient>
+ <linearGradient id="mist" x2="0" y2="1"><stop stop-color="#d2c8a5" stop-opacity="0"/><stop offset="1" stop-color="#c6c1a5" stop-opacity=".55"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#ffe6a0" stop-opacity=".95"/><stop offset=".25" stop-color="#e7b95e" stop-opacity=".34"/><stop offset="1" stop-color="#e7b95e" stop-opacity="0"/></radialGradient>
+ <linearGradient id="pine" x2="1" y2="0"><stop stop-color="#101b19"/><stop offset="1" stop-color="#293a31"/></linearGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1440" height="560" fill="url(#sky)"/>
+<circle cx="1030" cy="195" r="180" fill="url(#glow)" filter="url(#soft)"/>
+<path d="M0 280 Q220 200 400 270 T770 250 T1120 270 T1440 220 V560 H0Z" fill="#647064" opacity=".72"/>
+<path d="M0 350 Q280 290 470 360 T880 330 T1440 320 V560 H0Z" fill="#435247"/>
+<path d="M520 560 Q650 440 730 370 Q790 310 900 280 Q790 365 835 410 Q900 470 1010 560Z" fill="url(#road)"/>
+<path d="M592 560 Q692 444 755 379 Q803 330 865 303" fill="none" stroke="#b5a37a" stroke-width="4" opacity=".35"/>
+<g fill="url(#pine)">
+ <path d="M0 560V40L60 135 25 130 95 230 55 218 130 330 88 318 160 420 110 405 175 560Z"/>
+ <path d="M105 560V100L145 175 122 170 185 275 150 267 220 365 185 354 240 445 210 430 260 560Z"/>
+ <path d="M1440 560V15L1370 120 1410 113 1330 235 1370 225 1295 340 1330 328 1260 425 1300 410 1250 560Z"/>
+ <path d="M1320 560V90L1280 160 1300 155 1240 260 1270 250 1215 355 1248 340 1190 440 1220 428 1180 560Z"/>
+</g>
+<g stroke="#18231e" stroke-width="13" fill="none" stroke-linecap="round">
+ <path d="M265 560Q300 420 280 270T320 90"/><path d="M1210 560Q1160 405 1200 280T1170 85"/>
+</g>
+<g fill="#25372d">
+ <path d="M210 290L275 90 335 290Z"/><path d="M190 370L275 145 360 370Z"/><path d="M1135 310L1190 105 1250 310Z"/><path d="M1100 390L1190 165 1280 390Z"/>
+ <path d="M360 300L410 130 462 300Z"/><path d="M985 320L1035 125 1085 320Z"/>
+</g>
+<rect width="1440" height="560" fill="url(#mist)"/>
+<g transform="translate(910 248)">
+ <path d="M-15 18H15L10 52H-10Z" fill="#1b211c" stroke="#9a7c45" stroke-width="3"/>
+ <path d="M-11 18V-5Q0-24 11-5V18" fill="#d6b260" stroke="#2a3026" stroke-width="4"/>
+ <path d="M-9 -7H9" stroke="#2a3026" stroke-width="4"/>
+ <circle cy="5" r="64" fill="url(#glow)"/>
+ <circle cy="5" r="5" fill="#ffe9a8"/>
+</g>
+<g fill="#c5b48b" opacity=".75"><circle cx="490" cy="410" r="2"/><circle cx="530" cy="445" r="2"/><circle cx="1040" cy="385" r="2"/><circle cx="1080" cy="420" r="1.5"/><circle cx="680" cy="360" r="1.5"/></g>
+<rect width="1440" height="560" fill="#0b1510" opacity=".16"/>
+</svg>
