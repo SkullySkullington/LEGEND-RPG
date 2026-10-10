@@ -13,7 +13,7 @@ const state=pl=>{pl.flags=pl.flags||{};pl.flags.roadExpeditionV100=pl.flags.road
 const ensure=pl=>{const s=state(pl);s.stage=clamp(Number(s.stage||0),0,5);s.pressure=clamp(Number(s.pressure||0),0,100);return s};
 const hpPct=pl=>clamp(Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100),0,100);
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
-function scene(){const path=A().locations?.oldRoad||'assets/locations/roads/location_old_road_main_v1.jpg';return '<div class="exp100-scene"><img src="'+esc(path)+'" alt=""><div class="exp100-scene-shade"></div></div>'}
+function scene(){const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';return '<div class="exp100-scene exp100-scene-live"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div><span class="exp100-scene-label">THE OLD ROAD <i>•</i> ASHMERE FRONTIER</span></div>'}
 function shell(body){root().innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>'}
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene()+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
@@ -61,15 +61,108 @@ function renderExpedition(note=''){
     renderExpedition('You bind a Road Herb into clean cloth and make a healing potion.');
   });
 }
-function resolveChoice(kind){const pl=p();if(!pl)return;const s=ensure(pl);s.events=Number(s.events||0)+1;if(kind==='careful'){s.pressure=clamp(s.pressure-8,0,100);return eventCheck('survival',-2)}if(kind==='search'){s.pressure=clamp(s.pressure+2,0,100);return findEvent()}s.pressure=clamp(s.pressure+14,0,100);if(s.pressure>=65||Math.random()<.28)return battleEvent();return eventCheck('survival',3)}
-function eventCheck(skill,bonus){const pl=p();if(!pl)return;const s=ensure(pl),ev=pick(road().checks)||{title:'A Strange Silence',text:'The road goes quiet around you.',skill:'survival',success:'You keep your footing.',fail:'The silence costs time and nerves.'},actual=ev.skill||skill,modifier=score(pl,actual)+bonus+Math.floor((100-s.pressure)/25),roll=rand(0,99),target=54-Math.min(12,s.pressure/8),success=roll+modifier*7>=target;s.stage=clamp(s.stage+1,0,5);if(success){s.pressure=clamp(s.pressure-3,0,100);pl.stats=pl.stats||{};pl.stats.checksPassed=Number(pl.stats.checksPassed||0)+1;save(pl);return outcome('The Road Gives Way',ev.success,'Success',actual,modifier)}const loss=rand(2,6)+Math.floor(s.pressure/35);pl.hp=Math.max(1,Number(pl.hp||1)-loss);s.pressure=clamp(s.pressure+7,0,100);pl.stats=pl.stats||{};pl.stats.checksFailed=Number(pl.stats.checksFailed||0)+1;save(pl);return outcome('The Road Collects Its Due',ev.fail+' You lose '+loss+' HP.','Setback',actual,modifier)}
-function findEvent(){const pl=p();if(!pl)return;const s=ensure(pl),f=pick(road().finds)||{title:'Roadside Cache',text:'Something useful was left behind.',item:'food',amount:1},amount=Number(f.amount||1)+(s.pressure>=70&&Math.random()<.25?1:0);inv(pl,f.item,amount);s.finds=Number(s.finds||0)+1;s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure+4,0,100);pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);return outcome(f.title,f.text+' You recover '+itemName(f.item)+' x'+amount+'.','Discovery',f.item,'+'+amount)}
-function battleEvent(){const pl=p();if(!pl)return;const s=ensure(pl),base=pick(road().enemies);if(!base)return eventCheck('survival',2);const enemy={...base,hp:rand(base.hp?.[0]||20,base.hp?.[1]||35)};enemy.maxHp=enemy.hp;s.battles=Number(s.battles||0)+1;save(pl);combat(enemy)}
-function combat(enemy){const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl),chance=clamp(62+score(pl,'strength')*7+s.stage*3,35,88);shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+'<section class="exp100-panel exp100-combat"><div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Number(enemy.hp)+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i></div><p>Your gear: '+esc(w.name)+' • '+esc(a.name)+'. Choose what matters more: damage, safety, or retreat.</p><div class="exp100-choices"><button class="exp100-choice primary" id="strike"><strong>Strike</strong><span>Attack using your weapon and strength.</span><em>'+chance+'% estimated chance</em></button><button class="exp100-choice" id="guard"><strong>Guard</strong><span>Reduce incoming damage and soften the next hit.</span><em>Defensive</em></button><button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the fight and reduce road pressure.</span><em>Safe exit</em></button></div></section>');document.getElementById('strike').onclick=()=>combatStrike(enemy,false);document.getElementById('guard').onclick=()=>combatStrike(enemy,true);document.getElementById('flee').onclick=()=>{s.pressure=clamp(s.pressure-10,0,100);save(pl);renderExpedition('You fall back before the road can turn the fight against you.')}
+function resolveChoice(kind){
+ const pl=p();if(!pl)return;const s=ensure(pl),stageBefore=s.stage,area=areaForStage(stageBefore);
+ s.events=Number(s.events||0)+1;
+ if(kind==='careful'){
+   const roadSense=score(pl,'survival')+score(pl,'lore');
+   s.pressure=clamp(s.pressure-(10+Math.max(0,roadSense)),0,100);
+   s.stage=clamp(s.stage+1,0,5);save(pl);
+   return renderExpedition('You read the ground before committing. The route is safer ahead'+(roadSense>=2?'—your road sense spots a dry crossing and a useful trail marker.':'.'));
+ }
+ if(kind==='search'){
+   const f=pick(road().finds)||{title:'Roadside Cache',text:'Something useful was left behind.',item:'food',amount:1};
+   const aptitude=score(pl,'survival')+score(pl,'lore')+score(pl,'luck');
+   const amount=Number(f.amount||1)+(aptitude>=4?1:0);
+   inv(pl,f.item,amount);s.finds=Number(s.finds||0)+1;s.stage=clamp(s.stage+1,0,5);
+   s.pressure=clamp(s.pressure+(aptitude>=3?1:5),0,100);
+   pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);
+   return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'.');
+ }
+ s.pressure=clamp(s.pressure+12,0,100);
+ if(s.pressure>=65){save(pl);return battleEvent()}
+ const roadSense=score(pl,'survival')+score(pl,'strength');
+ s.stage=clamp(s.stage+1,0,5);
+ if(roadSense<0){const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3);pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);save(pl);return renderExpedition('You force the pace through '+area.name+'. The shortcut costs '+loss+' health, but you reach the next marker.')}
+ save(pl);return renderExpedition('You keep moving through '+area.name+'. The next stretch comes into view before the road can close around you.');
 }
-function combatStrike(enemy,guard){const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);if(guard){const dmg=Math.max(0,rand(enemy.damage?.[0]||2,enemy.damage?.[1]||6)-Number(a.defense||0)-3);pl.hp=Math.max(1,Number(pl.hp||1)-dmg);s.pressure=clamp(s.pressure-5,0,100);save(pl);return combat(enemy)}const chance=clamp(62+score(pl,'strength')*7+s.stage*3,35,88),hit=Math.random()*100<chance;if(hit)enemy.hp-=rand(Number(w.min||3),Number(w.max||8))+Math.max(0,score(pl,'strength'));const enemyDmg=enemy.hp>0?Math.max(0,rand(enemy.damage?.[0]||2,enemy.damage?.[1]||6)-Number(a.defense||0)):0;pl.hp=Math.max(1,Number(pl.hp||1)-enemyDmg);if(enemy.hp<=0)return win(enemy);if(pl.hp<=1){s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Thrown Back to Ashmere','The fight overwhelms you. You return wounded, but the expedition is not lost.','Defeat')}save(pl);combat(enemy)}
-function win(enemy){const pl=p();if(!pl)return;const s=ensure(pl);inv(pl,enemy.reward||'fur',1);if(Math.random()<.45)inv(pl,'roadToken',1);s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-6,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;save(pl);outcome(enemy.name+' Defeated','The road opens again. You recover '+itemName(enemy.reward||'fur')+'.','Victory')}
+function eventCheck(skill,bonus){
+ const pl=p();if(!pl)return;const s=ensure(pl),ev=pick(road().checks)||{title:'A Strange Silence',text:'The road goes quiet around you.',skill:'survival',success:'You keep your footing.',fail:'The silence costs time and nerves.'};
+ const actual=ev.skill||skill,modifier=score(pl,actual)+Number(bonus||0),success=modifier>=0;
+ s.stage=clamp(s.stage+1,0,5);
+ if(success){s.pressure=clamp(s.pressure-4,0,100);pl.stats=pl.stats||{};pl.stats.checksPassed=Number(pl.stats.checksPassed||0)+1;save(pl);return renderExpedition(ev.success+' Your '+skillLabel(actual).toLowerCase()+' helps you make steady progress.')}
+ const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3+Math.max(0,-modifier));pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);pl.stats=pl.stats||{};pl.stats.checksFailed=Number(pl.stats.checksFailed||0)+1;save(pl);return renderExpedition(ev.fail+' You lose '+loss+' HP, but keep moving.');
+}
+function findEvent(){
+ const pl=p();if(!pl)return;const s=ensure(pl),f=pick(road().finds)||{title:'Roadside Cache',text:'Something useful was left behind.',item:'food',amount:1};
+ const aptitude=score(pl,'survival')+score(pl,'lore')+score(pl,'luck'),amount=Number(f.amount||1)+(aptitude>=4?1:0);
+ inv(pl,f.item,amount);s.finds=Number(s.finds||0)+1;s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure+2,0,100);
+ pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);
+ return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'.');
+}
+function battleEvent(){
+ const pl=p();if(!pl)return;const s=ensure(pl),base=pick(road().enemies);if(!base)return eventCheck('survival',2);
+ const enemy={...base,hp:rand(base.hp?.[0]||20,base.hp?.[1]||35)};enemy.maxHp=enemy.hp;enemy.intent='attack';
+ s.battles=Number(s.battles||0)+1;save(pl);combat(enemy);
+}
+function enemyIntent(enemy){
+ const n=Number(enemy.turn||0)%3;
+ return n===0?'heavy':n===1?'attack':'guardbreak';
+}
+function combat(enemy,note=''){
+ const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
+ enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
+ const intentText=enemy.intent==='heavy'?'Winding up a heavy attack':enemy.intent==='guardbreak'?'Preparing to break your guard':'Watching for an opening';
+ const art=A().byName?.(enemy.name)||'';
+ shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+
+ '<section class="exp100-panel exp100-combat"><div class="exp100-battlefield">'+(art?'<img class="exp100-enemy-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'" onerror="this.style.display=\'none\'">':'')+
+ '<div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i><em class="exp100-intent">Enemy intent · '+intentText+'</em></div></div>'+
+ '<p class="exp100-combat-note">'+esc(note||'Choose your move. The enemy’s next action is telegraphed so you can answer it.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+'</p>'+
+ '<div class="exp100-choices exp100-battle-actions"><button class="exp100-choice primary" id="strike"><strong>Attack</strong><span>Reliable weapon damage. No hit roll.</span><em>'+Math.max(1,Number(w.min||1)+score(pl,'strength'))+'–'+Math.max(2,Number(w.max||3)+score(pl,'strength'))+' damage</em></button>'+
+ '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; leaves you exposed.</span><em>High damage · takes a hit if enemy survives</em></button>'+
+ '<button class="exp100-choice" id="guard"><strong>Guard</strong><span>Brace for the telegraphed attack and reduce its damage.</span><em>Best against heavy attacks</em></button>'+
+ '<button class="exp100-choice" id="skill"><strong>'+(pl.className==='Mage'?'Rune Bolt':pl.className==='Ranger'?'Trap Shot':pl.className==='Warrior'?'Cleave':pl.className==='Thief'?'Swipe':'Class Technique')+'</strong><span>Use your class strengths for a focused move.</span><em>Scales with your character</em></button>'+
+ '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
+ '<button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the encounter, losing a little progress pressure.</span><em>Retreat</em></button></div></section>');
+ document.getElementById('strike').onclick=()=>combatAction(enemy,'attack');
+ document.getElementById('heavy').onclick=()=>combatAction(enemy,'heavy');
+ document.getElementById('guard').onclick=()=>combatAction(enemy,'guard');
+ document.getElementById('skill').onclick=()=>combatAction(enemy,'skill');
+ document.getElementById('item').onclick=()=>combatAction(enemy,'item');
+ document.getElementById('flee').onclick=()=>{s.pressure=clamp(s.pressure-8,0,100);save(pl);renderExpedition('You withdraw from '+enemy.name+' and regroup on the road.');};
+}
+function combatAction(enemy,action){
+ const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
+ let note='',guarding=action==='guard';
+ if(action==='item'){
+   if(Number(pl.inventory?.potion||0)<1)return combat(enemy,'You have no healing potions left.');
+   pl.inventory.potion--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.3)));pl.hp=Number(pl.hp||1)+heal;note='You use a Healing Potion and recover '+heal+' HP.';
+ }else if(action==='guard'){
+   note='You set your stance and brace for the incoming blow.';
+ }else{
+   let damage=0;
+   if(action==='attack')damage=Math.max(1,rand(Number(w.min||1),Number(w.max||3))+score(pl,'strength'));
+   if(action==='heavy')damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))*2+score(pl,'strength')+2);
+   if(action==='skill')damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))+Math.max(1,Number(pl.level||1))+Math.max(0,score(pl,'strength')+score(pl,'magic')+score(pl,'agility')));
+   enemy.hp-=damage;note=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your class technique hits for ':'Your attack lands for ')+damage+' damage.';
+ }
+ if(enemy.hp<=0){save(pl);return win(enemy)}
+ const base=enemy.damage||[3,7],raw=enemy.intent==='heavy'?Number(base[1]||7)+3:enemy.intent==='guardbreak'?Number(base[0]||3)+2:rand(Number(base[0]||3),Number(base[1]||7));
+ const reduction=Math.max(0,Number(a.defense||0))+(guarding?(enemy.intent==='heavy'?8:5):action==='heavy'?0:0);
+ const incoming=Math.max(0,raw-reduction);pl.hp=Math.max(0,Number(pl.hp||1)-incoming);
+ enemy.turn=Number(enemy.turn||0)+1;enemy.intent=enemyIntent(enemy);
+ note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.');
+ if(pl.hp<=0){pl.hp=1;s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
+ save(pl);combat(enemy,note);
+}
+function win(enemy){
+ const pl=p();if(!pl)return;const s=ensure(pl);inv(pl,enemy.reward||'fur',1);
+ s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;
+ save(pl);renderExpedition(enemy.name+' defeated. You recover '+itemName(enemy.reward||'fur')+' and continue along the Old Road.');
+}
 function finish(){const pl=p();if(!pl)return;const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;pl.gold=Number(pl.gold||0)+reward;if(complete)inv(pl,'roadToken',1);pl.stats=pl.stats||{};pl.stats.oldRoadClears=Number(pl.stats.oldRoadClears||0)+1;s.stage=0;s.pressure=clamp(Math.floor(s.pressure*.35),0,100);save(pl);outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.'),'Return')}
-function outcome(title,text,kicker,skill,modifier){const pl=p();if(!pl)return;const s=ensure(pl);shell(header(pl,s,kicker,title,text)+(skill?'<section class="exp100-panel"><div class="exp100-result"><span>Approach: '+esc(skillLabel(skill))+' • '+esc(modifier)+'</span></div></section>':'')+'<section class="exp100-panel"><div class="exp100-actions"><button class="exp100-btn primary" id="continue">Continue Expedition</button><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');document.getElementById('continue').onclick=()=>renderExpedition('The next road marker is waiting.');document.getElementById('town').onclick=ret}
+function outcome(title,text,kicker,skill,modifier){
+ const pl=p();if(!pl)return;renderExpedition(title+': '+text);
+}
 window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition};
 })();
