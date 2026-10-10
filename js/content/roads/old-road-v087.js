@@ -21,7 +21,9 @@
     finds: [
       {id:'cache', title:'Roadside Cache', text:'A loose stone hides old traveler supplies.', item:'food', amount:1},
       {id:'token', title:'Mile-Marker Token', text:'A small stamped token hangs from a nail in the post.', item:'roadToken', amount:1},
-      {id:'wood', title:'Fallen Branches', text:'Dry enough to carry, valuable enough not to ignore.', item:'log', amount:2}
+      {id:'wood', title:'Fallen Branches', text:'Dry enough to carry, valuable enough not to ignore.', item:'log', amount:2},
+      {id:'herbs', title:'Roadside Herbs', text:'You find hardy herbs growing beneath a broken mile-marker.', item:'roadHerb', amount:1},
+      {id:'cloth', title:'Abandoned Supply Wrap', text:'A torn bundle contains usable cloth and a few clean strips.', item:'clothScrap', amount:1}
     ]
   };
 })();
