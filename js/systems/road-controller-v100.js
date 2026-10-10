@@ -86,7 +86,7 @@ function renderExpedition(note=''){
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
   document.getElementById('finish')?.addEventListener('click',finish);
-  document.getElementById('town').onclick=()=>{tone('tap');ret()};
+  document.getElementById('town').onclick=ret;
   document.getElementById('campRest')?.addEventListener('click',()=>{
     const supply=Number(pl.inventory?.camp||0)>0?'camp':'food';
     pl.inventory[supply]=Math.max(0,Number(pl.inventory?.[supply]||0)-1);
