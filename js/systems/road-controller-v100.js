@@ -90,7 +90,7 @@ function renderExpedition(note=''){
   document.getElementById('campRest')?.addEventListener('click',()=>{
     const supply=Number(pl.inventory?.camp||0)>0?'camp':'food';
     pl.inventory[supply]=Math.max(0,Number(pl.inventory?.[supply]||0)-1);
-    const healed=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.2)));
+    const healed=Math.min(Math.max(0,Number(pl.maxHp||1)-Number(pl.hp||1)),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.2)));
     pl.hp=Number(pl.hp||1)+healed;pl.fatigue=Math.max(0,Number(pl.fatigue||0)-20);
     s.pressure=clamp(s.pressure-12,0,100);pl.day=Number(pl.day||1)+1;
     pl.stats=pl.stats||{};pl.stats.campsMade=Number(pl.stats.campsMade||0)+1;save(pl);
@@ -163,7 +163,7 @@ function combat(enemy,note=''){
  '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; leaves you exposed.</span><em>High damage · takes a hit if enemy survives</em></button>'+
  '<button class="exp100-choice" id="guard"><strong>Guard</strong><span>Brace for the telegraphed attack and reduce its damage.</span><em>Best against heavy attacks</em></button>'+
  '<button class="exp100-choice" id="skill"><strong>'+(pl.className==='Mage'?'Rune Bolt':pl.className==='Ranger'?'Trap Shot':pl.className==='Warrior'?'Cleave':pl.className==='Thief'?'Swipe':'Class Technique')+'</strong><span>Use your class strengths for a focused move.</span><em>Scales with your character</em></button>'+
- '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
+ '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
  '<button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the encounter, losing a little progress pressure.</span><em>Retreat</em></button></div></section>');
  document.getElementById('strike').onclick=()=>combatAction(enemy,'attack');
  document.getElementById('heavy').onclick=()=>combatAction(enemy,'heavy');
@@ -193,7 +193,7 @@ function combatAction(enemy,action){
  const incoming=Math.max(0,raw-reduction);pl.hp=Math.max(0,Number(pl.hp||1)-incoming);
  enemy.turn=Number(enemy.turn||0)+1;enemy.intent=enemyIntent(enemy);
  note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.');
- if(pl.hp<=0){pl.hp=1;s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
+ if(pl.hp<=0){pl.hp=1;s.stage=0;s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
  save(pl);combat(enemy,note);
 }
 function win(enemy){
