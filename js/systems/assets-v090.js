@@ -12,7 +12,8 @@
     },
     locations: {
       ashmereMain: 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg',
-      oldRoad: 'assets/locations/roads/location_old_road_main_v1.jpg'
+      oldRoad: 'assets/locations/roads/location_old_road_main_v1.jpg',
+      oldRoadScene: 'assets/locations/roads/old_road_exploration_v1.svg'
     },
     npcs: {
       mara: 'assets/npcs/ashmere/npc_mara_portrait_v1.jpg',
