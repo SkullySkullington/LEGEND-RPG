@@ -12,9 +12,31 @@ const weapon=pl=>(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===pl.weapon)||{n
 const state=pl=>{pl.flags=pl.flags||{};pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:0,pressure:0,trips:0,events:0,finds:0,battles:0};return pl.flags.roadExpeditionV100};
 const ensure=pl=>{const s=state(pl);s.stage=clamp(Number(s.stage||0),0,5);s.pressure=clamp(Number(s.pressure||0),0,100);return s};
 const hpPct=pl=>clamp(Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100),0,100);
+const soundOn=()=>{try{return localStorage.getItem('legend-road-sound')!=='off'}catch(e){return true}};
+function tone(kind='tap'){
+ if(!soundOn())return;
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;
+  const impact=kind==='impact';osc.type=impact?'sawtooth':'triangle';
+  osc.frequency.setValueAtTime(impact?145:520,now);
+  osc.frequency.exponentialRampToValueAtTime(impact?68:kind==='success'?780:390,now+(impact?.13:.07));
+  gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(impact?.075:.025,now+.008);gain.gain.exponentialRampToValueAtTime(.0001,now+(impact?.15:.085));
+  osc.connect(gain);gain.connect(ctx.destination);osc.start(now);osc.stop(now+(impact?.16:.09));
+  osc.onended=()=>ctx.close();
+ }catch(e){}
+}
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
-function scene(){const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';return '<div class="exp100-scene exp100-scene-live"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div><span class="exp100-scene-label">THE OLD ROAD <i>•</i> ASHMERE FRONTIER</span></div>'}
-function shell(body){root().innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>'}
+function scene(){const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';return '<div class="exp100-scene exp100-scene-live"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div><span class="exp100-scene-label">THE OLD ROAD <i>•</i> ASHMERE FRONTIER</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>'}
+function shell(body){
+ root().innerHTML='<main class="exp100"><div class="exp100-wrap">'+body+'</div></main>';
+ document.getElementById('exp100-sound')?.addEventListener('click',e=>{
+  try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on')}catch(err){}
+  e.currentTarget.textContent='Sound: '+(soundOn()?'On':'Off');
+  e.currentTarget.setAttribute('aria-label','Toggle sound effects');
+  if(soundOn())tone('success');
+ });
+}
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene()+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
 function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
@@ -45,7 +67,7 @@ function renderExpedition(note=''){
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
   document.getElementById('finish')?.addEventListener('click',finish);
-  document.getElementById('town').onclick=ret;
+  document.getElementById('town').onclick=()=>{tone('tap');ret()};
   document.getElementById('campRest')?.addEventListener('click',()=>{
     const supply=Number(pl.inventory?.camp||0)>0?'camp':'food';
     pl.inventory[supply]=Math.max(0,Number(pl.inventory?.[supply]||0)-1);
@@ -57,7 +79,7 @@ function renderExpedition(note=''){
   });
   document.getElementById('campCraft')?.addEventListener('click',()=>{
     if(Number(pl.inventory?.roadHerb||0)<1||Number(pl.inventory?.clothScrap||0)<1)return;
-    pl.inventory.roadHerb--;pl.inventory.clothScrap--;inv(pl,'potion',1);save(pl);
+    pl.inventory.roadHerb--;pl.inventory.clothScrap--;inv(pl,'potion',1);tone('success');save(pl);
     renderExpedition('You bind a Road Herb into clean cloth and make a healing potion.');
   });
 }
