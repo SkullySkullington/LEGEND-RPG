@@ -149,15 +149,14 @@
         <div class="title-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="title-fog" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="title-gate-border" aria-hidden="true"></div>
-        <section class="title-gate-card" role="button" tabindex="0" aria-label="Enter Ashmere">
+        <main class="title-gate-card">
           <h1 class="game-title">LEGEND</h1>
           <p class="title-gate-subtitle">Roads of Ashmere</p>
           <p class="title-gate-kicker">✧ Ashmere Gate ✧</p>
           <button class="title-gate-prompt" id="enterRealm" type="button">Press Any Key to Enter Ashmere</button>
           <p class="title-gate-quote">The lantern gate opens for travelers, not heroes.</p>
-        </section>
+        </main>
       </div>`;
-    const card = document.querySelector('.title-gate-card');
     const enter = document.getElementById('enterRealm');
     const activate = () => {
       document.removeEventListener('keydown', onKey);
@@ -168,7 +167,6 @@
     };
     const onKey = e => { if(e.key !== 'Tab') activate(); };
     document.addEventListener('keydown', onKey);
-    if(card) card.onclick = activate;
     if(enter) enter.onclick = e => { e.stopPropagation(); activate(); };
   }
 
