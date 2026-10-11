@@ -23,7 +23,7 @@ The Landing Warden asks the traveler to recover a route marker washed loose from
 ## Local jobs
 Start with a small set: gather dry peat, sort salvage baskets, and walk flood markers. Each job must clearly state cost, check, reward, and failure result. Do not add currency without a distinct gameplay purpose. Every new item needs a source, sell value, use, and fallback display name/icon.
 
-**Implemented in v0.20.7:** Greyfen's Bellkeeper's Hall has local contracts for Dry Peat Bricks, Sort a Salvage Basket, and Reset Flood Markers. Dry Peat Bricks awards the distinct `peatBrick` resource, which has a display name, inventory icon fallback, and a market sell value. The signature “A Dry Crossing” contract is also in place: follow the old posts for a guaranteed marker recovery (35g and one Road Herb) or take the reed-bed shortcut (65% recovery chance for 65g and two herbs; a miss costs 5 HP and leaves the contract open). A successful recovery is saved and cannot be claimed a second time.
+**Implemented in v0.20.8:** Greyfen's Bellkeeper's Hall has local contracts for Dry Peat Bricks, Sort a Salvage Basket, and Reset Flood Markers. Dry Peat Bricks awards the distinct `peatBrick` resource, which has a display name, inventory icon fallback, and a market sell value. The signature “A Dry Crossing” contract is also in place: follow the old posts for a guaranteed marker recovery (35g and one Road Herb) or take the reed-bed shortcut (65% recovery chance for 65g and two herbs; a miss costs 5 HP and leaves the contract open). A successful recovery is saved and cannot be claimed a second time.
 
 ## Equipment and shop quality
 - Make price, level requirements, equipped state, and stat differences easy to compare.
@@ -46,7 +46,7 @@ Service icons needed: inn, market, smith, archive/journal, map, work board, trav
 - [ ] No broken image paths; fallbacks work.
 - [ ] Trading and equipment changes preserve correct inventory, gold, and stats.
 - [x] Greyfen work contracts use local job names and rewards; the world map now requires Greyfen before Ironpass, Ironpass before Blackwood, and Blackwood before the Ruined March.
-- [ ] Greyfen copy is town-specific and route gating is correct beyond the current unlock-order regression tests.
+- [x] Greyfen copy is town-specific and route gating checks are in place; Ironpass stays unavailable until the Greyfen contract is complete and its own hub is implemented.
 - [x] Signature contract has a meaningful choice and clear reward.
 - [ ] Save/load preserves region, inventory, equipment, and quest flags.
 - [ ] Playwright smoke tests pass, and desktop/mobile visual QA is recorded separately.
