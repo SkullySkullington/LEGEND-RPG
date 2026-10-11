@@ -4,11 +4,13 @@
 **Art direction:** [ART-DIRECTION.md](ART-DIRECTION.md) — weathered storybook dark fantasy, grounded medieval materials, mist, moss, tarnished brass, ember light, and restrained blue magic.  
 **Generation provider:** Runway connected workspace. All 500 available credits were used for this initial pack (25 outputs at the configured 20-credit generation cost).
 
-## Important export status
+## Export status
 
-The outputs exist in the connected Runway workspace and can be looked up by the task IDs below. The live code currently uses the returned **signed preview URLs** for a visual pass and keeps legacy local artwork as fallbacks. These signed links expire; they are not the permanent production files.
+**The 25 original generations have been exported into stable local WebP files and committed to the repository.** The import report at `assets/generated/IMPORT_REPORT.md` records 25/25 successful exports. The nine-cell starter sprite sheet has also been sliced into individual WebP icons under `assets/generated/items/`.
 
-**Still required before calling this asset pack production-complete:** export/download the originals from Runway, commit local image files under the target paths below, update `js/systems/assets-v090.js` to point to those local files, remove the temporary `productionPreview` URL map, optimize wide scenes to WebP, and visually inspect every result at desktop and 390px mobile widths. Do not remove the fallback paths until the replacement files are verified in the repository.
+The runtime manifest now points to local files in `js/systems/assets-v090.js`; it no longer depends on expiring Runway preview URLs. The title landscape, Ashmere hub, route art, selected town interiors, class portraits, enemy portraits, and item icons are wired into the game. Local fallback art remains in place intentionally.
+
+**Remaining before treating the pack as fully visually signed off:** review every town interior and crop at desktop and 390px mobile widths, inspect the nine individual icon crops in-game at small sizes, verify contrast and loading behavior, and finish the Playwright suite. The title art and sprite-sheet grid were checked separately; the entire pack has not yet received a full visual QA pass.
 
 ## Environment and location scenes
 
