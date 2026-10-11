@@ -12,6 +12,7 @@ This project is an HTML5 fantasy RPG. Earlier remake history is retained below a
 
 - Added clickable scene hotspots for the current landmark, roadside search, and onward travel.
 - Added a compact three-action exploration dock in place of the large screen-filling choice cards.
+- Let players inspect the landmark, read the road, and search nearby without automatically advancing; each of these actions is limited once per stop, while Travel On advances the route.
 - Kept the illustrated road scene mounted while refreshing the hotspot positions, current location label, and contextual actions.
 - Added touch-friendly hotspot and action-dock styling with reduced-motion support.
 
