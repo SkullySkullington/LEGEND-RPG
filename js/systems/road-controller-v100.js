@@ -32,8 +32,8 @@ function scene(stage=0,interactive=true){
  const point=pointOfInterest(stage),stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{};
  const stageClass='exp100-stage-'+stageNum;
  const searched=!!s.searchUsed?.[stageNum],poiDone=!!s.poiUsed?.[point.key];
- const hotspots=interactive
-  ? '<div class="exp100-hotspots" aria-label="Explore the road"><button class="exp100-hotspot exp100-hotspot-find '+(poiDone?'is-done':'')+'" data-hotspot="poi" '+(poiDone?'disabled':'')+' style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+(poiDone?'✓':esc(point.icon))+'</i><span>'+(poiDone?'Investigated':esc(point.short))+'</span></button>'+(stageNum<5?'<button class="exp100-hotspot exp100-hotspot-tracks '+(searched?'is-done':'')+'" data-hotspot="search" '+(searched?'disabled':'')+' style="--hx:38%;--hy:72%"><i>'+(searched?'✓':'⌕')+'</i><span>'+(searched?'Searched':'Search')+'</span></button><button class="exp100-hotspot exp100-hotspot-road" data-hotspot="move" style="--hx:70%;--hy:68%"><i>➜</i><span>Travel</span></button>':'<button class="exp100-hotspot exp100-hotspot-road" data-hotspot="finish" style="--hx:70%;--hy:68%"><i>⚑</i><span>Return</span></button>')+'</div>'
+ const hotspots=interactive&&!poiDone
+  ? '<div class="exp100-hotspots" aria-label="Discover the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>Look closer</span></button></div>'
   : '<div class="exp100-hotspots" aria-hidden="true"></div>';
  return '<div class="exp100-scene exp100-scene-live '+stageClass+'" data-stage="'+clamp(Number(stage||0),0,5)+'"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div>'+hotspots+'<span class="exp100-scene-label">THE OLD ROAD <i>•</i> '+esc(areaForStage(stage).name.toUpperCase())+'</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>';
 }
@@ -108,8 +108,9 @@ function pointOfInterest(stage){
 }
 function pointOfInterestPanel(pl,s,stage){
  const point=pointOfInterest(stage);
- if(s.poiUsed&&s.poiUsed[point.key])return '<section class="exp100-poi exp100-poi-done"><div class="exp100-poi-icon">✓</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · INVESTIGATED</span><strong>'+esc(point.name)+'</strong><p>You have already taken what you can from this spot on this expedition.</p></div></section>';
- return '<section class="exp100-poi"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button></div></section>';
+ if(s.poiUsed&&s.poiUsed[point.key])return '';
+ if(!s.discoveryOpen||Number(s.discoveryStage)!==Number(stage))return '';
+ return '<section class="exp100-poi exp100-discovery-beat"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>YOU NOTICE SOMETHING · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button><button class="exp100-poi-dismiss" id="poiLeave">Leave it</button></div></section>';
 }
 function routeChoicePanel(s,stage){
  if(stage!==0)return '';
@@ -126,7 +127,7 @@ function inspectPointOfInterest(){
  const pl=p();if(!pl)return;const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),point=pointOfInterest(stage);
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
- s.poiUsed[point.key]=true;
+ s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
  else if(stage===1&&s.routeChoice==='ridge'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);note='You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';}
@@ -146,20 +147,20 @@ function campActions(pl,s){
 function renderExpedition(note=''){
   const pl=p();if(!pl)return;
   const s=ensure(pl),stage=Math.min(5,s.stage),area=areaForStage(stage),atCamp=!!area.camp;
-  const readDone=!!s.readUsed?.[stage],searchDone=!!s.searchUsed?.[stage];
+  const searchDone=!!s.searchUsed?.[stage];
   let choices=stage>=5
-    ? '<button class="exp100-dock-action primary" id="finish"><strong>Secure Expedition</strong><span>Bank your finds and return to Ashmere.</span></button>'
-    : '<button class="exp100-dock-action" id="careful" '+(readDone?'disabled':'')+'><strong>'+(readDone?'Road Read':'Read the Road')+'</strong><span>'+(readDone?'Already studied here':'Reduce pressure')+'</span></button><button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Searched':'Search Nearby')+'</strong><span>'+(searchDone?'Already searched here':'Look for useful finds')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Move toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
-  const areaPanel='<section class="exp100-area"><div class="exp100-area-icon">'+esc(area.icon)+'</div><div class="exp100-area-copy"><span>'+esc(area.type)+'</span><h2>'+esc(area.name)+'</h2><p>'+esc(area.text)+'</p></div></section>';
-  const roadMood=s.pressure>=55?'The air tightens around the trail. Something has begun to follow your pace; another push may draw it close.':s.pressure>=30?'The birds have gone quiet, and your footsteps sound louder than they should. The road is watching.':'Take your time. Read the landmarks, search the roadside, and travel when you feel ready.';
-  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||roadMood)+areaPanel+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>YOUR NEXT MOVE</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Explore freely before moving on</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
+    ? '<button class="exp100-dock-action primary" id="finish"><strong>Return to Ashmere</strong><span>Secure what you found.</span></button>'
+    : '<button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Nothing left to search':'Search the roadside')+'</strong><span>'+(searchDone?'You have searched this stretch':'Look for something useful')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Continue toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
+  const roadMood=s.pressure>=55?'A second set of footsteps keeps pace just beyond the lantern light.':s.pressure>=30?'The birds fall silent. Somewhere ahead, a branch snaps.':'The road bends into mist. Somewhere beyond it, a lantern flickers.';
+  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||area.text||roadMood)+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
   document.querySelectorAll('.exp100-hotspot').forEach(btn=>btn.addEventListener('click',()=>{
    const action=btn.dataset.hotspot;
-   if(action==='poi')return inspectPointOfInterest();
+   if(action==='poi'){const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=true;s.discoveryStage=Number(s.stage||0);save(pl);return renderExpedition();}
    if(action==='search')return resolveChoice('search');
    if(action==='move')return resolveChoice('push');
    if(action==='finish')return finish();
   }));
+  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;save(pl);renderExpedition();});
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));
   document.getElementById('routeReeds')?.addEventListener('click',()=>chooseRoadRoute('reeds'));
