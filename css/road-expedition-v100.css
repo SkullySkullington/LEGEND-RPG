@@ -41,3 +41,18 @@
 @keyframes exp100-scene-drift{from{transform:scale(1.025) translateX(0)}to{transform:scale(1.08) translateX(-.5%)}}
 @media(max-width:560px){.exp100{padding:5px}.exp100-scene{border-radius:14px 14px 0 0}.exp100-scene-live{height:210px}.exp100-head,.exp100-panel{padding:12px}.exp100-area{padding:12px;gap:10px}.exp100-area-icon{flex-basis:40px;width:40px;height:40px}.exp100-choices{grid-template-columns:1fr}.exp100-battlefield{grid-template-columns:86px minmax(0,1fr);gap:10px}.exp100-intent{font-size:.69rem}.exp100-scene-label{bottom:40px;font-size:.58rem}}
 @media(prefers-reduced-motion:reduce){.exp100-scene-live img,.exp100-area,.exp100-combat,.exp100-combat-note{animation:none}.exp100-choice{transition:none}}
+
+
+/* v0.13.1 — location-specific points of interest */
+.exp100-poi{display:flex;align-items:flex-start;gap:12px;margin:10px 0 14px;padding:14px;border:1px solid rgba(203,183,112,.38);border-radius:15px;background:linear-gradient(130deg,rgba(37,39,25,.9),rgba(12,19,15,.96));box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.exp100-poi-icon{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:rgba(203,183,112,.13);border:1px solid rgba(203,183,112,.3);color:#ead28b;font-size:1.35rem}
+.exp100-poi-copy{min-width:0;flex:1}.exp100-poi-copy>span{display:block;color:#c9b36e;font-size:.63rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.exp100-poi-copy>strong{display:block;margin:4px 0;font-size:1rem;color:#edf0e2}
+.exp100-poi-copy>p{margin:0 0 11px;color:#b2c0b5;font-size:.86rem;line-height:1.45}
+.exp100-poi-action{padding:9px 12px;border:1px solid #c9b36e80;border-radius:10px;background:#c9b36e1a;color:#f1dda0;font-weight:800;font-size:.8rem;touch-action:manipulation}
+.exp100-poi-action:active{transform:scale(.985);background:#c9b36e30}
+.exp100-poi-done{align-items:center;border-color:#8da58a35;background:rgba(20,29,22,.72)}
+.exp100-poi-done .exp100-poi-icon{color:#a9c6a6;border-color:#8da58a45;background:#8da58a14}
+.exp100-poi-done .exp100-poi-copy>span{color:#9bb39a}
+.exp100-poi-done .exp100-poi-copy>p{margin:4px 0 0}
+@media(max-width:560px){.exp100-poi{padding:12px;gap:10px}.exp100-poi-icon{flex-basis:38px;height:38px}}
