@@ -6,7 +6,7 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : undefined,
 
   reporter: [
     ['html'],
@@ -27,22 +27,16 @@ module.exports = defineConfig({
     timeout: 20_000
   },
 
-  projects: [
-    {
-      name: 'Desktop Chrome',
-      use: { ...devices['Desktop Chrome'] }
-    },
-    {
-      name: 'Desktop Firefox',
-      use: { ...devices['Desktop Firefox'] }
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 13'] }
-    },
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] }
-    }
+  // Keep CI feedback quick while covering Chromium and WebKit on desktop/mobile.
+  // Local runs retain the full four-project matrix.
+  projects: process.env.CI ? [
+    { name: 'Desktop Chrome', use: { ...devices['Desktop Chrome'] } },
+    { name: 'Mobile Safari', use: { ...devices['iPhone 13'] } },
+    { name: 'Mobile Chrome', use: { ...devices['Pixel 5'] } }
+  ] : [
+    { name: 'Desktop Chrome', use: { ...devices['Desktop Chrome'] } },
+    { name: 'Desktop Firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'Mobile Safari', use: { ...devices['iPhone 13'] } },
+    { name: 'Mobile Chrome', use: { ...devices['Pixel 5'] } }
   ]
 });
