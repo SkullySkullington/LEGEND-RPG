@@ -72,7 +72,7 @@
   }
   function travelerTerminal(pl){
     const name = pl.username || 'Traveler';
-    return `<aside class="ash099-panel ash099-traveler-panel ash099-terminal-card"><h3>Traveler Terminal</h3><div class="ash099-traveler-identity"><div class="ash099-avatar"><span>${esc(String(name).slice(0,1)).toUpperCase()}</span></div><div><strong>${esc(name)}</strong><small>${esc(pl.className || 'Wanderer')}</small></div></div>${miniMeter(pl)}<div class="ash099-stats">${stat('Class', pl.className || 'Wanderer')}${stat('Gold', gold(pl.gold))}${stat('Road Tokens', `${Number(pl.inventory?.roadToken || 0)}/5`)}${stat('Weapon', weaponName(pl.weapon))}${stat('Armor', armorName(pl.armor))}${stat('Jobs Done', Number(pl.flags?.ashmereJobs || 0))}</div><p class="ash099-trait"><strong>Origin & Nature</strong><br>${esc(pl.personalityLabel || 'Unknown traveler')} • ${esc(pl.origin || 'Unknown origin')}</p></aside>`;
+    return `<aside class="ash099-panel ash099-traveler-panel ash099-terminal-card"><h3>Traveler Terminal</h3><div class="ash099-traveler-identity"><div class="ash099-avatar"><span>${esc(String(name).slice(0,1)).toUpperCase()}</span></div><div><strong>${esc(name)}</strong><small>${esc(pl.className || 'Wanderer')}</small></div></div>${miniMeter(pl)}<div class="ash099-stats">${stat('Class', pl.className || 'Wanderer')}${stat('Level', Number(pl.level||1))}${stat('XP', `${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('Gold', gold(pl.gold))}${stat('Road Tokens', `${Number(pl.inventory?.roadToken || 0)}/5`)}${stat('Weapon', weaponName(pl.weapon))}${stat('Armor', armorName(pl.armor))}${stat('Jobs Done', Number(pl.flags?.ashmereJobs || 0))}</div><p class="ash099-trait"><strong>Origin & Nature</strong><br>${esc(pl.personalityLabel || 'Unknown traveler')} • ${esc(pl.origin || 'Unknown origin')}</p></aside>`;
   }
   function terminalNav(){
     return `<nav class="ash099-footer ash099-topnav" aria-label="Ashmere terminal navigation"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>Town</span></button><button class="ash099-footer-item" data-ash-view="road">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
@@ -191,6 +191,7 @@
       if(done) return;
       done=true;
       clearInterval(timer);
+      document.removeEventListener('keydown',onKey);
       const center=zoneStart+(zoneWidth/2);
       const dist=Math.abs(pos-center);
       const grade=dist<=4?'Perfect':dist<=9?'Good':dist<=17?'Messy':'Miss';
@@ -199,6 +200,7 @@
       const bonusChance=grade==='Perfect'?.95:grade==='Good'?.62:grade==='Messy'?.24:.05;
       const pl=p();
       pl.flags=pl.flags||{}; pl.inventory=pl.inventory||{};
+      const progress=window.LegendProgressionV100?.award(pl,grade==='Perfect'?28:grade==='Good'?20:grade==='Messy'?14:10);
       pl.flags.ashmereJobs=Number(pl.flags.ashmereJobs||0)+1;
       pl.flags.ashmereFavor=Number(pl.flags.ashmereFavor||0)+(grade==='Perfect'?2:1);
       pl.gold=Number(pl.gold||0)+pay;
@@ -206,7 +208,8 @@
       if(Math.random()<bonusChance){ pl.inventory[j.item]=Number(pl.inventory[j.item]||0)+j.amount; bonus=` Bonus gained: ${j.amount} ${itemName(j.item)}.`; }
       if(grade==='Miss'&&Number(pl.hp||0)>1){ pl.hp=Math.max(1,Number(pl.hp||0)-1); bonus+=' You lose 1 HP from the rough work.'; }
       save(pl);
-      if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Ashmere favor increased.`; }
+      const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level+'.':'')+'.':'';
+      if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Ashmere favor increased.`+xpNote; }
       if(strike){ strike.disabled=true; strike.textContent='Job Complete'; }
       setTimeout(()=>renderWorkBoard(),1600);
     }
@@ -282,7 +285,7 @@
     save(pl);renderSmith();note('Purchased and equipped '+item.name+'.');
   }
 
-  function renderSheet(){const pl=p();const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>`<div class="ash099-stat"><strong>${esc(itemName(k))}</strong><span>x${Number(v)}</span></div>`).join('')||'<p>No notable items.</p>';screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),`<div class="ash099-stats">${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-stats">${inv}</div>`);}
+  function renderSheet(){const pl=p();const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>`<div class="ash099-stat"><strong>${esc(itemName(k))}</strong><span>x${Number(v)}</span></div>`).join('')||'<p>No notable items.</p>';screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),`<div class="ash099-stats">${stat('Level',Number(pl.level||1))}${stat('XP',`${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-stats">${inv}</div>`);}
   function renderArchive(){const pl=p();screen(head('Records','Archive Hall','Mara keeps records, maps, and town memory.','','archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();if(window.LegendRoadControllerV087?.start)return window.LegendRoadControllerV087.start();screen(head('Town Gate','Old Road','The road controller did not load.',roadBg(),'road'),'<p>Try a hard refresh.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
