@@ -42,6 +42,17 @@ test.describe('LEGEND v0.20.3 browser regression tests', () => {
   });
 
 
+  test('title gate exposes one semantic prompt instead of a nested button role', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
+    await page.reload();
+    await expect(page.locator('.title-gate-card')).toBeVisible();
+    await expect(page.locator('.title-gate-card[role="button"]')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Press Any Key to Enter Ashmere/i })).toBeVisible();
+    await page.locator('#enterRealm').click();
+    await expect(page.locator('.v120-title')).toBeVisible();
+  });
+
   test('title screen has a single cinematic brand and no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
