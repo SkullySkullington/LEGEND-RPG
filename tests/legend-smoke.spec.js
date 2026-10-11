@@ -80,6 +80,24 @@ test.describe('LEGEND v0.20.4 browser regression tests', () => {
     await expect(page.locator('.ash100-bottom-panel')).toHaveCount(0);
   });
 
+  test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenWorkQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=5;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+    });
+    await page.locator('.ash100-destination[data-ash-view="work"]').click();
+    await expect(page.locator('[data-job-open="peat"]')).toContainText('Dry Peat Bricks');
+    await expect(page.locator('[data-job-open="salvage"]')).toContainText('Sort a Salvage Basket');
+    await expect(page.locator('[data-job-open="markers"]')).toContainText('Reset Flood Markers');
+    await expect(page.locator('[data-job-open="wood"]')).toHaveCount(0);
+  });
+
   test('Greyfen uses its own local scene and keeper dialogue', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenKeepersQA');
     await page.evaluate(() => {
