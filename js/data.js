@@ -31,9 +31,9 @@ window.LEGEND_DATA = {
   regions: {
     Ashmere:{id:'Ashmere',name:'Ashmere',type:'home',unlocked:true,travelCost:0,description:'Lantern Town and the safe heart of your journey.'},
     Greyfen:{id:'Greyfen',name:'Greyfen',type:'region',unlockTokens:5,travelCost:25,description:'A drowned lowland of reeds, old shrines, and rare road herbs.'},
-    Ironpass:{id:'Ironpass',name:'Ironpass',type:'region',requiresRegion:'Greyfen',unlockTokens:10,travelCost:45,description:'A hard mountain crossing rich in ore and guarded by tougher creatures.'},
-    Blackwood:{id:'Blackwood',name:'Blackwood',type:'region',requiresRegion:'Ironpass',unlockTokens:15,travelCost:70,description:'A deep forest where hunting, corruption, and old paths intertwine.'},
-    RuinedMarch:{id:'RuinedMarch',name:'The Ruined March',type:'region',requiresRegion:'Blackwood',unlockTokens:25,travelCost:100,description:'A broken frontier where the oldest road secrets begin to surface.'}
+    Ironpass:{id:'Ironpass',name:'Ironpass',type:'region',requiresRegion:'Greyfen',requiresFlag:'greyfenDryCrossingComplete',requiresFlagLabel:'A Dry Crossing',available:false,unlockTokens:10,travelCost:45,description:'A hard mountain crossing rich in ore and guarded by tougher creatures.'},
+    Blackwood:{id:'Blackwood',name:'Blackwood',type:'region',requiresRegion:'Ironpass',available:false,unlockTokens:15,travelCost:70,description:'A deep forest where hunting, corruption, and old paths intertwine.'},
+    RuinedMarch:{id:'RuinedMarch',name:'The Ruined March',type:'region',requiresRegion:'Blackwood',available:false,unlockTokens:25,travelCost:100,description:'A broken frontier where the oldest road secrets begin to surface.'}
   },
   weapons: [
     {id:'hand',name:'Your Hand',min:8,max:20,cost:0,level:1},{id:'woodenSword',name:'Wooden Sword',min:14,max:34,cost:65,level:1},{id:'stoneSword',name:'Stone Sword',min:20,max:48,cost:140,level:1},{id:'bronzeSword',name:'Bronze Sword',min:28,max:62,cost:280,level:2},{id:'ironSword',name:'Iron Sword',min:36,max:82,cost:650,level:4},{id:'steelSword',name:'Steel Sword',min:48,max:108,cost:1400,level:7}
