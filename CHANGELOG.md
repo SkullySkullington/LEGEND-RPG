@@ -4,7 +4,9 @@
 - Made the hub region-aware. When the traveler is in Greyfen, the title, current route copy, destination names, and navigation identity change to the lowland town instead of continuing to present Ashmere as the current location.
 - Generated a 25-image Runway art set for the two-town slice: title and town establishing art, roadside camp, South Fork and route variants, town interiors, six class portraits, three enemy portraits, and a nine-icon inventory sprite sheet.
 - Wired Runway-hosted previews for the title, hub, inn/market/forge/archive screens, route-specific road scenes, class choices, and enemy portraits, with legacy local images as fallbacks where applicable.
-- **Asset export caveat:** the current Runway preview URLs are signed and expire. Stable local copies still need to be exported into the repository before this art pass can be considered complete for long-term production. See `docs/PRODUCTION_ASSET_PACK.md` for the Runway task IDs and target paths.
+- Exported all 25 generated images into stable local WebP files under `assets/generated/` after refreshing expired/malformed preview URLs; the GitHub Actions import report confirms 25/25 successful exports.
+- Sliced the nine-icon sprite sheet into individual starter inventory icons, added them to the stable asset manifest, and styled a more readable Character Sheet inventory.
+- Full screen-by-screen visual review and the Playwright suite remain to be completed; see `docs/PRODUCTION_ASSET_PACK.md` for the asset map and outstanding QA.
 - Added Playwright assertions for title hierarchy and Greyfen's region-aware hub. Automated tests and live visual QA have not yet been run for this pass.
 
 ## v0.19.2 — Journeys That Arrive
