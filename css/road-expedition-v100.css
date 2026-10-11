@@ -131,3 +131,30 @@
 .exp100-actions{margin-top:7px}.exp100-actions .exp100-btn{min-height:40px;padding:8px 10px;border:0;background:transparent;color:#929f91;font-size:.76rem;text-align:center}
 .exp100-poi{margin:8px 14px 10px;padding:12px;border-radius:13px;background:linear-gradient(125deg,#27271bd9,#101710f2);box-shadow:0 8px 24px #0002}
 @media(max-width:560px){.exp100-scene-live{height:clamp(245px,68vw,320px);border-radius:0 0 18px 18px}.exp100-head{margin:-46px 12px 0;padding:12px 2px 8px}.exp100-head p{font-size:.82rem}.exp100-bars{gap:10px;margin-top:10px}.exp100-area{margin-left:14px;margin-right:14px}.exp100-panel{margin-left:10px;margin-right:10px;padding:11px}.exp100-explore-dock{margin-left:14px;margin-right:14px}.exp100-dock-actions{gap:6px}.exp100-dock-action{min-height:42px}.exp100-dock-action span{display:none}.exp100-poi{margin-left:10px;margin-right:10px}}
+
+
+/* v0.19.1 — discovery reveal, travel beats, and quiet affordances */
+.exp100-hotspot-find{animation:exp100-discovery-pulse 3.2s ease-in-out infinite;transform-origin:center}
+.exp100-hotspot-find i{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 4px;border-radius:50%;background:#e1c77c18;font-style:normal;font-size:1.05rem}
+.exp100-hotspot-find span{font-size:.68rem;letter-spacing:.04em}
+.exp100-discovery-beat{position:relative;overflow:hidden;animation:exp100-discovery-arrive .52s cubic-bezier(.2,.8,.2,1) both;border-color:#d7b86a55;background:linear-gradient(125deg,rgba(51,48,29,.96),rgba(13,20,15,.98));box-shadow:0 0 0 1px #d7b86a12,0 18px 42px #0005}
+.exp100-discovery-beat:before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:linear-gradient(180deg,transparent,#d7b86a,transparent);animation:exp100-reveal-glint .8s ease-out both}
+.exp100-discovery-beat .exp100-poi-copy>span{color:#e6ca7e}
+.exp100-discovery-beat .exp100-poi-copy strong{font-size:1.18rem;letter-spacing:-.015em}
+.exp100-discovery-beat .exp100-poi-copy p{line-height:1.6;color:#d0d7c9}
+.exp100-poi-dismiss{margin:10px 0 0 8px;padding:10px 12px;border:0;background:transparent;color:#9ca99b;cursor:pointer;font:inherit;font-size:.82rem}
+.exp100-poi-dismiss:hover{color:#edf6ef}
+.exp100-head{animation:exp100-story-arrive .36s ease-out both}
+.exp100-scene-live[class*="exp100-stage-"] img{transition:filter .7s ease,object-position .7s ease}
+.exp100-stage-1 img{object-position:43% 56%;filter:saturate(.92) contrast(1.07)}
+.exp100-stage-2 img{object-position:58% 60%;filter:saturate(.78) contrast(1.1) brightness(.9)}
+.exp100-stage-3 img{object-position:50% 52%;filter:saturate(.7) contrast(1.12) brightness(.84)}
+.exp100-stage-4 img{object-position:62% 56%;filter:saturate(.82) contrast(1.08) brightness(.88)}
+.exp100-stage-5 img{object-position:50% 48%;filter:saturate(.95) contrast(1.02) brightness(1.02)}
+.exp100-dock-action.primary{box-shadow:0 0 0 1px #d7b86a12;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.exp100-dock-action.primary:hover{transform:translateY(-1px);border-color:#e6ca7e}
+@keyframes exp100-discovery-pulse{0%,100%{box-shadow:0 0 0 0 #d7b86a00,0 8px 24px #0004}50%{box-shadow:0 0 0 7px #d7b86a10,0 10px 28px #0006}}
+@keyframes exp100-discovery-arrive{from{opacity:0;transform:translateY(14px) scale(.985);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes exp100-reveal-glint{from{opacity:0;transform:translateY(-30%)}to{opacity:1;transform:translateY(30%)}}
+@keyframes exp100-story-arrive{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.exp100-hotspot-find,.exp100-discovery-beat,.exp100-head{animation:none}.exp100-dock-action.primary{transition:none}}
