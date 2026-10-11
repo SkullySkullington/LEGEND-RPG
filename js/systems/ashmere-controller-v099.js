@@ -75,7 +75,7 @@
     return `<aside class="ash099-panel ash099-traveler-panel ash099-terminal-card"><h3>Traveler Terminal</h3><div class="ash099-traveler-identity"><div class="ash099-avatar"><span>${esc(String(name).slice(0,1)).toUpperCase()}</span></div><div><strong>${esc(name)}</strong><small>${esc(pl.className || 'Wanderer')}</small></div></div>${miniMeter(pl)}<div class="ash099-stats">${stat('Class', pl.className || 'Wanderer')}${stat('Level', Number(pl.level||1))}${stat('XP', `${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('Gold', gold(pl.gold))}${stat('Road Tokens', `${Number(pl.inventory?.roadToken || 0)}/5`)}${stat('Weapon', weaponName(pl.weapon))}${stat('Armor', armorName(pl.armor))}${stat('Jobs Done', Number(pl.flags?.ashmereJobs || 0))}</div><p class="ash099-trait"><strong>Origin & Nature</strong><br>${esc(pl.personalityLabel || 'Unknown traveler')} • ${esc(pl.origin || 'Unknown origin')}</p></aside>`;
   }
   function terminalNav(){
-    return `<nav class="ash099-footer ash099-topnav" aria-label="Ashmere terminal navigation"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>Town</span></button><button class="ash099-footer-item" data-ash-view="road">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
+    return `<nav class="ash099-footer ash099-topnav" aria-label="Ashmere terminal navigation"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>Town</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
   }
 
   function renderAshmere(){
@@ -126,14 +126,29 @@
     if(v === 'craft') return renderCrafting();
     if(v === 'sheet') return renderSheet();
     if(v === 'archive') return renderArchive();
-    if(v === 'profile') return window.LegendAccountV09x?.renderAccount?.() || renderAshmere();
+    if(v === 'profile') {
+      if(window.LegendAccountV09x?.renderAccount) return window.LegendAccountV09x.renderAccount();
+      return renderAshmere();
+    }
+    if(v === 'routes') return renderRoutes();
     if(v === 'road') return startRoad();
-    if(v === 'regions') return window.LegendRegionsV100?.render?.() || renderAshmere();
+    if(v === 'regions') {
+      if(window.LegendRegionsV100?.render) return window.LegendRegionsV100.render();
+      return renderAshmere();
+    }
     return renderAshmere();
   }
   function back(extra = ''){ return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">Back to Ashmere</button></div>`; }
   function head(k,t,d,im='',fallbackIcon='quest'){ return `<div class="ash099-head ${im ? 'has-art' : 'no-art'}">${im ? img(im,t) : `<div class="ash099-head-icon">${icon(fallbackIcon)}</div>`}<div><div class="ash099-kicker">${esc(k)}</div><h1>${esc(t)}</h1><p>${esc(d)}</p></div></div>`; }
   function screen(h,b,extra=''){ shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`); document.getElementById('ashBack').onclick = renderAshmere; bind(); }
+
+  function renderRoutes(){
+    screen(head('Route Board','Routes & Expeditions','Choose your next destination. Open the regional network to unlock new lands, or enter the Old Road to search, fight, and bring proof home.','','route'),`
+      <div class="ash099-cards">
+        <button class="ash099-btn ash099-card" data-ash-view="road">${icon('road')}<strong>The Old Road</strong><small>Start a five-stage expedition with encounters, finds, and a safe return path.</small><em>Begin expedition</em></button>
+        <button class="ash099-btn ash099-card" data-ash-view="regions">${icon('regions')}<strong>Road Network</strong><small>View known regions, spend Road Tokens to unlock new lands, and travel between places.</small><em>Open map</em></button>
+      </div>`);
+  }
 
   function renderPeople(){
     screen(head('Town Square','People of Ashmere','The square is where Ashmere watches newcomers decide who they are.',bg(),'people'),`<div class="ash099-npc-grid"><button class="ash099-btn ash099-npc-card" data-ash-view="mara">${img(npc('mara'),'Mara Vell')}<strong>Mara Vell</strong><small>Archive keeper. Start here.</small></button><button class="ash099-btn ash099-npc-card" data-ash-view="brenn">${img(npc('brenn'),'Old Brenn')}<strong>Old Brenn</strong><small>Ledger keeper. Road proof and rewards.</small></button><button class="ash099-btn ash099-npc-card" data-ash-view="oric">${img(npc('oric'),'Captain Oric')}<strong>Captain Oric</strong><small>Gate captain. Road advice and warnings.</small></button></div>`);
