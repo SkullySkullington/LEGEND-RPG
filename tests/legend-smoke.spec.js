@@ -34,11 +34,11 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.13 browser regression tests', () => {
+test.describe('LEGEND v0.20.14 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.12/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.13');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.14/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.14');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
