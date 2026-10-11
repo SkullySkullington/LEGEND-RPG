@@ -8,6 +8,10 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 **v0.18.0 — The Old Road Fork** adds a meaningful first-expedition route decision: take the safer High Ridge to lower Road Pressure, or risk the Reed Cut to gain a Bell Fragment while attracting danger.
 
+## Development Roadmap
+
+The prioritized active plan, acceptance criteria, and compatibility guardrails are in [docs/ROADMAP.md](docs/ROADMAP.md).
+
 ## Art & Asset Direction
 
 The shared visual style, image-family specifications, prompt template, and web/mobile integration checklist live in [docs/ART-DIRECTION.md](docs/ART-DIRECTION.md). This keeps generated art consistent across Ashmere, the Old Road, class portraits, enemies, and item icons.
