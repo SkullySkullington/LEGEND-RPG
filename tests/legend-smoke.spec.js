@@ -19,10 +19,15 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await page.locator('#v094Name').fill(name);
   await page.locator('#v094Next').click();
   await page.locator('[data-gender="unspoken"]').click();
+  await page.locator('#v094Next').click();
   await page.locator('[data-personality="kind"]').click();
+  await page.locator('#v094Next').click();
   await page.locator('[data-origin]').first().click();
+  await page.locator('#v094Next').click();
   await page.locator('[data-class="Ranger"]').click();
+  await page.locator('#v094Next').click();
   await page.locator('[data-keepsake="Old Map"]').click();
+  await page.locator('#v094Next').click();
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await page.getByRole('button', { name: /Begin the Road/i }).click();
   await page.getByRole('button', { name: /Enter Ashmere/i }).click();
@@ -108,6 +113,8 @@ test.describe('LEGEND v0.17.0 browser regression tests', () => {
     await expect(page.locator('.v094-stepper')).toContainText('STEP 2 OF 7');
     const identity = page.locator('[data-gender="unspoken"]');
     await identity.click();
+    await expect(page.locator('[data-gender="unspoken"]')).toHaveAttribute('aria-pressed', 'true');
+    await page.locator('#v094Next').click();
     await page.locator('#v094Back').click();
     await expect(page.locator('[data-gender="unspoken"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.v094-choice.is-selected')).toContainText('Keep It Unspoken');
