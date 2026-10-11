@@ -340,18 +340,31 @@
   }
   function craftItem(id,needsTextRaw){const pl=p();const needs=String(needsTextRaw||'').split(',').filter(Boolean).map(x=>{const [k,v]=x.split(':');return [k,Number(v||0)];});if(!canCraft(pl,needs))return note('Missing ingredients.');needs.forEach(([k,v])=>pl.inventory[k]-=v);pl.inventory[id]=Number(pl.inventory[id]||0)+1;save(pl);renderCrafting();}
 
-  function renderSmith(){
+  function renderSmith(tab='weapon'){
+    const pl=p(),assets=A().items||{};
     const weapons=(D().weapons||[]).filter(w=>w.id!=='hand'),armors=(D().armors||[]).filter(a=>a.id!=='none');
-    screen(head('Gear',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Causeway Smithy':'Blacksmith','Buy gear once, equip owned gear freely, and work toward stronger equipment as you level.',locationInterior('forge'),'smith'),`<div class="ash099-market-summary"><strong>Level ${Number(p().level||1)} Smithing Access</strong><span>Locked equipment opens as your adventurer levels up. Owned gear can be re-equipped without paying again.</span></div><h2>Weapons</h2><div class="ash099-cards">${weapons.map(w=>gearCard(w,'weapon')).join('')}</div><h2>Armor</h2><div class="ash099-cards">${armors.map(a=>gearCard(a,'armor')).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    const equippedWeapon=weapons.find(w=>w.id===pl.weapon),equippedArmor=armors.find(a=>a.id===pl.armor);
+    const portrait=A().classes?.[pl.className]||'';
+    const loadoutItem=(name,detail,art,kind)=>'<div class="ash099-loadout-slot">'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':icon(kind==='weapon'?'smith':'sheet'))+'<span><small>'+(kind==='weapon'?'WEAPON':'ARMOR')+'</small><strong>'+esc(name)+'</strong><em>'+esc(detail)+'</em></span></div>';
+    const list=tab==='weapon'?weapons:armors;
+    screen(head('Workshop',String(pl.currentRegion||'Ashmere')==='Greyfen'?'Causeway Smithy':'The Blacksmith','A good weapon is chosen. Good armor is earned. Equip what you own, or spend gold to improve your odds.',locationInterior('forge'),'smith'),
+      '<section class="ash099-forge-console">'+
+        '<div class="ash099-forge-loadout">'+(portrait?'<img class="ash099-forge-traveler" src="'+esc(portrait)+'" alt="'+esc(pl.className||'Traveler')+'" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<div class="ash099-forge-loadout-copy"><span class="ash099-eyebrow">YOUR CURRENT KIT</span><h2>Level '+Number(pl.level||1)+' · '+esc(pl.className||'Traveler')+'</h2><p>Owned gear stays yours. New gear is equipped as soon as you buy it.</p></div><div class="ash099-forge-slots">'+loadoutItem(equippedWeapon?.name||weaponName(pl.weapon),equippedWeapon?'Damage '+equippedWeapon.min+'–'+equippedWeapon.max:'Basic attack',assets.shortSword||'','weapon')+loadoutItem(equippedArmor?.name||armorName(pl.armor),equippedArmor?'Defense '+equippedArmor.defense:'No protection',assets.shield||assets.camp||'','armor')+'</div></div>'+
+        '<div class="ash099-forge-tabs" role="tablist" aria-label="Workshop category"><button data-forge-tab="weapon" class="'+(tab==='weapon'?'active':'')+'" role="tab" aria-selected="'+(tab==='weapon')+'">Weapons</button><button data-forge-tab="armor" class="'+(tab==='armor'?'active':'')+'" role="tab" aria-selected="'+(tab==='armor')+'">Armor</button><span>YOUR GOLD <strong>'+gold(pl.gold)+'</strong></span></div>'+
+        '<div class="ash099-forge-grid">'+list.map(x=>gearCard(x,tab)).join('')+'</div><div id="ashNote" class="ash099-note" style="display:none"></div></section>');
+    document.querySelectorAll('[data-forge-tab]').forEach(b=>b.onclick=()=>renderSmith(b.dataset.forgeTab));
     document.querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear,b.dataset.kind));
   }
   function gearCard(x,kind){
-    const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor;
+    const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor,assets=A().items||{};
+    const art=kind==='weapon'?(assets.shortSword||assets.bow):(assets.shield||assets.camp);
     const isOwned=Number(ownedMap?.[x.id]||0)>0,level=Number(pl.level||1),required=Number(x.level||1);
     const equipped=(kind==='weapon'?pl.weapon:pl.armor)===x.id,locked=level<required,canBuy=canAfford(pl,x.cost);
-    const label=equipped?'Equipped':isOwned?'Equip Owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & Equip':'Need '+gold(x.cost);
+    const label=equipped?'Equipped':isOwned?'Equip owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & equip':'Need '+gold(x.cost);
     const disabled=equipped||(!isOwned&&(locked||!canBuy));
-    return `<button class="ash099-btn ash099-card" data-gear="${esc(x.id)}" data-kind="${kind}" ${disabled?'disabled':''}>${icon(kind==='weapon'?'smith':'mara')}<strong>${esc(x.name)}</strong><small>${kind==='weapon'?`Damage ${x.min}-${x.max}`:`Defense ${x.defense}`} · ${isOwned?'Owned': 'Required level '+required}${locked&&!isOwned?' · Locked':''}</small><em>${label}${!isOwned?' · '+gold(x.cost):''}</em></button>`;
+    return '<button class="ash099-gear-item '+(equipped?'equipped ':'')+(locked&&!isOwned?'locked':'')+'" data-gear="'+esc(x.id)+'" data-kind="'+kind+'" '+(disabled?'disabled':'')+'>'+
+      (art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'')+
+      '<span class="ash099-gear-copy"><strong>'+esc(x.name)+'</strong><small>'+(kind==='weapon'?'Damage '+x.min+'–'+x.max:'Defense '+x.defense)+'</small><em>'+(isOwned?'Owned':locked?'Requires level '+required:gold(x.cost))+'</em></span><b class="ash099-gear-action">'+label+'</b></button>';
   }
   function buyGear(id,kind){
     const pl=p();if(!pl)return;
@@ -361,13 +374,13 @@
     if(level<required&&!Number(ownedMap[id]||0))return note('You need level '+required+' to use '+item.name+'.');
     if(Number(ownedMap[id]||0)>0){
       if(kind==='weapon')pl.weapon=id;else pl.armor=id;
-      save(pl);renderSmith();note('Equipped '+item.name+'.');
+      save(pl);renderSmith(kind);note('Equipped '+item.name+'.');
       return;
     }
     if(Number(pl.gold||0)<Number(item.cost||0))return note('Not enough gold.');
     pl.gold-=Number(item.cost||0);ownedMap[id]=1;
     if(kind==='weapon')pl.weapon=id;else pl.armor=id;
-    save(pl);renderSmith();note('Purchased and equipped '+item.name+'.');
+    save(pl);renderSmith(kind);note('Purchased and equipped '+item.name+'.');
   }
 
   function renderSheet(){
