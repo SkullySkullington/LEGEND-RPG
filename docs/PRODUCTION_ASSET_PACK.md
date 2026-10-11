@@ -55,13 +55,14 @@ The runtime manifest now points to local files in `js/systems/assets-v090.js`; i
 
 | Asset | Runway task ID | Intended stable path |
 |---|---|---|
-| Nine-icon sprite sheet (Bell Fragment, Road Token, potion, ration, sword, bow, shield, Camp Supplies, Road Herbs) | `1a27ec00-7e03-42a0-9430-1ca6643b34fd` | `assets/generated/items/item-icon-sheet.png` |
+| Nine-icon sprite sheet (Bell Fragment, Road Token, potion, ration, sword, bow, shield, Camp Supplies, Road Herbs) | `1a27ec00-7e03-42a0-9430-1ca6643b34fd` | `assets/generated/items/item-icon-sheet.webp` |
 
-## Integration notes
+## Integration notes — v0.20.4
 
-- The title, Ashmere/Greyfen hubs, service screens, route scenes, class-selection step, and combat portraits can currently preview the generated art through `LegendAssetsV090.productionPreview`.
-- Remote preview failures should fall back to existing repository artwork rather than leave a broken image.
-- The Road controller selects the camp scene at Wayfarer's Camp and High Ridge/Reed Cut art for the route-specific Lantern Ditch stop.
-- Class and enemy portrait preview URLs are not a substitute for local exports. Some screens fall back to text or existing portraits when the signed URL is no longer valid.
-- The item sprite sheet has not been sliced into individual optimized icon files yet. Validate grid alignment visually before cropping.
-- Do not call the work done until local copies are committed and title, Ashmere, Greyfen, location screens, character creation, and combat have passed desktop and mobile visual review.
+- The runtime manifest in `js/systems/assets-v090.js` points to committed local images; gameplay screens no longer rely on expiring generation-preview URLs.
+- Ashmere and Greyfen use their town/interior scenes, the road uses the fork/camp/branch scenes, character creation uses six local class portraits, and combat uses the three local enemy portraits.
+- The 3×3 starter item sheet has been sliced into nine individual image files. See `assets/generated/items/ICON_SLICES.md`; these real object illustrations are used for inventory, market, workshop loadout, and interface thumbnails.
+- The Ashmere/Greyfen controller now uses local portrait and item artwork in place of its inline SVG line icons. This is an interim icon mapping from the available assets, not yet a dedicated illustrated icon atlas for every service. Generate a consistent town/service icon atlas when Runway is available again, then replace any reused portraits/item thumbs where the symbol isn't a good semantic match.
+- The Trading Post uses Buy/Sell tabs and local item art; the Blacksmith leads with equipped gear and local weapon/shield art; Character Sheet is now a Traveler profile with portrait, vitals, loadout, and pack inventory.
+- Full desktop and 390px mobile visual review remains outstanding. The deployed site was unreachable from the isolated browser due to `ERR_TUNNEL_CONNECTION_FAILED`, so no live-screen check is claimed.
+- Do not call the art pack fully signed off until scene crops, icon semantics/centering, contrast, image loading/fallbacks, file size, and the Playwright smoke suite have been checked.
