@@ -159,6 +159,9 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 16/i);
+    await expect(page.locator('.exp100-poi')).toContainText(/Tracks Beneath the Blue Light/i);
+    await page.locator('#poiInspect').click();
+    await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 4/i);
   });
 
   test('High Ridge keeps the next stretch calmer than the Reed Cut', async ({ page }) => {
@@ -170,6 +173,9 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/High Ridge pays off/i);
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by only 4/i);
+    await expect(page.locator('.exp100-poi')).toContainText(/Ridgeway Cairn/i);
+    await page.locator('#poiInspect').click();
+    await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 3/i);
   });
 
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
