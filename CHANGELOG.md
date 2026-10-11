@@ -6,7 +6,23 @@ This project is an HTML5 fantasy RPG. Earlier remake history is retained below a
 
 ---
 
-## [Current] v0.13.1 — Interactive Points of Interest
+## [Current] v0.14.0 — Persistent Old Road Exploration
+
+### Added
+
+- Added clickable scene hotspots for the current landmark, roadside search, and onward travel.
+- Added a compact three-action exploration dock in place of the large screen-filling choice cards.
+- Kept the illustrated road scene mounted while refreshing the hotspot positions, current location label, and contextual actions.
+- Added touch-friendly hotspot and action-dock styling with reduced-motion support.
+
+### Changed
+
+- Exploration actions now begin directly from the scene, making the road feel more like a place to interact with instead of a sequence of screens.
+- Updated the visible build version and cache references to v0.14.0.
+
+---
+
+## Historical v0.13.1 — Interactive Points of Interest
 
 ### Added
 
