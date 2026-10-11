@@ -7,7 +7,7 @@ const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, clamp=(n,a,b)=>Math.max(a
 const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
 const inv=(pl,k,n)=>{pl.inventory=pl.inventory||{};pl.inventory[k]=Number(pl.inventory[k]||0)+n};
 const itemName=k=>window.LEGEND_DATA?.itemNames?.[k]||({food:'Rations',camp:'Camp Supplies',roadToken:'Road Tokens',potion:'Healing Potions',fur:'Furs',bellFragment:'Bell Fragments',log:'Logs'}[k]||k);
-const score=(pl,skill)=>{const c=window.LEGEND_DATA?.classes?.[pl.className]?.mod||{},o=window.LEGEND_DATA?.origins?.[pl.origin]?.bonus||{},k=window.LEGEND_DATA?.keepsakes?.[pl.keepsake]?.bonus||{},a=pl.creationV090?.bonuses||{};return Number(c[skill]||0)+Number(o[skill]||0)+Number(k[skill]||0)+Number(a[skill]||0)};
+const score=(pl,skill)=>{const c=window.LEGEND_DATA?.classes?.[pl.className]?.mod||{},o=window.LEGEND_DATA?.origins?.[pl.origin]?.bonus||{},k=window.LEGEND_DATA?.keepsakes?.[pl.keepsake]?.bonus||{},a=pl.creationV094?.bonuses||pl.creationV090?.bonuses||{};return Number(c[skill]||0)+Number(o[skill]||0)+Number(k[skill]||0)+Number(a[skill]||0)};
 const weapon=pl=>(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===pl.weapon)||{name:'Hands',min:1,max:3}, armor=pl=>(window.LEGEND_DATA?.armors||[]).find(a=>a.id===pl.armor)||{name:'None',defense:0};
 const state=pl=>{pl.flags=pl.flags||{};pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:0,pressure:0,trips:0,events:0,finds:0,battles:0};return pl.flags.roadExpeditionV100};
 const ensure=pl=>{const s=state(pl);s.stage=clamp(Number(s.stage||0),0,5);s.pressure=clamp(Number(s.pressure||0),0,100);return s};
@@ -212,19 +212,30 @@ function enemyIntent(enemy){
  const n=Number(enemy.turn||0)%3;
  return n===0?'heavy':n===1?'attack':'guardbreak';
 }
+function classTechnique(pl){
+ const moves={
+  Warrior:{name:'Cleave',text:'A committed two-handed cut. Strongest against an enemy winding up.',effect:'bonus damage'},
+  Ranger:{name:'Trap Shot',text:'Pin the enemy’s movement so its next attack loses force.',effect:'snare'},
+  Mage:{name:'Rune Bolt',text:'Break the enemy’s rhythm with a focused runic burst.',effect:'disrupt'},
+  Thief:{name:'Swipe',text:'Strike quickly and lift a little coin while its guard is open.',effect:'steal'},
+  Skiller:{name:'Improvised Tool',text:'Turn a field tool into a precise strike and steady your nerves.',effect:'steady'},
+  Adventurer:{name:'Lucky Strike',text:'A risky angle that can land hard and restore a little grit.',effect:'luck'}
+ };
+ return moves[pl.className]||{name:'Class Technique',text:'Use your practiced strengths for a focused move.',effect:'bonus damage'};
+}
 function combat(enemy,note=''){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
  enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
- const intentText=enemy.intent==='heavy'?'Winding up a heavy attack':enemy.intent==='guardbreak'?'Preparing to break your guard':'Watching for an opening';
+ const intentText=enemy.snared?'Snared · next attack weakened':enemy.intent==='heavy'?'Winding up a heavy attack':enemy.intent==='guardbreak'?'Preparing to break your guard':'Quick strike · guard or punish the opening';
  const art=A().byName?.(enemy.name)||'';
  shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+
  '<section class="exp100-panel exp100-combat"><div class="exp100-battlefield">'+(art?'<img class="exp100-enemy-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'" onerror="this.style.display=\'none\'">':'')+
  '<div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i><em class="exp100-intent">Enemy intent · '+intentText+'</em></div></div>'+
- '<p class="exp100-combat-note">'+esc(note||'Choose your move. The enemy’s next action is telegraphed so you can answer it.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+' · Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</p>'+
+ '<p class="exp100-combat-note">'+esc(note||'Read the enemy’s intent. Guard the heavy wind-up, punish a quick strike with damage, and break a guard-crushing attack before it lands.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+' · Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</p>'+
  '<div class="exp100-choices exp100-battle-actions"><button class="exp100-choice primary" id="strike"><strong>Attack</strong><span>Reliable weapon damage. No hit roll.</span><em>'+Math.max(1,Number(w.min||1)+score(pl,'strength'))+'–'+Math.max(2,Number(w.max||3)+score(pl,'strength'))+' damage</em></button>'+
- '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; leaves you exposed.</span><em>High damage · takes a hit if enemy survives</em></button>'+
+ '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; the enemy can punish your recovery.</span><em>High damage · incoming hit +4</em></button>'+
  '<button class="exp100-choice" id="guard"><strong>Guard</strong><span>Brace for the telegraphed attack and reduce its damage.</span><em>Best against heavy attacks</em></button>'+
- '<button class="exp100-choice" id="skill"><strong>'+(pl.className==='Mage'?'Rune Bolt':pl.className==='Ranger'?'Trap Shot':pl.className==='Warrior'?'Cleave':pl.className==='Thief'?'Swipe':'Class Technique')+'</strong><span>Use your class strengths for a focused move.</span><em>Scales with your character</em></button>'+
+ '<button class="exp100-choice exp100-technique" id="skill" '+(Number(enemy.skillCooldown||0)>0?'disabled':'')+'><strong>'+esc(classTechnique(pl).name)+'</strong><span>'+esc(classTechnique(pl).text)+'</span><em>'+(Number(enemy.skillCooldown||0)>0?'Recovering · '+Number(enemy.skillCooldown||0)+' turn(s)':classTechnique(pl).effect==='snare'?'Damage + weaken next attack':classTechnique(pl).effect==='disrupt'?'Damage + disrupt heavy wind-up':classTechnique(pl).effect==='steal'?'Damage + steal 5–12g':classTechnique(pl).effect==='steady'?'Damage + lower road pressure':classTechnique(pl).effect==='luck'?'Damage + recover 3–5 HP':'Damage + class bonus')+'</em></button>'+
  '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
  '<button class="exp100-choice" id="poultice" '+(Number(pl.inventory?.roadPoultice||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Road Poultice</strong><span>Restore 20% of maximum health.</span><em>Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</em></button>'+
  '<button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the encounter, losing a little progress pressure.</span><em>Retreat</em></button></div></section>');
@@ -238,6 +249,8 @@ function combat(enemy,note=''){
 }
 function combatAction(enemy,action){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
+ enemy.skillCooldown=Math.max(0,Number(enemy.skillCooldown||0)-1);
+ if(action==='skill'&&enemy.skillCooldown>0)return combat(enemy,'Your class technique is still recovering. Choose another move this turn.');
  let note='',guarding=action==='guard';
  if(action==='item'){
    if(Number(pl.inventory?.potion||0)<1)return combat(enemy,'You have no healing potions left.');
@@ -252,15 +265,27 @@ function combatAction(enemy,action){
    let damage=0;
    if(action==='attack')damage=Math.max(1,rand(Number(w.min||1),Number(w.max||3))+score(pl,'strength'));
    if(action==='heavy')damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))*2+score(pl,'strength')+2);
-   if(action==='skill')damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))+Math.max(1,Number(pl.level||1))+Math.max(0,score(pl,'strength')+score(pl,'magic')+score(pl,'agility')));
-   enemy.hp-=damage;note=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your class technique hits for ':'Your attack lands for ')+damage+' damage.';
+   if(action==='skill'){
+    const move=classTechnique(pl).effect;
+    damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))+Math.max(1,Number(pl.level||1))+Math.max(0,score(pl,'strength')+score(pl,'magic')+score(pl,'agility')));
+    if(move==='bonus damage')damage+=Math.max(3,score(pl,'strength')*2);
+    if(move==='snare')enemy.snared=true;
+    if(move==='disrupt'&&enemy.intent==='heavy'){enemy.intent='attack';note='Your Rune Bolt breaks the heavy wind-up. ';}
+    if(move==='steal'){const stolen=rand(5,12);pl.gold=Number(pl.gold||0)+stolen;note='Your Swipe nicks '+stolen+'g. ';}
+    if(move==='steady'){s.pressure=clamp(s.pressure-6,0,100);note='Your fieldcraft steadies you; Road Pressure falls by 6. ';}
+    if(move==='luck'){const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),rand(3,5));pl.hp=Number(pl.hp||1)+heal;note='A lucky opening restores '+heal+' HP. ';}
+    enemy.skillCooldown=2;
+   }
+   enemy.hp-=damage;note+=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your '+classTechnique(pl).name+' lands for ':'Your attack lands for ')+damage+' damage.';
  }
  if(enemy.hp<=0){save(pl);return win(enemy)}
- const base=enemy.damage||[3,7],raw=enemy.intent==='heavy'?Number(base[1]||7)+3:enemy.intent==='guardbreak'?Number(base[0]||3)+2:rand(Number(base[0]||3),Number(base[1]||7));
- const reduction=Math.max(0,Number(a.defense||0))+(guarding?(enemy.intent==='heavy'?8:5):action==='heavy'?0:0);
+ const base=enemy.damage||[3,7],rawBase=enemy.intent==='heavy'?Number(base[1]||7)+3:enemy.intent==='guardbreak'?Number(base[0]||3)+2:rand(Number(base[0]||3),Number(base[1]||7));
+ const raw=rawBase+(action==='heavy'?4:0)-(enemy.snared?7:0);
+ const armorValue=Math.max(0,Number(a.defense||0)),reduction=enemy.intent==='guardbreak'?Math.floor(armorValue*.4)+(guarding?5:0):armorValue+(guarding?(enemy.intent==='heavy'?8:5):0);
  const incoming=Math.max(0,raw-reduction);pl.hp=Math.max(0,Number(pl.hp||1)-incoming);
+ if(enemy.snared){note+=' The trap weakens its strike.';enemy.snared=false;}
  enemy.turn=Number(enemy.turn||0)+1;enemy.intent=enemyIntent(enemy);
- note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.');
+ note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.')+(action==='heavy'?' Your recovery leaves you exposed.':'');
  if(pl.hp<=0){pl.hp=1;s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
  save(pl);combat(enemy,note);
 }
