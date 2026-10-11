@@ -161,6 +161,17 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 16/i);
   });
 
+  test('High Ridge keeps the next stretch calmer than the Reed Cut', async ({ page }) => {
+    await startFreshCharacter(page, 'RidgeQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeRidge').click();
+    await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 8/i);
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-head')).toContainText(/High Ridge pays off/i);
+    await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by only 4/i);
+  });
+
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileQA');
