@@ -46,12 +46,23 @@
   const iconArt = k => {
     const assets=A(), locations=assets.locations||{}, items=assets.items||{}, classes=assets.classes||{}, npcs=assets.npcs||{};
     const imageFor = {
-      people:locations.ashmereMain, inn:locationInterior('inn'), trader:locationInterior('market'),
-      smith:locationInterior('forge'), road:locations.oldRoad, sheet:classes[p()?.className]||items.shortSword,
-      brenn:npcs.brenn, archive:locationInterior('archive'), mara:npcs.mara, oric:npcs.oric,
-      work:locationInterior('archive'), craft:items.roadHerb||locations.ashmereForge,
-      profile:classes[p()?.className]||npcs.mara, quest:items.bellFragment||items.roadToken,
-      route:locations.oldRoad, regions:items.roadToken, settings:items.camp
+      people:npcs.mara||locations.ashmereMain,
+      inn:npcs.innkeeper||items.camp,
+      trader:npcs.trader||items.roadToken,
+      smith:npcs.blacksmith||items.shortSword,
+      road:items.roadToken||locations.oldRoad,
+      sheet:classes[p()?.className]||items.shortSword,
+      brenn:npcs.brenn||items.bellFragment,
+      archive:locations.ashmereArchive||items.bellFragment,
+      mara:npcs.mara||items.bellFragment,
+      oric:npcs.oric||items.shield,
+      work:npcs.oric||items.camp,
+      craft:items.roadHerb||items.potion,
+      profile:classes[p()?.className]||npcs.mara,
+      quest:items.bellFragment||items.roadToken,
+      route:items.roadToken||locations.oldRoad,
+      regions:items.roadToken,
+      settings:items.camp
     };
     return imageFor[k]||items.bellFragment||items.roadToken||locations.ashmereMain||'';
   };
