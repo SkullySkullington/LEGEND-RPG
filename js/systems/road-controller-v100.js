@@ -28,10 +28,10 @@ function tone(kind='tap'){
 }
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(stage=0,interactive=true){
- const preview=A().productionPreview?.locations||{},legacy=A().locations||{};
+ const art=A().locations||{};
  const stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{},route=s.routeChoice;
- const fallback=legacy.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
- const path=stageNum===2?(preview.camp||fallback):stageNum===1&&route==='ridge'?(preview.highRidge||fallback):stageNum===1&&route==='reeds'?(preview.reedCut||fallback):(preview.oldRoad||fallback);
+ const fallback=art.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
+ const path=stageNum===2?(art.roadCamp||art.oldRoad||fallback):stageNum===1&&route==='ridge'?(art.highRidge||art.oldRoad||fallback):stageNum===1&&route==='reeds'?(art.reedCut||art.oldRoad||fallback):(art.oldRoad||fallback);
  const point=pointOfInterest(stage),stageClass='exp100-stage-'+stageNum;
  const poiDone=!!s.poiUsed?.[point.key];
  const hotspots=interactive&&!poiDone
@@ -274,8 +274,8 @@ function combat(enemy,note=''){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
  enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
  const intentText=enemy.snared?'Snared · next attack weakened':enemy.intent==='heavy'?'Winding up a heavy attack':enemy.intent==='guardbreak'?'Preparing to break your guard':'Quick strike · guard or punish the opening';
- const previewEnemies=A().productionPreview?.enemies||{},legacyArt=A().byName?.(enemy.name)||'',enemyName=String(enemy.name||'').toLowerCase();
- const art=enemyName.includes('wolf')?previewEnemies.blackrootWolf:enemyName.includes('goblin')?previewEnemies.roadGoblin:enemyName.includes('wisp')?previewEnemies.lanternWisp:legacyArt;
+ const stableEnemies=A().enemies||{},legacyArt=A().byName?.(enemy.name)||'',enemyName=String(enemy.name||'').toLowerCase();
+ const art=(enemyName.includes('wolf')?stableEnemies.blackrootWolf:enemyName.includes('goblin')?stableEnemies.roadGoblin:enemyName.includes('wisp')?stableEnemies.lanternWisp:'')||legacyArt;
  shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+
  '<section class="exp100-panel exp100-combat"><div class="exp100-battlefield">'+(art?'<img class="exp100-enemy-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'" onerror="'+(legacyArt?'if(this.dataset.fallbackApplied){this.style.display=\'none\'}else{this.dataset.fallbackApplied=\'1\';this.src=\''+esc(legacyArt)+'\'}':'this.style.display=\'none\'')+'">':'')+
  '<div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i><em class="exp100-intent">Enemy intent · '+intentText+'</em></div></div>'+
