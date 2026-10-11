@@ -144,6 +144,20 @@ test.describe('LEGEND v0.17.0 browser regression tests', () => {
     await expect(page.locator('#guard')).toContainText('Guard');
   });
 
+  test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
+    await startFreshCharacter(page, 'ForkQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await expect(page.locator('#routeRidge')).toBeVisible();
+    await expect(page.locator('#routeReeds')).toBeVisible();
+    await expect(page.locator('#routeRidge')).toContainText(/Safer/i);
+    await expect(page.locator('#routeReeds')).toContainText(/Riskier/i);
+    await page.locator('#routeReeds').click();
+    await expect(page.locator('.exp100-route-choice')).toHaveCount(0);
+    await expect(page.locator('.exp100-poi-done')).toContainText('Reed Cut');
+    await expect(page.locator('.exp100-head')).toContainText(/Gain 1 Bell Fragment/i);
+  });
+
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileQA');
