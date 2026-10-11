@@ -88,6 +88,18 @@ test.describe('LEGEND v0.16.0 browser regression tests', () => {
     expect(overflow).toBe(false);
   });
 
+  test('town job awards gold, favor, and progression XP', async ({ page }) => {
+    await startFreshCharacter(page, 'JobQA');
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Town Hall/i }).click();
+    await expect(page.getByRole('heading', { name: 'Work Board' })).toBeVisible();
+    await page.locator('[data-job-open="wood"]').click();
+    await page.locator('#jobStrike').click();
+    await expect(page.locator('#jobResult')).toBeVisible();
+    await expect(page.locator('#jobResult')).toContainText(/Earned \d+g/);
+    await expect(page.locator('#jobResult')).toContainText(/XP \+\d+/);
+    await expect(page.locator('#jobStrike')).toHaveText('Job Complete');
+  });
+
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileQA');
