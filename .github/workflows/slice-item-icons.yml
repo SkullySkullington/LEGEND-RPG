@@ -1,0 +1,86 @@
+name: Slice one-time item icon sheet
+
+on:
+  push:
+    paths:
+      - ".github/workflows/slice-item-icons.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  slice-icons:
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'slice-item-sprite-sheet') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Slice 3x3 sprite sheet into stable individual icons
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          source = Path("assets/generated/items/item-icon-sheet.webp")
+          if not source.exists():
+              raise SystemExit(f"Missing source sprite sheet: {source}")
+
+          im = Image.open(source).convert("RGB")
+          width, height = im.size
+          if width < 600 or height < 600 or abs(width - height) > max(width, height) * 0.04:
+              raise SystemExit(f"Sprite sheet dimensions or aspect ratio unexpected: {im.size}")
+
+          # The commissioned sheet is a 3-column by 3-row grid. Divide using
+          # rounded fractional boundaries so any remainder lands in the last cells.
+          names = [
+              "bell-fragment", "road-token", "healing-potion",
+              "ration-bundle", "short-sword", "hunting-bow",
+              "round-shield", "camp-supplies", "road-herbs",
+          ]
+          output = Path("assets/generated/items")
+          output.mkdir(parents=True, exist_ok=True)
+          written = []
+          for i, name in enumerate(names):
+              row, col = divmod(i, 3)
+              left, right = round(col * width / 3), round((col + 1) * width / 3)
+              top, bottom = round(row * height / 3), round((row + 1) * height / 3)
+              cell = im.crop((left, top, right, bottom))
+              # A small consistent inset removes potential cell-edge artifacts
+              # while preserving the full object silhouette.
+              inset_x, inset_y = round(cell.width * .025), round(cell.height * .025)
+              cell = cell.crop((inset_x, inset_y, cell.width - inset_x, cell.height - inset_y))
+              side = min(cell.size)
+              x = (cell.width - side) // 2
+              y = (cell.height - side) // 2
+              cell = cell.crop((x, y, x + side, y + side)).resize((256, 256), Image.Resampling.LANCZOS)
+              target = output / f"{name}.webp"
+              cell.save(target, "WEBP", quality=88, method=5)
+              written.append(f"- `{target.as_posix()}` ({target.stat().st_size} bytes)")
+              print(f"OK {target}: {target.stat().st_size} bytes")
+
+          Path("assets/generated/items/ICON_SLICES.md").write_text(
+              "# Item icon slices\n\n"
+              "Generated from the 3×3 Runway sprite sheet. Check the crops and object centering during visual QA.\n\n"
+              + "\n".join(written) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Commit individual item icons
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/generated/items
+          if git diff --cached --quiet; then
+            echo "No icon files changed."
+            exit 0
+          fi
+          git commit -m "Slice generated starter inventory icons"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
