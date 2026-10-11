@@ -56,3 +56,37 @@
 .exp100-poi-done .exp100-poi-copy>span{color:#9bb39a}
 .exp100-poi-done .exp100-poi-copy>p{margin:4px 0 0}
 @media(max-width:560px){.exp100-poi{padding:12px;gap:10px}.exp100-poi-icon{flex-basis:38px;height:38px}}
+
+
+/* v0.14.0 — persistent, directly clickable exploration scene */
+.exp100-scene-live{position:relative;isolation:isolate}
+.exp100-hotspots{position:absolute;z-index:2;inset:0;pointer-events:none}
+.exp100-hotspot{position:absolute;left:var(--hx);top:var(--hy);transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px;max-width:min(44%,180px);padding:7px 10px;border:1px solid rgba(239,216,148,.72);border-radius:999px;background:rgba(7,16,11,.84);color:#f3e6b8;box-shadow:0 2px 14px rgba(0,0,0,.45),0 0 0 3px rgba(215,184,106,.12);font-size:.72rem;font-weight:800;line-height:1;white-space:nowrap;pointer-events:auto;touch-action:manipulation;animation:exp100-hotspot-pulse 3s ease-in-out infinite}
+.exp100-hotspot i{display:grid;place-items:center;width:21px;height:21px;flex:0 0 21px;border-radius:50%;background:rgba(215,184,106,.19);font-style:normal;font-size:.95rem}
+.exp100-hotspot span{overflow:hidden;text-overflow:ellipsis}
+.exp100-hotspot:hover,.exp100-hotspot:focus-visible{z-index:4;background:rgba(41,53,35,.97);border-color:#ffe6a0;outline:2px solid rgba(255,230,160,.5);outline-offset:3px}
+.exp100-hotspot:active{transform:translate(-50%,-50%) scale(.96)}
+.exp100-hotspot-road{border-color:rgba(164,196,155,.72);color:#d8efce}
+.exp100-hotspot-road i{background:rgba(164,196,155,.2)}
+.exp100-hotspot-tracks{border-color:rgba(177,192,184,.68);color:#e1e8e1}
+.exp100-hotspot-tracks i{background:rgba(177,192,184,.16)}
+.exp100-scene-label{z-index:2}
+.exp100-sound{z-index:5}
+.exp100-explore-dock{padding:13px}
+.exp100-dock-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.exp100-dock-action{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:5px;min-height:66px;padding:11px 12px;border:1px solid rgba(180,197,177,.2);border-radius:12px;background:rgba(28,39,30,.82);color:#e6ebdd;text-align:left;touch-action:manipulation}
+.exp100-dock-action strong{font-size:.84rem}
+.exp100-dock-action span{font-size:.72rem;line-height:1.3;color:#aebcae}
+.exp100-dock-action.primary{border-color:rgba(215,184,106,.55);background:linear-gradient(140deg,rgba(100,80,38,.54),rgba(35,43,29,.94))}
+.exp100-dock-action.primary span{color:#e0d4aa}
+.exp100-dock-action:active{transform:scale(.985)}
+@keyframes exp100-hotspot-pulse{0%,100%{box-shadow:0 2px 14px rgba(0,0,0,.45),0 0 0 3px rgba(215,184,106,.1)}50%{box-shadow:0 2px 18px rgba(0,0,0,.55),0 0 0 6px rgba(215,184,106,.04)}}
+@media(max-width:560px){
+ .exp100-hotspot{gap:4px;padding:5px 7px;font-size:.64rem;max-width:46%}
+ .exp100-hotspot i{width:19px;height:19px;flex-basis:19px;font-size:.83rem}
+ .exp100-dock-actions{gap:6px}
+ .exp100-dock-action{min-height:62px;padding:9px 8px}
+ .exp100-dock-action strong{font-size:.76rem}
+ .exp100-dock-action span{font-size:.66rem}
+}
+@media(prefers-reduced-motion:reduce){.exp100-hotspot{animation:none}}
