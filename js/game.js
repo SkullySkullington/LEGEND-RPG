@@ -288,10 +288,9 @@
   }
 
   window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account };
-  const boot = () => {
-    try { if(sessionStorage.getItem(TITLE_GATE_KEY) === 'opened') return title(); } catch {}
-    titleGate();
-  };
+  // v0.20.5: enter directly on the actual title menu. The former Ashmere Gate
+  // splash was a redundant extra screen before the title and required an extra click.
+  const boot = () => title();
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
