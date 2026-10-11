@@ -158,3 +158,11 @@
 @keyframes exp100-reveal-glint{from{opacity:0;transform:translateY(-30%)}to{opacity:1;transform:translateY(30%)}}
 @keyframes exp100-story-arrive{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.exp100-hotspot-find,.exp100-discovery-beat,.exp100-head{animation:none}.exp100-dock-action.primary{transition:none}}
+
+
+/* v0.19.2 — each step onto the road gets a quiet sense of arrival */
+.exp100-scene-live img{transform-origin:center;animation:exp100-road-arrive .72s cubic-bezier(.2,.7,.2,1) both}
+.exp100-scene-live .exp100-scene-shade{animation:exp100-shade-arrive .6s ease-out both}
+@keyframes exp100-road-arrive{from{opacity:.72;transform:scale(1.045);filter:brightness(.72) blur(1.5px)}to{opacity:1;transform:scale(1);filter:brightness(1) blur(0)}}
+@keyframes exp100-shade-arrive{from{opacity:.65}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.exp100-scene-live img,.exp100-scene-live .exp100-scene-shade{animation:none;transition:none}}
