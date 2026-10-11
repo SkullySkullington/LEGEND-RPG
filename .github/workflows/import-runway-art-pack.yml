@@ -1,0 +1,115 @@
+name: Import one-time Runway art pack
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-runway-art-pack.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import-art:
+    if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'one-time-runway-import') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download and optimize generated images
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from io import BytesIO
+          from pathlib import Path
+          import re
+          import urllib.request
+          from PIL import Image
+
+          manifest_path = Path("js/systems/assets-v090.js")
+          source = manifest_path.read_text(encoding="utf-8")
+          preview_start = source.index("productionPreview: {")
+
+          def url_for(key):
+              marker = f"{key}: '"
+              p = source.index(marker, preview_start) + len(marker)
+              e = source.index("'", p)
+              url = source[p:e]
+              if not url.startswith("https://"):
+                  raise ValueError(f"Not an HTTPS asset URL for {key}")
+              return url
+
+          assets = [
+              ("titleBackground", "assets/generated/title/title-ashmere-road.webp", "wide"),
+              ("ashmereTown", "assets/generated/locations/ashmere-town.webp", "wide"),
+              ("oldRoad", "assets/generated/locations/old-road-south-fork.webp", "wide"),
+              ("camp", "assets/generated/locations/roadside-camp.webp", "wide"),
+              ("highRidge", "assets/generated/locations/high-ridge.webp", "wide"),
+              ("reedCut", "assets/generated/locations/reed-cut.webp", "wide"),
+              ("greyfenTown", "assets/generated/locations/greyfen-town.webp", "wide"),
+              ("ashmereInn", "assets/generated/locations/ashmere-inn.webp", "wide"),
+              ("ashmereMarket", "assets/generated/locations/ashmere-market.webp", "wide"),
+              ("ashmereForge", "assets/generated/locations/ashmere-forge.webp", "wide"),
+              ("ashmereArchive", "assets/generated/locations/ashmere-archive.webp", "wide"),
+              ("greyfenInn", "assets/generated/locations/greyfen-inn.webp", "wide"),
+              ("greyfenMarket", "assets/generated/locations/greyfen-market.webp", "wide"),
+              ("greyfenForge", "assets/generated/locations/greyfen-forge.webp", "wide"),
+              ("greyfenArchive", "assets/generated/locations/greyfen-archive.webp", "wide"),
+              ("Adventurer", "assets/generated/classes/class-adventurer.webp", "portrait"),
+              ("Warrior", "assets/generated/classes/class-warrior.webp", "portrait"),
+              ("Ranger", "assets/generated/classes/class-ranger.webp", "portrait"),
+              ("Mage", "assets/generated/classes/class-mage.webp", "portrait"),
+              ("Thief", "assets/generated/classes/class-thief.webp", "portrait"),
+              ("Skiller", "assets/generated/classes/class-skiller.webp", "portrait"),
+              ("blackrootWolf", "assets/generated/enemies/blackroot-wolf.webp", "portrait"),
+              ("roadGoblin", "assets/generated/enemies/road-goblin.webp", "portrait"),
+              ("lanternWisp", "assets/generated/enemies/lantern-wisp.webp", "portrait"),
+              ("itemIconSheet", "assets/generated/items/item-icon-sheet.webp", "sheet"),
+          ]
+
+          succeeded, failed = [], []
+          for key, target, kind in assets:
+              try:
+                  req = urllib.request.Request(url_for(key), headers={"User-Agent": "LEGEND-asset-import/1.0"})
+                  with urllib.request.urlopen(req, timeout=120) as response:
+                      raw = response.read()
+                  im = Image.open(BytesIO(raw)).convert("RGB")
+                  bounds = (1536, 864) if kind == "wide" else ((768, 1024) if kind == "portrait" else (1024, 1024))
+                  im.thumbnail(bounds, Image.Resampling.LANCZOS)
+                  dest = Path(target)
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  im.save(dest, "WEBP", quality=88 if kind == "sheet" else 84, method=5)
+                  print(f"OK {target}: {im.width}x{im.height}, {dest.stat().st_size} bytes")
+                  succeeded.append(target)
+              except Exception as exc:
+                  print(f"FAIL {key} -> {target}: {type(exc).__name__}: {exc}")
+                  failed.append((key, target, str(exc)))
+
+          Path("assets/generated/IMPORT_REPORT.md").write_text(
+              "# Generated art import report\n\n"
+              f"Successful exports: {len(succeeded)}/{len(assets)}\n\n"
+              + "\n".join(f"- `{p}`" for p in succeeded)
+              + ("\n\n## Failed exports\n" + "\n".join(f"- {k}: {err}" for k, _, err in failed) if failed else "")
+              + "\n",
+              encoding="utf-8",
+          )
+          if not succeeded:
+              raise SystemExit("No assets could be downloaded; nothing to commit.")
+          PY
+
+      - name: Commit stable asset files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/generated
+          if git diff --cached --quiet; then
+            echo "No asset files changed."
+            exit 0
+          fi
+          git commit -m "Add generated two-town Runway art pack"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
