@@ -9,6 +9,7 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Five-stage Old Road expedition with named stops, points of interest, camp actions, Road Pressure, combat, and return-to-town rewards.
 - [x] First South Fork decision with a safer High Ridge and riskier Reed Cut.
 - [x] Initial route consequence: the High Ridge limits the first travel pressure increase; the Reed Cut earns a Bell Fragment but draws more danger from the marsh.
+- [x] Route-specific second-stop discoveries: Ridgeway Cairn on High Ridge; watcher tracks in Reed Cut, with distinct rewards and pressure changes.
 - [x] Shared art direction and asset integration rules in [ART-DIRECTION.md](ART-DIRECTION.md).
 
 ## Next priorities
@@ -17,10 +18,11 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 
 **Goal:** A route decision should change what the player experiences later, not only adjust a number.
 
-- Give High Ridge and Reed Cut distinct follow-up narration or points of interest.
+- [x] Give High Ridge and Reed Cut distinct follow-up narration and points of interest.
 - Add at least one later event that reacts to the chosen route.
 - Ensure choices and rewards resolve only once per expedition.
-- Add Playwright coverage for both route branches, pressure changes, and repeat-click protection.
+- [x] Add Playwright coverage for both route branches and their distinct discovery/pressure outcomes.
+- [ ] Add repeat-click protection coverage and at least one later event that reacts to the route.
 
 **Done when:** A fresh traveler can take either path, observe a later difference, finish or retreat, and start another expedition without carrying a temporary branch flag into the next trip.
 
