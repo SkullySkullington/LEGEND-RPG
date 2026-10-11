@@ -23,6 +23,8 @@ The Landing Warden asks the traveler to recover a route marker washed loose from
 ## Local jobs
 Start with a small set: gather dry peat, sort salvage baskets, and walk flood markers. Each job must clearly state cost, check, reward, and failure result. Do not add currency without a distinct gameplay purpose. Every new item needs a source, sell value, use, and fallback display name/icon.
 
+**Implemented in v0.20.6:** Greyfen's Bellkeeper's Hall has local contracts for Dry Peat Bricks, Sort a Salvage Basket, and Reset Flood Markers. Dry Peat Bricks awards the distinct `peatBrick` resource, which has a display name, inventory icon fallback, and a market sell value. The signature choice-driven “A Dry Crossing” contract remains outstanding.
+
 ## Equipment and shop quality
 - Make price, level requirements, equipped state, and stat differences easy to compare.
 - Ensure UI values match the real combat/equipment logic.
@@ -43,7 +45,8 @@ Service icons needed: inn, market, smith, archive/journal, map, work board, trav
 - [ ] Icons are semantically correct and readable at 32–48px.
 - [ ] No broken image paths; fallbacks work.
 - [ ] Trading and equipment changes preserve correct inventory, gold, and stats.
-- [ ] Greyfen copy is town-specific and route gating is correct.
+- [x] Greyfen work contracts use local job names and rewards; the world map now requires Greyfen before Ironpass, Ironpass before Blackwood, and Blackwood before the Ruined March.
+- [ ] Greyfen copy is town-specific and route gating is correct beyond the current unlock-order regression tests.
 - [ ] Signature contract has a meaningful choice and clear reward.
 - [ ] Save/load preserves region, inventory, equipment, and quest flags.
 - [ ] Playwright smoke tests pass, and desktop/mobile visual QA is recorded separately.
