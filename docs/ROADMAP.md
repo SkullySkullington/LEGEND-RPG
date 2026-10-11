@@ -36,6 +36,10 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Slice the nine-cell item sheet into nine individual starter item icons and commit them beside the source sheet.
 - [x] Add generated class portraits to character creation and generated enemy portraits to combat.
 - [x] Simplify Ashmere's hub hierarchy and remove the duplicate "Your Camp" panel that repeated bottom-navigation links.
+- [x] Replace the town controller's inline SVG service symbols with local art from the committed scene, portrait, and item asset families.
+- [x] Rework the Trading Post into Buy/Sell tabs with item thumbnails, a clear purse summary, and a single bulk-sell action.
+- [x] Rework the Blacksmith around equipped gear first, with separate Weapons/Armor tabs and actual item artwork.
+- [x] Reframe Character Sheet as a Traveler profile with class portrait, vital stats, equipped kit, and illustrated inventory.
 - [x] Give Greyfen its own cold-water palette and use the committed Greyfen scene as its hub backdrop.
 - [x] Make the Town Square keeper roles, local rumors, and route board aware of Greyfen instead of repeating Ashmere-only copy.
 - [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, and avoiding the Ashmere-only expedition from Greyfen.
