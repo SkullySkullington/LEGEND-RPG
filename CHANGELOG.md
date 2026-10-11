@@ -1,6 +1,8 @@
 ## v0.18.0 — A Road That Remembers Your Choices
 - Began a scene-led expedition UI pass: removed persistent resource tiles and redundant location cards, reduced the scene to one contextual discovery hotspot, and made discoveries open as optional story beats instead of always-visible boxes.
 - Simplified the travel dock to two clear choices: search the roadside or travel onward; the discovery beat can be investigated or left alone.
+- Added a restrained pulse to the discovery marker, an animated contextual reveal, quieter “leave it” affordance, and reduced-motion support.
+- Added subtle stage-specific scene framing and motion so each stretch has a distinct visual mood without adding more permanent UI.
 - Added a meaningful first-expedition route decision at South Fork: the safer High Ridge reduces Road Pressure, while the riskier Reed Cut awards a Bell Fragment and increases pressure.
 - Made the opening route choice affect the next stretch: High Ridge keeps the first travel pressure increase low, while Reed Cut draws more danger from the marsh.
 - Added route-specific discoveries at Lantern Ditch: High Ridge travelers find a Ridgeway Cairn and herbs that reduce pressure; Reed Cut travelers find watcher tracks and herbs at the cost of more pressure.
