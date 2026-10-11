@@ -95,7 +95,13 @@ function pointOfInterest(stage){
   {key:'reedwatch-locker',name:'The Shelter Locker',kind:'Forgotten Stores',text:'A swollen wooden locker sits beneath a shelter bench, held shut by a rusted catch.',action:'Open the locker',icon:'▣',short:'Locker',x:25,y:52},
   {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The boundary stone is scored with route marks. A few fresh scratches point beyond the reeds.',action:'Record the route marks',icon:'⚑',short:'Boundary',x:78,y:48}
  ];
- return points[clamp(Number(stage||0),0,5)];
+ const index=clamp(Number(stage||0),0,5);
+ if(index===1){
+  const pl=p(),route=pl?ensure(pl).routeChoice:null;
+  if(route==='ridge')return {key:'ridge-cairn',name:'The Ridgeway Cairn',kind:'Trail Clue',text:'A stack of old stones marks a dry line above the floodwater. Someone has tucked a small bundle of road herbs behind the cairn.',action:'Collect the trail herbs',icon:'⌖',short:'Cairn',x:76,y:48};
+  if(route==='reeds')return {key:'marsh-watcher-tracks',name:'Tracks Beneath the Blue Light',kind:'Danger Sign',text:'The blue glow has gone dark. Long, narrow tracks circle your own bootprints, and a torn herb pouch lies in the mud.',action:'Recover the dropped herbs',icon:'✧',short:'Tracks',x:76,y:48};
+ }
+ return points[index];
 }
 function pointOfInterestPanel(pl,s,stage){
  const point=pointOfInterest(stage);
@@ -120,6 +126,8 @@ function inspectPointOfInterest(){
  s.poiUsed[point.key]=true;
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
+ else if(stage===1&&s.routeChoice==='ridge'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);note='You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';}
+ else if(stage===1&&s.routeChoice==='reeds'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure+4,0,100);note='You recover the torn herb pouch, but the tracks circle closer as you leave. +1 Road Herb; Road Pressure rises by 4.';}
  else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
  else if(stage===2){inv(pl,'food',1);inv(pl,'roadHerb',1);note='You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';}
  else if(stage===3){s.pressure=clamp(s.pressure-8,0,100);inv(pl,'bellFragment',1);note='The seal’s pattern matches an old Ashmere mark. You take a Bell Fragment and learn a safer way around the roots. +1 Bell Fragment; Road Pressure falls by 8.';}
