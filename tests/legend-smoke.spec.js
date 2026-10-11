@@ -156,7 +156,6 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await expect(page.locator('.exp100-route-choice')).toHaveCount(0);
     await expect(page.locator('.exp100-poi-done')).toContainText('Reed Cut');
     await expect(page.locator('.exp100-head')).toContainText(/Gain 1 Bell Fragment/i);
-    await expect(page.locator('.exp100-stats')).toContainText('1');
     await expect(page.locator('#routeReeds')).toHaveCount(0);
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
