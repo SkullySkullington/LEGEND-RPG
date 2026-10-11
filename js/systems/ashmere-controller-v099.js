@@ -12,13 +12,12 @@
   const itemIcon = key => {
     const items=A().items||{};
     const aliases={
-      food:'food',ration:'rationBundle',rationBundle:'rationBundle',
-      potion:'potion',roadToken:'roadToken',bellFragment:'bellFragment',
-      camp:'camp',campSupply:'camp',roadHerb:'roadHerb',
-      woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',
-      bow:'bow',huntingBow:'bow',shield:'shield'
+      food:'food',ration:'rationBundle',rationBundle:'rationBundle',potion:'potion',roadPoultice:'potion',blackrootTonic:'potion',
+      roadToken:'roadToken',bellFragment:'bellFragment',camp:'camp',campSupply:'camp',roadHerb:'roadHerb',huntersCharm:'bellFragment',wispLanternWick:'camp',
+      woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',shortSword:'shortSword',bow:'bow',huntingBow:'bow',shield:'shield',
+      none:'shield',clothArmor:'shield',chainArmor:'shield',bronzeArmor:'shield',ironArmor:'shield',woodScrap:'camp',clothScrap:'camp',wolfFang:'shortSword',tornHide:'shield',ore:'shield',wispAsh:'bellFragment',oil:'camp',goblinTrinket:'roadToken',blackrootThorn:'roadHerb',tradeBundle:'camp'
     };
-    return items[aliases[key]||key]||'';
+    return items[aliases[key]||key]||items.pelt||'';
   };
   const itemName = k => D().itemNames?.[k] || ({
     food:'Rations', potion:'Healing Potion', camp:'Camp Supplies', roadToken:'Road Token',
