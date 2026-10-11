@@ -28,13 +28,16 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 
 ### 2. Establish the first production art set
 
-**Goal:** Replace placeholder-feeling scenes with a coherent, readable visual identity.
+**Goal:** Replace placeholder-feeling scenes with a coherent, readable visual identity across Ashmere, Greyfen, and the Old Road that joins them.
 
-- Produce an Ashmere establishing scene and an Old Road/South Fork scene.
-- Review the same scene at desktop width and at 390px mobile width before integrating.
-- Export web-sized WebP scenes; keep source masters outside the runtime bundle where practical.
-- Add descriptive, stable filenames and preserve graceful fallbacks.
+- [x] Generate the initial Runway art batch: title, Ashmere/Greyfen scenes and interiors, Old Road/camp/route variants, six class portraits, three enemy portraits, and a starter icon sheet.
+- [x] Wire a preview pass into title, town, road, class-choice, and combat screens, with legacy art fallbacks where applicable.
+- [ ] Export the signed Runway previews to stable local files in `assets/generated/`; the current preview URLs expire and do not count as production-complete assets.
+- [ ] Replace temporary preview URLs in `js/systems/assets-v090.js` with the committed local file paths.
+- [ ] Slice and optimize the nine-cell item sprite sheet into individual WebP/PNG icons after visually checking grid alignment.
+- [ ] Review each screen at desktop and 390px mobile widths; verify crops, contrast, load time, watermark-free exports, and fallback behavior.
 - Keep UI labels as HTML, never baked into the art.
+- See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
 
 ### 3. Make expedition rewards feed town progression
 
