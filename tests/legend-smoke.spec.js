@@ -160,7 +160,9 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 16/i);
-    await expect(page.locator('.exp100-poi')).toContainText(/Tracks Beneath the Blue Light/i);
+    await expect(page.locator('#poiInspect')).toHaveCount(0);
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Tracks Beneath the Blue Light/i);
     await page.locator('#poiInspect').click();
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 4/i);
   });
@@ -174,11 +176,26 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/High Ridge pays off/i);
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by only 4/i);
-    await expect(page.locator('.exp100-poi')).toContainText(/Ridgeway Cairn/i);
+    await expect(page.locator('#poiInspect')).toHaveCount(0);
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Ridgeway Cairn/i);
     await page.locator('#poiInspect').click();
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 3/i);
   });
 
+
+  test('road discovery stays hidden until the player notices it', async ({ page }) => {
+    await startFreshCharacter(page, 'DiscoveryQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await expect(page.locator('#poiInspect')).toHaveCount(0);
+    await expect(page.locator('.exp100-hotspot-find')).toContainText('Look closer');
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toBeVisible();
+    await page.locator('#poiLeave').click();
+    await expect(page.locator('.exp100-discovery-beat')).toHaveCount(0);
+    await expect(page.locator('#poiInspect')).toHaveCount(0);
+  });
 
   test('route choice changes the later waystation scene text', async ({ page }) => {
     await startFreshCharacter(page, 'RouteEchoQA');
@@ -186,10 +203,11 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await page.getByRole('button', { name: /The Old Road/i }).click();
     await page.locator('#routeReeds').click();
     await page.locator('#push').click();
+    await page.locator('.exp100-hotspot-find').click();
     await page.locator('#poiInspect').click();
     await page.locator('#push').click();
-    await expect(page.locator('.exp100-area')).toContainText(/wet reeds cling to your boots/i);
-    await expect(page.locator('.exp100-area')).toContainText(/something followed you out/i);
+    await expect(page.locator('.exp100-head')).toContainText(/wet reeds cling to your boots/i);
+    await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
   });
 
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
