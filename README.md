@@ -4,6 +4,10 @@
 
 The project is now in its **full RPG development phase**. The old recovery/remake phase is historical context, not the current identity.
 
+## Current Build
+
+**v0.18.0 — The Old Road Fork** adds a meaningful first-expedition route decision: take the safer High Ridge to lower Road Pressure, or risk the Reed Cut to gain a Bell Fragment while attracting danger.
+
 ## Play Now
 
 - **Live game:** https://tdtria.github.io/LEGEND-RPG/
