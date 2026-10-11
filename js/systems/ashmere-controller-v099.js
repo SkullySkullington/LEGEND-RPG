@@ -254,13 +254,21 @@
     yard:{title:'Clean Stable Yard',desc:'Unpleasant work, steady coin, and no monsters.',skill:'luck',pay:30,item:'clothScrap',amount:1,verb:'Shovel',hint:'Time the shovel when the rhythm lines up.'},
     message:{title:'Run a Message',desc:'Carry sealed word through rain-heavy alleys before the ink runs.',skill:'survival',pay:46,item:'goblinTrinket',amount:1,verb:'Deliver',hint:'Click as the marker crosses the seal.'}
   };
+  const greyfenWorkJobs = {
+    peat:{title:'Dry Peat Bricks',desc:'Stack wet-cut peat beneath the Reedlight awning before the next shower.',skill:'strength',pay:40,item:'woodScrap',amount:2,verb:'Stack',hint:'Time the stack when the marker enters the dry band.'},
+    salvage:{title:'Sort a Salvage Basket',desc:'Separate usable iron and cloth from a basket lifted off the drowned walk.',skill:'luck',pay:44,item:'ore',amount:1,verb:'Sort',hint:'Click when the marker reaches the clean sorting band.'},
+    markers:{title:'Reset Flood Markers',desc:'Set the causeway stakes back to the bellkeeper’s recorded waterline.',skill:'survival',pay:48,item:'roadHerb',amount:2,verb:'Set Marker',hint:'Set the marker when the moving line crosses the old waterline.'}
+  };
+  function jobsForCurrentRegion(){return String(p()?.currentRegion||'Ashmere')==='Greyfen'?greyfenWorkJobs:workJobs;}
   function renderWorkBoard(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
-    screen(head('Town Work',greyfen?'Bellkeeper’s Hall':'Town Hall',greyfen?'The bellkeeper keeps the causeway working through rain, high water, and missing travelers. Complete a task for coin and a chance at useful supplies.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(workJobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    const jobs=jobsForCurrentRegion();
+    screen(head('Town Work',greyfen?'Bellkeeper’s Hall':'Town Hall',greyfen?'Dry peat, sort salvaged goods, and reset flood markers to keep the lowland crossings usable.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(jobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-job-open]').forEach(b=>b.onclick=()=>renderJobActivity(b.dataset.jobOpen));
   }
   function renderJobActivity(id){
-    const j=workJobs[id]||workJobs.wood;
+    const jobs=jobsForCurrentRegion();
+    const j=jobs[id]||Object.values(jobs)[0];
     const zoneStart=34+Math.floor(Math.random()*16);
     const zoneWidth=18;
     screen(head('Town Work',j.title,j.desc,locationInterior('archive'),'work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
