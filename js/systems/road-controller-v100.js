@@ -58,7 +58,7 @@ function shell(body){
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene()+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
+function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
   const areas=[
     {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
@@ -69,6 +69,37 @@ function areaForStage(stage){
     {name:'Greyfen Approach',type:'Regional Threshold',text:'The road slopes toward Greyfen. Beyond the last marker, reeds and drowned stone stretch into the mist.',icon:'⚑'}
   ];
   return areas[clamp(Number(stage||0),0,5)];
+}
+function pointOfInterest(stage){
+ const points=[
+  {key:'fork-marker',name:'The Split Milestone',kind:'Trail Clue',text:'Fresh cart tracks split around a toppled mile-marker. One set avoids the flooded ground.',action:'Read the tracks',icon:'⌖'},
+  {key:'ditch-lantern',name:'A Lantern in the Reeds',kind:'Strange Find',text:'A cold blue glow flickers beneath the ditch grass. It might be a lost charm—or bait.',action:'Investigate the glow',icon:'✧'},
+  {key:'camp-firepit',name:'The Abandoned Firepit',kind:'Useful Supplies',text:'Under the ash you spot a dry tinder bundle and a few scraps left by the last travelers.',action:'Salvage the firepit',icon:'♨'},
+  {key:'blackroot-mark',name:'Roots Around an Old Seal',kind:'Old Road Mystery',text:'The black roots have split a stone seal bearing the same bell-mark found near Ashmere.',action:'Study the seal',icon:'✦'},
+  {key:'reedwatch-locker',name:'The Shelter Locker',kind:'Forgotten Stores',text:'A swollen wooden locker sits beneath the shelter bench, held shut by a rusted catch.',action:'Open the locker',icon:'▣'},
+  {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The boundary stone is scored with route marks. A few fresh scratches point beyond the reeds.',action:'Record the route marks',icon:'⚑'}
+ ];
+ return points[clamp(Number(stage||0),0,5)];
+}
+function pointOfInterestPanel(pl,s,stage){
+ const point=pointOfInterest(stage);
+ if(s.poiUsed&&s.poiUsed[point.key])return '<section class="exp100-poi exp100-poi-done"><div class="exp100-poi-icon">✓</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · INVESTIGATED</span><strong>'+esc(point.name)+'</strong><p>You have already taken what you can from this spot on this expedition.</p></div></section>';
+ return '<section class="exp100-poi"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button></div></section>';
+}
+function inspectPointOfInterest(){
+ const pl=p();if(!pl)return;const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),point=pointOfInterest(stage);
+ s.poiUsed=s.poiUsed||{};
+ if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
+ s.poiUsed[point.key]=true;
+ let note='',reward='';
+ if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
+ else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
+ else if(stage===2){inv(pl,'food',1);inv(pl,'roadHerb',1);note='You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';}
+ else if(stage===3){s.pressure=clamp(s.pressure-8,0,100);inv(pl,'bellFragment',1);note='The seal’s pattern matches an old Ashmere mark. You take a Bell Fragment and learn a safer way around the roots. +1 Bell Fragment; Road Pressure falls by 8.';}
+ else if(stage===4){inv(pl,'clothScrap',1);inv(pl,'roadHerb',1);note='The locker gives way. Inside are clean cloth strips and a bundle of preserved herbs. +1 Cloth Scrap, +1 Road Herb.';}
+ else {pl.gold=Number(pl.gold||0)+10;s.pressure=clamp(s.pressure-5,0,100);pl.flags=pl.flags||{};pl.flags.greyfenRouteRecorded=true;note='You copy the scratched route marks into your journal. The safer line is recorded, and you find 10 gold wedged behind the stone.';}
+ pl.stats=pl.stats||{};pl.stats.pointsOfInterest=Number(pl.stats.pointsOfInterest||0)+1;save(pl);
+ tone('success');renderExpedition(note);
 }
 function campActions(pl,s){
   const camp=Number(pl.inventory?.camp||0),food=Number(pl.inventory?.food||0),herb=Number(pl.inventory?.roadHerb||0),cloth=Number(pl.inventory?.clothScrap||0);
@@ -81,7 +112,8 @@ function renderExpedition(note=''){
     ? '<button class="exp100-choice primary" id="finish"><strong>Secure the Expedition</strong><span>You have reached Greyfen’s approach. Bank your finds and return to Ashmere safely.</span><em>End expedition</em></button>'
     : '<button class="exp100-choice" id="careful"><strong>Read the Road</strong><span>Study signs, conserve energy, and reduce pressure.</span><em>Lower risk</em></button><button class="exp100-choice" id="search"><strong>Search the Margins</strong><span>Look for caches, materials, and hidden signs.</span><em>Find loot</em></button><button class="exp100-choice" id="push"><strong>Push Deeper</strong><span>Move onward quickly for better chances at discoveries—and trouble.</span><em>Higher risk</em></button>';
   const areaPanel='<section class="exp100-area"><div class="exp100-area-icon">'+esc(area.icon)+'</div><div class="exp100-area-copy"><span>'+esc(area.type)+'</span><h2>'+esc(area.name)+'</h2><p>'+esc(area.text)+'</p></div></section>';
-  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||'Follow the route one stretch at a time. You can always fall back to Ashmere.')+stats(pl)+areaPanel+(atCamp?campActions(pl,s):'')+'<section class="exp100-panel"><div class="exp100-route"><span>Next marker</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Route stop '+stage+' of 5</small></div><div class="exp100-choices">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
+  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||'Follow the route one stretch at a time. You can always fall back to Ashmere.')+stats(pl)+areaPanel+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-panel"><div class="exp100-route"><span>Next marker</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Route stop '+stage+' of 5</small></div><div class="exp100-choices">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
+  document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('careful')?.addEventListener('click',()=>resolveChoice('careful'));
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
@@ -193,7 +225,7 @@ function combatAction(enemy,action){
  const incoming=Math.max(0,raw-reduction);pl.hp=Math.max(0,Number(pl.hp||1)-incoming);
  enemy.turn=Number(enemy.turn||0)+1;enemy.intent=enemyIntent(enemy);
  note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.');
- if(pl.hp<=0){pl.hp=1;s.stage=0;s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
+ if(pl.hp<=0){pl.hp=1;s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
  save(pl);combat(enemy,note);
 }
 function win(enemy){
