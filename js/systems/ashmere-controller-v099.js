@@ -44,25 +44,22 @@
   const weaponName = id => (D().weapons || []).find(w => w.id === id)?.name || id || 'Hands';
   const armorName = id => (D().armors || []).find(a => a.id === id)?.name || id || 'None';
 
-  const iconMap = {
-    people:'M12 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-7 16c1.2-4 4-6 7-6s5.8 2 7 6M17 9a3 3 0 1 0 0 6M17 17c2.2.3 3.8 1.7 5 4',
-    inn:'M4 20V8h16v12M7 20v-6h10v6M7 11h10M9 8V5h6v3',
-    trader:'M12 3v18M5 7h14M7 7l-4 7h8L7 7Zm10 0l-4 7h8l-4-7Z',
-    smith:'M14 4l6 6-9 9-4-4 9-9ZM5 17l2 2-3 3-2-2 3-3Z',
-    road:'M4 21c4-5 4-13 8-18m8 18c-4-5-4-13-8-18M8 12h8M7 17h10',
-    sheet:'M6 3h12v18H6zM9 7h6M9 11h6M9 15h4',
-    brenn:'M5 4h14v16H5zM8 8h8M8 12h8M8 16h5',
-    archive:'M4 5h16v14H4zM8 9h8M8 13h8M8 17h5',
-    mara:'M12 3l7 4v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4Z',
-    oric:'M12 2l8 5v6c0 5-4 8-8 9-4-1-8-4-8-9V7l8-5ZM9 12h6',
-    work:'M5 7h14v12H5zM9 7V5h6v2M8 11h8M8 15h5',
-    craft:'M6 18l8-8M14 4l6 6M5 5l4 4M3 21l4-1 10-10-3-3L4 17z',
-    profile:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 9c1.4-4.2 4.5-6.5 8-6.5s6.6 2.3 8 6.5',
-    quest:'M12 3l2.4 5 5.6.8-4 3.9.9 5.5L12 15.6 7.1 18.2l.9-5.5-4-3.9 5.6-.8L12 3Z',
-    route:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm3.5 5.5-3 6-6 3 3-6 6-3Z',
-    regions:'M4 6h7v5H4zM13 13h7v5h-7zM11 8h2v8h-2z'
+  const iconArt = k => {
+    const assets=A(), locations=assets.locations||{}, items=assets.items||{}, classes=assets.classes||{}, npcs=assets.npcs||{};
+    const imageFor = {
+      people:locations.ashmereMain, inn:locationInterior('inn'), trader:locationInterior('market'),
+      smith:locationInterior('forge'), road:locations.oldRoad, sheet:classes[p()?.className]||items.shortSword,
+      brenn:npcs.brenn, archive:locationInterior('archive'), mara:npcs.mara, oric:npcs.oric,
+      work:locationInterior('archive'), craft:items.roadHerb||locations.ashmereForge,
+      profile:classes[p()?.className]||npcs.mara, quest:items.bellFragment||items.roadToken,
+      route:locations.oldRoad, regions:items.roadToken, settings:items.camp
+    };
+    return imageFor[k]||items.bellFragment||items.roadToken||locations.ashmereMain||'';
   };
-  const icon = k => `<span class="ash099-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${iconMap[k] || iconMap.quest}"/></svg></span>`;
+  const icon = (k, alt='') => {
+    const src=iconArt(k);
+    return `<span class="ash099-icon" aria-hidden="true">${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none'">`:''}</span>`;
+  };
   function shell(html){ root().innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`; }
   function stat(label, value){ return `<div class="ash099-stat"><strong>${esc(value)}</strong><span>${esc(label)}</span></div>`; }
   function hpPct(pl){ return Math.max(0, Math.min(100, Math.round((Number(pl.hp || 0) / Math.max(1, Number(pl.maxHp || 1))) * 100))); }
