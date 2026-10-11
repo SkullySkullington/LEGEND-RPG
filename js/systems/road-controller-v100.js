@@ -28,14 +28,16 @@ function tone(kind='tap'){
 }
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(stage=0,interactive=true){
- const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
- const point=pointOfInterest(stage),stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{};
- const stageClass='exp100-stage-'+stageNum;
- const searched=!!s.searchUsed?.[stageNum],poiDone=!!s.poiUsed?.[point.key];
+ const preview=A().productionPreview?.locations||{},legacy=A().locations||{};
+ const stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{},route=s.routeChoice;
+ const fallback=legacy.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
+ const path=stageNum===2?(preview.camp||fallback):stageNum===1&&route==='ridge'?(preview.highRidge||fallback):stageNum===1&&route==='reeds'?(preview.reedCut||fallback):(preview.oldRoad||fallback);
+ const point=pointOfInterest(stage),stageClass='exp100-stage-'+stageNum;
+ const poiDone=!!s.poiUsed?.[point.key];
  const hotspots=interactive&&!poiDone
   ? '<div class="exp100-hotspots" aria-label="Discover the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>Look closer</span></button></div>'
   : '<div class="exp100-hotspots" aria-hidden="true"></div>';
- return '<div class="exp100-scene exp100-scene-live '+stageClass+'" data-stage="'+clamp(Number(stage||0),0,5)+'"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div>'+hotspots+'<span class="exp100-scene-label">THE OLD ROAD <i>•</i> '+esc(areaForStage(stage).name.toUpperCase())+'</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>';
+ return '<div class="exp100-scene exp100-scene-live '+stageClass+'" data-stage="'+stageNum+'"><img src="'+esc(path)+'" alt="'+esc(stageNum===2?'A roadside camp beside the Old Road':'The Old Road winding through misty woodland')+'" onerror="if(this.dataset.fallbackApplied){this.style.display=\'none\'}else{this.dataset.fallbackApplied=\'1\';this.src=\''+esc(fallback)+'\'}"><div class="exp100-scene-shade"></div>'+hotspots+'<span class="exp100-scene-label">THE OLD ROAD <i>•</i> '+esc(areaForStage(stage).name.toUpperCase())+'</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>';
 }
 function shell(body){
  const host=root(),current=host.querySelector('.exp100-wrap');
