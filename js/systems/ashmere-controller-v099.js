@@ -18,7 +18,11 @@
     wispLanternWick:'Wisp Lantern Wick', tradeBundle:'Trade Bundle'
   }[k] || k);
   const gold = n => `${Number(n || 0)}g`;
-  const bg = () => A().locations?.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+  const bg = () => {
+    const pl=p(), locations=A().locations||{};
+    if(String(pl?.currentRegion||'Ashmere')==='Greyfen'&&locations.greyfenMain) return locations.greyfenMain;
+    return locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+  };
   const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
   const npc = id => A().npcs?.[id] || '';
   const weaponName = id => (D().weapons || []).find(w => w.id === id)?.name || id || 'Hands';
@@ -54,6 +58,7 @@
 
   function goal(pl){
     const t = Number(pl?.inventory?.roadToken || 0);
+    if(String(pl?.currentRegion||'Ashmere')==='Greyfen') return { view:'people', title:'Learn Greyfen’s Old Marks', text:'The lowland town sits on drowned foundations. Ask the road-worn keepers what they know, trade what the marsh has yielded, and prepare before following the next marker.', cta:'Meet the Town’s Keepers', icon:'people', tasks:['Ask about the boundary stones','Trade or prepare supplies','Return to Ashmere when ready'] };
     if(!pl?.flags?.talkedToMara) return { view:'people', title:'Report to the Square', text:'Ashmere does not trust strangers from the road. Speak with Mara, Brenn, and Oric before crossing the lantern line.', cta:'Enter Town Square', icon:'people', tasks:['Meet Mara Vell','Speak with Old Brenn','Hear Oric\'s warning'] };
     if(!pl.flags.firstRoadEvent) return { view:'inn', title:'Prepare Before the Gate', text:'Rest, gather supplies, check gear, or take a small town job before your first Old Road expedition.', cta:'Prepare in Town', icon:'inn', tasks:['Visit the Work Board','Check gear at the Blacksmith','Rest at the Inn'] };
     if(t < 5) return { view:'road', title:'Open the First Region', text:`You have ${t}/5 Road Tokens. Explore the Old Road, bring back proof, and use the tokens to open Greyfen.`, cta:'Leave Through the Gate', icon:'road', tasks:[`${t}/5 Road Tokens collected`,'Return alive','Open Greyfen on the world map'] };
@@ -75,34 +80,45 @@
     return `<aside class="ash099-panel ash099-traveler-panel ash099-terminal-card"><h3>Traveler Terminal</h3><div class="ash099-traveler-identity"><div class="ash099-avatar"><span>${esc(String(name).slice(0,1)).toUpperCase()}</span></div><div><strong>${esc(name)}</strong><small>${esc(pl.className || 'Wanderer')}</small></div></div>${miniMeter(pl)}<div class="ash099-stats">${stat('Class', pl.className || 'Wanderer')}${stat('Level', Number(pl.level||1))}${stat('XP', `${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('Gold', gold(pl.gold))}${stat('Road Tokens', `${Number(pl.inventory?.roadToken || 0)}/5`)}${stat('Weapon', weaponName(pl.weapon))}${stat('Armor', armorName(pl.armor))}${stat('Jobs Done', Number(pl.flags?.ashmereJobs || 0))}</div><p class="ash099-trait"><strong>Origin & Nature</strong><br>${esc(pl.personalityLabel || 'Unknown traveler')} • ${esc(pl.origin || 'Unknown origin')}</p></aside>`;
   }
   function terminalNav(){
-    return `<nav class="ash099-footer ash099-topnav" aria-label="Ashmere terminal navigation"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>Town</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
+    const townLabel=String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Greyfen':'Town';
+    return `<nav class="ash099-footer ash099-topnav" aria-label="Town navigation"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>${townLabel}</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
   }
 
   function renderAshmere(){
     const pl=p(); if(!pl) return;
     const g=goal(pl);
+    const isGreyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
+    const townName=isGreyfen?'Greyfen':'Ashmere';
     const tokenCount=Number(pl.inventory?.roadToken||0);
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
     const townCard=(view,title,desc,cta,ic,featured=false)=>`<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${icon(ic)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
+    const destinations=isGreyfen?[
+      townCard('inn','Reedlight Inn','Rest, recover, and hear what the lowland travelers whisper.','Rest & prepare','inn',g.view==='inn'),
+      townCard('trader','Marsh Market','Trade road loot for rations, medicine, and useful supplies.','Trade','trader',false),
+      townCard('smith','Causeway Smithy','Equip better gear and turn gathered materials into useful things.','Gear & craft','smith',false),
+      townCard('people','Town Square','Meet the keepers and travelers who know the drowned roads.','Meet the town','people',g.view==='people'),
+      townCard('work','Bellkeeper’s Hall','Take practical work while learning the rhythms of Greyfen.','Find work','work',g.view==='work'),
+      townCard('regions','Road Network','Return to Ashmere or travel between lands you have unlocked.','Travel','regions',g.view==='regions')
+    ].join(''):[
+      townCard('inn','Ashmere Inn','Rest, recover, buy supplies, and hear what travelers are saying.','Rest & prepare','inn',g.view==='inn'),
+      townCard('trader','Market','Buy essentials, sell road loot, and turn discoveries into gold.','Trade','trader',false),
+      townCard('smith','Forge & Workshop','Upgrade weapons and armor, then use the crafting bench for road finds.','Gear & craft','smith',false),
+      townCard('work','Town Hall','Meet the town, take work, manage road proof, and track what Ashmere needs.','Jobs & people','work',g.view==='people'||g.view==='brenn'||g.view==='work'),
+      townCard('road','Old Road Gate','Begin the expedition; find clues, face danger, and bring proof home.','Begin expedition','road',g.view==='road'),
+      townCard('regions','Road Network','Unlock new regions with Road Tokens, then travel between places you know for gold.','Open map','regions',g.view==='regions')
+    ].join('');
     shell(`
-      <section class="ash100-town">
-        <div class="ash100-hero">${img(bg(),'Ashmere town at dusk')}<div class="ash100-hero-copy"><div class="ash099-kicker">ROADS OF ASHMERE</div><h1>Ashmere</h1><p>Warm lights. Open roads. A place to return to.</p></div></div>
+      <section class="ash100-town ${isGreyfen?'ash100-town-greyfen':'ash100-town-ashmere'}">
+        <div class="ash100-hero">${img(bg(),townName+' at dusk')}<div class="ash100-hero-copy"><div class="ash099-kicker">${isGreyfen?'THE LOWLANDS · GREYFEN':'ROADS OF ASHMERE'}</div><h1>${townName}</h1><p>${isGreyfen?'Built on drowned stone, held together by lanterns, and full of old boundary marks.':'Warm lights. Open roads. A place to return to.'}</p></div></div>
         <div class="ash100-route-dock">${currentRouteCard(g)}</div>
         <section class="ash100-status" aria-label="Traveler status">
           <div class="ash100-status-traveler"><span>${esc(pl.username||'Traveler')}</span><small>${esc(pl.className||'Wanderer')} · Day ${Number(pl.day||1)}</small></div>
           <div class="ash100-status-health"><span>Health</span><strong>${Number(pl.hp||0)} / ${Number(pl.maxHp||0)}</strong><i><b style="width:${health}%"></b></i></div>
-          <div class="ash100-status-resources"><span>${tokenCount} Road Tokens</span><small>${gold(pl.gold)} · ${esc(pl.currentRegion||'Ashmere')}${tokenCount>=5?' · Greyfen open':''}</small></div>
+          <div class="ash100-status-resources"><span>${tokenCount} Road Tokens</span><small>${gold(pl.gold)} · ${townName}${tokenCount>=5?' · Greyfen open':''}</small></div>
         </section>
         <section class="ash100-destination-section">
-          <div class="ash100-section-head"><div><div class="ash099-kicker">ASHMERE</div><h2>Where next?</h2></div></div>
-          <div class="ash100-destinations">
-            ${townCard('inn','Ashmere Inn','Rest, recover, buy supplies, and hear what travelers are saying.','Rest & prepare','inn',g.view==='inn')}
-            ${townCard('trader','Market','Buy essentials, sell road loot, and turn discoveries into gold.','Trade','trader',false)}
-            ${townCard('smith','Forge & Workshop','Upgrade weapons and armor, then use the crafting bench for road finds.','Gear & craft','smith',false)}
-            ${townCard('work','Town Hall','Meet the town, take work, manage road proof, and track what Ashmere needs.','Jobs & people','work',g.view==='people'||g.view==='brenn')}
-            ${townCard('road','Old Road Gate','Start an expedition with a five-stage route, pressure, choices, and a clear return home.','Begin expedition','road',g.view==='road')}
-            ${townCard('regions','Road Network','Unlock new regions with Road Tokens, then travel between places you know for gold.','Open map','regions',g.view==='regions')}
-          </div>
+          <div class="ash100-section-head"><div><div class="ash099-kicker">${isGreyfen?'LOWLAND DISTRICT':'ASHMERE'}</div><h2>${isGreyfen?'Find your footing':'Where next?'}</h2></div></div>
+          <div class="ash100-destinations">${destinations}</div>
         </section>
         ${terminalNav()}
       </section>`);
