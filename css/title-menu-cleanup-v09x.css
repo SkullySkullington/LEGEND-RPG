@@ -602,3 +602,79 @@
   .title-lantern,.portal100-location i,.portal100-traveler:before{animation:none!important}
   .portal100-primary:before{display:none}
 }
+
+/* v0.20 — one cinematic title composition; remove duplicate branding and boxes */
+.v120-title{
+  min-height:100svh!important;display:grid!important;grid-template-rows:auto 1fr auto!important;
+  padding:clamp(14px,3vw,34px)!important;isolation:isolate;
+  background:
+    linear-gradient(90deg,rgba(4,7,5,.88) 0%,rgba(4,7,5,.62) 34%,rgba(4,7,5,.18) 72%,rgba(4,7,5,.48) 100%),
+    linear-gradient(0deg,rgba(4,7,5,.84) 0%,transparent 44%,rgba(4,7,5,.26) 100%),
+    url('../assets/title/title_bg_ashmere_road_v089.jpg') center/cover no-repeat,
+    #080c09!important;
+  color:#eeeadd!important
+}
+.v120-title .title-atmosphere{z-index:1!important;opacity:.42}
+.v120-title .title-moon,.v120-title .title-horizon,.v120-title .title-road,.v120-title .title-lantern{display:none!important}
+.v120-title .title-embers{opacity:.38}
+.v120-title .portal100-header,.v120-title .portal100-footer{width:min(1220px,100%);z-index:4}
+.v120-title .portal100-header{padding:4px 0 12px;border-bottom-color:rgba(215,184,106,.18)}
+.v120-title .portal100-brand{gap:11px}
+.v120-title .portal100-brand img{width:42px;height:42px}
+.v120-title .portal100-brand h1{display:none}
+.v120-title .portal100-brand span{font-size:.62rem;letter-spacing:.24em}
+.v120-title .portal100-brand p{margin-top:4px;color:#a3ada0;font:400 .78rem/1.3 Georgia,serif}
+.v120-title .portal100-header-actions{gap:7px}
+.v120-title .portal100-header-actions button{min-height:39px;padding:0 13px;border-radius:8px;background:rgba(5,9,7,.48);border-color:rgba(215,184,106,.22);font-size:.76rem}
+.v120-title-main{width:min(1220px,100%);margin:auto;display:flex;align-items:center;position:relative;z-index:3;padding:clamp(24px,6vh,64px) 0}
+.v120-title-hero{width:min(600px,57vw);display:grid;justify-items:start;align-content:center;gap:0}
+.v120-title-hero .portal100-kicker{margin:0 0 18px;color:#d7b86a;font-size:.65rem;letter-spacing:.24em}
+.v120-title-hero h1{font:600 clamp(4.6rem,11vw,9rem)/.8 Georgia,'Times New Roman',serif;letter-spacing:.015em;color:#f3ecdc;text-shadow:0 3px 30px rgba(0,0,0,.85);margin:0}
+.v120-title-hero h2{font:400 clamp(1.4rem,3.2vw,2.35rem)/1.15 Georgia,'Times New Roman',serif;letter-spacing:.015em;color:#d8c99f;margin:13px 0 0}
+.v120-title-hero h2 em{font-style:normal;color:#d7b86a}
+.v120-title-hero>p{font:400 clamp(.95rem,1.55vw,1.15rem)/1.65 Georgia,'Times New Roman',serif;color:#d4d8cb;max-width:440px;margin:18px 0 0;text-shadow:0 1px 7px #000}
+.v120-divider{display:flex;align-items:center;gap:10px;width:min(390px,100%);margin:24px 0 18px;color:#c9ad69}
+.v120-divider span{height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(215,184,106,.45))}
+.v120-divider span:last-child{background:linear-gradient(90deg,rgba(215,184,106,.45),transparent)}
+.v120-divider b{font:700 .57rem/1 sans-serif;letter-spacing:.2em;white-space:nowrap}
+.v120-traveler-line{display:flex;align-items:center;gap:11px;max-width:435px;padding:0;margin:0 0 22px}
+.v120-avatar{flex:0 0 42px;width:42px;height:42px;border:1px solid rgba(215,184,106,.42);border-radius:50%;display:grid;place-items:center;color:#e3c777;background:rgba(4,8,6,.54);font:500 1.4rem Georgia,serif}
+.v120-traveler-line>div{min-width:0;display:grid;gap:3px}
+.v120-traveler-line small{font:700 .57rem/1.1 sans-serif;letter-spacing:.17em;color:#c4ad75}
+.v120-traveler-line strong{font:500 1rem/1.25 Georgia,'Times New Roman',serif;color:#f0eadb}
+.v120-traveler-line span{font:400 .75rem/1.4 sans-serif;color:#aeb8ab}
+.v120-title-actions{display:grid;gap:8px;width:min(390px,100%)}
+.v120-primary,.v120-secondary{display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;border-radius:8px;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.v120-primary{min-height:62px;padding:11px 15px;border:1px solid rgba(215,184,106,.56);background:linear-gradient(105deg,rgba(75,62,33,.92),rgba(17,22,16,.86));color:#f3e7c9;box-shadow:0 12px 35px rgba(0,0,0,.2),inset 0 0 0 1px rgba(215,184,106,.08)}
+.v120-primary span{font:600 1.05rem/1.2 Georgia,'Times New Roman',serif}
+.v120-primary small{display:block;color:#b8b59f;font:400 .7rem/1.25 sans-serif;margin-top:3px}
+.v120-primary i{margin-left:auto;font:400 1.7rem/1 Georgia,serif;color:#e2c273;font-style:normal}
+.v120-secondary{min-height:42px;justify-content:center;border:1px solid rgba(215,184,106,.15);background:rgba(5,9,7,.35);color:#bfc5b8;font:400 .78rem/1 sans-serif}
+.v120-primary:hover,.v120-secondary:hover,.v120-primary:focus-visible,.v120-secondary:focus-visible{transform:translateY(-1px);border-color:rgba(230,202,126,.8);outline:none}
+.v120-title-footer{display:flex;justify-content:space-between;gap:16px;padding-top:12px;border-top:1px solid rgba(215,184,106,.14);color:#8c998e;font:600 .58rem/1.3 sans-serif;letter-spacing:.15em}
+.v120-title-footer span:last-child{text-align:right;color:#a89a70}
+@media(max-width:820px){
+ .v120-title{padding:12px!important;background-position:center!important}
+ .v120-title .portal100-header,.v120-title .portal100-footer{width:100%}
+ .v120-title-main{align-items:flex-start;padding:clamp(32px,9vh,90px) 0 26px}
+ .v120-title-hero{width:min(520px,100%)}
+ .v120-title-hero h1{font-size:clamp(4.2rem,17vw,7rem)}
+ .v120-title-hero>p{max-width:390px}
+ .v120-title-actions{width:min(100%,440px)}
+}
+@media(max-width:480px){
+ .v120-title{background-image:linear-gradient(90deg,rgba(4,7,5,.8),rgba(4,7,5,.45)),linear-gradient(0deg,rgba(4,7,5,.88),transparent 55%,rgba(4,7,5,.18)),url('../assets/title/title_bg_ashmere_road_v089.jpg')!important}
+ .v120-title .portal100-header{gap:8px;padding-bottom:10px}
+ .v120-title .portal100-brand img{width:32px;height:32px}
+ .v120-title .portal100-brand span{font-size:.54rem}
+ .v120-title .portal100-brand p{font-size:.69rem}
+ .v120-title-main{padding:clamp(34px,8vh,65px) 0 24px}
+ .v120-title-hero h1{font-size:clamp(3.7rem,17vw,5rem)}
+ .v120-title-hero h2{font-size:1.4rem;margin-top:10px}
+ .v120-title-hero>p{font-size:.9rem;margin-top:14px}
+ .v120-divider{margin:20px 0 15px}
+ .v120-traveler-line{margin-bottom:18px}
+ .v120-primary{min-height:58px}
+ .v120-title-footer{font-size:.49rem;letter-spacing:.1em}
+}
+@media(prefers-reduced-motion:reduce){.v120-title .title-embers i,.v120-title .title-fog i{animation:none!important}.v120-primary,.v120-secondary{transition:none}}
