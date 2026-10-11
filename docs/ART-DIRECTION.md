@@ -1,0 +1,60 @@
+# LEGEND: Roads of Ashmere — Art Direction
+
+## North star
+
+**Weathered storybook dark fantasy.** Ashmere should feel old, lived-in, a little uncanny, and still welcoming enough to return to. The world is grounded medieval fantasy with restrained supernatural details: damp stone, worn timber, moss, fog, charcoal shadows, tarnished brass, parchment, ember light, and rare cold-blue magic.
+
+Art should support the game's exploration-first loop. Images are scene-setting and readable on a phone; they should not overpower the gameplay interface.
+
+## Visual rules
+
+- Palette: charcoal, slate, weathered umber, moss green, parchment cream, tarnished gold, and sparing ember orange or ghost-blue accents.
+- Lighting: directional overcast light, mist, candlelight, campfire glow, and strong readable silhouettes.
+- Materials: worn leather, chipped stone, aged wood, muddy cloth, tarnished metal, rain-dark roads.
+- Mood: mysterious and dangerous, but not relentlessly grim. Ashmere itself should feel safe and human; the Old Road should feel uncertain.
+- Composition: one clear focal point, uncluttered silhouette, foreground/midground/background separation, generous negative space where UI may overlay.
+- Consistency: use the same world palette, material language, lighting, and level of detail across all generated assets.
+
+## Avoid
+
+- Modern objects, firearms, sci-fi styling, glossy mobile-game gradients, oversaturated neon, generic high-fantasy gold overload, chibi proportions, photorealistic gore, watermarks, signatures, logos, and text baked into the art.
+- Important visual details near the edges where mobile crops may cut them off.
+- Generating text for labels, signs, item names, or UI. Render those in HTML so they remain accessible and legible.
+
+## Asset families and target formats
+
+| Family | Recommended composition | Target canvas | Notes |
+|---|---|---|---|
+| Environment scenes | Wide establishing shot; strong depth layers | 16:9, 1536×864 or larger | Keep the center readable and leave safe space for overlays |
+| Town/location scenes | Warm focal light, lived-in details | 16:9 | Ashmere should contrast with the colder road |
+| Class portraits | Waist-up or bust, distinct silhouette and gear | 2:3 portrait | Same framing, lighting, and background treatment for all six classes |
+| Enemy portraits | Threatening but readable silhouette | 3:4 portrait | Keep backgrounds simple enough to distinguish enemies at small sizes |
+| Item/ability icons | Single centered object, bold outline and material read | 1:1 square | Avoid tiny ornament; use transparent background where supported |
+| UI textures | Subtle grain, parchment, worn leather, dark stone | Repeating texture or 3:2 panel | Must not reduce text contrast or accessibility |
+
+## First production batch
+
+1. Ashmere town establishing scene.
+2. Old Road / South Fork establishing scene.
+3. High Ridge and Reed Cut scene variants.
+4. Six matching class portraits: Adventurer, Warrior, Ranger, Mage, Thief, and Skiller.
+5. Initial enemy portraits: Blackroot Wolf and two distinct road threats.
+6. A starter icon sheet: Bell Fragment, Road Token, healing potion, ration, and three weapon silhouettes.
+
+## Prompt template
+
+Use this as the shared prefix for environment art:
+
+> Original dark-fantasy storybook concept art for LEGEND: Roads of Ashmere, grounded medieval materials, weathered stone and timber, charcoal and moss-green palette with parchment and tarnished-gold accents, restrained supernatural mystery, atmospheric mist, painterly texture, clear focal point, strong depth layers, readable silhouette, composed for a mobile-first RPG scene, no text, no lettering, no watermark, no logo.
+
+For character and enemy portraits, append the subject, distinctive silhouette, equipment, emotional read, and a consistent background treatment. For item icons, replace the environment language with “single centered object, clean silhouette, restrained painterly detail, transparent background.”
+
+## Integration and performance checklist
+
+- Keep original high-resolution masters outside the runtime bundle when possible.
+- Export web-ready WebP for large scenes; use PNG for transparency-sensitive icons or sprites.
+- Use descriptive, stable filenames such as `ashmere-town-scene.webp`, `class-ranger-portrait.webp`, and `item-bell-fragment.png`.
+- Resize assets to their actual display needs; avoid shipping oversized originals to mobile devices.
+- Use CSS overlays and HTML text for labels, scene titles, and tooltips.
+- Check contrast, crop safety, load time, and 390px-wide mobile layout before treating an asset as done.
+- Keep existing save keys and progression logic independent of art assets; missing images should fall back gracefully.
