@@ -44,6 +44,7 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Make the Town Square keeper roles, local rumors, and route board aware of Greyfen instead of repeating Ashmere-only copy.
 - [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, and avoiding the Ashmere-only expedition from Greyfen.
 - [ ] Review all screens at desktop and 390px mobile widths; verify scene crops, icon centering, contrast, file size, and fallback behavior.
+- [ ] Generate a dedicated, cohesive town/service UI icon atlas (inn, market, forge, journal, map, work board, traveler, route). Current buttons use committed local item/portrait images instead of inline SVGs, but several are interim semantic matches until a dedicated icon family is available.
 - Keep UI labels as HTML, never baked into the art.
 - See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
 
