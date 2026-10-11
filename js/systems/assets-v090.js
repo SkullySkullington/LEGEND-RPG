@@ -1,11 +1,11 @@
-// LEGEND v0.20.4 - Stable local production asset manifest.
+// LEGEND v0.20.11 - Stable local production asset manifest.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
       main: 'assets/ui/logos/logo_legend_main_v1.png',
-      emblem: 'assets/ui/logos/logo_legend_emblem_v1.png',
-      emblemFull: 'assets/ui/logos/logo_legend_emblem_full_v1.png'
+      emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
+      emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
     title: {
       background: 'assets/generated/title/title-ashmere-road.webp'
@@ -38,7 +38,7 @@
     npcs: {
       mara: 'assets/npcs/ashmere/npc_mara_portrait_v1.jpg',
       brenn: 'assets/npcs/ashmere/npc_brenn_portrait_v1.jpg',
-      oric: 'assets/npcs/ashmere/npc_oric_portrait_v1.jpg',
+      oric: 'assets/npcs/ashmere/npc_oric_portrait_v2.svg',
       innkeeper: 'assets/npcs/vendors/npc_innkeeper_portrait_v1.jpg',
       blacksmith: 'assets/npcs/vendors/npc_blacksmith_portrait_v1.jpg',
       trader: 'assets/npcs/vendors/npc_trader_portrait_v1.jpg'

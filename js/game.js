@@ -1,12 +1,12 @@
-// LEGEND: Roads of Ashmere v0.20.10 - Cinematic title and game bootstrap
+// LEGEND: Roads of Ashmere v0.20.11 - Cinematic title and game bootstrap
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
   const TITLE_GATE_KEY = 'legend-roads-of-ashmere-title-gate-v09x';
   const AUDIO = {
-    ambience:'assets/audio/title/ashmere_ambience_loop.mp3',
-    hover:'assets/audio/ui/ui_hover_soft.ogg',
-    confirm:'assets/audio/ui/ui_confirm_gate.ogg'
+    ambience:'assets/audio/title/ashmere_ambience_loop.wav',
+    hover:'assets/audio/ui/ui_hover_soft.wav',
+    confirm:'assets/audio/ui/ui_confirm_gate.wav'
   };
   let titleAmbience = null;
 
@@ -58,7 +58,7 @@
   function portalHeader(profileData){
     return `<header class="portal-header">
       <div class="portal-brand">
-        <img src="assets/ui/logos/logo_legend_emblem_v1.png" alt="LEGEND emblem" onerror="this.style.display='none'">
+        <img src="${esc(window.LegendAssetsV090?.logo?.emblemFull || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND emblem" onerror="this.style.display='none'">
         <div><h1>LEGEND</h1><p>Roads of Ashmere</p><span>✧ Lantern Gate of Ashmere ✧</span></div>
       </div>
       <div class="portal-profile-card">
@@ -140,7 +140,7 @@
   }
 
   function portalFooter(){
-    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> v0.20.10</p></footer>`;
+    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> v0.20.11</p></footer>`;
   }
 
   function titleGate(){
@@ -188,6 +188,9 @@
       btn.addEventListener('pointerenter', () => playUi('hover'));
       btn.addEventListener('focus', () => playUi('hover'));
     });
+    const unlockAudio=()=>{ startAmbience(); document.removeEventListener('pointerdown',unlockAudio); document.removeEventListener('keydown',unlockAudio); };
+    document.addEventListener('pointerdown',unlockAudio);
+    document.addEventListener('keydown',unlockAudio);
   }
 
   function title(){
@@ -205,7 +208,7 @@
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
-            <div class="portal100-emblem-wrap"><img src="assets/ui/logos/logo_legend_emblem_v1.png" alt="" onerror="this.style.display='none'"><span>✦</span></div>
+            <div class="portal100-emblem-wrap"><img src="${esc(window.LegendAssetsV090?.logo?.emblem || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND lantern-road emblem" onerror="this.style.display='none'"></div>
             <div><span>ROADS OF ASHMERE</span><p>A world shaped by the road.</p></div>
           </div>
           <div class="portal100-header-actions">
@@ -230,7 +233,7 @@
             </div>
           </section>
         </main>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>v0.20.10 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>v0.20.11 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
@@ -286,7 +289,7 @@
       ['spacious','Spacious Layout','Adds breathing room for touch and mobile play.','space'],
       ['readableFont','Readable Font','Uses a simpler font treatment for long reading sessions.','font']
     ];
-    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND v0.20.10</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
+    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND v0.20.11</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
     document.getElementById('saveSettings').onclick = () => {
       const next = {...current};
       document.querySelectorAll('[data-setting]').forEach(input => next[input.dataset.setting] = input.checked);
@@ -299,7 +302,7 @@
   }
 
   window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account };
-  // v0.20.10: enter directly on the actual title menu. The former Ashmere Gate
+  // v0.20.11: enter directly on the actual title menu. The former Ashmere Gate
   // splash was a redundant extra screen before the title and required an extra click.
   const boot = () => title();
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

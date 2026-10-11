@@ -39,38 +39,27 @@
     return locations[key] || bg();
   };
   const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
-  const npc = id => A().npcs?.[id] || '';
+  const npc = id => id==='oric' ? 'assets/npcs/ashmere/npc_oric_portrait_v2.svg' : (A().npcs?.[id] || '');
   const weaponName = id => (D().weapons || []).find(w => w.id === id)?.name || id || 'Hands';
   const armorName = id => (D().armors || []).find(a => a.id === id)?.name || id || 'None';
 
-  const iconArt = k => {
-    const assets=A(), locations=assets.locations||{}, items=assets.items||{}, classes=assets.classes||{}, npcs=assets.npcs||{};
-    const imageFor = {
-      people:npcs.mara||classes[p()?.className],
-      inn:items.camp||npcs.innkeeper,
-      trader:items.roadToken||npcs.trader,
-      smith:items.shortSword||npcs.blacksmith,
-      road:items.roadToken||items.bow,
-      sheet:classes[p()?.className]||items.shortSword,
-      brenn:npcs.brenn||items.bellFragment,
-      archive:items.bellFragment||npcs.mara,
-      mara:npcs.mara||items.bellFragment,
-      oric:npcs.oric||items.shield,
-      work:items.camp||npcs.oric,
-      craft:items.roadHerb||items.potion,
-      profile:classes[p()?.className]||npcs.mara,
-      quest:items.bellFragment||items.roadToken,
-      route:items.roadToken||items.bow,
-      regions:items.roadToken,
-      settings:items.camp
-    };
-    return imageFor[k]||items.bellFragment||items.roadToken||locations.ashmereMain||'';
-  };
   const icon = (k, alt='') => {
-    const src=iconArt(k);
-    return `<span class="ash099-icon" aria-hidden="true">${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none'">`:''}</span>`;
+    const symbol = {"people":"people","inn":"inn","trader":"trader","smith":"smith","road":"road","sheet":"sheet","brenn":"ledger","archive":"archive","mara":"quill","oric":"captain","work":"work","craft":"craft","profile":"profile","quest":"quest","route":"route","regions":"regions","settings":"settings","gate":"gate","world":"world","notice":"notice","cloud":"cloud","account":"profile","feedback":"quest","delete":"quest","text":"ledger","bold":"sheet","contrast":"settings","motion":"road","space":"regions","font":"sheet","lock":"captain","slot":"regions","continue":"road","new":"work"}[k] || 'quest';
+    return `<span class="ash099-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><use href="assets/ui/icons/legend-ui-icons-v1.svg#icon-${symbol}"></use></svg></span>`;
   };
-  function shell(html){ root().innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`; }
+  const AUDIO_CUE = { hover:'assets/audio/ui/ui_hover_soft.wav', confirm:'assets/audio/ui/ui_confirm_gate.wav' };
+  let lastHoverCue = 0;
+  function playUiCue(kind){ try { const audio = new Audio(AUDIO_CUE[kind]); audio.volume = kind==='hover' ? 0.10 : 0.18; audio.play().catch(()=>{}); } catch {} }
+  function bindUiAudio(){
+    const host=root(); if(!host)return;
+    host.querySelectorAll('button, a.btn, a.portal-secondary-btn').forEach(el=>{
+      if(el.dataset.legendAudioBound)return;
+      el.dataset.legendAudioBound='1';
+      el.addEventListener('pointerenter',()=>{const now=Date.now();if(now-lastHoverCue>110){lastHoverCue=now;playUiCue('hover');}});
+      el.addEventListener('click',()=>playUiCue('confirm'));
+    });
+  }
+  function shell(html){ root().innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`; bindUiAudio(); }
   function stat(label, value){ return `<div class="ash099-stat"><strong>${esc(value)}</strong><span>${esc(label)}</span></div>`; }
   function hpPct(pl){ return Math.max(0, Math.min(100, Math.round((Number(pl.hp || 0) / Math.max(1, Number(pl.maxHp || 1))) * 100))); }
   function owned(pl, k){ return Number(pl.inventory?.[k] || 0); }
@@ -131,7 +120,7 @@
       townCard('inn','Ashmere Inn','Rest, recover, buy supplies, and hear what travelers are saying.','Rest & prepare','inn',g.view==='inn'),
       townCard('trader','Market','Buy essentials, sell road loot, and turn discoveries into gold.','Trade','trader',false),
       townCard('smith','Forge & Workshop','Upgrade weapons and armor, then use the crafting bench for road finds.','Gear & craft','smith',false),
-      townCard('work','Town Hall','Meet the town, take work, manage road proof, and track what Ashmere needs.','Jobs & people','work',g.view==='people'||g.view==='brenn'||g.view==='work'),
+      townCard('work','Work Board','Take paid jobs, test your timing, and earn gold plus useful supplies.','Browse jobs','work',g.view==='work'),
       townCard('road','Old Road Gate','Begin the expedition; find clues, face danger, and bring proof home.','Begin expedition','road',g.view==='road'),
       townCard('regions','Road Network','Unlock new regions with Road Tokens, then travel between places you know for gold.','Open map','regions',g.view==='regions')
     ].join('');
@@ -319,15 +308,16 @@
   function renderWorkBoard(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
     const jobs=jobsForCurrentRegion();
-    screen(head('Town Work',greyfen?'Bellkeeper’s Hall':'Town Hall',greyfen?'Dry peat, sort salvaged goods, and reset flood markers to keep the lowland crossings usable.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(jobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head(greyfen?'Local Work':'Ashmere Jobs',greyfen?'Bellkeeper’s Hall':'Work Board',greyfen?'Dry peat, sort salvaged goods, and reset flood markers to keep the lowland crossings usable.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(jobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-job-open]').forEach(b=>b.onclick=()=>renderJobActivity(b.dataset.jobOpen));
   }
   function renderJobActivity(id){
+    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
     const jobs=jobsForCurrentRegion();
     const j=jobs[id]||Object.values(jobs)[0];
     const zoneStart=34+Math.floor(Math.random()*16);
     const zoneWidth=18;
-    screen(head('Town Work',j.title,j.desc,locationInterior('archive'),'work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
+    screen(head(greyfen?'Local Work':'Work Board',j.title,j.desc,locationInterior('archive'),'work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
     const marker=document.getElementById('jobMarker');
     const strike=document.getElementById('jobStrike');
     const result=document.getElementById('jobResult');

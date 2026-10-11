@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"><title>LEGEND game interface icon library</title><defs><style>path,rect,circle,ellipse,polyline,polygon,line{fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}</style></defs>
+<symbol id="icon-people" viewBox="0 0 48 48"><circle cx="18" cy="16" r="6"/><path d="M6 39c1-8 5-12 12-12s11 4 12 12"/><circle cx="34" cy="18" r="4.5"/><path d="M31 29c6-1 10 3 11 9"/></symbol>
+<symbol id="icon-inn" viewBox="0 0 48 48"><path d="M7 39V12M7 25h34v14M13 25v-8h11a7 7 0 0 1 7 8"/><path d="M12 12h5M4 39h40M11 32h8"/></symbol>
+<symbol id="icon-trader" viewBox="0 0 48 48"><path d="M9 18h30l-3-9H12zM12 18v22h24V18"/><path d="M18 24h12M18 30h8"/><circle cx="24" cy="15" r="8"/><path d="M24 10v10M27 12h-4a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-4"/></symbol>
+<symbol id="icon-smith" viewBox="0 0 48 48"><path d="M7 17h21l5-5 7 7-6 6-5-4H7z"/><path d="M21 25l-9 13h23L26 25M11 42h27"/></symbol>
+<symbol id="icon-road" viewBox="0 0 48 48"><path d="M14 43c5-9 5-29 0-38M34 43c-5-9-5-29 0-38"/><path d="M23 10h2M22 20h4M22 30h4M21 40h6M5 14h8M35 33h8"/></symbol>
+<symbol id="icon-sheet" viewBox="0 0 48 48"><circle cx="24" cy="14" r="7"/><path d="M10 41c1-10 6-15 14-15s13 5 14 15M5 7h5M38 7h5M5 41h5M38 41h5"/></symbol>
+<symbol id="icon-ledger" viewBox="0 0 48 48"><path d="M9 7h28v34H9zM15 7v34"/><path d="M21 15h10M21 22h10M21 29h7M6 12h3M6 20h3M6 28h3M6 36h3"/></symbol>
+<symbol id="icon-archive" viewBox="0 0 48 48"><path d="M8 14h32v27H8zM5 7h38v7H5z"/><path d="M18 23h12M20 28h8M14 7V4h20v3"/></symbol>
+<symbol id="icon-quill" viewBox="0 0 48 48"><path d="M9 39C28 31 39 18 39 7 27 6 12 17 14 30c7-3 14-10 18-17M7 42l13-13M8 34l7 7M21 25l-1-9"/></symbol>
+<symbol id="icon-captain" viewBox="0 0 48 48"><path d="M24 5l16 6v11c0 10-6 17-16 21C14 39 8 32 8 22V11z"/><path d="M24 14l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></symbol>
+<symbol id="icon-work" viewBox="0 0 48 48"><path d="M12 7h24v34H12zM18 15h12M18 22h12M18 29h7M7 12v31h24"/></symbol>
+<symbol id="icon-craft" viewBox="0 0 48 48"><path d="M18 5h12M20 5v12L10 36a5 5 0 0 0 4 7h20a5 5 0 0 0 4-7L28 17V5M16 31h16M20 25h8"/><circle cx="23" cy="35" r="1"/></symbol>
+<symbol id="icon-profile" viewBox="0 0 48 48"><circle cx="24" cy="15" r="8"/><path d="M7 42c1-11 7-17 17-17s16 6 17 17M6 6h7M35 6h7"/></symbol>
+<symbol id="icon-quest" viewBox="0 0 48 48"><path d="M11 7h26v34H11zM17 15h14M17 22h14M17 29h8M8 11H5v31h25"/></symbol>
+<symbol id="icon-route" viewBox="0 0 48 48"><path d="M9 43V7M39 43V7M9 13h30M9 31h30M9 13l7-5M9 13l7 5M39 31l-7-5M39 31l-7 5"/><circle cx="24" cy="22" r="4"/></symbol>
+<symbol id="icon-regions" viewBox="0 0 48 48"><path d="M5 10l12-5 14 5 12-5v33l-12 5-14-5-12 5zM17 5v33M31 10v33"/><path d="M22 20l3-4 4 5-5 6z"/></symbol>
+<symbol id="icon-settings" viewBox="0 0 48 48"><circle cx="24" cy="24" r="8"/><path d="M24 4v6M24 38v6M4 24h6M38 24h6M10 10l5 5M33 33l5 5M38 10l-5 5M15 33l-5 5"/><circle cx="24" cy="24" r="16"/></symbol>
+</svg>

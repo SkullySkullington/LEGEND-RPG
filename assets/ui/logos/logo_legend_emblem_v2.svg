@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc"><title id="title">LEGEND lantern road emblem</title><desc id="desc">A brass lantern above a winding road within an Ashmere crest.</desc><defs>
+<radialGradient id="field" cx="50%" cy="35%" r="70%"><stop stop-color="#283a2c"/><stop offset="1" stop-color="#08110e"/></radialGradient>
+<linearGradient id="brass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0b5"/><stop offset=".42" stop-color="#c79f51"/><stop offset="1" stop-color="#725026"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff5bd"/><stop offset=".45" stop-color="#e8b75a"/><stop offset="1" stop-color="#7c8d63"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<circle cx="128" cy="128" r="119" fill="#080e0b" stroke="#765c32" stroke-width="4"/><circle cx="128" cy="128" r="108" fill="url(#field)" stroke="url(#brass)" stroke-width="2.5"/><circle cx="128" cy="128" r="96" fill="none" stroke="#b99a5e" stroke-opacity=".32" stroke-dasharray="2 8"/>
+<path d="M42 96Q58 62 82 49M174 49Q198 62 214 96M43 158Q54 199 84 215M172 215Q203 199 213 158" fill="none" stroke="url(#brass)" stroke-width="3" stroke-linecap="round"/>
+<path d="M112 44q16-12 32 0l-4 10h-24z" fill="url(#brass)"/><path d="M118 54V43q10-9 20 0v11" fill="none" stroke="#f2d68c" stroke-width="3"/>
+<path d="M100 68h56l-5 14v35l-8 11h-30l-8-11V82z" fill="#151f18" stroke="url(#brass)" stroke-width="4" stroke-linejoin="round"/><path d="M108 82h40v32l-6 9h-28l-6-9z" fill="url(#glass)" filter="url(#glow)"/>
+<path d="M120 117q-8-18 8-31 15 16 8 31-8 7-16 0z" fill="#fff7cd"/><path d="M128 91q-3 11 0 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<path d="M97 78h-8v43h8M159 78h8v43h-8M105 128h46" fill="none" stroke="url(#brass)" stroke-width="4" stroke-linecap="round"/>
+<path d="M118 139q-8 15-4 30t-6 25M138 139q8 15 4 30t6 25" fill="none" stroke="#d8b873" stroke-width="6" stroke-linecap="round"/><path d="M128 137h12l-2 55q-5 12-8 0z" fill="#fff0ad" fill-opacity=".82"/>
+<path d="M128 157c-10 15-25 25-44 31 14 13 28 20 44 24 16-4 30-11 44-24-19-6-34-16-44-31z" fill="#d7b46c" fill-opacity=".22" stroke="url(#brass)" stroke-width="2.5"/><path d="M113 188h30l-7 7h-16z" fill="url(#brass)"/><path d="M128 195v18M117 202l11 11 11-11" fill="none" stroke="#f4dfaa" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M67 124l8 4-8 4-8-4zM189 124l8 4-8 4-8-4z" fill="url(#brass)"/></svg>

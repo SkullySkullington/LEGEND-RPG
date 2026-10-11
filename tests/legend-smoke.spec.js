@@ -34,13 +34,20 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.10 browser regression tests', () => {
+test.describe('LEGEND v0.20.11 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.10/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.10');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.11/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.11');
   });
 
+  test('title emblem loads from the committed SVG artwork', async ({ page }) => {
+    await openTitle(page);
+    const emblem = page.locator('.portal100-emblem-wrap img');
+    await expect(emblem).toBeVisible();
+    await expect(emblem).toHaveAttribute('src', /logo_legend_emblem_v2\.svg/);
+    await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+  });
 
   test('game opens directly on the actual title menu without the redundant Ashmere Gate screen', async ({ page }) => {
     await page.goto('/');
@@ -296,8 +303,8 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
 
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
     await startFreshCharacter(page, 'JobQA');
-    await page.locator('.ash100-destinations').getByRole('button', { name: /Town Hall/i }).click();
-    await expect(page.getByRole('heading', { name: 'Town Hall' })).toBeVisible();
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
+    await expect(page.getByRole('heading', { name: 'Work Board' })).toBeVisible();
     await page.locator('[data-job-open="wood"]').click();
     await page.locator('#jobStrike').click();
     await expect(page.locator('#jobResult')).toBeVisible();
