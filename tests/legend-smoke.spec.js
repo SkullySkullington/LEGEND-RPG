@@ -34,11 +34,40 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.18.0 browser regression tests', () => {
+test.describe('LEGEND v0.20.0 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.18\.0/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.18.0');
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.0');
+  });
+
+
+  test('title screen has a single cinematic brand and no duplicate traveler card', async ({ page }) => {
+    await openTitle(page);
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'LEGEND', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Roads of Ashmere/i })).toBeVisible();
+    await expect(page.locator('.portal100-traveler')).toHaveCount(0);
+    await expect(page.locator('#newPrimary')).toBeVisible();
+    await expect(page.locator('#new')).toHaveCount(0);
+  });
+
+  test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=5;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+    });
+    await expect(page.locator('.ash100-town')).toContainText('Greyfen');
+    await expect(page.locator('.ash100-destinations')).toContainText('Reedlight Inn');
+    await expect(page.locator('.ash100-destinations')).toContainText('Marsh Market');
+    await expect(page.getByRole('navigation', { name: 'Greyfen town navigation' })).toBeVisible();
+    await expect(page.locator('.ash100-bottom-panel')).toHaveCount(0);
   });
 
   test('blank traveler name shows inline validation without leaving creation', async ({ page }) => {
