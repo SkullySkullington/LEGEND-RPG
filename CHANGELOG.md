@@ -1,3 +1,9 @@
+## v0.19.2 — Journeys That Arrive
+- Made each Travel On action narrate both the stretch left behind and the destination reached, with distinct beats for the ditch, camp, root crossing, shelter, and Greyfen threshold.
+- Reset any open discovery when travel begins so a clue from the previous stretch cannot linger into the next scene.
+- Added a brief scene-arrival transition and made the persistent scene update its image element during redraws so the entrance motion can play again; respects reduced-motion preferences.
+- Added a Playwright assertion that a successful road transition names the destination as well as the route consequence.
+
 ## v0.18.0 — A Road That Remembers Your Choices
 - Began a scene-led expedition UI pass: removed persistent resource tiles and redundant location cards, reduced the scene to one contextual discovery hotspot, and made discoveries open as optional story beats instead of always-visible boxes.
 - Simplified the travel dock to two clear choices: search the roadside or travel onward; the discovery beat can be investigated or left alone.
