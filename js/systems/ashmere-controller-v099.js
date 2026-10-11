@@ -9,6 +9,17 @@
   const p = () => RT().loadPlayer?.() || null;
   const save = pl => RT().savePlayer?.(pl);
   const img = (path, alt = '') => path ? `<img src="${esc(path)}" alt="${esc(alt)}" onerror="if(this.src.startsWith('https://')){this.onerror=null;this.src='assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg'}else{this.style.display='none'}">` : '';
+  const itemIcon = key => {
+    const items=A().items||{};
+    const aliases={
+      food:'food',ration:'rationBundle',rationBundle:'rationBundle',
+      potion:'potion',roadToken:'roadToken',bellFragment:'bellFragment',
+      camp:'camp',campSupply:'camp',roadHerb:'roadHerb',
+      woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',
+      bow:'bow',huntingBow:'bow',shield:'shield'
+    };
+    return items[aliases[key]||key]||'';
+  };
   const itemName = k => D().itemNames?.[k] || ({
     food:'Rations', potion:'Healing Potion', camp:'Camp Supplies', roadToken:'Road Token',
     woodScrap:'Wood Scrap', clothScrap:'Cloth Scrap', roadHerb:'Road Herb', wolfFang:'Wolf Fang',
@@ -316,7 +327,15 @@
     save(pl);renderSmith();note('Purchased and equipped '+item.name+'.');
   }
 
-  function renderSheet(){const pl=p();const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>`<div class="ash099-stat"><strong>${esc(itemName(k))}</strong><span>x${Number(v)}</span></div>`).join('')||'<p>No notable items.</p>';screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),`<div class="ash099-stats">${stat('Level',Number(pl.level||1))}${stat('XP',`${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-stats">${inv}</div>`);}
+  function renderSheet(){
+    const pl=p();
+    const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>{
+      const art=itemIcon(k);
+      return `<div class="ash099-inventory-item">${art?`<img src="${esc(art)}" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'">`:'<span class="ash099-item-placeholder" aria-hidden="true">✦</span>'}<div class="ash099-inventory-item-copy"><strong>${esc(itemName(k))}</strong><small>In your pack</small></div><b>×${Number(v)}</b></div>`;
+    }).join('')||'<p class="ash099-inventory-empty">Your pack is light. The road may change that.</p>';
+    screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),
+      `<div class="ash099-stats">${stat('Level',Number(pl.level||1))}${stat('XP',`${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-inventory-grid">${inv}</div>`);
+  }
   function renderArchive(){const pl=p();screen(head('Records',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Boundary Archive':'Archive Hall',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'The bell keeper’s ledgers track the old boundary stones and drowned roads.':'Mara keeps records, maps, and town memory.',locationInterior('archive'),'archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();if(window.LegendRoadControllerV087?.start)return window.LegendRoadControllerV087.start();screen(head('Town Gate','Old Road','The road controller did not load.',roadBg(),'road'),'<p>Try a hard refresh.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
