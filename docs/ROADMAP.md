@@ -35,6 +35,10 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Replace temporary preview URLs in `js/systems/assets-v090.js` with committed local file paths.
 - [x] Slice the nine-cell item sheet into nine individual starter item icons and commit them beside the source sheet.
 - [x] Add generated class portraits to character creation and generated enemy portraits to combat.
+- [x] Simplify Ashmere's hub hierarchy and remove the duplicate "Your Camp" panel that repeated bottom-navigation links.
+- [x] Give Greyfen its own cold-water palette and use the committed Greyfen scene as its hub backdrop.
+- [x] Make the Town Square keeper roles, local rumors, and route board aware of Greyfen instead of repeating Ashmere-only copy.
+- [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, and avoiding the Ashmere-only expedition from Greyfen.
 - [ ] Review all screens at desktop and 390px mobile widths; verify scene crops, icon centering, contrast, file size, and fallback behavior.
 - Keep UI labels as HTML, never baked into the art.
 - See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
