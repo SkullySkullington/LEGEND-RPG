@@ -79,3 +79,13 @@
  .title-v100 .v120-title-backdrop,.title-v100 .v120-title-hero{animation:none!important}
  .title-v100 .v120-primary,.title-v100 .v120-primary:before{transition:none!important}
 }
+
+/* Scene curtain: covers the previous view before the next view is revealed. */
+#legend-scene-curtain{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#020403;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility .28s step-end;color:#e9cf8d;font:700 .72rem Georgia,serif;letter-spacing:.34em;text-transform:uppercase}
+#legend-scene-curtain span{opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease;text-shadow:0 0 24px #d8a94b66}
+#legend-scene-curtain.is-covering{opacity:1;visibility:visible;transition:opacity .28s ease;pointer-events:all}
+#legend-scene-curtain.is-covering span{opacity:1;transform:translateY(0);transition-delay:.1s}
+#legend-scene-curtain.is-revealing{opacity:0;visibility:visible;transition:opacity .38s ease,visibility 0s}
+.legend-scene-arriving{opacity:0;transform:translateY(7px);filter:brightness(.7);transition:opacity .42s ease,transform .42s ease,filter .42s ease}
+.legend-scene-arriving.legend-scene-arrived{opacity:1;transform:translateY(0);filter:brightness(1)}
+@media(prefers-reduced-motion:reduce){#legend-scene-curtain{transition:none!important}#legend-scene-curtain span{transition:none!important}.legend-scene-arriving{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
