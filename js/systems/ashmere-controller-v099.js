@@ -242,7 +242,7 @@
       }
     }else return renderDryCrossing();
     save(pl);
-    screen(head('Contract Result',heading,detail,locationInterior('archive'),'route'),
+    screen(head('Contract Result',heading,'Your choice has been recorded.',locationInterior('archive'),'route'),
       '<div class="ash099-lines"><p>'+esc(detail)+'</p><p>'+esc(pl.flags.greyfenDryCrossingComplete?'The marker’s location is now recorded in the Boundary Archive.':'The contract remains open until the marker is recovered.')+'</p></div>');
   }
 
