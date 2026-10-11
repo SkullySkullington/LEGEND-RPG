@@ -84,19 +84,17 @@
     const tokenCount=Number(pl.inventory?.roadToken||0);
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
     const townCard=(view,title,desc,cta,ic,featured=false)=>`<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${icon(ic)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
-    const quick=(view,label,ic)=>`<button class="ash100-quick" data-ash-view="${esc(view)}">${icon(ic)}<span>${esc(label)}</span></button>`;
     shell(`
       <section class="ash100-town">
-        <div class="ash100-hero">${img(bg(),'Ashmere')}<div class="ash100-hero-copy"><div class="ash099-kicker">LEGEND • Roads of Ashmere</div><h1>Ashmere</h1><p>A living base camp at the edge of the Old Road. Prepare here, make choices here, and always know how to get back home.</p></div></div>
+        <div class="ash100-hero">${img(bg(),'Ashmere town at dusk')}<div class="ash100-hero-copy"><div class="ash099-kicker">ROADS OF ASHMERE</div><h1>Ashmere</h1><p>Warm lights. Open roads. A place to return to.</p></div></div>
         <div class="ash100-route-dock">${currentRouteCard(g)}</div>
-        <section class="ash100-status">
-          <div><span>Traveler</span><strong>${esc(pl.username||'Traveler')}</strong><small>${esc(pl.className||'Wanderer')}</small></div>
-          <div><span>Health</span><strong>${Number(pl.hp||0)}/${Number(pl.maxHp||0)}</strong><i><b style="width:${health}%"></b></i></div>
-          <div><span>Road Tokens</span><strong>${tokenCount}</strong><small>${tokenCount>=5?'Greyfen can be opened':'Earned on the road'}</small></div>
-          <div><span>Location</span><strong>${esc(pl.currentRegion||'Ashmere')}</strong><small>${gold(pl.gold)} • Day ${Number(pl.day||1)}</small></div>
+        <section class="ash100-status" aria-label="Traveler status">
+          <div class="ash100-status-traveler"><span>${esc(pl.username||'Traveler')}</span><small>${esc(pl.className||'Wanderer')} · Day ${Number(pl.day||1)}</small></div>
+          <div class="ash100-status-health"><span>Health</span><strong>${Number(pl.hp||0)} / ${Number(pl.maxHp||0)}</strong><i><b style="width:${health}%"></b></i></div>
+          <div class="ash100-status-resources"><span>${tokenCount} Road Tokens</span><small>${gold(pl.gold)} · ${esc(pl.currentRegion||'Ashmere')}${tokenCount>=5?' · Greyfen open':''}</small></div>
         </section>
-        <section class="ash100-panel">
-          <div class="ash100-section-head"><div><div class="ash099-kicker">Town Map</div><h2>Where do you want to go?</h2></div><span>Five places. One clear loop.</span></div>
+        <section class="ash100-destination-section">
+          <div class="ash100-section-head"><div><div class="ash099-kicker">ASHMERE</div><h2>Where next?</h2></div></div>
           <div class="ash100-destinations">
             ${townCard('inn','Ashmere Inn','Rest, recover, buy supplies, and hear what travelers are saying.','Rest & prepare','inn',g.view==='inn')}
             ${townCard('trader','Market','Buy essentials, sell road loot, and turn discoveries into gold.','Trade','trader',false)}
@@ -105,10 +103,6 @@
             ${townCard('road','Old Road Gate','Start an expedition with a five-stage route, pressure, choices, and a clear return home.','Begin expedition','road',g.view==='road')}
             ${townCard('regions','Road Network','Unlock new regions with Road Tokens, then travel between places you know for gold.','Open map','regions',g.view==='regions')}
           </div>
-        </section>
-        <section class="ash100-panel ash100-bottom-panel">
-          <div class="ash100-section-head"><div><div class="ash099-kicker">Traveler</div><h2>Your Camp</h2></div><span>${esc(pl.personalityLabel||'Traveler')} • ${esc(pl.origin||'Unknown origin')}</span></div>
-          <div class="ash100-quick-row">${quick('sheet','Character Sheet','sheet')}${quick('archive','Journal','archive')}${quick('profile','Profile','profile')}${quick('people','Town Square','people')}</div>
         </section>
         ${terminalNav()}
       </section>`);
