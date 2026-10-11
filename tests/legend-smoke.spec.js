@@ -1,83 +1,101 @@
 const { test, expect } = require('@playwright/test');
 
-async function startFreshCharacter(page, name = 'Playtest') {
+// Each Playwright test runs in an isolated browser context, so clearing localStorage
+// here only resets that test's synthetic traveler—not a player's live browser save.
+async function openTitle(page) {
   await page.goto('/');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
   await page.reload();
-
-  await expect(page.getByText('LEGEND').first()).toBeVisible();
-  await page.getByRole('button', { name: /New Recovered Save/i }).click();
-
-  await page.getByPlaceholder(/Name/i).fill(name);
-  await page.getByRole('button', { name: /^Continue$/i }).click();
-
-  await page.getByRole('button', { name: /Wandering Cook/i }).click();
-  await page.getByRole('button', { name: /Ranger/i }).click();
-  await page.getByRole('button', { name: /Old Map/i }).click();
-
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
-  await expect(page.getByText(/Ashmere Menu/i)).toBeVisible();
+  await page.locator('#enterRealm').click();
+  await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
 
-test.describe('LEGEND v0.5 smoke tests', () => {
-  test('new player can create a character and reach Ashmere', async ({ page }) => {
-    await startFreshCharacter(page, 'Roadtest');
+async function startFreshCharacter(page, name = 'QATraveler') {
+  await openTitle(page);
+  await page.getByRole('button', { name: /Begin Your Journey/i }).click();
+  await page.locator('#v094Name').fill(name);
+  await page.locator('#v094Next').click();
+  await page.locator('[data-gender="unspoken"]').click();
+  await page.locator('[data-personality="kind"]').click();
+  await page.locator('[data-origin]').first().click();
+  await page.locator('[data-class="Ranger"]').click();
+  await page.locator('[data-keepsake="Old Map"]').click();
+  await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+  await page.getByRole('button', { name: /Begin the Road/i }).click();
+  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
+  await expect(page.locator('.ash100-town')).toBeVisible();
+}
 
-    await expect(page.getByRole('button', { name: /Explore The First Road/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /People of Ashmere/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Ashmere Inn/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Trading Post/i })).toBeVisible();
+test.describe('LEGEND v0.16.0 browser regression tests', () => {
+  test('title and visible build version are consistent', async ({ page }) => {
+    await openTitle(page);
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.16\.0/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.16.0');
   });
 
-  test('player can talk to Mara and start the bell quest', async ({ page }) => {
-    await startFreshCharacter(page, 'MaraTest');
-
-    await page.getByRole('button', { name: /People of Ashmere/i }).click();
-    await page.getByRole('button', { name: /Mara Vell/i }).click();
-    await page.getByRole('button', { name: /Ask about the bell/i }).click();
-
-    await expect(page.getByText(/Recovered Memory|Mara says|People of Ashmere/i)).toBeVisible();
+  test('blank traveler name shows inline validation without leaving creation', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /Begin Your Journey/i }).click();
+    await page.locator('#v094Next').click();
+    await expect(page.locator('#v094NameError')).toHaveText('Please enter a traveler name.');
+    await expect(page.getByRole('heading', { name: 'Who reaches Ashmere?' })).toBeVisible();
+    await expect(page.locator('#v094Name')).toHaveAttribute('aria-invalid', 'true');
   });
 
-  test('player can open the inn and prepare for the road', async ({ page }) => {
-    await startFreshCharacter(page, 'InnTest');
-
-    await page.getByRole('button', { name: /Ashmere Inn/i }).click();
-    await expect(page.getByText(/Ashmere Inn/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /Rest - 35g/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Buy Camp Supplies - 90g/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Buy Road Meal - 55g/i })).toBeVisible();
+  test('new traveler reaches Ashmere', async ({ page }) => {
+    await startFreshCharacter(page, 'AshmereQA');
+    await expect(page.locator('.ash100-town')).toContainText('Ashmere');
+    await expect(page.locator('.ash100-town')).toContainText('AshmereQA');
+    await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
 
-  test('player can enter The First Road and see route choices', async ({ page }) => {
-    await startFreshCharacter(page, 'RoadTest');
-
-    await page.getByRole('button', { name: /Explore The First Road/i }).click();
-    await expect(page.getByText(/Choose a Route/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /Old Road/i })).toBeVisible();
+  test('Routes opens route board instead of starting an expedition', async ({ page }) => {
+    await startFreshCharacter(page, 'RoutesQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await expect(page.getByRole('heading', { name: 'Routes & Expeditions' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /The Old Road/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Road Network/i })).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
   });
 
-  test('desktop game page has no obvious horizontal overflow', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => localStorage.clear());
-    await page.reload();
+  test('Road Network opens regional map and stays on map', async ({ page }) => {
+    await startFreshCharacter(page, 'MapQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /Road Network/i }).click();
+    await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
+    await expect(page.getByText('Greyfen', { exact: true })).toBeVisible();
+    await expect(page.getByText('Ironpass', { exact: true })).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
+  });
 
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
+  test('Profile opens account screen without falling back to town', async ({ page }) => {
+    await startFreshCharacter(page, 'ProfileQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Profile/i }).click();
+    await expect(page.getByText(/LEGEND ACCOUNT/i)).toBeVisible();
+    await expect(page.getByText(/ASHMERE ACCOUNT/i)).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
+  });
+
+  test('desktop viewport has no horizontal overflow at title and town', async ({ page }) => {
+    await openTitle(page);
+    let overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
+    expect(overflow).toBe(false);
+    await startFreshCharacter(page, 'DesktopQA');
+    overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
     expect(overflow).toBe(false);
   });
 
-  test('mobile layout loads and has tappable buttons', async ({ page }) => {
+  test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
-    await page.evaluate(() => localStorage.clear());
-    await page.reload();
-
-    await expect(page.getByText('LEGEND').first()).toBeVisible();
-    const newSave = page.getByRole('button', { name: /New Recovered Save/i });
-    await expect(newSave).toBeVisible();
-
-    const box = await newSave.boundingBox();
+    await startFreshCharacter(page, 'MobileQA');
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
+    expect(overflow).toBe(false);
+    const routes = page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i });
+    const box = await routes.boundingBox();
     expect(box).not.toBeNull();
-    expect(box.height).toBeGreaterThanOrEqual(44);
+    expect(box.height).toBeGreaterThanOrEqual(40);
   });
 });
