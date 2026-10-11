@@ -1,4 +1,4 @@
-// LEGEND: Roads of Ashmere v0.20.9 - Cinematic title and game bootstrap
+// LEGEND: Roads of Ashmere v0.20.10 - Cinematic title and game bootstrap
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -105,7 +105,8 @@
     const name = player?.username || 'No Traveler Chosen';
     const day = player?.day || 1;
     const tokens = Number(player?.inventory?.roadToken || 0);
-    const town = player?.town || 'Ashmere';
+    const activeRegion=String(player?.currentRegion||'Ashmere');
+    const town=['Ashmere','Greyfen'].includes(activeRegion)?activeRegion:'Ashmere';
     const trust = Number(player?.townTrust?.Ashmere || 0);
     const status = player ? `${esc(cls)} last seen in ${esc(town)}. The Old Road still knows your footsteps.` : 'Choose a name and step through the lantern gate for the first time.';
     return `<main class="portal-panel portal-roster-panel"><h2>Choose Your Traveler</h2>
@@ -139,7 +140,7 @@
   }
 
   function portalFooter(){
-    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> v0.20.9</p></footer>`;
+    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> v0.20.10</p></footer>`;
   }
 
   function titleGate(){
@@ -224,17 +225,17 @@
               <div><small>${player ? 'CURRENT TRAVELER' : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
             </div>
             <div class="v120-title-actions">
-              ${player ? '<button class="v120-primary" id="continue"><span>Continue Journey</span><small>Return to Ashmere</small><i>→</i></button>' : '<button class="v120-primary" id="newPrimary"><span>Begin Your Journey</span><small>Create your traveler</small><i>→</i></button>'}
+              ${player ? `<button class="v120-primary" id="continue"><span>Continue Journey</span><small>Return to ${esc(town)}</small><i>→</i></button>` : '<button class="v120-primary" id="newPrimary"><span>Begin Your Journey</span><small>Create your traveler</small><i>→</i></button>'}
               ${player ? '<button class="v120-secondary" id="new" type="button">New Traveler</button>' : ''}
             </div>
           </section>
         </main>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>v0.20.9 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>v0.20.10 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
     const cont = document.getElementById('continue');
-    if(cont) cont.onclick = () => titleTransition('Opening Ashmere Gate...', continueGame);
+    if(cont) cont.onclick = () => titleTransition('Returning to '+town+'...', continueGame);
     const newPrimary = document.getElementById('newPrimary');
     if(newPrimary) newPrimary.onclick = () => titleTransition('Preparing New Traveler...', newTraveler);
     const newButton = document.getElementById('new');
@@ -246,7 +247,17 @@
   function continueGame(){
     const player = loadPlayer();
     if(!player) return title();
-    player.town = 'Ashmere';
+    const activeRegion=String(player.currentRegion||'Ashmere');
+    if(['Ashmere','Greyfen'].includes(activeRegion)){
+      player.town=activeRegion;
+    }else{
+      // A save may reference a mapped region that is not playable yet. Keep it safe.
+      player.currentRegion='Ashmere';
+      player.town='Ashmere';
+      player.memories=Array.isArray(player.memories)?player.memories:[];
+      const note='You returned to Ashmere while the next region is still being built.';
+      if(!player.memories.includes(note))player.memories.push(note);
+    }
     S().savePlayer?.(player);
     if(window.LegendAshmereV099?.renderAshmere) return window.LegendAshmereV099.renderAshmere();
     root().innerHTML = `<div class="shell"><section class="panel"><h2>Ashmere is loading...</h2><p>Try a hard refresh if this screen does not change.</p><div class="actions"><button class="btn primary" id="backTitle">Back to Title</button></div></section></div>`;
@@ -275,7 +286,7 @@
       ['spacious','Spacious Layout','Adds breathing room for touch and mobile play.','space'],
       ['readableFont','Readable Font','Uses a simpler font treatment for long reading sessions.','font']
     ];
-    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND v0.20.9</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
+    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND v0.20.10</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
     document.getElementById('saveSettings').onclick = () => {
       const next = {...current};
       document.querySelectorAll('[data-setting]').forEach(input => next[input.dataset.setting] = input.checked);
@@ -288,7 +299,7 @@
   }
 
   window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account };
-  // v0.20.9: enter directly on the actual title menu. The former Ashmere Gate
+  // v0.20.10: enter directly on the actual title menu. The former Ashmere Gate
   // splash was a redundant extra screen before the title and required an extra click.
   const boot = () => title();
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

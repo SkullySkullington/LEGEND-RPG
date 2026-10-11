@@ -177,7 +177,7 @@
     }
     return renderAshmere();
   }
-  function back(extra = ''){ return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">Back to Ashmere</button></div>`; }
+  function back(extra = ''){ const region=String(p()?.currentRegion||'Ashmere'); const label=region==='Greyfen'?'Back to Greyfen':'Back to Ashmere'; return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">${label}</button></div>`; }
   function head(k,t,d,im='',fallbackIcon='quest'){ return `<div class="ash099-head ${im ? 'has-art' : 'no-art'}">${im ? img(im,t) : `<div class="ash099-head-icon">${icon(fallbackIcon)}</div>`}<div><div class="ash099-kicker">${esc(k)}</div><h1>${esc(t)}</h1><p>${esc(d)}</p></div></div>`; }
   function screen(h,b,extra=''){ shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`); document.getElementById('ashBack').onclick = renderAshmere; bind(); }
 

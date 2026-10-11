@@ -34,10 +34,10 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.9 browser regression tests', () => {
+test.describe('LEGEND v0.20.10 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.9/);
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.10/);
     await expect(page.locator('.portal-footer')).toContainText('v0.20.4');
   });
 
@@ -111,6 +111,23 @@ test.describe('LEGEND v0.20.9 browser regression tests', () => {
     await expect(page.locator('.ash099-screen')).toContainText('cannot be claimed again');
   });
 
+  test('Continue Journey returns to the saved playable region', async ({ page }) => {
+    await startFreshCharacter(page, 'RegionResumeQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      rt.savePlayer(pl);
+      window.LegendGameBootstrap.title();
+    });
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.locator('#continue')).toContainText('Return to Greyfen');
+    await page.locator('#continue').click();
+    await expect(page.locator('.ash100-town-greyfen')).toBeVisible();
+    const region=await page.evaluate(() => window.LegendRuntimeV080.loadPlayer().currentRegion);
+    expect(region).toBe('Greyfen');
+  });
+
   test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenWorkQA');
     await page.evaluate(() => {
@@ -123,6 +140,7 @@ test.describe('LEGEND v0.20.9 browser regression tests', () => {
       window.LegendAshmereV099.renderAshmere();
     });
     await page.locator('.ash100-destination[data-ash-view="work"]').click();
+    await expect(page.locator('#ashBack')).toHaveText('Back to Greyfen');
     await expect(page.locator('[data-job-open="peat"]')).toContainText('Dry Peat Bricks');
     await page.locator('[data-job-open="peat"]').click();
     await expect(page.locator('.ash099-job-meta')).toContainText('Dry Peat Brick');

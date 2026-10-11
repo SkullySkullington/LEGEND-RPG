@@ -1,7 +1,7 @@
-// LEGEND v0.20.9 - cinematic title, two-town hub, and production art previews
+// LEGEND v0.20.10 - cinematic title, two-town hub, and production art previews
 // Keeps existing saves compatible while adding a clear level-up loop.
 (() => {
   if (!window.LEGEND_DATA) return;
-  window.LEGEND_DATA.VERSION = 'v0.20.9';
+  window.LEGEND_DATA.VERSION = 'v0.20.10';
   window.LEGEND_DATA.TITLE = 'LEGEND: Roads of Ashmere';
 })();
