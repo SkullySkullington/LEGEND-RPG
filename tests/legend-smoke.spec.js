@@ -372,6 +372,9 @@ test.describe('LEGEND v0.20.12 browser regression tests', () => {
     await startFreshCharacter(page, 'ForkQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
     await page.getByRole('button', { name: /The Old Road/i }).click();
+    const expeditionHeading = page.locator('.exp100-scene-live + .exp100-head');
+    await expect(expeditionHeading).toBeVisible();
+    await expect.poll(() => expeditionHeading.evaluate(el => getComputedStyle(el).marginTop)).toBe('0px');
     await expect(page.locator('#routeRidge')).toBeVisible();
     await expect(page.locator('#routeReeds')).toBeVisible();
     await expect(page.locator('#routeRidge')).toContainText(/Safer/i);
