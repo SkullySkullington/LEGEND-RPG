@@ -678,3 +678,10 @@
  .v120-title-footer{font-size:.49rem;letter-spacing:.1em}
 }
 @media(prefers-reduced-motion:reduce){.v120-title .title-embers i,.v120-title .title-fog i{animation:none!important}.v120-primary,.v120-secondary{transition:none}}
+
+/* v0.20.1 — generated landscape layer above the legacy scene, below all UI */
+.v120-title{background:#080c09!important}
+.v120-title-backdrop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 52%;z-index:0;filter:saturate(.84) contrast(1.04);display:block}
+.v120-title:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,rgba(3,7,5,.56),rgba(3,7,5,.24) 50%,rgba(3,7,5,.14)),linear-gradient(0deg,rgba(3,7,5,.78),transparent 56%,rgba(3,7,5,.2))}
+.v120-title .title-atmosphere{z-index:3}
+.v120-title .portal100-header,.v120-title .v120-title-main,.v120-title .portal100-footer{z-index:4}
