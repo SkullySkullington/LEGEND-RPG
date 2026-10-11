@@ -38,7 +38,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.10/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.4');
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.10');
   });
 
 
@@ -68,6 +68,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       pl.inventory=pl.inventory||{};
       pl.inventory.roadToken=5;
       rt.savePlayer(pl);
@@ -86,6 +87,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       pl.inventory=pl.inventory||{};
       pl.inventory.roadToken=5;
       rt.savePlayer(pl);
@@ -117,6 +119,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       rt.savePlayer(pl);
       window.LegendGameBootstrap.title();
     });
@@ -134,6 +137,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       pl.inventory=pl.inventory||{};
       pl.inventory.roadToken=5;
       rt.savePlayer(pl);
@@ -155,6 +159,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       pl.inventory=pl.inventory||{};
       pl.inventory.roadToken=5;
       rt.savePlayer(pl);
@@ -175,6 +180,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
       pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
       pl.inventory=pl.inventory||{};
       pl.inventory.roadToken=5;
       rt.savePlayer(pl);
@@ -291,7 +297,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
     await startFreshCharacter(page, 'JobQA');
     await page.locator('.ash100-destinations').getByRole('button', { name: /Town Hall/i }).click();
-    await expect(page.getByRole('heading', { name: 'Work Board' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Town Hall' })).toBeVisible();
     await page.locator('[data-job-open="wood"]').click();
     await page.locator('#jobStrike').click();
     await expect(page.locator('#jobResult')).toBeVisible();
@@ -350,7 +356,7 @@ test.describe('LEGEND v0.20.10 browser regression tests', () => {
     await page.locator('#routeReeds').click();
     await expect(page.locator('.exp100-route-choice')).toHaveCount(0);
     await expect(page.locator('.exp100-poi-done')).toContainText('Reed Cut');
-    await expect(page.locator('.exp100-head')).toContainText(/Gain 1 Bell Fragment/i);
+    await expect(page.locator('.exp100-head')).toContainText(/\+1 Bell Fragment/i);
     await expect(page.locator('#routeReeds')).toHaveCount(0);
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
