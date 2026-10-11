@@ -231,7 +231,7 @@
             </div>
           </section>
         </main>
-        <footer class="portal100-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
