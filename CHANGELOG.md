@@ -1,10 +1,10 @@
 ## v0.17.0 — A Friendlier Beginning & Living Road Combat
-- Rebuilt traveler creation as a guided seven-step flow with plain-language prompts, visible progress, accessible selected states, and easier backtracking while preserving the existing save key and character choices.
+- Rebuilt traveler creation as a guided seven-step story flow with plain-language prompts, visible progress, atmospheric field notes, deliberate single-choice selection, persistent choices when going Back, and a final story review while preserving the existing save key and character choices.
 - Made class techniques meaningfully different in turn-based combat: Ranger Trap Shot weakens the next enemy strike, Mage Rune Bolt disrupts a heavy wind-up, Warrior Cleave hits harder, Thief Swipe steals a little gold, Skiller fieldcraft lowers road pressure, and Adventurer Lucky Strike restores a little health.
 - Made enemy intent more actionable: heavy attacks reward Guard, guard-breaking attacks partially bypass armor, and Heavy Strike deals more damage but leaves the traveler exposed.
 - Character creation bonuses now apply correctly in road checks and combat, including the current v0.9.4 creation format.
 - Expedition narration responds to rising Road Pressure, adding warning beats before an encounter.
-- Added browser regression coverage for selection state and the Ranger encounter UI.
+- Added browser regression coverage for empty-choice validation, visible selection, Back/Next persistence, and the Ranger encounter UI.
 
 ## v0.16.0 — Experience & Level Progression
 - Added persistent XP and automatic level-ups without changing the existing save key or requiring save migration.
