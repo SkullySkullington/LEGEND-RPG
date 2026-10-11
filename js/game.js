@@ -202,7 +202,7 @@
     const tokens = Number(player?.inventory?.roadToken || 0);
     root().innerHTML = `
       <div class="title-wrap title-v100 portal-shell portal-v100 v120-title">
-        <img class="v120-title-backdrop" src="${esc(window.LegendAssetsV090?.productionPreview?.titleBackground || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
+        <img class="v120-title-backdrop" src="${esc(window.LegendAssetsV090?.title?.background || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
