@@ -26,9 +26,9 @@ The earlier skill-check philosophy remains useful under the hood, but the player
 
 ## Current Build
 
-### v0.12.0 — Road Sub-areas & Waystations
+### v0.17.0 — A Friendlier Beginning & Living Road Combat
 
-The current development pass is focused on making the first-town loop feel like a complete game rather than a collection of screens.
+The current development pass is focused on a more immersive traveler origin, readable tactical battles, and expeditions that feel like journeys rather than menus.
 
 ### Ashmere
 
@@ -40,7 +40,7 @@ Ashmere is organized around five clear destinations:
 - **Town Hall** — people, jobs, records, and town progression
 - **Old Road Gate** — begin an expedition
 
-The traveler panel, journal, character sheet, and profile remain available without forcing the player through the title screen.
+Character creation now uses a guided seven-step story flow with persistent selections, contextual field notes, and a clear review before entering the world. The traveler panel, journal, character sheet, and profile remain available without forcing the player through the title screen.
 
 ### Old Road
 
@@ -50,6 +50,8 @@ The new expedition layer introduces:
 - Road Pressure
 - Meaningful travel choices
 - Discoveries and roadside resources
+- Telegraph-based turn combat with distinct class techniques
+- Road Pressure narration that warns when danger is building
 - Combat as part of the expedition
 - Clear fall-back and return options
 - Rewards that feed the Ashmere progression loop
