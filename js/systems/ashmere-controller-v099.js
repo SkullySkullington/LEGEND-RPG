@@ -8,7 +8,7 @@
   const esc = s => String(s == null ? '' : s).replace(/[&<>'"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[c]));
   const p = () => RT().loadPlayer?.() || null;
   const save = pl => RT().savePlayer?.(pl);
-  const img = (path, alt = '') => path ? `<img src="${esc(path)}" alt="${esc(alt)}" onerror="this.style.display='none'">` : '';
+  const img = (path, alt = '') => path ? `<img src="${esc(path)}" alt="${esc(alt)}" onerror="if(this.src.startsWith('https://')){this.onerror=null;this.src='assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg'}else{this.style.display='none'}">` : '';
   const itemName = k => D().itemNames?.[k] || ({
     food:'Rations', potion:'Healing Potion', camp:'Camp Supplies', roadToken:'Road Token',
     woodScrap:'Wood Scrap', clothScrap:'Cloth Scrap', roadHerb:'Road Herb', wolfFang:'Wolf Fang',
@@ -19,9 +19,14 @@
   }[k] || k);
   const gold = n => `${Number(n || 0)}g`;
   const bg = () => {
-    const pl=p(), locations=A().locations||{};
-    if(String(pl?.currentRegion||'Ashmere')==='Greyfen'&&locations.greyfenMain) return locations.greyfenMain;
-    return locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+    const pl=p(), locations=A().locations||{}, preview=A().productionPreview?.locations||{};
+    if(String(pl?.currentRegion||'Ashmere')==='Greyfen') return preview.greyfenTown || locations.greyfenMain || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+    return preview.ashmereTown || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+  };
+  const locationInterior = kind => {
+    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen', preview=A().productionPreview?.locations||{}, legacy=A().locations||{};
+    const key=greyfen?({inn:'greyfenInn',market:'greyfenMarket',forge:'greyfenForge',archive:'greyfenArchive'}[kind]):({inn:'ashmereInn',market:'ashmereMarket',forge:'ashmereForge',archive:'ashmereArchive'}[kind]);
+    return preview[key] || legacy[greyfen?({inn:'ashmereMain',market:'ashmereMain',forge:'ashmereMain',archive:'ashmereMain'}[kind]):({inn:'ashmereMain',market:'ashmereMain',forge:'ashmereMain',archive:'ashmereMain'}[kind])] || bg();
   };
   const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
   const npc = id => A().npcs?.[id] || '';
@@ -183,7 +188,7 @@
   }
 
   function renderInn(){
-    screen(head('Service','Ashmere Inn','A warm room, a locked door, and one night away from the mud.',npc('innkeeper'),'inn'),`<div class="ash099-cards"><button class="ash099-btn ash099-card" id="rest">${icon('inn')}<strong>Rest</strong><small>Restore HP before returning to the Old Road.</small><em>35g</em></button><button class="ash099-btn ash099-card" id="camp">${icon('road')}<strong>Camp Supplies</strong><small>Useful for road pressure and travel prep.</small><em>90g</em></button><button class="ash099-btn ash099-card" id="rumor">${icon('archive')}<strong>Hear a Rumor</strong><small>Ask what travelers are whispering tonight.</small><em>Free</em></button></div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head('Service',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Reedlight Inn':'Ashmere Inn',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Dry your cloak, recover, and listen for lowland rumors.':'A warm room, a locked door, and one night away from the mud.',locationInterior('inn'),'inn'),`<div class="ash099-cards"><button class="ash099-btn ash099-card" id="rest">${icon('inn')}<strong>Rest</strong><small>Restore HP before returning to the Old Road.</small><em>35g</em></button><button class="ash099-btn ash099-card" id="camp">${icon('road')}<strong>Camp Supplies</strong><small>Useful for road pressure and travel prep.</small><em>90g</em></button><button class="ash099-btn ash099-card" id="rumor">${icon('archive')}<strong>Hear a Rumor</strong><small>Ask what travelers are whispering tonight.</small><em>Free</em></button></div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.getElementById('rest').onclick=()=>buyService(35,pl=>{pl.hp=pl.maxHp},'You rest at the inn.');
     document.getElementById('camp').onclick=()=>buyService(90,pl=>{pl.inventory.camp=Number(pl.inventory.camp||0)+1},'Bought camp supplies.');
     document.getElementById('rumor').onclick=()=>note(['A broken shrine showed itself in the fog last night.','Blackroot wolves hate firelight.','Brenn pays extra for proof that still bleeds.'][Math.floor(Math.random()*3)]);
@@ -252,7 +257,7 @@
     const sellAllValue=sellables.reduce((sum,[k,v])=>sum+(owned(pl,k)*v),0);
     const buyCards=goods.map(([k,n,c,d])=>`<button class="ash099-btn ash099-card" data-buy="${k}" data-cost="${c}" ${canAfford(pl,c)?'':'disabled'}>${icon('trader')}<strong>${n}</strong><small>${esc(d)} You own ${owned(pl,k)}.</small><em>${c}g</em></button>`).join('');
     const sellCards=sellables.map(([k,v])=>`<button class="ash099-btn ash099-card" data-sell="${k}" data-value="${v}" ${owned(pl,k)>0?'':'disabled'}>${icon('trader')}<strong>${itemName(k)}</strong><small>You own ${owned(pl,k)}. Raw sell value.</small><em>${v}g each</em></button>`).join('');
-    screen(head('Shop','Trading Post','Supplies, road loot, and the ugly math that keeps Ashmere alive.',npc('trader'),'trader'),`<div class="ash099-market-summary"><strong>Your Gold: ${gold(pl.gold)}</strong><span>Sellable road loot value: ${gold(sellAllValue)}</span><button class="ash099-btn" id="sellAllLoot" ${sellAllValue>0?'':'disabled'}>Sell All Road Loot</button></div><h2>Buy Supplies</h2><div class="ash099-cards">${buyCards}</div><h2>Sell Road Loot</h2><div class="ash099-cards">${sellCards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head('Shop',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Marsh Market':'Trading Post','Supplies, road loot, and the ugly math that keeps the towns alive.',locationInterior('market'),'trader'),`<div class="ash099-market-summary"><strong>Your Gold: ${gold(pl.gold)}</strong><span>Sellable road loot value: ${gold(sellAllValue)}</span><button class="ash099-btn" id="sellAllLoot" ${sellAllValue>0?'':'disabled'}>Sell All Road Loot</button></div><h2>Buy Supplies</h2><div class="ash099-cards">${buyCards}</div><h2>Sell Road Loot</h2><div class="ash099-cards">${sellCards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buyItem(b.dataset.buy,Number(b.dataset.cost)));
     document.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sellItem(b.dataset.sell,Number(b.dataset.value)));
     const sellAll=document.getElementById('sellAllLoot');
@@ -273,7 +278,7 @@
       ['tradeBundle','Trade Bundle',[['goblinTrinket',2],['tornHide',1],['woodScrap',1]],'Sellable bundle worth more than raw scraps.']
     ];
     const cards=recipes.map(([id,name,needs,desc])=>`<button class="ash099-btn ash099-card" data-craft="${id}" data-needs="${needs.map(n=>n.join(':')).join(',')}" ${canCraft(pl,needs)?'':'disabled'}>${icon('craft')}<strong>${name}</strong><small>${desc}<br>Needs ${needsText(pl,needs)}.</small><em>${canCraft(pl,needs)?'Craft':'Missing'}</em></button>`).join('');
-    screen(head('Crafting','Crafting Bench','Road drops should matter. Convert herbs, fangs, hides, ash, and scraps into useful items or better sellables.','','craft'),`<div class="ash099-market-summary"><strong>Bench Stock</strong><span>Use road drops here before selling raw loot.</span><button class="ash099-btn" id="openTrader">Open Trading Post</button></div><div class="ash099-cards">${cards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head('Crafting',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Marsh Workbench':'Crafting Bench','Road drops should matter. Convert herbs, fangs, hides, ash, and scraps into useful items or better sellables.',locationInterior('forge'),'craft'),`<div class="ash099-market-summary"><strong>Bench Stock</strong><span>Use road drops here before selling raw loot.</span><button class="ash099-btn" id="openTrader">Open Trading Post</button></div><div class="ash099-cards">${cards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-craft]').forEach(b=>b.onclick=()=>craftItem(b.dataset.craft,b.dataset.needs));
     const openTrader=document.getElementById('openTrader');
     if(openTrader) openTrader.onclick=renderTrader;
@@ -282,7 +287,7 @@
 
   function renderSmith(){
     const weapons=(D().weapons||[]).filter(w=>w.id!=='hand'),armors=(D().armors||[]).filter(a=>a.id!=='none');
-    screen(head('Gear','Blacksmith','Buy gear once, equip owned gear freely, and work toward stronger equipment as you level.','','smith'),`<div class="ash099-market-summary"><strong>Level ${Number(p().level||1)} Smithing Access</strong><span>Locked equipment opens as your adventurer levels up. Owned gear can be re-equipped without paying again.</span></div><h2>Weapons</h2><div class="ash099-cards">${weapons.map(w=>gearCard(w,'weapon')).join('')}</div><h2>Armor</h2><div class="ash099-cards">${armors.map(a=>gearCard(a,'armor')).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head('Gear',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Causeway Smithy':'Blacksmith','Buy gear once, equip owned gear freely, and work toward stronger equipment as you level.',locationInterior('forge'),'smith'),`<div class="ash099-market-summary"><strong>Level ${Number(p().level||1)} Smithing Access</strong><span>Locked equipment opens as your adventurer levels up. Owned gear can be re-equipped without paying again.</span></div><h2>Weapons</h2><div class="ash099-cards">${weapons.map(w=>gearCard(w,'weapon')).join('')}</div><h2>Armor</h2><div class="ash099-cards">${armors.map(a=>gearCard(a,'armor')).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear,b.dataset.kind));
   }
   function gearCard(x,kind){
@@ -311,7 +316,7 @@
   }
 
   function renderSheet(){const pl=p();const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>`<div class="ash099-stat"><strong>${esc(itemName(k))}</strong><span>x${Number(v)}</span></div>`).join('')||'<p>No notable items.</p>';screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),`<div class="ash099-stats">${stat('Level',Number(pl.level||1))}${stat('XP',`${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-stats">${inv}</div>`);}
-  function renderArchive(){const pl=p();screen(head('Records','Archive Hall','Mara keeps records, maps, and town memory.','','archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
+  function renderArchive(){const pl=p();screen(head('Records',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Boundary Archive':'Archive Hall',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'The bell keeper’s ledgers track the old boundary stones and drowned roads.':'Mara keeps records, maps, and town memory.',locationInterior('archive'),'archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();if(window.LegendRoadControllerV087?.start)return window.LegendRoadControllerV087.start();screen(head('Town Gate','Old Road','The road controller did not load.',roadBg(),'road'),'<p>Try a hard refresh.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
   window.LegendAshmereV099={renderAshmere,route};
