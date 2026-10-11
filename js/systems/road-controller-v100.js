@@ -196,12 +196,15 @@ function resolveChoice(kind){
    pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);
    return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'. You can keep exploring here or travel onward.');
  }
- s.pressure=clamp(s.pressure+12,0,100);
+ const openingRoute=stageBefore===0?s.routeChoice:null;
+ const travelPressure=openingRoute==='ridge'?4:openingRoute==='reeds'?16:12;
+ s.pressure=clamp(s.pressure+travelPressure,0,100);
  if(s.pressure>=65){save(pl);return battleEvent()}
  const roadSense=score(pl,'survival')+score(pl,'strength');
  s.stage=clamp(s.stage+1,0,5);
- if(roadSense<0){const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3);pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);save(pl);return renderExpedition('You force the pace through '+area.name+'. The shortcut costs '+loss+' health, but you reach the next marker.')}
- save(pl);return renderExpedition('You keep moving through '+area.name+'. The next stretch comes into view before the road can close around you.');
+ const routeBeat=openingRoute==='ridge'?' The High Ridge pays off: firm ground keeps the journey calm, and Road Pressure rises by only 4.':openingRoute==='reeds'?' The Reed Cut narrows behind you. The strange light has drawn attention from deeper in the marsh; Road Pressure rises by 16.':'';
+ if(roadSense<0){const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3);pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);save(pl);return renderExpedition('You force the pace through '+area.name+'. The shortcut costs '+loss+' health, but you reach the next marker.'+routeBeat)}
+ save(pl);return renderExpedition('You keep moving through '+area.name+'. The next stretch comes into view before the road can close around you.'+routeBeat);
 }
 function eventCheck(skill,bonus){
  const pl=p();if(!pl)return;const s=ensure(pl),ev=pick(road().checks)||{title:'A Strange Silence',text:'The road goes quiet around you.',skill:'survival',success:'You keep your footing.',fail:'The silence costs time and nerves.'};
