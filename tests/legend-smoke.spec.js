@@ -69,6 +69,15 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
     await expect(page.locator('#new')).toHaveCount(0);
   });
 
+  test('Ashmere hub avoids duplicate camp shortcuts and keeps destinations as the main focus', async ({ page }) => {
+    await startFreshCharacter(page, 'AshmereLayoutQA');
+    await expect(page.locator('.ash100-town')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
+    await expect(page.locator('.ash100-destination')).toHaveCount(7);
+    await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('navigation', { name: 'Ashmere town navigation' })).toBeVisible();
+  });
+
   test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenQA');
     await page.evaluate(() => {
