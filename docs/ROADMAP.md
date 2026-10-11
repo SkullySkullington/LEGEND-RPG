@@ -19,10 +19,10 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 **Goal:** A route decision should change what the player experiences later, not only adjust a number.
 
 - [x] Give High Ridge and Reed Cut distinct follow-up narration and points of interest.
-- Add at least one later event that reacts to the chosen route.
-- Ensure choices and rewards resolve only once per expedition.
+- [x] Add a later waystation scene that reacts to the chosen route.
+- [x] Lock route choice after the first selection; test the choice is no longer available.
 - [x] Add Playwright coverage for both route branches and their distinct discovery/pressure outcomes.
-- [ ] Add repeat-click protection coverage and at least one later event that reacts to the route.
+- [x] Add repeat-selection lockout coverage and a later route-reactive waystation event.
 
 **Done when:** A fresh traveler can take either path, observe a later difference, finish or retreat, and start another expedition without carrying a temporary branch flag into the next trip.
 
