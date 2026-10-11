@@ -1,3 +1,11 @@
+## v0.20.4 — Illustrated Service Screens
+- Replaced inline SVG symbols in the Ashmere/Greyfen town controller with local environment, portrait, and item artwork already in the production pack.
+- Reworked the Trading Post into a two-tab Buy/Sell view, with a compact purse/value summary, real item thumbnails, and a single bulk-sell action.
+- Reworked the Blacksmith around the traveler's currently equipped kit, separating Weapons and Armor and showing actual item art with prices, required levels, and equipped states.
+- Reframed Character Sheet as **Traveler**: class portrait, progression and health, current gear, travel proof, and an illustrated inventory pack. The existing `sheet` route remains for compatibility; the bottom-nav label now reads Traveler.
+- Added the new responsive service-screen styling after existing theme sheets so the refreshed layouts remain visually consistent on desktop and narrow mobile widths.
+- Runway generation was attempted again after the reported credit refresh, but the connected generation call failed internally; no claim of new icon-atlas output is made. Existing committed local assets were used instead. Browser visual QA and Playwright remain outstanding until verified.
+
 ## v0.20.3 — Clearer Greyfen, Cleaner First-Town Loop
 - Made the Ashmere hub use one compact status row and a focused destination grid, leaving the duplicate “Your Camp” shortcut panel out of the active screen.
 - Gave Greyfen a distinct cold-water palette while reusing its committed local town and interior artwork.
