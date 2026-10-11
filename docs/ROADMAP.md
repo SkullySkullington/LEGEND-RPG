@@ -1,6 +1,6 @@
 # LEGEND: Roads of Ashmere — Development Roadmap
 
-This is the active roadmap for the current modular HTML5 RPG. Priorities are ordered by player impact, not by a fixed release date. Existing traveler saves, region data, and the current loader sequence are compatibility constraints.
+This is the active roadmap for the current modular HTML5 RPG. Priorities are ordered by player impact, not by a fixed release date. The current region system and loader sequence should remain stable unless a change clearly improves the game; because this is a private early playtest, traveler saves may be reset or migrated when needed.
 
 ## Current foundation
 
@@ -65,6 +65,7 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 
 - Mobile-first at 360–430px; large tap targets and no horizontal page overflow.
 - Prefer incremental changes in the current controllers over replacing the main game bootstrap.
-- Do not break the existing region system or traveler saves.
+- Keep the existing region system working; traveler saves may be reset or migrated if needed during early development.
 - No account/Supabase work is in scope for this pass.
+- Production assets must be clean exports without visible watermarks; watermarked previews are reference-only.
 - Do not call a feature complete based on source changes alone; record whether it passed automated or live-browser testing.
