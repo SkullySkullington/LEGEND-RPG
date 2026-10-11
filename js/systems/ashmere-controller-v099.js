@@ -15,7 +15,7 @@
       food:'food',ration:'rationBundle',rationBundle:'rationBundle',potion:'potion',roadPoultice:'potion',blackrootTonic:'potion',
       roadToken:'roadToken',bellFragment:'bellFragment',camp:'camp',campSupply:'camp',roadHerb:'roadHerb',huntersCharm:'bellFragment',wispLanternWick:'camp',
       woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',shortSword:'shortSword',bow:'bow',huntingBow:'bow',shield:'shield',
-      none:'shield',clothArmor:'shield',chainArmor:'shield',bronzeArmor:'shield',ironArmor:'shield',woodScrap:'camp',clothScrap:'camp',wolfFang:'shortSword',tornHide:'shield',ore:'shield',wispAsh:'bellFragment',oil:'camp',goblinTrinket:'roadToken',blackrootThorn:'roadHerb',tradeBundle:'camp'
+      none:'shield',clothArmor:'shield',chainArmor:'shield',bronzeArmor:'shield',ironArmor:'shield',woodScrap:'camp',peatBrick:'camp',clothScrap:'camp',wolfFang:'shortSword',tornHide:'shield',ore:'shield',wispAsh:'bellFragment',oil:'camp',goblinTrinket:'roadToken',blackrootThorn:'roadHerb',tradeBundle:'camp'
     };
     return items[aliases[key]||key]||items.pelt||'';
   };
@@ -255,7 +255,7 @@
     message:{title:'Run a Message',desc:'Carry sealed word through rain-heavy alleys before the ink runs.',skill:'survival',pay:46,item:'goblinTrinket',amount:1,verb:'Deliver',hint:'Click as the marker crosses the seal.'}
   };
   const greyfenWorkJobs = {
-    peat:{title:'Dry Peat Bricks',desc:'Stack wet-cut peat beneath the Reedlight awning before the next shower.',skill:'strength',pay:40,item:'woodScrap',amount:2,verb:'Stack',hint:'Time the stack when the marker enters the dry band.'},
+    peat:{title:'Dry Peat Bricks',desc:'Stack wet-cut peat beneath the Reedlight awning before the next shower.',skill:'strength',pay:40,item:'peatBrick',amount:2,verb:'Stack',hint:'Time the stack when the marker enters the dry band.'},
     salvage:{title:'Sort a Salvage Basket',desc:'Separate usable iron and cloth from a basket lifted off the drowned walk.',skill:'luck',pay:44,item:'ore',amount:1,verb:'Sort',hint:'Click when the marker reaches the clean sorting band.'},
     markers:{title:'Reset Flood Markers',desc:'Set the causeway stakes back to the bellkeeper’s recorded waterline.',skill:'survival',pay:48,item:'roadHerb',amount:2,verb:'Set Marker',hint:'Set the marker when the moving line crosses the old waterline.'}
   };
@@ -314,7 +314,7 @@
     const pl=p();
     const greyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
     const goods=[['food','Rations',60,'A day’s food for the road.'],['potion','Healing Potion',120,'Restore your strength in a fight.'],['camp','Camp Supplies',90,'Prepare a safe stop beyond the gate.'],['clothScrap','Cloth Scrap',34,'Material for field medicine.'],['oil','Lamp Oil',70,'Fuel for lanterns and preparations.']];
-    const sellables=[['wolfFang',12],['tornHide',8],['roadHerb',10],['wispAsh',22],['goblinTrinket',16],['blackrootThorn',14],['woodScrap',7],['clothScrap',9],['ore',24],['tradeBundle',72],['brokenBellShard',60]];
+    const sellables=[['wolfFang',12],['tornHide',8],['roadHerb',10],['wispAsh',22],['goblinTrinket',16],['blackrootThorn',14],['woodScrap',7],['peatBrick',6],['clothScrap',9],['ore',24],['tradeBundle',72],['brokenBellShard',60]];
     const sellAllValue=sellables.reduce((sum,[k,v])=>sum+(owned(pl,k)*v),0);
     const itemCard=(k,name,price,desc,action,disabled,tail)=>{
       const art=itemIcon(k)||A().items?.roadToken||'';
