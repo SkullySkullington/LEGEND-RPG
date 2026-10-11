@@ -1,3 +1,9 @@
+## v0.16.0 — Experience & Level Progression
+- Added persistent XP and automatic level-ups without changing the existing save key or requiring save migration.
+- Jobs award XP based on timing quality; road encounters and completed expeditions also award XP.
+- Level-ups increase maximum health by 8 and restore 8 HP, and XP/level progress is visible in the Traveler Terminal and Character Sheet.
+- Fixed the Work Board keyboard listener so it stops intercepting keys after a job finishes.
+
 ## v0.15.0 — Ashmere Gear Progression & Field Medicine
 - Blacksmith stock now shows all available weapons and armor with level requirements.
 - Purchased gear is saved as owned; owned items can be re-equipped without charging again, and locked/unaffordable gear is disabled.
