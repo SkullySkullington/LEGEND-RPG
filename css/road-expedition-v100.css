@@ -96,3 +96,14 @@
 
 .exp100-hotspot.is-done{opacity:.7;animation:none;border-color:rgba(164,196,155,.42);color:#b5c8b1}
 .exp100-hotspot:disabled{cursor:default}
+
+
+/* v0.17.0 — clearer tactical choices and road-pressure warnings */
+.exp100-technique{border-color:rgba(125,255,173,.36);background:linear-gradient(145deg,rgba(23,48,34,.72),rgba(13,21,16,.96))}
+.exp100-technique>strong{color:#baffcd}
+.exp100-technique>em{color:#a8e5b7}
+.exp100-technique:disabled{filter:saturate(.45);opacity:.48}
+.exp100-intent{line-height:1.35}
+.exp100-battle-actions .exp100-choice{min-height:122px}
+.exp100-battle-actions .exp100-technique{box-shadow:inset 0 0 0 1px rgba(125,255,173,.06)}
+@media(max-width:560px){.exp100-battle-actions .exp100-choice{min-height:0}.exp100-battle-actions .exp100-technique{border-left:3px solid #7dffad}}
