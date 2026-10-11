@@ -6,7 +6,21 @@ This project is an HTML5 fantasy RPG. Earlier remake history is retained below a
 
 ---
 
-## [Current] v0.13.0 — Interactive Exploration & Turn-Based Combat
+## [Current] v0.13.1 — Interactive Points of Interest
+
+### Added
+
+- Added one location-specific point of interest at each Old Road stop, with contextual actions and tangible rewards or route effects.
+- Limited each point of interest to one interaction per expedition and reset those interactions when a new expedition begins.
+- Added responsive styling for the new point-of-interest panels.
+
+### Changed
+
+- Updated asset cache references and visible build version to v0.13.1.
+
+---
+
+## v0.13.0 — Interactive Exploration & Turn-Based Combat
 
 ### Added
 
