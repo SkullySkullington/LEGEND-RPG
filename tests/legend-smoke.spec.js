@@ -93,6 +93,8 @@ test.describe('LEGEND v0.20.6 browser regression tests', () => {
     });
     await page.locator('.ash100-destination[data-ash-view="work"]').click();
     await expect(page.locator('[data-job-open="peat"]')).toContainText('Dry Peat Bricks');
+    await page.locator('[data-job-open="peat"]').click();
+    await expect(page.locator('.ash099-job-meta')).toContainText('Dry Peat Brick');
     await expect(page.locator('[data-job-open="salvage"]')).toContainText('Sort a Salvage Basket');
     await expect(page.locator('[data-job-open="markers"]')).toContainText('Reset Flood Markers');
     await expect(page.locator('[data-job-open="wood"]')).toHaveCount(0);
