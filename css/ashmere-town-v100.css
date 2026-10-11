@@ -122,3 +122,15 @@
 @media(max-width:800px){.ash100-destinations{grid-template-columns:repeat(2,minmax(0,1fr))}.ash100-hero{min-height:245px}.ash100-status{gap:10px}.ash100-destination{min-height:92px}}
 @media(max-width:520px){.ash100-town{padding:6px}.ash100-hero{min-height:225px;border-radius:11px}.ash100-hero-copy{left:16px;right:16px;bottom:17px}.ash100-hero-copy h1{font-size:3rem}.ash100-route-strip{grid-template-columns:auto minmax(0,1fr);gap:8px}.ash100-route-strip-copy small{display:none}.ash100-route-strip .ash099-btn{grid-column:1/-1}.ash100-status{grid-template-columns:minmax(0,1fr) minmax(0,1fr);row-gap:9px;padding:11px 2px}.ash100-status-resources{text-align:left!important;grid-column:1/-1;border-top:1px solid rgba(215,184,106,.1)!important;padding-top:8px!important}.ash100-status-health strong{font-size:.76rem}.ash100-destinations{grid-template-columns:1fr;gap:7px}.ash100-destination{min-height:72px;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto;gap:0 10px;padding:10px}.ash100-destination-icon{grid-row:1;align-self:center}.ash100-destination>em{grid-column:2}.ash100-section-head{margin-bottom:8px}.ash100-section-head h2{font-size:1.55rem}}
 @media(prefers-reduced-motion:reduce){.ash100-destination{transition:none}}
+
+/* v0.20.2 — compact inventory cards using the new starter item icons */
+.ash099-inventory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:12px 0}
+.ash099-inventory-item{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid rgba(215,184,106,.16);border-radius:10px;background:linear-gradient(130deg,rgba(21,28,22,.92),rgba(8,13,10,.92));color:#eeeadd}
+.ash099-inventory-item img,.ash099-item-placeholder{width:44px;height:44px;display:grid;place-items:center;object-fit:contain;border:1px solid rgba(215,184,106,.12);border-radius:8px;background:#070b08}
+.ash099-item-placeholder{color:#c8ac67;font-size:1.25rem}
+.ash099-inventory-item-copy{display:grid;gap:3px;min-width:0}
+.ash099-inventory-item-copy strong{font:600 .88rem/1.2 Georgia,'Times New Roman',serif;overflow-wrap:anywhere}
+.ash099-inventory-item-copy small{font:400 .65rem/1.2 sans-serif;color:#89978b}
+.ash099-inventory-item>b{font:700 .78rem/1 sans-serif;color:#d5b96d;white-space:nowrap}
+.ash099-inventory-empty{padding:18px 0;color:#97a496;font:400 .95rem/1.5 Georgia,'Times New Roman',serif}
+@media(max-width:520px){.ash099-inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.ash099-inventory-item{grid-template-columns:36px minmax(0,1fr) auto;gap:7px;padding:7px}.ash099-inventory-item img,.ash099-item-placeholder{width:36px;height:36px}.ash099-inventory-item-copy strong{font-size:.78rem}.ash099-inventory-item-copy small{font-size:.6rem}.ash099-inventory-item>b{font-size:.68rem}}
