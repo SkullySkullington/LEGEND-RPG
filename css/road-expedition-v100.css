@@ -90,3 +90,6 @@
  .exp100-dock-action span{font-size:.66rem}
 }
 @media(prefers-reduced-motion:reduce){.exp100-hotspot{animation:none}}
+
+.exp100-hotspot:disabled{opacity:.72;cursor:default;animation:none;border-color:rgba(164,196,155,.42);color:#b5c8b1}
+.exp100-dock-action:disabled{opacity:.48;cursor:not-allowed;filter:saturate(.5);transform:none}
