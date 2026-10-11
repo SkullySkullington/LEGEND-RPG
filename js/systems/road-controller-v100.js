@@ -29,10 +29,11 @@ function tone(kind='tap'){
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(stage=0,interactive=true){
  const path=A().locations?.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
- const point=pointOfInterest(stage);
- const stageClass='exp100-stage-'+clamp(Number(stage||0),0,5);
+ const point=pointOfInterest(stage),stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{};
+ const stageClass='exp100-stage-'+stageNum;
+ const searched=!!s.searchUsed?.[stageNum];
  const hotspots=interactive
-  ? '<div class="exp100-hotspots" aria-label="Explore the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>'+esc(point.short)+'</span></button><button class="exp100-hotspot exp100-hotspot-tracks" data-hotspot="search" style="--hx:38%;--hy:72%"><i>⌕</i><span>Search</span></button><button class="exp100-hotspot exp100-hotspot-road" data-hotspot="move" style="--hx:70%;--hy:68%"><i>➜</i><span>Travel</span></button></div>'
+  ? '<div class="exp100-hotspots" aria-label="Explore the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>'+esc(point.short)+'</span></button>'+(stageNum<5?'<button class="exp100-hotspot exp100-hotspot-tracks '+(searched?'is-done':'')+'" data-hotspot="search" '+(searched?'disabled':'')+' style="--hx:38%;--hy:72%"><i>'+(searched?'✓':'⌕')+'</i><span>'+(searched?'Searched':'Search')+'</span></button><button class="exp100-hotspot exp100-hotspot-road" data-hotspot="move" style="--hx:70%;--hy:68%"><i>➜</i><span>Travel</span></button>':'<button class="exp100-hotspot exp100-hotspot-road" data-hotspot="finish" style="--hx:70%;--hy:68%"><i>⚑</i><span>Return</span></button>')+'</div>'
   : '<div class="exp100-hotspots" aria-hidden="true"></div>';
  return '<div class="exp100-scene exp100-scene-live '+stageClass+'" data-stage="'+clamp(Number(stage||0),0,5)+'"><img src="'+esc(path)+'" alt="The Old Road winding through misty woodland"><div class="exp100-scene-shade"></div>'+hotspots+'<span class="exp100-scene-label">THE OLD ROAD <i>•</i> '+esc(areaForStage(stage).name.toUpperCase())+'</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>';
 }
@@ -73,7 +74,7 @@ function shell(body){
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
+function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
   const areas=[
     {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
@@ -123,9 +124,10 @@ function campActions(pl,s){
 function renderExpedition(note=''){
   const pl=p();if(!pl)return;
   const s=ensure(pl),stage=Math.min(5,s.stage),area=areaForStage(stage),atCamp=!!area.camp;
+  const readDone=!!s.readUsed?.[stage],searchDone=!!s.searchUsed?.[stage];
   let choices=stage>=5
     ? '<button class="exp100-dock-action primary" id="finish"><strong>Secure Expedition</strong><span>Bank your finds and return to Ashmere.</span></button>'
-    : '<button class="exp100-dock-action" id="careful"><strong>Read the Road</strong><span>Reduce pressure</span></button><button class="exp100-dock-action" id="search"><strong>Search Nearby</strong><span>Look for useful finds</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Move toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
+    : '<button class="exp100-dock-action" id="careful" '+(readDone?'disabled':'')+'><strong>'+(readDone?'Road Read':'Read the Road')+'</strong><span>'+(readDone?'Already studied here':'Reduce pressure')+'</span></button><button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Searched':'Search Nearby')+'</strong><span>'+(searchDone?'Already searched here':'Look for useful finds')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Move toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
   const areaPanel='<section class="exp100-area"><div class="exp100-area-icon">'+esc(area.icon)+'</div><div class="exp100-area-copy"><span>'+esc(area.type)+'</span><h2>'+esc(area.name)+'</h2><p>'+esc(area.text)+'</p></div></section>';
   shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||'Explore the scene. Tap a landmark, search the roadside, or travel onward when ready.')+stats(pl)+areaPanel+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-panel exp100-explore-dock"><div class="exp100-route"><span>YOUR NEXT MOVE</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Explore freely before moving on</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
   document.querySelectorAll('.exp100-hotspot').forEach(btn=>btn.addEventListener('click',()=>{
@@ -133,6 +135,7 @@ function renderExpedition(note=''){
    if(action==='poi')return inspectPointOfInterest();
    if(action==='search')return resolveChoice('search');
    if(action==='move')return resolveChoice('push');
+   if(action==='finish')return finish();
   }));
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('careful')?.addEventListener('click',()=>resolveChoice('careful'));
@@ -159,19 +162,25 @@ function resolveChoice(kind){
  const pl=p();if(!pl)return;const s=ensure(pl),stageBefore=s.stage,area=areaForStage(stageBefore);
  s.events=Number(s.events||0)+1;
  if(kind==='careful'){
+   s.readUsed=s.readUsed||{};
+   if(s.readUsed[s.stage])return renderExpedition('You have already studied this stretch of road.');
+   s.readUsed[s.stage]=true;
    const roadSense=score(pl,'survival')+score(pl,'lore');
-   s.pressure=clamp(s.pressure-(10+Math.max(0,roadSense)),0,100);
-   s.stage=clamp(s.stage+1,0,5);save(pl);
-   return renderExpedition('You read the ground before committing. The route is safer ahead'+(roadSense>=2?'—your road sense spots a dry crossing and a useful trail marker.':'.'));
+   const reduction=10+Math.max(0,roadSense);
+   s.pressure=clamp(s.pressure-reduction,0,100);save(pl);
+   return renderExpedition('You study the ground around '+areaForStage(s.stage).name+'. Road Pressure falls by '+reduction+'.'+(roadSense>=2?' Your road sense reveals a dry crossing and a useful trail marker.':''));
  }
  if(kind==='search'){
+   s.searchUsed=s.searchUsed||{};
+   if(s.searchUsed[s.stage])return renderExpedition('You have already searched this stretch of road.');
+   s.searchUsed[s.stage]=true;
    const f=pick(road().finds)||{title:'Roadside Cache',text:'Something useful was left behind.',item:'food',amount:1};
    const aptitude=score(pl,'survival')+score(pl,'lore')+score(pl,'luck');
    const amount=Number(f.amount||1)+(aptitude>=4?1:0);
-   inv(pl,f.item,amount);s.finds=Number(s.finds||0)+1;s.stage=clamp(s.stage+1,0,5);
+   inv(pl,f.item,amount);s.finds=Number(s.finds||0)+1;
    s.pressure=clamp(s.pressure+(aptitude>=3?1:5),0,100);
    pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);
-   return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'.');
+   return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'. You can keep exploring here or travel onward.');
  }
  s.pressure=clamp(s.pressure+12,0,100);
  if(s.pressure>=65){save(pl);return battleEvent()}
