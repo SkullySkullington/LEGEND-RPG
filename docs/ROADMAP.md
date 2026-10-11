@@ -94,3 +94,11 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - Added enemy-intent telegraphing, animated hit/guard feedback, player HP/gear display, a looping battle theme, and local battle action sounds.
 - Added Playwright assertions for reaching Town Square and talking to Captain Oric, and for the four-command battle interface.
 - Source implementation is complete; automated Playwright and live-browser checks must pass before this entry is treated as fully validated.
+
+
+## v0.20.13 — expedition layering and compact enemy plate
+
+- Removed the negative-margin overlap between the animated Old Road artwork and its heading card, so expedition title/body copy begins below the image.
+- Refined the battle opponent nameplate width, contrast, stacking order, and mobile safe area so it is less likely to collide with the enemy sprite.
+- Added a Playwright check that the expedition heading has a zero top margin, and made the enemy-intent assertion case-insensitive to match the visible UI.
+- Layout change has been committed; confirm via live-browser and automated test results.
