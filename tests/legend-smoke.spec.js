@@ -100,6 +100,33 @@ test.describe('LEGEND v0.16.0 browser regression tests', () => {
     await expect(page.locator('#jobStrike')).toHaveText('Job Complete');
   });
 
+  test('character creation choices are clearly selected and progress is explained', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /Begin Your Journey/i }).click();
+    await page.locator('#v094Name').fill('ChoiceQA');
+    await page.locator('#v094Next').click();
+    await expect(page.locator('.v094-stepper')).toContainText('STEP 2 OF 7');
+    const identity = page.locator('[data-gender="unspoken"]');
+    await identity.click();
+    await page.locator('#v094Back').click();
+    await expect(page.locator('[data-gender="unspoken"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.v094-choice.is-selected')).toContainText('Keep It Unspoken');
+  });
+
+  test('Ranger expedition encounter presents its distinct class technique', async ({ page }) => {
+    await startFreshCharacter(page, 'BattleQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    for (let i = 0; i < 5; i++) {
+      const push = page.locator('#push');
+      if (await push.count()) await push.click();
+    }
+    await expect(page.locator('.exp100-combat')).toBeVisible();
+    await expect(page.locator('#skill')).toContainText('Trap Shot');
+    await expect(page.locator('.exp100-intent')).toContainText('Enemy intent');
+    await expect(page.locator('#guard')).toContainText('Guard');
+  });
+
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileQA');
