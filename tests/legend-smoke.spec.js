@@ -80,6 +80,37 @@ test.describe('LEGEND v0.20.6 browser regression tests', () => {
     await expect(page.locator('.ash100-bottom-panel')).toHaveCount(0);
   });
 
+  test('A Dry Crossing exposes its tradeoffs and persists the safe-route reward once', async ({ page }) => {
+    await startFreshCharacter(page, 'DryCrossingQA');
+    const before=await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=5;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+      return {gold:Number(pl.gold||0),herbs:Number(pl.inventory.roadHerb||0)};
+    });
+    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
+    await expect(page.getByRole('heading', { name: 'A Dry Crossing' })).toBeVisible();
+    await expect(page.locator('[data-crossing-choice="posts"]')).toContainText('35g and 1 Road Herb');
+    await expect(page.locator('[data-crossing-choice="reeds"]')).toContainText('65% chance');
+    await page.locator('[data-crossing-choice="posts"]').click();
+    await expect(page.getByRole('heading', { name: 'The marker is safe' })).toBeVisible();
+    const after=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {gold:Number(pl.gold||0),herbs:Number(pl.inventory.roadHerb||0),complete:Boolean(pl.flags.greyfenDryCrossingComplete)};
+    });
+    expect(after.gold).toBe(before.gold+35);
+    expect(after.herbs).toBe(before.herbs+1);
+    expect(after.complete).toBe(true);
+    await page.locator('#ashBack').click();
+    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
+    await expect(page.locator('[data-crossing-choice]')).toHaveCount(0);
+    await expect(page.locator('.ash099-screen')).toContainText('cannot be claimed again');
+  });
+
   test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenWorkQA');
     await page.evaluate(() => {
