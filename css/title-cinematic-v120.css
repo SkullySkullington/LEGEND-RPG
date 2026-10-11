@@ -1,0 +1,81 @@
+/* LEGEND v0.20.14 — cinematic title upgrade */
+.title-v100{
+  --legend-gold:#e8c779;
+  background:#070b08;
+  isolation:isolate;
+}
+.title-v100 .v120-title-backdrop{
+  filter:saturate(.9) contrast(1.12) brightness(.62);
+  transform:scale(1.035);
+  animation:legendBackdropDrift 32s ease-in-out infinite alternate;
+}
+.title-v100:after{
+  content:"";
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 42%,rgba(215,170,78,.16),transparent 34%),
+    linear-gradient(90deg,rgba(0,0,0,.66),transparent 18%,transparent 82%,rgba(0,0,0,.66)),
+    linear-gradient(180deg,rgba(0,0,0,.16),rgba(2,5,3,.25) 42%,rgba(2,5,3,.86));
+}
+.title-v100 .title-atmosphere{z-index:1;pointer-events:none}
+.title-v100 .portal100-header,.title-v100 .v120-title-main,.title-v100 .v120-title-footer{position:relative;z-index:2}
+.title-v100 .v120-title-main{align-items:center}
+.title-v100 .v120-title-hero{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(232,199,121,.26)!important;
+  background:linear-gradient(145deg,rgba(9,15,11,.91),rgba(5,8,6,.76) 62%,rgba(21,18,10,.76))!important;
+  box-shadow:0 35px 110px rgba(0,0,0,.58),inset 0 1px rgba(255,236,184,.12),inset 0 0 75px rgba(215,170,78,.045)!important;
+  backdrop-filter:blur(7px);
+  animation:legendHeroRise .85s cubic-bezier(.2,.75,.25,1) both;
+}
+.title-v100 .v120-title-hero:before{
+  content:"";position:absolute;inset:10px;pointer-events:none;border:1px solid rgba(232,199,121,.10);
+  background:radial-gradient(ellipse at 50% 0%,rgba(232,199,121,.10),transparent 48%);
+}
+.title-v100 .v120-title-hero>*{position:relative}
+.title-v100 .portal100-kicker{letter-spacing:.28em;color:#e8c779;text-shadow:0 0 20px #d2a65035}
+.title-v100 .v120-title-hero h1{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:clamp(4.2rem,11vw,8.8rem)!important;line-height:.86!important;
+  letter-spacing:.12em!important;color:#f4dda3!important;
+  text-shadow:0 3px 0 #6c4a1f,0 8px 0 #1d1a12,0 14px 35px #000,0 0 48px #d3a74b30!important;
+}
+.title-v100 .v120-title-hero h2{font-family:Georgia,serif!important;letter-spacing:.035em}
+.title-v100 .v120-title-hero h2 em{color:#f1cf7f!important;text-shadow:0 0 22px #c899453d}
+.title-v100 .v120-divider{margin:22px auto!important}
+.title-v100 .v120-divider b{letter-spacing:.24em;color:#d7bc7c!important}
+.title-v100 .v120-traveler-line{
+  border-color:#d9b86d36!important;background:linear-gradient(90deg,#e2bd6d0b,#e2bd6d15,#e2bd6d0b)!important;
+  box-shadow:inset 0 1px #fff1c20a;
+}
+.title-v100 .v120-avatar{border:1px solid #e8c77988!important;box-shadow:0 0 0 4px #e8c77910,0 0 26px #e8c77918}
+.title-v100 .v120-primary{
+  position:relative;overflow:hidden;border:1px solid #ffe4a6!important;
+  background:linear-gradient(180deg,#f5d98f,#c18a3d 54%,#8b5826)!important;
+  color:#211506!important;text-shadow:0 1px #fff5d0a8;
+  box-shadow:0 12px 32px #0008,0 0 0 3px #e7c27117,inset 0 1px #fff8d5!important;
+  transition:transform .22s ease,filter .22s ease,box-shadow .22s ease;
+}
+.title-v100 .v120-primary:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 20%,#fff9d455 48%,transparent 68%);
+  transform:translateX(-120%);transition:transform .55s ease;
+}
+.title-v100 .v120-primary:hover:before,.title-v100 .v120-primary:focus-visible:before{transform:translateX(120%)}
+.title-v100 .v120-primary:hover{transform:translateY(-2px);filter:brightness(1.07);box-shadow:0 18px 42px #000a,0 0 0 4px #e7c27120,inset 0 1px #fff8d5!important}
+.title-v100 .v120-secondary{border-color:#e8c77955!important;background:#101610d9!important}
+.title-v100 .portal100-header{border-bottom-color:#e8c77922!important}
+.title-v100 .portal100-brand span{color:#e8c779!important;letter-spacing:.2em}
+.title-v100 .portal100-footer{border-top-color:#e8c77922!important;color:#c9b98e!important}
+@keyframes legendBackdropDrift{from{transform:scale(1.035) translate3d(-.3%,0,0)}to{transform:scale(1.075) translate3d(.3%,-.5%,0)}}
+@keyframes legendHeroRise{from{opacity:0;transform:translateY(18px) scale(.99);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@media(max-width:680px){
+ .title-v100 .v120-title-hero{padding:24px 18px!important}
+ .title-v100 .v120-title-hero h1{font-size:clamp(3.5rem,18vw,5.6rem)!important;letter-spacing:.07em!important}
+ .title-v100 .portal100-header{align-items:center}
+ .title-v100 .v120-primary{min-height:62px}
+}
+@media(prefers-reduced-motion:reduce){
+ .title-v100 .v120-title-backdrop,.title-v100 .v120-title-hero{animation:none!important}
+ .title-v100 .v120-primary,.title-v100 .v120-primary:before{transition:none!important}
+}
