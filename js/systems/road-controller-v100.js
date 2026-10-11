@@ -46,7 +46,9 @@ function shell(body){
   if(nextScene&&liveScene){
    const nextHotspots=nextScene.querySelector('.exp100-hotspots');
    const liveHotspots=liveScene.querySelector('.exp100-hotspots');
+   const nextImage=nextScene.querySelector('img'),liveImage=liveScene.querySelector('img');
    if(nextHotspots&&liveHotspots)liveHotspots.innerHTML=nextHotspots.innerHTML;
+   if(nextImage&&liveImage)liveImage.replaceWith(nextImage);
    liveScene.className=nextScene.className;
    liveScene.dataset.stage=nextScene.dataset.stage||'0';
    const nextLabel=nextScene.querySelector('.exp100-scene-label'),liveLabel=liveScene.querySelector('.exp100-scene-label');
