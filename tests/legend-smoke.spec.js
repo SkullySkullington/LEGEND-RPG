@@ -156,6 +156,8 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await expect(page.locator('.exp100-route-choice')).toHaveCount(0);
     await expect(page.locator('.exp100-poi-done')).toContainText('Reed Cut');
     await expect(page.locator('.exp100-head')).toContainText(/Gain 1 Bell Fragment/i);
+    await expect(page.locator('.exp100-stats')).toContainText('1');
+    await expect(page.locator('#routeReeds')).toHaveCount(0);
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 16/i);
@@ -176,6 +178,19 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await expect(page.locator('.exp100-poi')).toContainText(/Ridgeway Cairn/i);
     await page.locator('#poiInspect').click();
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 3/i);
+  });
+
+
+  test('route choice changes the later waystation scene text', async ({ page }) => {
+    await startFreshCharacter(page, 'RouteEchoQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeReeds').click();
+    await page.locator('#push').click();
+    await page.locator('#poiInspect').click();
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-area')).toContainText(/wet reeds cling to your boots/i);
+    await expect(page.locator('.exp100-area')).toContainText(/something followed you out/i);
   });
 
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
