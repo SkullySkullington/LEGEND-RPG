@@ -94,7 +94,7 @@
   function terminalNav(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen',townLabel=greyfen?'Greyfen':'Town';
     const ariaLabel=greyfen?'Greyfen town navigation':'Ashmere terminal navigation';
-    return `<nav class="ash099-footer ash099-topnav" aria-label="${ariaLabel}"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>${townLabel}</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Sheet</span></button></nav>`;
+    return `<nav class="ash099-footer ash099-topnav" aria-label="${ariaLabel}"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>${townLabel}</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Traveler</span></button></nav>`;
   }
 
   function renderAshmere(){
@@ -383,13 +383,24 @@
   }
 
   function renderSheet(){
-    const pl=p();
-    const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>{
+    const pl=p(),assets=A(),items=assets.items||{},portrait=assets.classes?.[pl.className]||'';
+    const inventoryEntries=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0);
+    const inv=inventoryEntries.map(([k,v])=>{
       const art=itemIcon(k);
-      return `<div class="ash099-inventory-item">${art?`<img src="${esc(art)}" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'">`:'<span class="ash099-item-placeholder" aria-hidden="true">✦</span>'}<div class="ash099-inventory-item-copy"><strong>${esc(itemName(k))}</strong><small>In your pack</small></div><b>×${Number(v)}</b></div>`;
+      return '<article class="ash099-inventory-item">'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'<span class="ash099-item-placeholder" aria-hidden="true">✦</span>')+'<div class="ash099-inventory-item-copy"><strong>'+esc(itemName(k))+'</strong><small>In your pack</small></div><b>×'+Number(v)+'</b></article>';
     }).join('')||'<p class="ash099-inventory-empty">Your pack is light. The road may change that.</p>';
-    screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),
-      `<div class="ash099-stats">${stat('Level',Number(pl.level||1))}${stat('XP',`${Number(pl.xp||0)}/${Number(pl.level||1)*100}`)}${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-inventory-grid">${inv}</div>`);
+    const xp=Number(pl.xp||0),nextXp=Number(pl.level||1)*100;
+    const weapon=(D().weapons||[]).find(w=>w.id===pl.weapon),armor=(D().armors||[]).find(a=>a.id===pl.armor);
+    const equipment=(label,name,detail,art)=>'<article class="ash099-profile-equipment"><span class="ash099-eyebrow">'+label+'</span>'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<strong>'+esc(name)+'</strong><small>'+esc(detail)+'</small></article>';
+    screen(head('Traveler',pl.username||'Traveler','Who you are, what you can endure, and what you carry beyond the lantern line.','','profile'),
+      '<section class="ash099-traveler-profile">'+
+        '<div class="ash099-traveler-profile-top">'+(portrait?'<img class="ash099-traveler-profile-portrait" src="'+esc(portrait)+'" alt="'+esc(pl.className||'Traveler')+'" onerror="this.onerror=null;this.style.display=\'none\'">':'')+
+          '<div class="ash099-traveler-profile-identity"><span class="ash099-eyebrow">YOUR TRAVELER</span><h2>'+esc(pl.className||'Wanderer')+'</h2><p>'+esc(pl.personalityLabel||'Traveler')+' · '+esc(pl.origin||'Unknown origin')+'</p><p class="ash099-flavor">'+esc(pl.keepsake||'A life not yet written')+'</p></div>'+
+          '<div class="ash099-traveler-profile-level"><span>LEVEL</span><strong>'+Number(pl.level||1)+'</strong><small>'+xp+' / '+nextXp+' XP</small><i><b style="width:'+Math.max(0,Math.min(100,Math.round(xp/Math.max(1,nextXp)*100)))+'%"></b></i></div></div>'+
+        '<div class="ash099-traveler-vitals"><div class="ash099-vital-hp"><span>HEALTH</span><strong>'+Number(pl.hp||0)+' <small>/ '+Number(pl.maxHp||0)+'</small></strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div><div><span>GOLD</span><strong>'+gold(pl.gold)+'</strong></div><div><span>ROAD TOKENS</span><strong>'+Number(pl.inventory?.roadToken||0)+' <small>/ 5</small></strong></div></div>'+
+        '<div class="ash099-profile-equipment-grid">'+equipment('IN HAND',weapon?.name||weaponName(pl.weapon),weapon?'Damage '+weapon.min+'–'+weapon.max:'Basic attack',items.shortSword)+equipment('WORN',armor?.name||armorName(pl.armor),armor?'Defense '+armor.defense:'No protection',items.shield)+'</div>'+
+        '<div class="ash099-traveler-detail-grid"><div><span>PRONOUNS</span><strong>'+esc(pl.pronouns||'they/them')+'</strong></div><div><span>HOME</span><strong>'+esc(pl.currentRegion||'Ashmere')+'</strong></div><div><span>TOWN WORK</span><strong>'+Number(pl.flags?.ashmereJobs||0)+' jobs</strong></div><div><span>ROAD PROOF</span><strong>'+Number(pl.inventory?.bellFragment||0)+' Bell Fragments</strong></div></div>'+
+      '</section><section class="ash099-traveler-inventory"><div class="ash099-traveler-inventory-head"><div><span class="ash099-eyebrow">WHAT YOU CARRY</span><h2>Your Pack</h2></div><span>'+inventoryEntries.reduce((sum,[,v])=>sum+Number(v),0)+' items</span></div><div class="ash099-inventory-grid">'+inv+'</div></section>');
   }
   function renderArchive(){const pl=p();screen(head('Records',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Boundary Archive':'Archive Hall',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'The bell keeper’s ledgers track the old boundary stones and drowned roads.':'Mara keeps records, maps, and town memory.',locationInterior('archive'),'archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();if(window.LegendRoadControllerV087?.start)return window.LegendRoadControllerV087.start();screen(head('Town Gate','Old Road','The road controller did not load.',roadBg(),'road'),'<p>Try a hard refresh.</p>');}
