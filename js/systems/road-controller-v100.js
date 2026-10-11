@@ -220,18 +220,20 @@ function combat(enemy,note=''){
  shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+
  '<section class="exp100-panel exp100-combat"><div class="exp100-battlefield">'+(art?'<img class="exp100-enemy-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'" onerror="this.style.display=\'none\'">':'')+
  '<div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i><em class="exp100-intent">Enemy intent · '+intentText+'</em></div></div>'+
- '<p class="exp100-combat-note">'+esc(note||'Choose your move. The enemy’s next action is telegraphed so you can answer it.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+'</p>'+
+ '<p class="exp100-combat-note">'+esc(note||'Choose your move. The enemy’s next action is telegraphed so you can answer it.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+' · Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</p>'+
  '<div class="exp100-choices exp100-battle-actions"><button class="exp100-choice primary" id="strike"><strong>Attack</strong><span>Reliable weapon damage. No hit roll.</span><em>'+Math.max(1,Number(w.min||1)+score(pl,'strength'))+'–'+Math.max(2,Number(w.max||3)+score(pl,'strength'))+' damage</em></button>'+
  '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; leaves you exposed.</span><em>High damage · takes a hit if enemy survives</em></button>'+
  '<button class="exp100-choice" id="guard"><strong>Guard</strong><span>Brace for the telegraphed attack and reduce its damage.</span><em>Best against heavy attacks</em></button>'+
  '<button class="exp100-choice" id="skill"><strong>'+(pl.className==='Mage'?'Rune Bolt':pl.className==='Ranger'?'Trap Shot':pl.className==='Warrior'?'Cleave':pl.className==='Thief'?'Swipe':'Class Technique')+'</strong><span>Use your class strengths for a focused move.</span><em>Scales with your character</em></button>'+
  '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
+ '<button class="exp100-choice" id="poultice" '+(Number(pl.inventory?.roadPoultice||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Road Poultice</strong><span>Restore 20% of maximum health.</span><em>Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</em></button>'+
  '<button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the encounter, losing a little progress pressure.</span><em>Retreat</em></button></div></section>');
  document.getElementById('strike').onclick=()=>combatAction(enemy,'attack');
  document.getElementById('heavy').onclick=()=>combatAction(enemy,'heavy');
  document.getElementById('guard').onclick=()=>combatAction(enemy,'guard');
  document.getElementById('skill').onclick=()=>combatAction(enemy,'skill');
  document.getElementById('item').onclick=()=>combatAction(enemy,'item');
+ document.getElementById('poultice').onclick=()=>combatAction(enemy,'poultice');
  document.getElementById('flee').onclick=()=>{s.pressure=clamp(s.pressure-8,0,100);save(pl);renderExpedition('You withdraw from '+enemy.name+' and regroup on the road.');};
 }
 function combatAction(enemy,action){
@@ -240,6 +242,10 @@ function combatAction(enemy,action){
  if(action==='item'){
    if(Number(pl.inventory?.potion||0)<1)return combat(enemy,'You have no healing potions left.');
    pl.inventory.potion--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.3)));pl.hp=Number(pl.hp||1)+heal;note='You use a Healing Potion and recover '+heal+' HP.';
+ }else if(action==='poultice'){
+   if(Number(pl.inventory?.roadPoultice||0)<1)return combat(enemy,'You have no Road Poultices left.');
+   if(Number(pl.hp||0)>=Number(pl.maxHp||1))return combat(enemy,'Your health is already full.');
+   pl.inventory.roadPoultice--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.2)));pl.hp=Number(pl.hp||1)+heal;note='You apply a Road Poultice and recover '+heal+' HP.';
  }else if(action==='guard'){
    note='You set your stance and brace for the incoming blow.';
  }else{
