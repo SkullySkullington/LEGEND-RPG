@@ -12,6 +12,17 @@ The runtime manifest now points to local files in `js/systems/assets-v090.js`; i
 
 **Remaining before treating the pack as fully visually signed off:** review every town interior and crop at desktop and 390px mobile widths, inspect the nine individual icon crops in-game at small sizes, verify contrast and loading behavior, and finish the Playwright suite. The title art and sprite-sheet grid were checked separately; the entire pack has not yet received a full visual QA pass.
 
+## Follow-up generation — v0.20.15
+
+The original 25-image production set is already committed locally (see the import report and manifest above). A follow-up Runway pass is in progress for the two remaining polish gaps identified by the roadmap:
+
+| Asset | Runway task ID | Intended stable path | Purpose |
+|---|---|---|---|
+| Town/service icon atlas (3×3 grid: inn, market, smith, journal, map, work board, traveler, forked road, regional gate) | `e48d6c42-853c-4b7f-a217-6ca45e9ab4a7` | `assets/generated/ui/town-service-icon-atlas.png` plus nine cropped files under `assets/generated/ui/icons/` | Replace interim semantic reuse of item/portrait art in hub and service navigation |
+| Captain Oric portrait | `3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb` | `assets/generated/npcs/captain-oric.webp` | Replace the interim Oric portrait/icon with a cast-consistent portrait |
+
+**Important:** both follow-up generations completed in Runway, but their exports have not yet been imported into the repository as stable local files. Do not point the production manifest at the temporary preview URLs. The title and hub layout pass is committed; icon/portrait integration and final visual QA are still outstanding.
+
 ## Environment and location scenes
 
 | Asset | Runway task ID | Intended stable path | Used for |
