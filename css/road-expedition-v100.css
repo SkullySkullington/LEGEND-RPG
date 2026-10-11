@@ -93,3 +93,6 @@
 
 .exp100-hotspot:disabled{opacity:.72;cursor:default;animation:none;border-color:rgba(164,196,155,.42);color:#b5c8b1}
 .exp100-dock-action:disabled{opacity:.48;cursor:not-allowed;filter:saturate(.5);transform:none}
+
+.exp100-hotspot.is-done{opacity:.7;animation:none;border-color:rgba(164,196,155,.42);color:#b5c8b1}
+.exp100-hotspot:disabled{cursor:default}
