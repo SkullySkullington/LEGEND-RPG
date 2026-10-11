@@ -8,6 +8,8 @@ Art should support the game's exploration-first loop. Images are scene-setting a
 
 ## Visual rules
 
+- **Watermark policy:** Never ship an image with a visible watermark, platform badge, or preview overlay. Do not integrate watermarked OpenArt previews; only use clean exports whose usage rights and export terms are suitable for the project. If a generator only provides watermarked previews on its current tier, treat those as reference-only and use another source for production art.
+
 - Palette: charcoal, slate, weathered umber, moss green, parchment cream, tarnished gold, and sparing ember orange or ghost-blue accents.
 - Lighting: directional overcast light, mist, candlelight, campfire glow, and strong readable silhouettes.
 - Materials: worn leather, chipped stone, aged wood, muddy cloth, tarnished metal, rain-dark roads.
