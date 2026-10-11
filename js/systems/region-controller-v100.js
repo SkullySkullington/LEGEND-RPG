@@ -10,13 +10,16 @@
   const unlocked=pl=>Array.isArray(pl.discoveredRegions)?pl.discoveredRegions:['Ashmere'];
   function shell(body){root().innerHTML='<main class="reg100"><div class="reg100-wrap">'+body+'</div></main>'}
   function card(pl,r){
-    const has=unlocked(pl).includes(r.id), current=pl.currentRegion===r.id, tokens=Number(pl.inventory?.roadToken||0), cost=Number(r.unlockTokens||0), travel=Number(r.travelCost||0);
+    const known=unlocked(pl), has=known.includes(r.id), current=pl.currentRegion===r.id, tokens=Number(pl.inventory?.roadToken||0), cost=Number(r.unlockTokens||0), travel=Number(r.travelCost||0);
+    const requirement=r.requiresRegion?regions()[r.requiresRegion]:null, requirementMet=!r.requiresRegion||known.includes(r.requiresRegion);
     let action='';
     if(current) action='<span class="reg100-state current">You are here</span>';
-    else if(!has && cost>0) action='<button class="reg100-btn" data-unlock="'+esc(r.id)+'">'+(tokens>=cost?'Unlock':'Need '+Math.max(0,cost-tokens)+' more token'+(cost-tokens===1?'':'s'))+'</button>';
+    else if(!has&&!requirementMet) action='<span class="reg100-state">Requires '+esc(requirement?.name||r.requiresRegion)+' first</span>';
+    else if(!has&&cost>0) action='<button class="reg100-btn" data-unlock="'+esc(r.id)+'">'+(tokens>=cost?'Unlock':'Need '+Math.max(0,cost-tokens)+' more token'+(cost-tokens===1?'':'s'))+'</button>';
     else if(!has) action='<span class="reg100-state">Locked</span>';
     else action='<button class="reg100-btn" data-travel="'+esc(r.id)+'">'+(travel?'Travel • '+gold(travel):'Enter')+'</button>';
-    return '<article class="reg100-card '+(has?'unlocked ':'locked ')+(current?'current':'')+'"><div class="reg100-card-top"><span class="reg100-mark">'+(has?'✦':'•')+'</span><div><div class="reg100-kicker">'+(r.type==='home'?'HOME REGION':'REGION')+'</div><h2>'+esc(r.name)+'</h2></div></div><p>'+esc(r.description||'A place beyond the known road.')+'</p><div class="reg100-meta">'+(has?(current?'Current location':'Unlocked'):'Unlock: '+cost+' Road Tokens')+(has&&!current?' • Fare '+travel+'g':'')+'</div>'+action+'</article>';
+    const meta=has?(current?'Current location':'Unlocked'):(requirementMet?'Unlock: '+cost+' Road Tokens':'First unlock '+esc(requirement?.name||r.requiresRegion));
+    return '<article class="reg100-card '+(has?'unlocked ':'locked ')+(current?'current':'')+'"><div class="reg100-card-top"><span class="reg100-mark">'+(has?'✦':'•')+'</span><div><div class="reg100-kicker">'+(r.type==='home'?'HOME REGION':'REGION')+'</div><h2>'+esc(r.name)+'</h2></div></div><p>'+esc(r.description||'A place beyond the known road.')+'</p><div class="reg100-meta">'+meta+(has&&!current?' • Fare '+travel+'g':'')+'</div>'+action+'</article>';
   }
   function render(note=''){
     const pl=p(); if(!pl)return;
@@ -30,6 +33,10 @@
     const pl=p(), r=regions()[id]; if(!pl||!r)return;
     const known=unlocked(pl);
     if(known.includes(id))return render('That region is already open.');
+    if(r.requiresRegion&&!known.includes(r.requiresRegion)){
+      const required=regions()[r.requiresRegion]?.name||r.requiresRegion;
+      return render('Unlock '+required+' before opening '+r.name+'.');
+    }
     const cost=Number(r.unlockTokens||0);
     if(Number(pl.inventory?.roadToken||0)<cost)return render('The road ledger is still short on tokens.');
     pl.inventory.roadToken-=cost;
