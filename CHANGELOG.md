@@ -1,3 +1,8 @@
+## v0.15.0 — Ashmere Gear Progression & Field Medicine
+- Blacksmith stock now shows all available weapons and armor with level requirements.
+- Purchased gear is saved as owned; owned items can be re-equipped without charging again, and locked/unaffordable gear is disabled.
+- Road Poultices crafted at Ashmere can now be used in combat, restoring 20% of maximum health; Healing Potions restore 30%.
+
 # Changelog
 
 All notable changes to **LEGEND: Roads of Ashmere** will be documented in this file.
