@@ -19,14 +19,14 @@
   }[k] || k);
   const gold = n => `${Number(n || 0)}g`;
   const bg = () => {
-    const pl=p(), locations=A().locations||{}, preview=A().productionPreview?.locations||{};
-    if(String(pl?.currentRegion||'Ashmere')==='Greyfen') return preview.greyfenTown || locations.greyfenMain || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
-    return preview.ashmereTown || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+    const pl=p(), locations=A().locations||{};
+    if(String(pl?.currentRegion||'Ashmere')==='Greyfen') return locations.greyfenMain || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
+    return locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
   };
   const locationInterior = kind => {
-    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen', preview=A().productionPreview?.locations||{}, legacy=A().locations||{};
+    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen', locations=A().locations||{};
     const key=greyfen?({inn:'greyfenInn',market:'greyfenMarket',forge:'greyfenForge',archive:'greyfenArchive'}[kind]):({inn:'ashmereInn',market:'ashmereMarket',forge:'ashmereForge',archive:'ashmereArchive'}[kind]);
-    return preview[key] || legacy[greyfen?({inn:'ashmereMain',market:'ashmereMain',forge:'ashmereMain',archive:'ashmereMain'}[kind]):({inn:'ashmereMain',market:'ashmereMain',forge:'ashmereMain',archive:'ashmereMain'}[kind])] || bg();
+    return locations[key] || bg();
   };
   const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
   const npc = id => A().npcs?.[id] || '';
