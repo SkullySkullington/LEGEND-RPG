@@ -134,3 +134,19 @@
 .ash099-inventory-item>b{font:700 .78rem/1 sans-serif;color:#d5b96d;white-space:nowrap}
 .ash099-inventory-empty{padding:18px 0;color:#97a496;font:400 .95rem/1.5 Georgia,'Times New Roman',serif}
 @media(max-width:520px){.ash099-inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.ash099-inventory-item{grid-template-columns:36px minmax(0,1fr) auto;gap:7px;padding:7px}.ash099-inventory-item img,.ash099-item-placeholder{width:36px;height:36px}.ash099-inventory-item-copy strong{font-size:.78rem}.ash099-inventory-item-copy small{font-size:.6rem}.ash099-inventory-item>b{font-size:.68rem}}
+
+/* v0.20.3 — Greyfen's colder lowland identity, without a new UI layer */
+.ash100-town-greyfen{background:#070b0d;color:#e6ece5}
+.ash100-town-greyfen .ash100-hero>img{filter:saturate(.72) hue-rotate(3deg) contrast(1.06);object-position:center 52%}
+.ash100-town-greyfen .ash100-hero:after{background:linear-gradient(90deg,rgba(3,7,9,.84) 0%,rgba(3,7,9,.38) 54%,rgba(3,7,9,.08) 100%),linear-gradient(0deg,rgba(3,7,9,.5),transparent 55%)}
+.ash100-town-greyfen .ash100-hero-copy .ash099-kicker{color:#a7c6c3}
+.ash100-town-greyfen .ash100-route-strip{background:linear-gradient(100deg,rgba(17,27,28,.96),rgba(10,17,19,.88));border-color:rgba(139,181,184,.2)}
+.ash100-town-greyfen .ash100-route-strip-icon{color:#a5c6c5;border-color:rgba(139,181,184,.25)}
+.ash100-town-greyfen .ash100-status{border-bottom-color:rgba(139,181,184,.18)}
+.ash100-town-greyfen .ash100-status span{color:#9db9b6}
+.ash100-town-greyfen .ash100-status-health i b{background:linear-gradient(90deg,#648b82,#c6b177)}
+.ash100-town-greyfen .ash100-section-head .ash099-kicker{color:#94b2af}
+.ash100-town-greyfen .ash100-destination-icon{color:#a2c0bf;border-color:rgba(139,181,184,.22);background:rgba(101,143,145,.07)}
+.ash100-town-greyfen .ash100-destination.featured{border-color:rgba(139,181,184,.34);background:linear-gradient(120deg,rgba(30,47,45,.84),rgba(11,18,19,.94))}
+.ash100-town-greyfen .ash100-destination:hover,.ash100-town-greyfen .ash100-destination:focus-visible{border-color:rgba(157,199,197,.54);background:linear-gradient(135deg,rgba(28,48,47,.94),rgba(10,18,19,.94))}
+.ash100-town-greyfen .ash100-destination>em{color:#a7c8c4}
