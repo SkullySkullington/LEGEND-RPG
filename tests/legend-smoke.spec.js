@@ -219,7 +219,7 @@ test.describe('LEGEND v0.20.7 browser regression tests', () => {
     await expect(greyfen.locator('[data-unlock="Greyfen"]')).toBeVisible();
     await expect(ironpass).toContainText('Requires Greyfen first');
     await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
-    const state=await page.evaluate(() => {
+    let state=await page.evaluate(() => {
       window.LegendRegionsV100.unlock('Ironpass');
       const pl=window.LegendRuntimeV080.loadPlayer();
       return {currentRegion:pl.currentRegion,known:pl.discoveredRegions,tokens:pl.inventory.roadToken};
@@ -227,6 +227,30 @@ test.describe('LEGEND v0.20.7 browser regression tests', () => {
     expect(state.currentRegion).toBe('Ashmere');
     expect(state.known).not.toContain('Ironpass');
     expect(state.tokens).toBe(50);
+
+    await page.locator('[data-unlock="Greyfen"]').click();
+    await expect(ironpass).toContainText('Complete A Dry Crossing first');
+    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
+    state=await page.evaluate(() => {
+      window.LegendRegionsV100.unlock('Ironpass');
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {currentRegion:pl.currentRegion,known:pl.discoveredRegions,tokens:pl.inventory.roadToken};
+    });
+    expect(state.currentRegion).toBe('Greyfen');
+    expect(state.known).toContain('Greyfen');
+    expect(state.known).not.toContain('Ironpass');
+    expect(state.tokens).toBe(45);
+
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.greyfenDryCrossingComplete=true;
+      rt.savePlayer(pl);
+      window.LegendRegionsV100.render();
+    });
+    await expect(ironpass).toContainText('In development');
+    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
   });
 
   test('Profile opens account screen without falling back to town', async ({ page }) => {
