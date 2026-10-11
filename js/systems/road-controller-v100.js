@@ -74,7 +74,7 @@ function shell(body){
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
+function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
   const areas=[
     {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
@@ -101,6 +101,17 @@ function pointOfInterestPanel(pl,s,stage){
  const point=pointOfInterest(stage);
  if(s.poiUsed&&s.poiUsed[point.key])return '<section class="exp100-poi exp100-poi-done"><div class="exp100-poi-icon">✓</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · INVESTIGATED</span><strong>'+esc(point.name)+'</strong><p>You have already taken what you can from this spot on this expedition.</p></div></section>';
  return '<section class="exp100-poi"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>POINT OF INTEREST · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button></div></section>';
+}
+function routeChoicePanel(s,stage){
+ if(stage!==0)return '';
+ if(s.routeChoice){const chosen=s.routeChoice==='ridge'?'High Ridge':'Reed Cut';return '<section class="exp100-poi exp100-poi-done"><div class="exp100-poi-icon">↗</div><div class="exp100-poi-copy"><span>ROUTE DECISION · RECORDED</span><strong>'+chosen+'</strong><p>Your choice has shaped this expedition. The other track disappears into the mist behind you.</p></div></section>';}
+ return '<section class="exp100-panel exp100-route-choice"><div class="exp100-kicker">THE ROAD FORKS</div><h2>Two ways through the lowlands</h2><p>The High Ridge looks longer but firm underfoot. The Reed Cut is shorter, though a cold blue glimmer moves between the reeds.</p><div class="exp100-choices"><button class="exp100-choice" id="routeRidge"><strong>Take the High Ridge</strong><span>Keep to firmer ground and avoid drawing attention.</span><em>Safer · Road Pressure −8</em></button><button class="exp100-choice" id="routeReeds"><strong>Risk the Reed Cut</strong><span>Follow the strange light and search for what it is guarding.</span><em>Riskier · Gain 1 Bell Fragment, Road Pressure +10</em></button></div></section>';
+}
+function chooseRoadRoute(route){
+ const pl=p();if(!pl)return;const s=ensure(pl);
+ if(Number(s.stage)!==0||s.routeChoice)return renderExpedition('The fork has already been settled for this expedition.');
+ if(route==='ridge'){s.routeChoice='ridge';s.pressure=clamp(s.pressure-8,0,100);save(pl);return renderExpedition('You choose the High Ridge. The ground firms beneath your boots, and the road feels a little less watchful. Road Pressure falls by 8.');}
+ s.routeChoice='reeds';inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+10,0,100);save(pl);return renderExpedition('You slip into the Reed Cut and pluck a Bell Fragment from the mud beside the blue light. Something stirs deeper in the reeds. +1 Bell Fragment; Road Pressure rises by 10.');
 }
 function inspectPointOfInterest(){
  const pl=p();if(!pl)return;const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),point=pointOfInterest(stage);
@@ -130,7 +141,7 @@ function renderExpedition(note=''){
     : '<button class="exp100-dock-action" id="careful" '+(readDone?'disabled':'')+'><strong>'+(readDone?'Road Read':'Read the Road')+'</strong><span>'+(readDone?'Already studied here':'Reduce pressure')+'</span></button><button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Searched':'Search Nearby')+'</strong><span>'+(searchDone?'Already searched here':'Look for useful finds')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Move toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
   const areaPanel='<section class="exp100-area"><div class="exp100-area-icon">'+esc(area.icon)+'</div><div class="exp100-area-copy"><span>'+esc(area.type)+'</span><h2>'+esc(area.name)+'</h2><p>'+esc(area.text)+'</p></div></section>';
   const roadMood=s.pressure>=55?'The air tightens around the trail. Something has begun to follow your pace; another push may draw it close.':s.pressure>=30?'The birds have gone quiet, and your footsteps sound louder than they should. The road is watching.':'Take your time. Read the landmarks, search the roadside, and travel when you feel ready.';
-  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||roadMood)+stats(pl)+areaPanel+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-panel exp100-explore-dock"><div class="exp100-route"><span>YOUR NEXT MOVE</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Explore freely before moving on</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
+  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,note||roadMood)+stats(pl)+areaPanel+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-panel exp100-explore-dock"><div class="exp100-route"><span>YOUR NEXT MOVE</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Explore freely before moving on</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Return to Ashmere</button></div></section>');
   document.querySelectorAll('.exp100-hotspot').forEach(btn=>btn.addEventListener('click',()=>{
    const action=btn.dataset.hotspot;
    if(action==='poi')return inspectPointOfInterest();
@@ -139,6 +150,8 @@ function renderExpedition(note=''){
    if(action==='finish')return finish();
   }));
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
+  document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));
+  document.getElementById('routeReeds')?.addEventListener('click',()=>chooseRoadRoute('reeds'));
   document.getElementById('careful')?.addEventListener('click',()=>resolveChoice('careful'));
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
