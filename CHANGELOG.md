@@ -1,8 +1,9 @@
 ## v0.18.0 — A Road That Remembers Your Choices
 - Added a meaningful first-expedition route decision at South Fork: the safer High Ridge reduces Road Pressure, while the riskier Reed Cut awards a Bell Fragment and increases pressure.
 - Made the opening route choice affect the next stretch: High Ridge keeps the first travel pressure increase low, while Reed Cut draws more danger from the marsh.
+- Added route-specific discoveries at Lantern Ditch: High Ridge travelers find a Ridgeway Cairn and herbs that reduce pressure; Reed Cut travelers find watcher tracks and herbs at the cost of more pressure.
 - The chosen route is recorded in the current expedition and the fork closes after the choice, preventing repeated rewards.
-- Added Playwright regression coverage for route options, risk/reward labels, choice recording, the Reed Cut reward narration, and its later pressure consequence.
+- Added Playwright regression coverage for route options, risk/reward labels, choice recording, and each route's later discovery and pressure consequence.
 
 ## v0.17.0 — A Friendlier Beginning & Living Road Combat
 - Rebuilt traveler creation as a guided seven-step story flow with plain-language prompts, visible progress, atmospheric field notes, deliberate single-choice selection, persistent choices when going Back, and a final story review while preserving the existing save key and character choices.
