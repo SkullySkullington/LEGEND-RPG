@@ -31,11 +31,11 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 **Goal:** Replace placeholder-feeling scenes with a coherent, readable visual identity across Ashmere, Greyfen, and the Old Road that joins them.
 
 - [x] Generate the initial Runway art batch: title, Ashmere/Greyfen scenes and interiors, Old Road/camp/route variants, six class portraits, three enemy portraits, and a starter icon sheet.
-- [x] Wire a preview pass into title, town, road, class-choice, and combat screens, with legacy art fallbacks where applicable.
-- [ ] Export the signed Runway previews to stable local files in `assets/generated/`; the current preview URLs expire and do not count as production-complete assets.
-- [ ] Replace temporary preview URLs in `js/systems/assets-v090.js` with the committed local file paths.
-- [ ] Slice and optimize the nine-cell item sprite sheet into individual WebP/PNG icons after visually checking grid alignment.
-- [ ] Review each screen at desktop and 390px mobile widths; verify crops, contrast, load time, watermark-free exports, and fallback behavior.
+- [x] Export and optimize the 25 generated images into stable local WebP files under `assets/generated/`; the import report confirms 25/25 exports succeeded.
+- [x] Replace temporary preview URLs in `js/systems/assets-v090.js` with committed local file paths.
+- [x] Slice the nine-cell item sheet into nine individual starter item icons and commit them beside the source sheet.
+- [x] Add generated class portraits to character creation and generated enemy portraits to combat.
+- [ ] Review all screens at desktop and 390px mobile widths; verify scene crops, icon centering, contrast, file size, and fallback behavior.
 - Keep UI labels as HTML, never baked into the art.
 - See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
 
