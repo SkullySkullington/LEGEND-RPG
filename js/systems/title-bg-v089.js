@@ -57,19 +57,26 @@
       <div class="v089-bg-fallback" aria-hidden="true"></div>
       <div class="v089-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="v089-shade" aria-hidden="true"></div>
-      <div class="v089-landing">
-        <section class="v089-title-block">
-          <div class="v089-kicker">ASHMERE • THE OLD ROAD</div>
-          <h1>LEGEND</h1>
-          <p><strong>Roads of Ashmere</strong><span>Prepare in town. Travel the Old Road. Return with proof.</span></p>
-        </section>
-        <nav class="v089-menu-block" aria-label="Main menu">
-          <div class="v089-menu-label">Begin the Road</div>
-          <div class="v089-menu-list">${buildButtonHTML(buttons)}</div>
-          <small>Start with Mara. The road can wait until you are ready.</small>
-        </nav>
-        <div class="v089-landing-footer"><a href="feedback.html">Feedback</a><span>•</span><a href="${DISCORD}" target="_blank" rel="noopener">Discord</a></div>
-      </div>
+      <section class="v089-title-block">
+        <div class="v089-kicker">v0.9.1 • Roads of Ashmere</div>
+        <h1>LEGEND</h1>
+        <p><strong>Roads of Ashmere</strong><span>Prepare in town. Travel the Old Road. Return with proof.</span></p>
+      </section>
+      <nav class="v089-menu-block" aria-label="Main menu">
+        <div class="v089-menu-label">Begin the Road</div>
+        <div class="v089-menu-list">${buildButtonHTML(buttons)}</div>
+        <small>Start with Mara, gather supplies, and survive your first road journey.</small>
+      </nav>
+      <aside class="v089-whats-new">
+        <div class="v089-panel-head"><span>What's New</span><strong>v0.9.1</strong></div>
+        <ul>
+          <li>Unavailable menu buttons disabled</li>
+          <li>Interactive dice checks added</li>
+          <li>Old Road menu pass started</li>
+          <li>New asset pipeline active</li>
+        </ul>
+        <div class="v089-links"><a href="feedback.html">Feedback</a><a href="${DISCORD}" target="_blank" rel="noopener">Discord</a></div>
+      </aside>
     </main>`;
 
     const screen = document.getElementById(TITLE_ID);
@@ -123,41 +130,6 @@
       #${TITLE_ID} .v089-links{display:flex;gap:8px;flex-wrap:wrap;}
       #${TITLE_ID} .v089-links a{border:1px solid rgba(125,255,173,.22);border-radius:999px;background:rgba(0,0,0,.24);color:#eaffef;text-decoration:none;padding:7px 10px;font-size:.88rem;}
       @keyframes v089Drift{from{transform:scale(1.012) translate3d(0,0,0)}to{transform:scale(1.04) translate3d(-8px,-4px,0)}}
-      /* v0.20 — cohesive title composition; let the landscape breathe */
-      #${TITLE_ID} .v089-landing{position:absolute;left:clamp(22px,6vw,88px);top:50%;transform:translateY(-50%);width:min(500px,43vw);display:grid;gap:18px;z-index:4}
-      #${TITLE_ID} .v089-title-block{position:static;width:100%;display:grid;gap:7px;justify-items:start;text-align:left;padding:0}
-      #${TITLE_ID} .v089-kicker{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;color:#d7b86a;font-size:.66rem;letter-spacing:.25em!important}
-      #${TITLE_ID} h1{font:600 clamp(4rem,8vw,7.5rem)/.82 Georgia,'Times New Roman',serif;letter-spacing:.025em;text-shadow:0 2px 18px #000c,0 7px 0 #0006}
-      #${TITLE_ID} .v089-title-block p{max-width:390px;padding:0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;text-align:left}
-      #${TITLE_ID} .v089-title-block strong{font:500 clamp(1.2rem,2vw,1.65rem)/1.2 Georgia,'Times New Roman',serif;color:#ead6a2}
-      #${TITLE_ID} .v089-title-block span{margin-top:8px;max-width:360px;color:#d0d6ca;font-size:.94rem;line-height:1.45}
-      #${TITLE_ID} .v089-menu-block{position:static;width:100%;display:grid;gap:9px;margin:0;padding:0}
-      #${TITLE_ID} .v089-menu-label{background:transparent;border:0;border-radius:0;backdrop-filter:none;padding:0;color:#c7b17a;font-size:.63rem;letter-spacing:.2em!important}
-      #${TITLE_ID} .v089-menu-list{width:min(100%,365px);display:grid;gap:6px}
-      #${TITLE_ID} .v089-menu-btn{min-height:44px;padding:11px 14px;border-radius:8px;border-color:rgba(215,184,106,.19);background:linear-gradient(90deg,rgba(7,12,9,.88),rgba(7,12,9,.46));box-shadow:none;backdrop-filter:blur(3px);font-family:Georgia,'Times New Roman',serif;font-size:.98rem;letter-spacing:.02em}
-      #${TITLE_ID} .v089-menu-btn span:before{content:'›';color:#d7b86a}
-      #${TITLE_ID} .v089-menu-btn.primary{background:linear-gradient(100deg,rgba(103,79,37,.78),rgba(29,31,21,.84));border-color:rgba(215,184,106,.58);color:#f2e7c8;box-shadow:inset 0 0 0 1px rgba(215,184,106,.08)}
-      #${TITLE_ID} .v089-menu-btn.primary span:before{color:#ead18c}
-      #${TITLE_ID} .v089-menu-block>small{max-width:360px;padding:0;border:0;border-radius:0;background:transparent;backdrop-filter:none;color:#9ea99b;font-size:.75rem;line-height:1.45}
-      #${TITLE_ID} .v089-landing-footer{display:flex;align-items:center;gap:12px;color:#b6a16a;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
-      #${TITLE_ID} .v089-landing-footer a{color:#c6cbbd;text-decoration:none;border-bottom:1px solid rgba(215,184,106,.24);padding-bottom:2px}
-      #${TITLE_ID} .v089-landing-footer a:hover{color:#ead6a2;border-color:#ead6a2}
-      #${TITLE_ID} .v089-whats-new{display:none!important}
-      @media(max-width:820px){
-        #${TITLE_ID} .v089-landing{position:relative;left:auto;top:auto;transform:none;width:100%;gap:16px;margin-top:min(20svh,165px);padding:10px 8px 24px}
-        #${TITLE_ID} .v089-title-block{justify-items:start;text-align:left}
-        #${TITLE_ID} h1{font-size:clamp(4rem,18vw,6.5rem)}
-        #${TITLE_ID} .v089-title-block p{text-align:left}
-        #${TITLE_ID} .v089-menu-block{width:100%;margin:0}
-        #${TITLE_ID} .v089-menu-list{width:min(100%,440px)}
-        #${TITLE_ID} .v089-bg-img,#${TITLE_ID} .v089-bg-fallback{object-position:center center;background-position:center center}
-      }
-      @media(max-width:430px){
-        #${TITLE_ID} .v089-landing{margin-top:17svh;padding:8px 4px 20px;gap:14px}
-        #${TITLE_ID} h1{font-size:clamp(3.6rem,18vw,4.8rem)}
-        #${TITLE_ID} .v089-title-block span{font-size:.86rem}
-      }
-      @media(prefers-reduced-motion:reduce){#${TITLE_ID} .v089-bg-img,#${TITLE_ID} .v089-bg-fallback,#${TITLE_ID} .v089-embers i{animation:none!important}}
       @keyframes v089Ember{0%{opacity:0;transform:translateY(0) scale(.6)}15%{opacity:.75}100%{opacity:0;transform:translateY(-95vh) scale(1.3)}}
       @media(max-width:1100px){#${TITLE_ID}{--pad:clamp(14px,3vw,30px)}#${TITLE_ID} .v089-title-block{width:min(470px,48vw)}#${TITLE_ID} .v089-menu-block{width:min(300px,34vw)}#${TITLE_ID} .v089-whats-new{width:min(270px,30vw)}}
       @media(max-width:820px){html:has(#${TITLE_ID}), body:has(#${TITLE_ID}){overflow:auto!important;}body:has(#${TITLE_ID}) #root,#${TITLE_ID}{position:relative!important;min-height:100svh!important;height:auto!important;overflow:auto!important;}#${TITLE_ID}{padding:14px;display:grid;align-content:start;gap:12px;}#${TITLE_ID} .v089-bg-img,#${TITLE_ID} .v089-bg-fallback{background-position:center center;position:fixed;}#${TITLE_ID} .v089-shade{position:fixed;background:linear-gradient(180deg,rgba(2,4,3,.24),rgba(2,4,3,.90));}#${TITLE_ID} .v089-title-block,#${TITLE_ID} .v089-menu-block,#${TITLE_ID} .v089-whats-new{position:relative;top:auto;right:auto;left:auto;bottom:auto;width:auto;margin:0;}#${TITLE_ID} .v089-title-block{padding-top:8px;text-align:center;justify-items:center;}#${TITLE_ID} .v089-title-block p{text-align:center;max-width:520px;}#${TITLE_ID} .v089-menu-block{margin-top:30svh;}#${TITLE_ID} h1{font-size:clamp(4rem,22vw,7rem);}#${TITLE_ID} .v089-whats-new{margin-bottom:12px;}}
