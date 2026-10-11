@@ -359,7 +359,7 @@ test.describe('LEGEND v0.20.12 browser regression tests', () => {
     }
     await expect(page.locator('.exp100-combat')).toBeVisible();
     await expect(page.locator('#skill')).toContainText('Trap Shot');
-    await expect(page.locator('.exp100-intent')).toContainText('Enemy intent');
+    await expect(page.locator('.rpg-enemy-tell')).toContainText('Enemy intent');
     await expect(page.locator('#guard')).toContainText('Guard');
     await expect(page.locator('.rpg-turn-heading')).toContainText('YOUR TURN');
     await expect(page.locator('.rpg-command-grid .rpg-command')).toHaveCount(4);
