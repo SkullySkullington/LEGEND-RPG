@@ -1,3 +1,10 @@
+## v0.20.15 — Quiet Title & Town Hierarchy
+- Reworked the active title stylesheet (the actual screen is rendered by `js/game.js`) into a single left-aligned cinematic action column over the landscape, with a compact header, quieter secondary actions, and a low-profile footer.
+- Refined the Ashmere/Greyfen hub layout: removed the duplicated Your Camp quick-link panel, reduced nested card framing, simplified traveler status into a slim line, and gave destination links a consistent storybook hierarchy.
+- Kept all menu labels in HTML and preserved responsive/reduced-motion behavior.
+- Began a dedicated nine-cell service/navigation icon atlas and a replacement portrait for Captain Oric; these Runway generations are still rendering and are not yet shipped as game assets.
+- Visual browser QA and complete Playwright execution remain outstanding; no claim of a full visual sign-off is made.
+
 ## v0.20.4 — Illustrated Service Screens
 - Replaced inline SVG symbols in the Ashmere/Greyfen town controller with local environment, portrait, and item artwork already in the production pack.
 - Reworked the Trading Post into a two-tab Buy/Sell view, with a compact purse/value summary, real item thumbnails, and a single bulk-sell action.
