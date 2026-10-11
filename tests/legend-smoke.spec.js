@@ -111,13 +111,23 @@ test.describe('LEGEND v0.17.0 browser regression tests', () => {
     await page.locator('#v094Name').fill('ChoiceQA');
     await page.locator('#v094Next').click();
     await expect(page.locator('.v094-stepper')).toContainText('STEP 2 OF 7');
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.message));
+    await page.locator('#v094Next').click();
+    await expect(page.locator('#v094ChoiceError')).toBeVisible();
     const identity = page.locator('[data-gender="unspoken"]');
     await identity.click();
     await expect(page.locator('[data-gender="unspoken"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.v094-choice.is-selected')).toContainText('Keep It Unspoken');
+    await expect(pageErrors).toEqual([]);
+    await page.locator('#v094Next').click();
+    const personality = page.locator('[data-personality="kind"]');
+    await personality.click();
+    await expect(page.locator('[data-personality="kind"]')).toHaveAttribute('aria-pressed', 'true');
     await page.locator('#v094Next').click();
     await page.locator('#v094Back').click();
-    await expect(page.locator('[data-gender="unspoken"]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('.v094-choice.is-selected')).toContainText('Keep It Unspoken');
+    await expect(page.locator('[data-personality="kind"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(pageErrors).toEqual([]);
   });
 
   test('Ranger expedition encounter presents its distinct class technique', async ({ page }) => {
