@@ -89,3 +89,57 @@
 .legend-scene-arriving{opacity:0;transform:translateY(7px);filter:brightness(.7);transition:opacity .42s ease,transform .42s ease,filter .42s ease}
 .legend-scene-arriving.legend-scene-arrived{opacity:1;transform:translateY(0);filter:brightness(1)}
 @media(prefers-reduced-motion:reduce){#legend-scene-curtain{transition:none!important}#legend-scene-curtain span{transition:none!important}.legend-scene-arriving{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+
+
+/* v0.20.15 — title hierarchy: landscape first, one quiet action column */
+.title-v100 .v120-title-backdrop{filter:saturate(.84) contrast(1.1) brightness(.76)}
+.title-v100:after{
+ background:
+  linear-gradient(90deg,rgba(3,7,5,.76) 0%,rgba(3,7,5,.56) 30%,rgba(3,7,5,.13) 67%,rgba(3,7,5,.08) 100%),
+  linear-gradient(180deg,rgba(1,4,3,.38),transparent 28%,rgba(1,4,3,.16) 65%,rgba(1,4,3,.72));
+}
+.title-v100 .portal100-header{
+ position:absolute!important;top:0;left:0;right:0;width:100%;margin:0;padding:12px clamp(16px,3vw,40px)!important;
+ border:0!important;border-radius:0!important;background:linear-gradient(180deg,rgba(3,7,5,.72),transparent)!important;
+ box-shadow:none!important;backdrop-filter:none!important;grid-template-columns:minmax(0,1fr) auto!important;
+}
+.title-v100 .portal100-brand{gap:10px}
+.title-v100 .portal100-emblem-wrap{width:38px!important;height:38px!important;border-radius:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.title-v100 .portal100-emblem-wrap img{width:100%;height:100%;object-fit:contain}
+.title-v100 .portal100-brand span{font-size:.62rem!important;letter-spacing:.2em!important}
+.title-v100 .portal100-brand p{font-size:.7rem!important;color:#c1c8b8!important}
+.title-v100 .portal100-header-actions button{min-height:34px!important;padding:6px 11px!important;border:1px solid #d6bd7b33!important;border-radius:7px!important;background:#080d09a6!important;box-shadow:none!important}
+.title-v100 .v120-title-main{justify-content:start!important;align-items:center!important;padding:100px clamp(18px,7vw,100px) 62px!important;min-height:0!important}
+.title-v100 .v120-title-hero{
+ width:min(465px,48vw)!important;max-width:465px!important;margin:0!important;padding:clamp(20px,2.4vw,34px)!important;
+ text-align:left!important;border:1px solid rgba(215,184,106,.2)!important;border-radius:12px!important;
+ background:linear-gradient(115deg,rgba(5,10,7,.87),rgba(5,10,7,.65) 74%,rgba(5,10,7,.42))!important;
+ box-shadow:0 20px 56px #0005,inset 0 1px #fff1c20c!important;backdrop-filter:blur(5px)!important;
+}
+.title-v100 .v120-title-hero:before{inset:8px;border:1px solid rgba(232,199,121,.06);background:linear-gradient(90deg,rgba(232,199,121,.025),transparent 80%)}
+.title-v100 .v120-title-hero>*{position:relative}
+.title-v100 .v120-title-hero .portal100-kicker{font-size:.59rem!important;letter-spacing:.2em!important}
+.title-v100 .v120-title-hero h1{font-size:clamp(3.7rem,6.6vw,6.4rem)!important;letter-spacing:.055em!important;margin:15px 0 8px!important}
+.title-v100 .v120-title-hero h2{font-size:clamp(1.25rem,2vw,1.7rem)!important;margin:0 0 14px!important}
+.title-v100 .v120-title-hero>p{max-width:360px!important;margin:0!important;color:#d0d6ca!important;font-size:.91rem!important;line-height:1.55!important}
+.title-v100 .v120-divider{margin:16px 0!important;justify-content:start!important}
+.title-v100 .v120-divider b{font-size:.57rem!important;letter-spacing:.19em!important;white-space:nowrap}
+.title-v100 .v120-divider span{max-width:38px}
+.title-v100 .v120-traveler-line{margin:0 0 14px!important;padding:10px 0!important;border:0!important;border-top:1px solid #d9b86d2b!important;border-bottom:1px solid #d9b86d2b!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:left!important}
+.title-v100 .v120-avatar{width:34px!important;height:34px!important;flex:0 0 34px;border-radius:50%!important;background:#121911!important;color:#e8c779!important}
+.title-v100 .v120-title-actions{display:grid!important;gap:8px!important;justify-items:start!important}
+.title-v100 .v120-primary{width:min(100%,360px)!important;min-height:54px!important;border-radius:8px!important;text-align:left!important;padding:11px 42px 11px 14px!important}
+.title-v100 .v120-secondary{width:auto!important;min-height:34px!important;padding:6px 10px!important;border:0!important;background:transparent!important;box-shadow:none!important;color:#d0d0bf!important;text-align:left!important}
+.title-v100 .portal100-footer{position:absolute!important;bottom:0;left:0;right:0;width:100%!important;display:flex!important;justify-content:space-between!important;gap:8px!important;padding:10px clamp(16px,3vw,40px)!important;border:0!important;border-radius:0!important;background:linear-gradient(0deg,rgba(3,7,5,.66),transparent)!important;box-shadow:none!important;color:#b7bdad!important;font-size:.59rem!important;letter-spacing:.12em!important}
+@media(max-width:680px){
+ .title-v100 .portal100-header{padding:10px 12px!important}
+ .title-v100 .portal100-brand p{display:none!important}
+ .title-v100 .v120-title-main{padding:90px 12px 52px!important;align-items:end!important}
+ .title-v100 .v120-title-hero{width:100%!important;max-width:440px!important;padding:20px 16px!important}
+ .title-v100 .v120-title-hero h1{font-size:clamp(3.5rem,17vw,5.1rem)!important}
+ .title-v100 .v120-title-hero>p{font-size:.84rem!important}
+ .title-v100 .v120-title-hero .portal100-kicker{font-size:.52rem!important;letter-spacing:.14em!important}
+ .title-v100 .portal100-footer{font-size:.49rem!important;letter-spacing:.06em!important}
+ .title-v100 .portal100-footer span:last-child{max-width:55%;text-align:right}
+}
+@media(prefers-reduced-motion:reduce){.title-v100 .v120-title-backdrop{animation:none!important}}
