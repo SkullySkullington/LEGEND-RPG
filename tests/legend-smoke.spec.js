@@ -156,6 +156,9 @@ test.describe('LEGEND v0.18.0 browser regression tests', () => {
     await expect(page.locator('.exp100-route-choice')).toHaveCount(0);
     await expect(page.locator('.exp100-poi-done')).toContainText('Reed Cut');
     await expect(page.locator('.exp100-head')).toContainText(/Gain 1 Bell Fragment/i);
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-head')).toContainText(/Reed Cut narrows behind you/i);
+    await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 16/i);
   });
 
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
