@@ -97,7 +97,7 @@
   function terminalNav(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen',townLabel=greyfen?'Greyfen':'Town';
     const ariaLabel=greyfen?'Greyfen town navigation':'Ashmere terminal navigation';
-    return `<nav class="ash099-footer ash099-topnav" aria-label="${ariaLabel}"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>${townLabel}</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Traveler</span></button></nav>`;
+    return `<nav class="ash099-footer ash099-topnav" aria-label="${ariaLabel}"><button class="ash099-footer-item active" data-ash-view="home">${icon('inn')}<span>${townLabel}</span></button><button class="ash099-footer-item" data-ash-view="people">${icon('people')}<span>People</span></button><button class="ash099-footer-item" data-ash-view="routes">${icon('road')}<span>Routes</span></button><button class="ash099-footer-item" data-ash-view="archive">${icon('archive')}<span>Journal</span></button><button class="ash099-footer-item" data-ash-view="profile">${icon('profile')}<span>Profile</span></button><button class="ash099-footer-item" data-ash-view="sheet">${icon('sheet')}<span>Traveler</span></button></nav>`;
   }
 
   function renderAshmere(){
@@ -120,6 +120,7 @@
       townCard('inn','Ashmere Inn','Rest, recover, buy supplies, and hear what travelers are saying.','Rest & prepare','inn',g.view==='inn'),
       townCard('trader','Market','Buy essentials, sell road loot, and turn discoveries into gold.','Trade','trader',false),
       townCard('smith','Forge & Workshop','Upgrade weapons and armor, then use the crafting bench for road finds.','Gear & craft','smith',false),
+      townCard('people','Town Square','Talk with Mara Vell, Old Brenn, and Captain Oric. Hear warnings and follow local stories.','Meet the town','people',g.view==='people'||g.view==='mara'||g.view==='brenn'||g.view==='oric'),
       townCard('work','Work Board','Take paid jobs, test your timing, and earn gold plus useful supplies.','Browse jobs','work',g.view==='work'),
       townCard('road','Old Road Gate','Begin the expedition; find clues, face danger, and bring proof home.','Begin expedition','road',g.view==='road'),
       townCard('regions','Road Network','Unlock new regions with Road Tokens, then travel between places you know for gold.','Open map','regions',g.view==='regions')
@@ -278,20 +279,31 @@
   }
 
   function renderInn(){
-    screen(head('Service',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Reedlight Inn':'Ashmere Inn',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Dry your cloak, recover, and listen for lowland rumors.':'A warm room, a locked door, and one night away from the mud.',locationInterior('inn'),'inn'),`<div class="ash099-cards"><button class="ash099-btn ash099-card" id="rest">${icon('inn')}<strong>Rest</strong><small>Restore HP before returning to the Old Road.</small><em>35g</em></button><button class="ash099-btn ash099-card" id="camp">${icon('road')}<strong>Camp Supplies</strong><small>Useful for road pressure and travel prep.</small><em>90g</em></button><button class="ash099-btn ash099-card" id="rumor">${icon('archive')}<strong>Hear a Rumor</strong><small>Ask what travelers are whispering tonight.</small><em>Free</em></button></div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
-    document.getElementById('rest').onclick=()=>buyService(35,pl=>{pl.hp=pl.maxHp},'You rest at the inn.');
-    document.getElementById('camp').onclick=()=>buyService(90,pl=>{pl.inventory.camp=Number(pl.inventory.camp||0)+1},'Bought camp supplies.');
-    document.getElementById('rumor').onclick=()=>{
-      const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
-      const rumors=greyfen
-        ?['The water rose after the bell rang, though no rain had fallen.','A blue light is seen near the drowned boundary stones at dusk.','The causeway markers have shifted. Or something has turned them.']
-        :['A broken shrine showed itself in the fog last night.','Blackroot wolves hate firelight.','Brenn pays extra for proof that still bleeds.'];
-      note(rumors[Math.floor(Math.random()*rumors.length)]);
-    };
-  }
-  function buyService(cost,fn,msg){const pl=p();if(Number(pl.gold||0)<cost)return note('Not enough gold.');pl.gold-=cost;fn(pl);save(pl);note(msg);}
+ const pl=p();if(!pl)return;
+ const greyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
+ const title=greyfen?'Reedlight Inn':'Ashmere Inn';
+ const desc=greyfen?'Dry your cloak, recover, and listen for lowland rumors.':'A warm room, a locked door, and one night away from the mud.';
+ const intro=greyfen?'The room is damp, but the fire is steady. Rest before the causeway takes another toll.':'The inn smells of cedar smoke and wet wool. The road can wait until morning.';
+ screen(head('Inn & Lodging',title,desc,locationInterior('inn'),'inn'),
+  '<section class="ash099-service-dashboard">'+
+   '<div class="ash099-service-overview"><div class="ash099-service-note"><span>THE INNKEEPER’S NOTE</span><strong>'+esc(intro)+'</strong><p>Take a breath, stock the pack, or ask what the regulars have heard.</p></div><div class="ash099-service-wallet"><span>YOUR PURSE</span><strong>'+gold(pl.gold)+'</strong><small>HEALTH · '+Number(pl.hp||0)+' / '+Number(pl.maxHp||1)+'</small><i><b style="width:'+Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)))+'%"></b></i></div></div>'+
+   '<div class="ash099-service-actions">'+
+    '<button class="ash099-btn ash099-service-card" id="rest" type="button"><span class="ash099-service-icon">'+icon('inn')+'</span><span class="ash099-service-copy"><small>RECOVER</small><strong>Rest for the night</strong><span>Restore all health and return to the road ready.</span></span><em>35g</em></button>'+
+    '<button class="ash099-btn ash099-service-card" id="camp" type="button"><span class="ash099-service-icon">'+icon('road')+'</span><span class="ash099-service-copy"><small>PACK SUPPLIES</small><strong>Camp Supplies</strong><span>Carry shelter and dry kindling for safer expeditions.</span></span><em>90g</em></button>'+
+    '<button class="ash099-btn ash099-service-card" id="rumor" type="button"><span class="ash099-service-icon">'+icon('archive')+'</span><span class="ash099-service-copy"><small>LISTEN IN</small><strong>Hear a Rumor</strong><span>Ask what has been happening beyond the lantern line.</span></span><em>FREE</em></button>'+
+   '</div><div id="ashNote" class="ash099-note" style="display:none"></div></section>');
+ document.getElementById('rest').onclick=()=>buyService(35,pl=>{pl.hp=pl.maxHp},'You rest at the inn and recover completely.');
+ document.getElementById('camp').onclick=()=>buyService(90,pl=>{pl.inventory.camp=Number(pl.inventory.camp||0)+1},'Bought camp supplies.');
+ document.getElementById('rumor').onclick=()=>{
+  const rumors=greyfen
+   ?['The water rose after the bell rang, though no rain had fallen.','A blue light is seen near the drowned boundary stones at dusk.','The causeway markers have shifted. Or something has turned them.']
+   :['A broken shrine showed itself in the fog last night.','Blackroot wolves hate firelight.','Brenn pays extra for proof that still bleeds.'];
+  note(rumors[Math.floor(Math.random()*rumors.length)]);
+ };
+}
+function buyService(cost,fn,msg){const pl=p();if(Number(pl.gold||0)<cost)return note('Not enough gold.');pl.gold-=cost;fn(pl);save(pl);note(msg);}
 
-  const workJobs = {
+const workJobs = {
     wood:{title:'Split Firewood',desc:'Line up the axe strike and split clean through wet ash logs.',skill:'strength',pay:38,item:'woodScrap',amount:1,verb:'Strike',hint:'Hit the gold band for a clean split.'},
     gate:{title:'Watch the Gate',desc:'Spot movement beyond the lantern line before Oric has to shout.',skill:'survival',pay:42,item:'food',amount:1,verb:'Signal',hint:'Signal when the marker crosses the watchlight.'},
     records:{title:'Sort Archive Records',desc:'Find the right ledger tab before Mara loses patience.',skill:'lore',pay:45,item:'roadHerb',amount:1,verb:'File',hint:'Click when the marker reaches the stamped section.'},

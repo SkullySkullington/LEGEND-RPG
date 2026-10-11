@@ -26,6 +26,34 @@ function tone(kind='tap'){
   osc.onended=()=>ctx.close();
  }catch(e){}
 }
+const BATTLE_AUDIO = {
+ theme:'assets/audio/battle/old-road-battle_loop.wav',
+ swing:'assets/audio/battle/battle_swing.wav',
+ heavy:'assets/audio/battle/battle_heavy.wav',
+ hit:'assets/audio/battle/battle_hit.wav',
+ guard:'assets/audio/battle/battle_guard.wav',
+ heal:'assets/audio/battle/battle_heal.wav',
+ magic:'assets/audio/battle/battle_magic.wav',
+ victory:'assets/audio/battle/battle_victory.wav'
+};
+let battleMusic=null;
+function playBattleFx(kind){
+ if(!soundOn())return;
+ try{const audio=new Audio(BATTLE_AUDIO[kind]||BATTLE_AUDIO.swing);audio.volume=kind==='hit'?.34:kind==='victory'?.3:.2;audio.play().catch(()=>{});}catch(e){}
+}
+function startBattleMusic(){
+ if(!soundOn())return;
+ try{
+  if(!battleMusic){battleMusic=new Audio(BATTLE_AUDIO.theme);battleMusic.loop=true;battleMusic.volume=.17;}
+  if(battleMusic.paused)battleMusic.play().catch(()=>{});
+ }catch(e){}
+}
+function stopBattleMusic(){
+ if(!battleMusic)return;
+ try{battleMusic.pause();battleMusic.currentTime=0;}catch(e){}
+ battleMusic=null;
+}
+
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(stage=0,interactive=true){
  const art=A().locations||{};
@@ -78,7 +106,7 @@ function shell(body){
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
+function start(){stopBattleMusic();const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;s.pressure=clamp(s.pressure+8,0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition('You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
   const areas=[
     {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
@@ -273,42 +301,66 @@ function classTechnique(pl){
 function combat(enemy,note=''){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
  enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
- const intentText=enemy.snared?'Snared · next attack weakened':enemy.intent==='heavy'?'Winding up a heavy attack':enemy.intent==='guardbreak'?'Preparing to break your guard':'Quick strike · guard or punish the opening';
+ const intentText=enemy.snared?'Snared · its next blow is weakened':enemy.intent==='heavy'?'Heavy wind-up · GUARD or disrupt it':enemy.intent==='guardbreak'?'Guard-break · strike first or use ACT':'Quick strike · GUARD softens the hit';
  const stableEnemies=A().enemies||{},legacyArt=A().byName?.(enemy.name)||'',enemyName=String(enemy.name||'').toLowerCase();
  const art=(enemyName.includes('wolf')?stableEnemies.blackrootWolf:enemyName.includes('goblin')?stableEnemies.roadGoblin:enemyName.includes('wisp')?stableEnemies.lanternWisp:'')||legacyArt;
- shell(header(pl,s,'ROAD ENCOUNTER',enemy.name,enemy.text||'Something blocks the road.')+stats(pl)+
- '<section class="exp100-panel exp100-combat"><div class="exp100-battlefield">'+(art?'<img class="exp100-enemy-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'" onerror="'+(legacyArt?'if(this.dataset.fallbackApplied){this.style.display=\'none\'}else{this.dataset.fallbackApplied=\'1\';this.src=\''+esc(legacyArt)+'\'}':'this.style.display=\'none\'')+'">':'')+
- '<div class="exp100-enemy"><strong>'+esc(enemy.name)+'</strong><span>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</span><i><b style="width:'+clamp(Math.round(enemy.hp/enemy.maxHp*100),0,100)+'%"></b></i><em class="exp100-intent">Enemy intent · '+intentText+'</em></div></div>'+
- '<p class="exp100-combat-note">'+esc(note||'Read the enemy’s intent. Guard the heavy wind-up, punish a quick strike with damage, and break a guard-crushing attack before it lands.')+'</p><p class="exp100-gear">Weapon: '+esc(w.name)+' · Armor: '+esc(a.name)+' · Potions: '+Number(pl.inventory?.potion||0)+' · Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</p>'+
- '<div class="exp100-choices exp100-battle-actions"><button class="exp100-choice primary" id="strike"><strong>Attack</strong><span>Reliable weapon damage. No hit roll.</span><em>'+Math.max(1,Number(w.min||1)+score(pl,'strength'))+'–'+Math.max(2,Number(w.max||3)+score(pl,'strength'))+' damage</em></button>'+
- '<button class="exp100-choice" id="heavy"><strong>Heavy Strike</strong><span>Commit to a stronger blow; the enemy can punish your recovery.</span><em>High damage · incoming hit +4</em></button>'+
- '<button class="exp100-choice" id="guard"><strong>Guard</strong><span>Brace for the telegraphed attack and reduce its damage.</span><em>Best against heavy attacks</em></button>'+
- '<button class="exp100-choice exp100-technique" id="skill" '+(Number(enemy.skillCooldown||0)>0?'disabled':'')+'><strong>'+esc(classTechnique(pl).name)+'</strong><span>'+esc(classTechnique(pl).text)+'</span><em>'+(Number(enemy.skillCooldown||0)>0?'Recovering · '+Number(enemy.skillCooldown||0)+' turn(s)':classTechnique(pl).effect==='snare'?'Damage + weaken next attack':classTechnique(pl).effect==='disrupt'?'Damage + disrupt heavy wind-up':classTechnique(pl).effect==='steal'?'Damage + steal 5–12g':classTechnique(pl).effect==='steady'?'Damage + lower road pressure':classTechnique(pl).effect==='luck'?'Damage + recover 3–5 HP':'Damage + class bonus')+'</em></button>'+
- '<button class="exp100-choice" id="item" '+(Number(pl.inventory?.potion||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Healing Potion</strong><span>Restore 30% of maximum health.</span><em>Potions: '+Number(pl.inventory?.potion||0)+'</em></button>'+
- '<button class="exp100-choice" id="poultice" '+(Number(pl.inventory?.roadPoultice||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><strong>Use Road Poultice</strong><span>Restore 20% of maximum health.</span><em>Poultices: '+Number(pl.inventory?.roadPoultice||0)+'</em></button>'+
- '<button class="exp100-choice" id="flee"><strong>Fall Back</strong><span>Leave the encounter, losing a little progress pressure.</span><em>Retreat</em></button></div></section>');
- document.getElementById('strike').onclick=()=>combatAction(enemy,'attack');
- document.getElementById('heavy').onclick=()=>combatAction(enemy,'heavy');
- document.getElementById('guard').onclick=()=>combatAction(enemy,'guard');
- document.getElementById('skill').onclick=()=>combatAction(enemy,'skill');
- document.getElementById('item').onclick=()=>combatAction(enemy,'item');
- document.getElementById('poultice').onclick=()=>combatAction(enemy,'poultice');
- document.getElementById('flee').onclick=()=>{s.pressure=clamp(s.pressure-8,0,100);save(pl);renderExpedition('You withdraw from '+enemy.name+' and regroup on the road.');};
+ const heroArt=A().classes?.[pl.className]||'',technique=classTechnique(pl),health=hpPct(pl);
+ const playerHit=/hits you for|blow|damage taken/i.test(note),foeHit=/lands for|attack lands|Heavy Strike lands|Rune Bolt lands|Cleave lands|Trap Shot lands|Swipe lands/i.test(note);
+ const turnNumber=Number(enemy.turn||0)+1;
+ startBattleMusic();
+ shell('<section class="exp100-panel exp100-combat rpg-battle '+(playerHit?'rpg-player-hit ':'')+(foeHit?'rpg-foe-hit':'')+'" aria-label="Turn-based battle">'+
+  '<div class="rpg-battle-topline"><div><span class="rpg-overline">THE OLD ROAD</span><strong>ENCOUNTER <i> / </i> TURN '+turnNumber+'</strong></div><button class="rpg-sound-toggle" id="battleSound" type="button" aria-label="Toggle battle music and sound">'+(soundOn()?'♫ SOUND ON':'♫ SOUND OFF')+'</button></div>'+
+  '<div class="rpg-battlefield"><div class="rpg-battle-moon" aria-hidden="true"></div><div class="rpg-battle-orbit" aria-hidden="true"></div><div class="rpg-ground-haze" aria-hidden="true"></div>'+
+   '<div class="rpg-foe-side"><div class="rpg-foe-nameplate"><span>OPPONENT</span><strong>'+esc(enemy.name)+'</strong><small>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</small><div class="rpg-foe-hp"><i style="width:'+clamp(Math.round(Number(enemy.hp)/Math.max(1,Number(enemy.maxHp))*100),0,100)+'%"></i></div></div>'+
+   '<div class="rpg-foe-sprite">'+(art?'<img class="rpg-foe-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'">':'<span class="rpg-foe-unknown" aria-hidden="true">✦</span>')+'<i class="rpg-foe-shadow"></i></div></div>'+
+   '<div class="rpg-target-arrow" aria-hidden="true">‹</div></div>'+
+  '<div class="rpg-combat-status"><div class="rpg-hero-portrait">'+(heroArt?'<img src="'+esc(heroArt)+'" alt="">':'<span aria-hidden="true">✧</span>')+'</div>'+
+   '<div class="rpg-hero-copy"><div class="rpg-hero-name"><strong>'+esc(pl.username||'Traveler')+'</strong><span>LV '+Math.max(1,Number(pl.level||1))+' · '+esc(pl.className||'Wayfarer')+'</span></div>'+
+   '<div class="rpg-hero-vitals"><div class="rpg-vital-label"><span>HP</span><strong>'+Number(pl.hp||0)+' <i>/</i> '+Number(pl.maxHp||1)+'</strong></div><div class="rpg-hero-hp"><i style="width:'+health+'%"></i></div></div>'+
+   '<div class="rpg-hero-resources"><span>WEAPON <b>'+esc(w.name)+'</b></span><span>ARMOR <b>'+esc(a.name)+'</b></span><span>POTIONS <b>'+Number(pl.inventory?.potion||0)+'</b></span><span>GOLD <b>'+Number(pl.gold||0)+'g</b></span></div></div></div>'+
+  '<div class="rpg-dialogue" aria-live="polite"><span class="rpg-dialogue-star" aria-hidden="true">✦</span><div><span class="rpg-dialogue-kicker">'+(note?'BATTLE LOG':'A HOSTILE APPROACHES')+'</span><p>'+(note?esc(note):esc(enemy.name+' blocks the road. Read its intent, then choose your move.'))+'</p></div></div>'+
+  '<div class="rpg-enemy-tell"><span class="rpg-tell-mark" aria-hidden="true">!</span><div><small>ENEMY INTENT</small><span class="exp100-intent">'+intentText+'</span></div></div>'+
+  '<div class="rpg-turn-heading"><div><span>YOUR TURN</span><strong>Choose a command</strong></div><small>One action gives the enemy its turn.</small></div>'+
+  '<div class="rpg-command-grid" role="group" aria-label="Battle commands">'+
+   '<button class="rpg-command rpg-command-fight" id="strike" type="button"><span class="rpg-command-glyph" aria-hidden="true">⚔</span><span class="rpg-command-label"><strong>FIGHT</strong><small>Quick strike</small></span><em>'+Math.max(1,Number(w.min||1)+score(pl,'strength'))+'–'+Math.max(2,Number(w.max||3)+score(pl,'strength'))+'</em></button>'+
+   '<button class="rpg-command rpg-command-act" id="skill" type="button" '+(Number(enemy.skillCooldown||0)>0?'disabled':'')+'><span class="rpg-command-glyph" aria-hidden="true">✧</span><span class="rpg-command-label"><strong>ACT</strong><small>'+esc(technique.name)+'</small></span><em>'+(Number(enemy.skillCooldown||0)>0?'COOLDOWN':'CLASS MOVE')+'</em></button>'+
+   '<button class="rpg-command rpg-command-item" id="item" type="button" '+(Number(pl.inventory?.potion||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'><span class="rpg-command-glyph" aria-hidden="true">✚</span><span class="rpg-command-label"><strong>ITEM</strong><small>Healing potion</small></span><em>'+Number(pl.inventory?.potion||0)+' LEFT</em></button>'+
+   '<button class="rpg-command rpg-command-guard" id="guard" type="button"><span class="rpg-command-glyph" aria-hidden="true">⬡</span><span class="rpg-command-label"><strong>GUARD</strong><small>Brace for impact</small></span><em>DEFEND</em></button>'+
+  '</div>'+
+  '<div class="rpg-battle-utilities"><span>OTHER MOVES</span><button class="rpg-utility-command" id="heavy" type="button">Heavy Strike <small>Risky · high damage</small></button>'+
+   '<button class="rpg-utility-command" id="poultice" type="button" '+(Number(pl.inventory?.roadPoultice||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'>Road Poultice <small>'+Number(pl.inventory?.roadPoultice||0)+' in pack</small></button>'+
+   '<button class="rpg-utility-command rpg-retreat" id="flee" type="button">Retreat <small>Abandon this encounter</small></button></div>'+
+  '<p class="rpg-battle-footnote">'+esc(technique.text)+' Armor softens incoming blows; the heavy wind-up can be guarded against or disrupted.</p></section>');
+ const button=(id,fn)=>{const el=document.getElementById(id);if(el)el.onclick=fn;};
+ button('strike',()=>combatAction(enemy,'attack'));
+ button('heavy',()=>combatAction(enemy,'heavy'));
+ button('guard',()=>combatAction(enemy,'guard'));
+ button('skill',()=>combatAction(enemy,'skill'));
+ button('item',()=>combatAction(enemy,'item'));
+ button('poultice',()=>combatAction(enemy,'poultice'));
+ button('flee',()=>{stopBattleMusic();s.pressure=clamp(s.pressure-8,0,100);save(pl);renderExpedition('You withdraw from '+enemy.name+' and regroup on the road.');});
+ button('battleSound',()=>{
+  try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on');}catch(e){}
+  if(soundOn()){startBattleMusic();playBattleFx('magic');}else{stopBattleMusic();}
+  const control=document.getElementById('battleSound');if(control)control.textContent=soundOn()?'♫ SOUND ON':'♫ SOUND OFF';
+ });
 }
 function combatAction(enemy,action){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
- enemy.skillCooldown=Math.max(0,Number(enemy.skillCooldown||0)-1);
- if(action==='skill'&&enemy.skillCooldown>0)return combat(enemy,'Your class technique is still recovering. Choose another move this turn.');
- let note='',guarding=action==='guard';
+ if(action==='skill'&&Number(enemy.skillCooldown||0)>0)return combat(enemy,'Your class technique is recovering. Choose another command; this does not consume your turn.');
+ const guarding=action==='guard';
+ playBattleFx(action==='guard'?'guard':action==='item'||action==='poultice'?'heal':action==='skill'?'magic':action==='heavy'?'heavy':'swing');
+ let note='';
  if(action==='item'){
-   if(Number(pl.inventory?.potion||0)<1)return combat(enemy,'You have no healing potions left.');
-   pl.inventory.potion--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.3)));pl.hp=Number(pl.hp||1)+heal;note='You use a Healing Potion and recover '+heal+' HP.';
+   if(Number(pl.inventory?.potion||0)<1)return combat(enemy,'Your pack is out of healing potions.');
+   if(Number(pl.hp||0)>=Number(pl.maxHp||1))return combat(enemy,'You are already at full health. Save the potion for a rougher turn.');
+   pl.inventory.potion--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.3)));pl.hp=Number(pl.hp||1)+heal;note='You drink a Healing Potion and recover '+heal+' HP.';
  }else if(action==='poultice'){
-   if(Number(pl.inventory?.roadPoultice||0)<1)return combat(enemy,'You have no Road Poultices left.');
-   if(Number(pl.hp||0)>=Number(pl.maxHp||1))return combat(enemy,'Your health is already full.');
-   pl.inventory.roadPoultice--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.2)));pl.hp=Number(pl.hp||1)+heal;note='You apply a Road Poultice and recover '+heal+' HP.';
+   if(Number(pl.inventory?.roadPoultice||0)<1)return combat(enemy,'There are no Road Poultices left in your pack.');
+   if(Number(pl.hp||0)>=Number(pl.maxHp||1))return combat(enemy,'You are already at full health.');
+   pl.inventory.roadPoultice--;const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),Math.max(1,Math.ceil(Number(pl.maxHp||1)*.2)));pl.hp=Number(pl.hp||1)+heal;note='You bind a Road Poultice over your wounds and recover '+heal+' HP.';
  }else if(action==='guard'){
-   note='You set your stance and brace for the incoming blow.';
+   note='You set your feet, raise your guard, and wait for the strike.';
  }else{
    let damage=0;
    if(action==='attack')damage=Math.max(1,rand(Number(w.min||1),Number(w.max||3))+score(pl,'strength'));
@@ -317,27 +369,34 @@ function combatAction(enemy,action){
     const move=classTechnique(pl).effect;
     damage=Math.max(2,rand(Number(w.min||1),Number(w.max||3))+Math.max(1,Number(pl.level||1))+Math.max(0,score(pl,'strength')+score(pl,'magic')+score(pl,'agility')));
     if(move==='bonus damage')damage+=Math.max(3,score(pl,'strength')*2);
-    if(move==='snare')enemy.snared=true;
-    if(move==='disrupt'&&enemy.intent==='heavy'){enemy.intent='attack';note='Your Rune Bolt breaks the heavy wind-up. ';}
-    if(move==='steal'){const stolen=rand(5,12);pl.gold=Number(pl.gold||0)+stolen;note='Your Swipe nicks '+stolen+'g. ';}
-    if(move==='steady'){s.pressure=clamp(s.pressure-6,0,100);note='Your fieldcraft steadies you; Road Pressure falls by 6. ';}
+    if(move==='snare'){enemy.snared=true;note='Your trap catches the enemy off-balance. ';}
+    if(move==='disrupt'&&enemy.intent==='heavy'){enemy.intent='attack';note='Your Rune Bolt shatters the enemy’s heavy wind-up. ';}
+    if(move==='steal'){const stolen=rand(5,12);pl.gold=Number(pl.gold||0)+stolen;note='Your Swipe snatches '+stolen+'g from the enemy. ';}
+    if(move==='steady'){s.pressure=clamp(s.pressure-6,0,100);note='Your fieldcraft steadies your nerves; Road Pressure falls by 6. ';}
     if(move==='luck'){const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),rand(3,5));pl.hp=Number(pl.hp||1)+heal;note='A lucky opening restores '+heal+' HP. ';}
     enemy.skillCooldown=2;
    }
-   enemy.hp-=damage;note+=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your '+classTechnique(pl).name+' lands for ':'Your attack lands for ')+damage+' damage.';
+   enemy.hp-=damage;
+   note+=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your '+classTechnique(pl).name+' lands for ':'Your strike lands for ')+damage+' damage.';
+   if(damage>=Math.max(1,Number(enemy.maxHp||1)*.28))note+=' The impact staggers your foe.';
  }
  if(enemy.hp<=0){save(pl);return win(enemy)}
- const base=enemy.damage||[3,7],rawBase=enemy.intent==='heavy'?Number(base[1]||7)+3:enemy.intent==='guardbreak'?Number(base[0]||3)+2:rand(Number(base[0]||3),Number(base[1]||7));
+ const base=enemy.damage||[3,7];
+ const rawBase=enemy.intent==='heavy'?Number(base[1]||7)+3:enemy.intent==='guardbreak'?Number(base[0]||3)+2:rand(Number(base[0]||3),Number(base[1]||7));
  const raw=rawBase+(action==='heavy'?4:0)-(enemy.snared?7:0);
- const armorValue=Math.max(0,Number(a.defense||0)),reduction=enemy.intent==='guardbreak'?Math.floor(armorValue*.4)+(guarding?5:0):armorValue+(guarding?(enemy.intent==='heavy'?8:5):0);
+ const armorValue=Math.max(0,Number(a.defense||0));
+ const reduction=enemy.intent==='guardbreak'?Math.floor(armorValue*.4)+(guarding?5:0):armorValue+(guarding?(enemy.intent==='heavy'?8:5):0);
  const incoming=Math.max(0,raw-reduction);pl.hp=Math.max(0,Number(pl.hp||1)-incoming);
- if(enemy.snared){note+=' The trap weakens its strike.';enemy.snared=false;}
+ if(enemy.snared){note+=' The trap weakens the counterattack.';enemy.snared=false;}
  enemy.turn=Number(enemy.turn||0)+1;enemy.intent=enemyIntent(enemy);
- note+=(guarding?' Your guard absorbs most of the blow.':' '+enemy.name+' hits you for '+incoming+' damage.')+(action==='heavy'?' Your recovery leaves you exposed.':'');
- if(pl.hp<=0){pl.hp=1;s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
+ if(action!=='skill')enemy.skillCooldown=Math.max(0,Number(enemy.skillCooldown||0)-1);
+ note+=(guarding?' Your guard turns the blow aside.':' '+enemy.name+' hits you for '+incoming+' damage.')+(action==='heavy'?' Your heavy swing leaves you exposed.':'');
+ if(incoming>0)playBattleFx('hit');
+ if(pl.hp<=0){pl.hp=1;s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);stopBattleMusic();return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
  save(pl);combat(enemy,note);
 }
 function win(enemy){
+ stopBattleMusic();playBattleFx('victory');tone('success');
  const pl=p();if(!pl)return;const s=ensure(pl);inv(pl,enemy.reward||'fur',1);
  const progress=window.LegendProgressionV100?.award(pl,25+Math.min(20,Number(s.stage||0)*4));
  s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;
@@ -345,6 +404,7 @@ function win(enemy){
 }
 function finish(){const pl=p();if(!pl)return;const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;pl.gold=Number(pl.gold||0)+reward;if(complete)inv(pl,'roadToken',1);const progress=window.LegendProgressionV100?.award(pl,15+Number(s.stage||0)*10);pl.stats=pl.stats||{};pl.stats.oldRoadClears=Number(pl.stats.oldRoadClears||0)+1;s.stage=0;s.pressure=clamp(Math.floor(s.pressure*.35),0,100);save(pl);outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level+'.':'')+'.':''),'Return')}
 function outcome(title,text,kicker,skill,modifier){
+ stopBattleMusic();
  const pl=p();if(!pl)return;renderExpedition(title+': '+text);
 }
 window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition};

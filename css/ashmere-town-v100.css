@@ -150,3 +150,16 @@
 .ash100-town-greyfen .ash100-destination.featured{border-color:rgba(139,181,184,.34);background:linear-gradient(120deg,rgba(30,47,45,.84),rgba(11,18,19,.94))}
 .ash100-town-greyfen .ash100-destination:hover,.ash100-town-greyfen .ash100-destination:focus-visible{border-color:rgba(157,199,197,.54);background:linear-gradient(135deg,rgba(28,48,47,.94),rgba(10,18,19,.94))}
 .ash100-town-greyfen .ash100-destination>em{color:#a7c8c4}
+
+
+/* v0.20.12 — Town Square and Work Board are different destinations by design */
+.ash100-destinations{gap:10px}
+.ash100-destination{min-height:104px;padding:14px;border-radius:14px;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.ash100-destination-icon .ash099-icon{width:40px;height:40px;border-radius:11px}
+.ash100-destination-copy{display:grid;gap:5px}
+.ash100-destination-copy strong{font:500 1.02rem/1.15 Georgia,'Times New Roman',serif;letter-spacing:0;color:#f0e4c5}
+.ash100-destination-copy small{font-size:.76rem;line-height:1.4;color:#a0b0a2}
+.ash100-destination>em{align-self:end;font-size:.63rem;letter-spacing:.08em;color:#cbb476}
+.ash100-destination:hover,.ash100-destination:focus-visible{transform:translateY(-2px);outline:none;border-color:rgba(215,184,106,.52);background:linear-gradient(125deg,rgba(37,40,27,.96),rgba(12,18,13,.96))}
+.ash100-destination[data-ash-view="people"] .ash100-destination-icon{color:#ddca94;background:linear-gradient(145deg,rgba(201,158,82,.17),rgba(8,13,10,.8))}
+@media(prefers-reduced-motion:reduce){.ash100-destination{transition:none}.ash100-destination:hover{transform:none}}

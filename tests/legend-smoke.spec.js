@@ -34,11 +34,11 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.11 browser regression tests', () => {
+test.describe('LEGEND v0.20.12 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.11/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.11');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.12/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.12');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -301,6 +301,17 @@ test.describe('LEGEND v0.20.11 browser regression tests', () => {
     expect(overflow).toBe(false);
   });
 
+  test('Ashmere Town Square keeps direct conversations with local NPCs accessible', async ({ page }) => {
+    await startFreshCharacter(page, 'PeopleQA');
+    await expect(page.locator('.ash100-destinations')).toContainText('Town Square');
+    await page.getByRole('button', { name: /Town Square/i }).click();
+    await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Captain Oric/i })).toBeVisible();
+    await page.locator('[data-ash-view="oric"]').click();
+    await expect(page.getByRole('heading', { name: 'Captain Oric' })).toBeVisible();
+    await expect.poll(() => page.locator('.ash099-head img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+  });
+
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
     await startFreshCharacter(page, 'JobQA');
     await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
@@ -350,6 +361,11 @@ test.describe('LEGEND v0.20.11 browser regression tests', () => {
     await expect(page.locator('#skill')).toContainText('Trap Shot');
     await expect(page.locator('.exp100-intent')).toContainText('Enemy intent');
     await expect(page.locator('#guard')).toContainText('Guard');
+    await expect(page.locator('.rpg-turn-heading')).toContainText('YOUR TURN');
+    await expect(page.locator('.rpg-command-grid .rpg-command')).toHaveCount(4);
+    await expect(page.locator('#strike')).toContainText('FIGHT');
+    await expect(page.locator('#skill')).toContainText('ACT');
+    await expect(page.locator('#item')).toContainText('ITEM');
   });
 
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {

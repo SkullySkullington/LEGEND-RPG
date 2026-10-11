@@ -84,3 +84,13 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - No account/Supabase work is in scope for this pass.
 - Production assets must be clean exports without visible watermarks; watermarked previews are reference-only.
 - Do not call a feature complete based on source changes alone; record whether it passed automated or live-browser testing.
+
+
+## v0.20.12 — Town conversations, refreshed services, and turn-based battle UI
+
+- Split Ashmere's former combined Town Hall destination into **Town Square** and **Work Board**; added a persistent People navigation entry so NPC conversations remain accessible.
+- Rebuilt the Inn service panel with a purse/health summary and distinct recovery, supplies, and rumor actions. Corrected the Market camp-supply price to match the 90g inn price.
+- Reworked encounters into a four-command turn menu (FIGHT / ACT / ITEM / GUARD) with secondary heavy-strike, poultice, and retreat actions; kept the existing combat calculations, class effects, rewards, and save model.
+- Added enemy-intent telegraphing, animated hit/guard feedback, player HP/gear display, a looping battle theme, and local battle action sounds.
+- Added Playwright assertions for reaching Town Square and talking to Captain Oric, and for the four-command battle interface.
+- Source implementation is complete; automated Playwright and live-browser checks must pass before this entry is treated as fully validated.
