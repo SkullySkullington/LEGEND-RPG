@@ -32,7 +32,7 @@ The Old Road now has named route stops, including two waystations where traveler
 
 The earlier skill-check philosophy remains useful under the hood, but the player-facing experience is moving toward **choices first, resolution second**. Stats, gear, traits, supplies, and preparation should influence outcomes without making every interaction feel like a tabletop dice prompt.
 
-## Current Build
+## Previous Build Notes
 
 ### v0.17.0 — A Friendlier Beginning & Living Road Combat
 
