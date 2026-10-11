@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/import-runway-art-pack.yml"
+      - "js/systems/assets-v090.js"
 
 permissions:
   contents: write
