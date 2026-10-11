@@ -1,5 +1,5 @@
 // LEGEND v0.20.0 - Stable production asset manifest.
-// Generated art is stored locally in assets/generated; no expiring preview URLs.
+// Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
@@ -49,12 +49,18 @@
       lanternWisp: 'assets/generated/enemies/lantern-wisp.webp'
     },
     items: {
-      food: 'assets/items/consumables/item_food_rations_v1.png',
-      potion: 'assets/items/consumables/item_healing_potion_v1.png',
-      roadToken: 'assets/items/quest/item_road_token_v1.png',
-      bellFragment: 'assets/items/quest/item_bell_fragment_v1.png',
-      pelt: 'assets/items/materials/item_pelt_v1.png',
-      iconSheet: 'assets/generated/items/item-icon-sheet.webp'
+      food: 'assets/generated/items/ration-bundle.webp',
+      rationBundle: 'assets/generated/items/ration-bundle.webp',
+      potion: 'assets/generated/items/healing-potion.webp',
+      roadToken: 'assets/generated/items/road-token.webp',
+      bellFragment: 'assets/generated/items/bell-fragment.webp',
+      camp: 'assets/generated/items/camp-supplies.webp',
+      roadHerb: 'assets/generated/items/road-herbs.webp',
+      shortSword: 'assets/generated/items/short-sword.webp',
+      bow: 'assets/generated/items/hunting-bow.webp',
+      shield: 'assets/generated/items/round-shield.webp',
+      iconSheet: 'assets/generated/items/item-icon-sheet.webp',
+      pelt: 'assets/items/materials/item_pelt_v1.png'
     },
     byName(name='') {
       const n = String(name).toLowerCase();
