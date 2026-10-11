@@ -170,6 +170,32 @@ test.describe('LEGEND v0.20.5 browser regression tests', () => {
     await expect(page.locator('.ash100-town')).toHaveCount(0);
   });
 
+  test('regional unlocks enforce Greyfen before Ironpass even with surplus tokens', async ({ page }) => {
+    await startFreshCharacter(page, 'RegionOrderQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=50;
+      rt.savePlayer(pl);
+      window.LegendRegionsV100.render();
+    });
+    await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
+    const greyfen=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Greyfen', exact: true }) });
+    const ironpass=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Ironpass', exact: true }) });
+    await expect(greyfen.locator('[data-unlock="Greyfen"]')).toBeVisible();
+    await expect(ironpass).toContainText('Requires Greyfen first');
+    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
+    const state=await page.evaluate(() => {
+      window.LegendRegionsV100.unlock('Ironpass');
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {currentRegion:pl.currentRegion,known:pl.discoveredRegions,tokens:pl.inventory.roadToken};
+    });
+    expect(state.currentRegion).toBe('Ashmere');
+    expect(state.known).not.toContain('Ironpass');
+    expect(state.tokens).toBe(50);
+  });
+
   test('Profile opens account screen without falling back to town', async ({ page }) => {
     await startFreshCharacter(page, 'ProfileQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Profile/i }).click();
