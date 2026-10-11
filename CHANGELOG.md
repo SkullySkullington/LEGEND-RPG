@@ -1,3 +1,11 @@
+## v0.20.3 — Clearer Greyfen, Cleaner First-Town Loop
+- Made the Ashmere hub use one compact status row and a focused destination grid, leaving the duplicate “Your Camp” shortcut panel out of the active screen.
+- Gave Greyfen a distinct cold-water palette while reusing its committed local town and interior artwork.
+- Made Greyfen’s Town Square show region-specific keeper roles, dialogue, and inn rumors instead of Ashmere-only descriptions.
+- Made Greyfen’s route board offer local keepers and the regional network rather than incorrectly starting the Ashmere Old Road expedition from the second town.
+- Added regression coverage for Greyfen scene selection, keeper context, route-board behavior, and aligned the page/data/title build label at v0.20.3.
+- The committed production asset pack remains the local source of truth. A full desktop/mobile visual QA pass and Playwright run are still outstanding; these changes are not marked as verified.
+
 ## v0.20.0 — A More Cohesive First Two Towns
 - Reworked the active title screen into one cinematic composition: a single brand, one clear journey action for new travelers, concise traveler context, and fewer decorative boxes. The landing screen now layers the landscape behind readable HTML controls.
 - Simplified Ashmere's hub hierarchy and removed the duplicate `Your Camp` shortcut panel; it repeated Journal, Profile, Sheet and Town navigation already available below.
