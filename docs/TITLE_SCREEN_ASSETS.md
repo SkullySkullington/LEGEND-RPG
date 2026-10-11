@@ -1,47 +1,21 @@
-# LEGEND: Roads of Ashmere - Title Screen Asset Checklist (v0.9.x)
+# LEGEND: Roads of Ashmere — Title & Menu Art
 
-This checklist covers all assets needed for the finished Ashmere title screen and menu, keeping the dark medieval fantasy vibe and animations intact.
+## Current direction
 
-## 1. Title Hero / Branding
-- `assets/ui/logos/logo_legend_emblem_v1.png`
-  - Circular or emblematic logo.
-  - Dark fantasy style.
-- `assets/title/title_bg_ashmere_road_v089.jpg`
-  - Wide Ashmere road background.
-  - Painterly or subtle photobased fantasy.
-- Optional title key art: `assets/title/title_keyart_ashmere_v1.png`
-  - Traveler or town illustration.
-  - Portrait or square composition works.
-  - Transparent PNG acceptable.
-  - Fallback panel included if asset is missing.
+The active title screen is rendered by `js/game.js`; it layers the committed landscape behind readable HTML title and menu controls. Do not add a second title replacement overlay. Keep one clear brand, one primary action, concise player context, and Settings/Profile secondary actions.
 
-## 2. What’s New / Early Access Panel
-- No new image required; relies on title feature cards.
-- Optionally, small icons for features: road, NPC, battle, account.
+## Stable art
 
-## 3. Menu Icons (SVG in `js/game.js`)
-- `continue` – arrow
-- `new` – plus
-- `settings` – gear / cog
-- `account` – person
-- `feedback` – chat bubble
-- `delete` – trash / X
-- `text` / `bold` / `contrast` / `motion` / `space` / `font` – accessibility toggles
+- `assets/generated/title/title-ashmere-road.webp` — 1536×857 cinematic title background, local and cache-independent.
+- `assets/ui/logos/logo_legend_emblem_v1.png` — existing emblem mark. The title text itself remains HTML, not baked into the image.
+- `css/title-menu-cleanup-v09x.css` — active cinematic layout and mobile behavior.
+- `js/game.js` — active title rendering and menu actions.
 
-## 4. Ember / Fog Animations (CSS)
-- `.title-embers i` – rising ember particles.
-- `.title-fog i` – drifting fog patches.
-- Controlled via `keyframes` in `game-polish-v09x.css`.
+## Behavior and QA
 
-## 5. Title Pills
-- No separate assets; just CSS pill elements.
-- Text examples: `Ashmere Main Hub`, `Old Road Loop`, `v0.9.x Polish`.
-
-## 6. Optional Enhancements
-- Animated lantern light overlay for Ashmere road.
-- Subtle particle glows (sparks, dust) for ambiance.
-- Extra traveler character mini illustrations to appear in key art.
-
----
-
-All assets are optional for testing but recommended to match the concept art vibe and the dark fantasy, moody aesthetic of the finished title screen.
+- New traveler flow must remain one obvious primary action.
+- With an existing save, Continue is primary and New Traveler is secondary.
+- Settings/Profile stay available but visually quiet.
+- Preserve keyboard focus, readable contrast, 390px mobile layout, and `prefers-reduced-motion`.
+- Background failure should fall back to the previous local Ashmere title scene.
+- See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for all town/road portraits and [ART-DIRECTION.md](ART-DIRECTION.md) for shared visual rules.
