@@ -288,6 +288,16 @@ test.describe('LEGEND v0.20.4 browser regression tests', () => {
     await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
   });
 
+  test('Ashmere navigation and destination symbols use local image artwork', async ({ page }) => {
+    await startFreshCharacter(page, 'IconArtQA');
+    await expect(page.locator('.ash100-destinations .ash099-icon img').first()).toBeVisible();
+    await expect(page.locator('.ash099-icon svg')).toHaveCount(0);
+    const remoteIcons = await page.locator('.ash099-icon img').evaluateAll(images =>
+      images.filter(image => /^https?:/i.test(image.getAttribute('src') || '')).length
+    );
+    expect(remoteIcons).toBe(0);
+  });
+
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
     await startFreshCharacter(page, 'MarketUXQA');
     await page.locator('[data-ash-view="trader"]').click();
