@@ -170,7 +170,16 @@
   function screen(h,b,extra=''){ shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`); document.getElementById('ashBack').onclick = renderAshmere; bind(); }
 
   function renderRoutes(){
-    screen(head('Route Board','Routes & Expeditions','Choose your next destination. Open the regional network to unlock new lands, or enter the Old Road to search, fight, and bring proof home.','','route'),`
+    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
+    if(greyfen){
+      screen(head('Causeway Board','Lowland Crossings','The Old Road begins in Ashmere. From Greyfen, choose a known route, check local records, or learn which crossings remain safe.',locationInterior('archive'),'route'),`
+        <div class="ash099-cards">
+          <button class="ash099-btn ash099-card" data-ash-view="regions">${icon('regions')}<strong>Road Network</strong><small>Pay the fare to return to Ashmere or travel onward to lands already opened.</small><em>Open map</em></button>
+          <button class="ash099-btn ash099-card" data-ash-view="people">${icon('people')}<strong>Ask the Keepers</strong><small>Compare the old boundary marks and hear the latest causeway warnings.</small><em>Visit the hall</em></button>
+        </div>`);
+      return;
+    }
+    screen(head('Route Board','Routes & Expeditions','Choose your next destination. Open the regional network to unlock new lands, or enter the Old Road to search, fight, and bring proof home.',bg(),'route'),`
       <div class="ash099-cards">
         <button class="ash099-btn ash099-card" data-ash-view="road">${icon('road')}<strong>The Old Road</strong><small>Start a five-stage expedition with encounters, finds, and a safe return path.</small><em>Begin expedition</em></button>
         <button class="ash099-btn ash099-card" data-ash-view="regions">${icon('regions')}<strong>Road Network</strong><small>View known regions, spend Road Tokens to unlock new lands, and travel between places.</small><em>Open map</em></button>
@@ -233,14 +242,15 @@
     message:{title:'Run a Message',desc:'Carry sealed word through rain-heavy alleys before the ink runs.',skill:'survival',pay:46,item:'goblinTrinket',amount:1,verb:'Deliver',hint:'Click as the marker crosses the seal.'}
   };
   function renderWorkBoard(){
-    screen(head('Town Work','Work Board','Pick a job, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.','','work'),`<div class="ash099-cards">${Object.entries(workJobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
+    screen(head('Town Work',greyfen?'Bellkeeper’s Hall':'Town Hall',greyfen?'The bellkeeper keeps the causeway working through rain, high water, and missing travelers. Complete a task for coin and a chance at useful supplies.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(workJobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-job-open]').forEach(b=>b.onclick=()=>renderJobActivity(b.dataset.jobOpen));
   }
   function renderJobActivity(id){
     const j=workJobs[id]||workJobs.wood;
     const zoneStart=34+Math.floor(Math.random()*16);
     const zoneWidth=18;
-    screen(head('Town Work',j.title,j.desc,'','work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
+    screen(head('Town Work',j.title,j.desc,locationInterior('archive'),'work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
     const marker=document.getElementById('jobMarker');
     const strike=document.getElementById('jobStrike');
     const result=document.getElementById('jobResult');
@@ -268,7 +278,7 @@
       if(grade==='Miss'&&Number(pl.hp||0)>1){ pl.hp=Math.max(1,Number(pl.hp||0)-1); bonus+=' You lose 1 HP from the rough work.'; }
       save(pl);
       const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level+'.':'')+'.':'';
-      if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Ashmere favor increased.`+xpNote; }
+      if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Local standing increased.`+xpNote; }
       if(strike){ strike.disabled=true; strike.textContent='Job Complete'; }
       setTimeout(()=>renderWorkBoard(),1600);
     }
