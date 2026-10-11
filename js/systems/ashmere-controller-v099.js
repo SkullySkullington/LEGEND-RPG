@@ -253,12 +253,34 @@
   function craftItem(id,needsTextRaw){const pl=p();const needs=String(needsTextRaw||'').split(',').filter(Boolean).map(x=>{const [k,v]=x.split(':');return [k,Number(v||0)];});if(!canCraft(pl,needs))return note('Missing ingredients.');needs.forEach(([k,v])=>pl.inventory[k]-=v);pl.inventory[id]=Number(pl.inventory[id]||0)+1;save(pl);renderCrafting();}
 
   function renderSmith(){
-    const weapons=(D().weapons||[]).filter(w=>w.id!=='hand').slice(0,4),armors=(D().armors||[]).filter(a=>a.id!=='none').slice(0,4);
-    screen(head('Gear','Blacksmith','Blades, chain, leather, and practical warnings.',npc('blacksmith'),'smith'),`<h2>Weapons</h2><div class="ash099-cards">${weapons.map(w=>gearCard(w,'weapon')).join('')}</div><h2>Armor</h2><div class="ash099-cards">${armors.map(a=>gearCard(a,'armor')).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
-    document.querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear,b.dataset.kind,Number(b.dataset.cost)));
+    const weapons=(D().weapons||[]).filter(w=>w.id!=='hand'),armors=(D().armors||[]).filter(a=>a.id!=='none');
+    screen(head('Gear','Blacksmith','Buy gear once, equip owned gear freely, and work toward stronger equipment as you level.','','smith'),`<div class="ash099-market-summary"><strong>Level ${Number(p().level||1)} Smithing Access</strong><span>Locked equipment opens as your adventurer levels up. Owned gear can be re-equipped without paying again.</span></div><h2>Weapons</h2><div class="ash099-cards">${weapons.map(w=>gearCard(w,'weapon')).join('')}</div><h2>Armor</h2><div class="ash099-cards">${armors.map(a=>gearCard(a,'armor')).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    document.querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear,b.dataset.kind));
   }
-  function gearCard(x,kind){const ownedGear=kind==='weapon'?p().ownedWeapons?.[x.id]:p().ownedArmor?.[x.id];return `<button class="ash099-btn ash099-card" data-gear="${esc(x.id)}" data-kind="${kind}" data-cost="${Number(x.cost||0)}">${icon(kind==='weapon'?'smith':'mara')}<strong>${esc(x.name)}</strong><small>${kind==='weapon'?`Damage ${x.min}-${x.max}`:`Defense ${x.defense}`}${ownedGear?' • Owned':''}</small><em>${gold(x.cost)}</em></button>`;}
-  function buyGear(id,kind,cost){const pl=p();if(Number(pl.gold||0)<cost)return note('Not enough gold.');pl.gold-=cost;if(kind==='weapon'){pl.weapon=id;pl.ownedWeapons=pl.ownedWeapons||{};pl.ownedWeapons[id]=1;}else{pl.armor=id;pl.ownedArmor=pl.ownedArmor||{};pl.ownedArmor[id]=1;}save(pl);note('Equipped new '+kind+'.');}
+  function gearCard(x,kind){
+    const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor;
+    const isOwned=Number(ownedMap?.[x.id]||0)>0,level=Number(pl.level||1),required=Number(x.level||1);
+    const equipped=(kind==='weapon'?pl.weapon:pl.armor)===x.id,locked=level<required,canBuy=canAfford(pl,x.cost);
+    const label=equipped?'Equipped':isOwned?'Equip Owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & Equip':'Need '+gold(x.cost);
+    const disabled=equipped||(!isOwned&&(locked||!canBuy));
+    return `<button class="ash099-btn ash099-card" data-gear="${esc(x.id)}" data-kind="${kind}" ${disabled?'disabled':''}>${icon(kind==='weapon'?'smith':'mara')}<strong>${esc(x.name)}</strong><small>${kind==='weapon'?`Damage ${x.min}-${x.max}`:`Defense ${x.defense}`} · ${isOwned?'Owned': 'Required level '+required}${locked&&!isOwned?' · Locked':''}</small><em>${label}${!isOwned?' · '+gold(x.cost):''}</em></button>`;
+  }
+  function buyGear(id,kind){
+    const pl=p();if(!pl)return;
+    const list=kind==='weapon'?D().weapons:D().armors,item=(list||[]).find(x=>x.id===id);
+    if(!item||kind!=='weapon'&&kind!=='armor')return renderSmith();
+    const level=Number(pl.level||1),required=Number(item.level||1),ownedMap=kind==='weapon'?(pl.ownedWeapons=pl.ownedWeapons||{}):(pl.ownedArmor=pl.ownedArmor||{});
+    if(level<required&&!Number(ownedMap[id]||0))return note('You need level '+required+' to use '+item.name+'.');
+    if(Number(ownedMap[id]||0)>0){
+      if(kind==='weapon')pl.weapon=id;else pl.armor=id;
+      save(pl);renderSmith();note('Equipped '+item.name+'.');
+      return;
+    }
+    if(Number(pl.gold||0)<Number(item.cost||0))return note('Not enough gold.');
+    pl.gold-=Number(item.cost||0);ownedMap[id]=1;
+    if(kind==='weapon')pl.weapon=id;else pl.armor=id;
+    save(pl);renderSmith();note('Purchased and equipped '+item.name+'.');
+  }
 
   function renderSheet(){const pl=p();const inv=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0).map(([k,v])=>`<div class="ash099-stat"><strong>${esc(itemName(k))}</strong><span>x${Number(v)}</span></div>`).join('')||'<p>No notable items.</p>';screen(head('Character',pl.username,`${pl.personalityLabel||'Traveler'} • ${pl.origin} • ${pl.className}`,'','sheet'),`<div class="ash099-stats">${stat('HP',`${pl.hp}/${pl.maxHp}`)}${stat('Gold',gold(pl.gold))}${stat('Weapon',weaponName(pl.weapon))}${stat('Armor',armorName(pl.armor))}${stat('Pronouns',pl.pronouns||'they/them')}${stat('Road Tokens',Number(pl.inventory?.roadToken||0))}</div><h2>Inventory</h2><div class="ash099-stats">${inv}</div>`);}
   function renderArchive(){const pl=p();screen(head('Records','Archive Hall','Mara keeps records, maps, and town memory.','','archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
