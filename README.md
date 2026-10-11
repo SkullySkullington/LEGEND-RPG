@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.18.0 — The Old Road Fork** adds a meaningful first-expedition route decision: take the safer High Ridge to lower Road Pressure, or risk the Reed Cut to gain a Bell Fragment while attracting danger.
+**v0.20.0 — Ashmere & Greyfen Visual Pass** unifies the title/menu, streamlines Ashmere's hub, adds a region-aware Greyfen town hub, and integrates the first locally stored Runway art pack: 25 environment, portrait, and icon assets plus nine sliced inventory icons.
 
 ## Development Roadmap
 
