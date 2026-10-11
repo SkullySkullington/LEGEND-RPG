@@ -1,0 +1,100 @@
+name: Import Generated Game Art
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "assets/import/asset-manifest.json"
+
+permissions:
+  contents: write
+
+jobs:
+  import-art:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Optimize and import assets
+        env:
+          MANIFEST_PATH: assets/import/asset-manifest.json
+        run: |
+          python -m pip install --quiet Pillow
+          python - <<'PY'
+          import json, os, sys, urllib.request
+          from pathlib import Path
+          from urllib.parse import urlparse
+          from PIL import Image
+
+          manifest_path = Path(os.environ["MANIFEST_PATH"])
+          if not manifest_path.exists():
+              raise SystemExit("Asset manifest was not found.")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          assets = manifest.get("assets", [])
+          if not assets:
+              raise SystemExit("Manifest must contain at least one asset.")
+          report = []
+          allowed_hosts = {
+              "dnznrvs05pmza.cloudfront.net",
+              "cdn.openart.ai",
+              "openart.ai",
+              "runwayml.com",
+              "runway-assets.s3.amazonaws.com",
+          }
+          for asset in assets:
+              name = str(asset.get("name", "")).strip()
+              url = str(asset.get("url", "")).strip()
+              target = Path(str(asset.get("target", "")))
+              if not name or not url or not str(target):
+                  raise SystemExit("Every asset needs a name, URL, and target path.")
+              parsed = urlparse(url)
+              if parsed.scheme != "https" or parsed.hostname not in allowed_hosts and not (parsed.hostname or "").endswith(".openart.ai"):
+                  raise SystemExit(f"Unapproved asset URL host for {name}: {parsed.hostname}")
+              if target.suffix.lower() != ".webp" or not str(target).startswith("assets/generated/") or ".." in target.parts:
+                  raise SystemExit(f"Target must be a safe WebP path under assets/generated/: {target}")
+              target.parent.mkdir(parents=True, exist_ok=True)
+              request = urllib.request.Request(url, headers={"User-Agent": "LEGEND-Asset-Importer/1.0"})
+              with urllib.request.urlopen(request, timeout=90) as response:
+                  raw = response.read(20 * 1024 * 1024 + 1)
+              if len(raw) > 20 * 1024 * 1024:
+                  raise SystemExit(f"Asset is unexpectedly large (>20 MiB): {name}")
+              import io
+              with Image.open(io.BytesIO(raw)) as img:
+                  img.verify()
+              with Image.open(io.BytesIO(raw)) as img:
+                  img.thumbnail((2048, 2048), Image.Resampling.LANCZOS)
+                  has_alpha = img.mode in ("RGBA", "LA") or "transparency" in img.info
+                  converted = img.convert("RGBA" if has_alpha else "RGB")
+                  converted.save(target, "WEBP", quality=86, method=6, exact=True)
+                  width, height = converted.size
+              size_kb = round(target.stat().st_size / 1024)
+              report.append(f"- {name}: `{target.as_posix()}` — {width}×{height}, {size_kb} KiB")
+              print(report[-1])
+          report_path = Path("assets/generated/IMPORT_REPORT.md")
+          previous = report_path.read_text(encoding="utf-8") if report_path.exists() else "# Generated art import report\n"
+          previous += "\n\n## Imported batch: " + str(manifest.get("batch", "unnamed")) + "\n\n" + "\n".join(report) + "\n"
+          report_path.write_text(previous, encoding="utf-8")
+          manifest_path.unlink()
+          PY
+
+      - name: Commit optimized local assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/generated
+          git add -u assets/import/asset-manifest.json
+          if git diff --cached --quiet; then
+            echo "No asset changes to commit."
+            exit 0
+          fi
+          git commit -m "Import optimized generated game art"
+          git push
