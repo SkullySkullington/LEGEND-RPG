@@ -44,7 +44,7 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Make the Town Square keeper roles, local rumors, and route board aware of Greyfen instead of repeating Ashmere-only copy.
 - [x] Add Greyfen-specific work contracts for peat, salvage, and flood markers; peat work now produces a named, sellable `Dry Peat Brick` item.
 - [x] Implement the one-time “A Dry Crossing” contract with a guaranteed safer path, a disclosed 65% shortcut chance, explicit reward/health outcomes, saved completion state, and a regression test.
-- [x] Gate regional unlocks in order: Greyfen → Ironpass → Blackwood → The Ruined March, with controller-level checks in addition to UI locks.
+- [x] Gate the roadmap in order: Greyfen → complete A Dry Crossing → Ironpass. Ironpass, Blackwood, and The Ruined March remain visible as in-development regions without unlock/travel actions until their hubs exist.
 - [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, local work contracts, regional unlock order, and avoiding the Ashmere-only expedition from Greyfen.
 - [ ] Review all screens at desktop and 390px mobile widths; verify scene crops, icon centering, contrast, file size, and fallback behavior.
 - [ ] Generate a dedicated, cohesive town/service UI icon atlas (inn, market, forge, journal, map, work board, traveler, route). Current buttons use committed local item/portrait images instead of inline SVGs, but several are interim semantic matches until a dedicated icon family is available.
