@@ -37,7 +37,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
 test.describe('LEGEND v0.20.0 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.18\.0/);
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.0/);
     await expect(page.locator('.portal-footer')).toContainText('v0.20.0');
   });
 
@@ -68,6 +68,43 @@ test.describe('LEGEND v0.20.0 browser regression tests', () => {
     await expect(page.locator('.ash100-destinations')).toContainText('Marsh Market');
     await expect(page.getByRole('navigation', { name: 'Greyfen town navigation' })).toBeVisible();
     await expect(page.locator('.ash100-bottom-panel')).toHaveCount(0);
+  });
+
+  test('Greyfen uses its own local scene and keeper dialogue', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenKeepersQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=5;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+    });
+    await expect(page.locator('.ash100-town-greyfen .ash100-hero img')).toHaveAttribute('src', /greyfen-town\.webp/);
+    await page.locator('.ash100-destination[data-ash-view="people"]').click();
+    await expect(page.locator('.ash099-head')).toContainText(/People of Greyfen/i);
+    await expect(page.locator('.ash099-npc-grid')).toContainText(/Boundary Archivist/i);
+    await page.locator('.ash099-npc-card[data-ash-view="mara"]').click();
+    await expect(page.locator('.ash099-head')).toContainText(/Boundary Archivist/i);
+    await expect(page.locator('.ash099-screen')).toContainText(/drowned records/i);
+  });
+
+  test('Greyfen route board avoids starting the Ashmere Old Road expedition', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenRoutesQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.inventory=pl.inventory||{};
+      pl.inventory.roadToken=5;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+    });
+    await page.getByRole('navigation', { name: 'Greyfen town navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await expect(page.locator('.ash099-head')).toContainText(/Lowland Crossings/i);
+    await expect(page.locator('[data-ash-view="road"]')).toHaveCount(0);
+    await expect(page.locator('[data-ash-view="regions"]')).toBeVisible();
   });
 
   test('blank traveler name shows inline validation without leaving creation', async ({ page }) => {
