@@ -492,4 +492,14 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
     expect(box).not.toBeNull();
     expect(box.height).toBeGreaterThanOrEqual(40);
   });
+
+  test('cinematic title layer and road transition controller load', async ({ page }) => {
+    await openTitle(page);
+    await expect.poll(() => page.evaluate(() => Boolean(window.__legendSceneTransitionsV120))).toBe(true);
+    await expect.poll(() => page.evaluate(() => Array.from(document.styleSheets).some(s => (s.href || '').includes('title-cinematic-v120.css')))).toBe(true);
+    const title = page.locator('.title-v100 .v120-title-hero');
+    await expect(title).toBeVisible();
+    await expect(title.locator('h1')).toHaveText('LEGEND');
+  });
+
 });
