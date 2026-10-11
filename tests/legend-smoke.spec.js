@@ -34,7 +34,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.3 browser regression tests', () => {
+test.describe('LEGEND v0.20.4 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.3/);
@@ -286,6 +286,40 @@ test.describe('LEGEND v0.20.3 browser regression tests', () => {
     await page.locator('#push').click();
     await expect(page.locator('.exp100-head')).toContainText(/wet reeds cling to your boots/i);
     await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
+  });
+
+  test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
+    await startFreshCharacter(page, 'MarketUXQA');
+    await page.locator('[data-ash-view="trader"]').click();
+    await expect(page.locator('.ash099-market-console')).toBeVisible();
+    await expect(page.locator('.ash099-market-item').first()).toBeVisible();
+    await expect(page.locator('.ash099-market-item img').first()).toBeVisible();
+    await page.locator('[data-market-tab="sell"]').click();
+    await expect(page.locator('[data-market-tab="sell"]')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.ash099-empty-state')).toBeVisible();
+    await page.locator('[data-market-tab="buy"]').click();
+    await expect(page.locator('[data-market-tab="buy"]')).toHaveAttribute('aria-selected', 'true');
+  });
+
+  test('Blacksmith puts the equipped kit first and separates weapons from armor', async ({ page }) => {
+    await startFreshCharacter(page, 'ForgeUXQA');
+    await page.locator('[data-ash-view="smith"]').click();
+    await expect(page.locator('.ash099-forge-loadout')).toBeVisible();
+    await expect(page.locator('.ash099-forge-traveler')).toBeVisible();
+    await expect(page.locator('.ash099-forge-grid')).toContainText(/Wooden Sword|Stone Sword/i);
+    await page.locator('[data-forge-tab="armor"]').click();
+    await expect(page.locator('[data-forge-tab="armor"]')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.ash099-forge-grid')).toContainText(/Cloth Armor|Chain Armor/i);
+  });
+
+  test('Traveler profile shows the class portrait, loadout, and pack instead of raw stats tiles', async ({ page }) => {
+    await startFreshCharacter(page, 'TravelerUXQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: 'Traveler' }).click();
+    await expect(page.locator('.ash099-traveler-profile')).toBeVisible();
+    await expect(page.locator('.ash099-traveler-profile-portrait')).toBeVisible();
+    await expect(page.locator('.ash099-profile-equipment-grid')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Your Pack' })).toBeVisible();
+    await expect(page.locator('.ash099-stats')).toHaveCount(0);
   });
 
   test('mobile town has no horizontal overflow and navigation remains tappable', async ({ page }) => {
