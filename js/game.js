@@ -201,48 +201,36 @@
     const day = Number(player?.day || 1);
     const tokens = Number(player?.inventory?.roadToken || 0);
     root().innerHTML = `
-      <div class="title-wrap title-v100 portal-shell portal-v100"><div class="title-atmosphere" aria-hidden="true"><div class="title-moon"></div><div class="title-horizon"></div><div class="title-road"></div><div class="title-lantern l1"></div><div class="title-lantern l2"></div><div class="title-lantern l3"></div><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
-
+      <div class="title-wrap title-v100 portal-shell portal-v100 v120-title">
+        <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
-            <div class="portal100-emblem-wrap"><img src="assets/ui/logos/logo_legend_emblem_v1.png" alt="LEGEND emblem" onerror="this.style.display='none'"><span>✦</span></div>
-            <div><span>ROADS OF ASHMERE</span><h1>LEGEND</h1><p>A dark road waits beyond the lanterns.</p></div>
+            <div class="portal100-emblem-wrap"><img src="assets/ui/logos/logo_legend_emblem_v1.png" alt="" onerror="this.style.display='none'"><span>✦</span></div>
+            <div><span>ROADS OF ASHMERE</span><p>A world shaped by the road.</p></div>
           </div>
           <div class="portal100-header-actions">
             <button id="account" type="button">Profile</button>
             <button id="settings" type="button" aria-label="Open settings">⚙</button>
           </div>
         </header>
-
-        <main class="portal100-main">
-          <section class="portal100-hero">
-            <div class="portal100-kicker">THE ROAD REMEMBERS</div><div class="portal100-title-mark"><span></span><b>LEGEND</b><span></span></div>
-            <h2>Every journey<br><em>leaves a mark.</em></h2>
-            <p>Ashmere is your refuge. The Old Road is your proving ground. Prepare well, choose your path, and bring something home.</p>
-            <div class="portal100-hero-rule"><span></span><b>ASHMERE</b><span></span></div><div class="portal100-location"><i></i><span>THE LANTERN GATE</span><small>OLD ROAD — EASTWARD</small></div>
-          </section>
-
-          <section class="portal100-traveler">
-            <div class="portal100-traveler-top">
-              <div class="portal100-avatar">${player ? esc(String(name).slice(0,1)).toUpperCase() : '?'}</div>
-              <div><span class="portal100-label">CURRENT TRAVELER</span><h3>${esc(name)}</h3><p>${esc(cls)} • ${esc(town)}</p></div>
+        <main class="v120-title-main">
+          <section class="v120-title-hero">
+            <div class="portal100-kicker">A WEATHERED STORYBOOK RPG</div>
+            <h1>LEGEND</h1>
+            <h2>Roads of <em>Ashmere</em></h2>
+            <p>Ashmere is your refuge. The Old Road is uncertain. Prepare well, choose your path, and bring something home.</p>
+            <div class="v120-divider"><span></span><b>THE ROAD REMEMBERS</b><span></span></div>
+            <div class="v120-traveler-line">
+              <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '✦'}</span>
+              <div><small>${player ? 'CURRENT TRAVELER' : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
             </div>
-            <div class="portal100-stats">
-              <div><span>DAY</span><strong>${day}</strong></div>
-              <div><span>ROAD TOKENS</span><strong>${tokens}</strong></div>
-              <div><span>REGISTRY</span><strong>${esc(registryStatus(prof))}</strong></div>
-            </div>
-            <div class="portal100-actions">
-              ${player ? '<button class="portal100-primary" id="continue"><span>Continue Journey</span><small>Enter Ashmere</small><i>→</i></button>' : '<button class="portal100-primary" id="newPrimary"><span>Begin Your Journey</span><small>Create a traveler</small><i>→</i></button>'}
-              <button id="new" type="button">New Traveler</button>
+            <div class="v120-title-actions">
+              ${player ? '<button class="v120-primary" id="continue"><span>Continue Journey</span><small>Return to Ashmere</small><i>→</i></button>' : '<button class="v120-primary" id="newPrimary"><span>Begin Your Journey</span><small>Create your traveler</small><i>→</i></button>'}
+              ${player ? '<button class="v120-secondary" id="new" type="button">New Traveler</button>' : ''}
             </div>
           </section>
         </main>
-
-        <footer class="portal100-footer">
-          <span>LEGEND: ROADS OF ASHMERE</span>
-          <span>v0.18.0</span>
-        </footer>
+        <footer class="portal100-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
@@ -250,11 +238,11 @@
     if(cont) cont.onclick = () => titleTransition('Opening Ashmere Gate...', continueGame);
     const newPrimary = document.getElementById('newPrimary');
     if(newPrimary) newPrimary.onclick = () => titleTransition('Preparing New Traveler...', newTraveler);
-    document.getElementById('new').onclick = () => titleTransition('Preparing New Traveler...', newTraveler);
+    const newButton = document.getElementById('new');
+    if(newButton) newButton.onclick = () => titleTransition('Preparing New Traveler...', newTraveler);
     document.getElementById('account').onclick = () => titleTransition('Opening Traveler Profile...', account);
     document.getElementById('settings').onclick = () => titleTransition('Opening Options...', settings);
   }
-
 
   function continueGame(){
     const player = loadPlayer();
