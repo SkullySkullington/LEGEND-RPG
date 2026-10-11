@@ -1,4 +1,4 @@
-// LEGEND v0.20.13 - cinematic title, two-town hub, and production art previews
+// LEGEND v0.20.14 - cinematic title, two-town hub, and production art previews
 // Keeps existing saves compatible while adding a clear level-up loop.
 (() => {
   if (!window.LEGEND_DATA) return;
