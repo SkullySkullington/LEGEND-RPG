@@ -1,3 +1,11 @@
+## v0.20.20 — Intent-Aware Enemy Telegraph (live verification pending)
+- Added a state class to the battle panel and foe nameplate for normal attack, guard-break, heavy wind-up, and snared states.
+- Updated the nameplate label to show `OPPONENT`, `GUARD BREAK`, `HEAVY WIND-UP`, or `SNARED`; visual accents reinforce the existing Enemy Intent warning.
+- Combat damage math, turn order, enemy intent selection, and player moves are unchanged.
+- Extended the Ranger encounter regression test to advance the foe through attack → guard-break → heavy wind-up using Guard.
+- Synced source/package version strings to v0.20.20 and updated cache-busting for the changed road controller and expedition CSS.
+- The first live verification after these commits still loaded v0.20.19; therefore the new enemy-intent UI is **not yet confirmed deployed**. The earlier return and level-up fixes continued to pass on that older live build.
+
 ## v0.20.19 — Return Fixes & Build Integrity
 - Fixed the secured-expedition return action so the first **Return to Ashmere** click directly renders the town instead of reopening the secured summary.
 - Corrected Work Board level-up punctuation; messages now end with one period.
