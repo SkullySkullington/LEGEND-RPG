@@ -275,3 +275,4 @@
  .ash099-job-choice,.ash099-sequence-action{transition:none}
  .ash099-job-choice:hover,.ash099-sequence-action:hover{transform:none}
 }
+.ash099-loadout-slot .ash099-weapon-art{grid-row:auto;width:34px;height:34px;padding:2px}
