@@ -405,7 +405,7 @@ const workJobs = {
       ['blackrootTonic','Blackroot Tonic',[['blackrootThorn',1],['wolfFang',1]],'Prepared for fear, bleed, and cursed road events later.'],
       ['huntersCharm','Hunter\'s Charm',[['wolfFang',2],['camp',1]],'+1 survival flavor for next road trip later.'],
       ['reinforcedBuckle','Reinforced Buckle',[['ore',1],['tornHide',1]],'Minor armor improvement material for the blacksmith later.'],
-      ['wispLanternWick','Wisp Lantern Wick',[['wispAsh',1],['oil',1]],'Prepared to reveal hidden road events later.'],
+      ['wispLanternWick','Wisp Lantern Wick',[['bellFragment',1],['oil',1]],'A crafted lantern ward that softens the opening pressure of your next expedition.'],
       ['tradeBundle','Trade Bundle',[['goblinTrinket',2],['tornHide',1],['woodScrap',1]],'Sellable bundle worth more than raw scraps.']
     ];
     const cards=recipes.map(([id,name,needs,desc])=>`<button class="ash099-btn ash099-card" data-craft="${id}" data-needs="${needs.map(n=>n.join(':')).join(',')}" ${canCraft(pl,needs)?'':'disabled'}>${icon('craft')}<strong>${name}</strong><small>${desc}<br>Needs ${needsText(pl,needs)}.</small><em>${canCraft(pl,needs)?'Craft':'Missing'}</em></button>`).join('');
