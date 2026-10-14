@@ -34,12 +34,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.20 browser regression tests', () => {
+test.describe('LEGEND v0.20.21 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.20/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.20');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.20');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.21/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.21');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.21');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -393,6 +393,61 @@ test.describe('LEGEND v0.20.20 browser regression tests', () => {
     await page.locator('#guard').click();
     await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
     await expect(page.locator('.rpg-foe-nameplate')).toContainText('HEAVY WIND-UP');
+  });
+
+  test('Work Board offers multiple task types instead of one timing minigame', async ({ page }) => {
+    await startFreshCharacter(page, 'VariedJobsQA');
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
+    await expect(page.locator('[data-job-open="wood"]')).toContainText(/Timing challenge/i);
+    await expect(page.locator('[data-job-open="gate"]')).toContainText(/Read the signal/i);
+    await expect(page.locator('[data-job-open="records"]')).toContainText(/Solve the clue/i);
+    await expect(page.locator('[data-job-open="crates"]')).toContainText(/Memory sequence/i);
+    await page.locator('[data-job-open="gate"]').click();
+    await expect(page.locator('.ash099-job-mode-signal')).toBeVisible();
+    await expect(page.locator('.ash099-job-track')).toHaveCount(0);
+    await page.locator('[data-job-choice="0"]').click();
+    await expect(page.locator('#jobResult')).toContainText(/recognize Oric/i);
+  });
+
+  test('Work Board memory sequence can be studied and repeated', async ({ page }) => {
+    await startFreshCharacter(page, 'SequenceQA');
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
+    await page.locator('[data-job-open="crates"]').click();
+    await expect(page.locator('.ash099-job-mode-sequence')).toBeVisible();
+    await page.locator('#jobStartSequence').click();
+    await expect(page.locator('[data-job-sequence="BRACE"]')).toBeEnabled({ timeout: 6000 });
+    for (const action of ['BRACE','LIFT','TURN','SET']) await page.locator('[data-job-sequence="'+action+'"]').click();
+    await expect(page.locator('#jobResult')).toContainText(/repeated the full handling sequence/i);
+  });
+
+  test('Side contracts track exploration and can be claimed once', async ({ page }) => {
+    await startFreshCharacter(page, 'ContractsQA');
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
+    await expect(page.locator('.ash099-contract-card')).toHaveCount(3);
+    await page.locator('[data-contract-accept="watchlightSurvey"]').click();
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;const pl=rt.loadPlayer();
+      pl.stats=pl.stats||{};pl.stats.pointsOfInterest=Number(pl.stats.pointsOfInterest||0)+1;rt.savePlayer(pl);
+    });
+    await page.locator('#ashBack').click();
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
+    await expect(page.locator('[data-contract-turnin="watchlightSurvey"]')).toBeVisible();
+    await page.locator('[data-contract-turnin="watchlightSurvey"]').click();
+    await expect(page.locator('.ash099-contract-completed')).toContainText(/Recorded in Journal/i);
+    const result=await page.evaluate(()=>{const pl=window.LegendRuntimeV080.loadPlayer();return {completed:pl.stats.sideContractsCompleted,food:pl.inventory.food};});
+    expect(result.completed).toBe(1);
+    await page.reload();
+  });
+
+  test('Forge shows material-specific sword illustrations and tactical passive descriptions', async ({ page }) => {
+    await startFreshCharacter(page, 'WeaponTraitsQA');
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Forge & Workshop/i }).click();
+    await expect(page.locator('[data-gear="woodenSword"] .ash099-weapon-art-woodenSword')).toBeVisible();
+    await expect(page.locator('[data-gear="stoneSword"]')).toContainText(/Heavy Strike deals 25% more damage/i);
+    await expect(page.locator('[data-gear="steelSword"]')).toContainText(/20% critical chance/i);
+    await expect(page.locator('[data-gear="woodenSword"] .ash099-weapon-art svg')).toBeVisible();
   });
 
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
