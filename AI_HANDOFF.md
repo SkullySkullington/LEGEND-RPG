@@ -119,6 +119,15 @@ Weapon passives: Wooden quickdraw +5 versus Guard Break; Stone Heavy Strike +25%
 
 **Full browser suite and live deployment verification are pending.** GitHub Pages previously lagged behind `main`; don't call the v0.20.21 release verified until it loads and the relevant tests pass.
 
+## v0.20.21 controller syntax repair — interactive re-test pending
+
+The first live v0.20.21 smoke run found that the Ashmere controller failed to parse due to quote escaping in the weapon-art markup, leaving the game at “Ashmere is loading…”. Fixed the equipped-weapon image fallback quoting, then fixed a missing closing quote in the hand/neutral weapon-art palette and the same over-escaped `onerror` quote pattern in weapon cards.
+
+- Repair commit: `03b8d3ae3a24912fb30dc9d6b779150dece0be9c` (controller parse repair).
+- Controller cache-busting update: `70b4687798f5908dd2ea5f89097ffe24ae4cf09b`, query `v=0.20.21-controller-syntaxfix`.
+- Static V8 compilation now passes for `js/systems/ashmere-controller-v099.js`, `js/systems/road-controller-v100.js`, `js/data.js`, `js/game.js`, `js/version-v090.js`, and `tests/legend-smoke.spec.js`.
+- The interactive Browser Use smoke could not be rerun because its project reported insufficient credits. **Do not claim Work Board, contract, Forge, or combat paths are live-verified until interactive testing is available.** The previous run did verify title panel width at 600px on a 1440×900 viewport and no horizontal overflow at 390px.
+
 ## Immediate next steps
 1. Check GitHub Pages after the v0.20.21 main-branch files publish. Confirm title/footer/data version `v0.20.21` and the updated job, weapon, battle, and title assets load.
 2. Verify Work Board variety, side-contract progress/turn-in, each Forge sword passive/illustration, and enemy intent motion on desktop and mobile. If Pages still serves an older version, troubleshoot publish/cache rather than claiming source UI failed.
