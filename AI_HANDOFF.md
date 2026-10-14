@@ -84,10 +84,32 @@ Relevant commits:
 Historical baseline:
 The earlier live playtest was on a page labeled v0.20.14. It had verified Crafting Bench, the Wisp Lantern Wick's material consumption, the +3 opening Road Pressure bonus instead of +8, one-time wick consumption, and no art/text overlap on the tested desktop/mobile scenes. It initially found the two bugs fixed above.
 
+## Source release v0.20.20 — deployment pending (2026-10-14)
+
+New main-branch code adds enemy intent feedback to the battle UI:
+- `js/systems/road-controller-v100.js` adds `rpg-intent-attack`, `rpg-intent-guardbreak`, `rpg-intent-heavy`, and `rpg-intent-snared` classes, plus intent labels in the foe nameplate.
+- `css/road-expedition-v100.css` styles the nameplate and Enemy Intent warning with matching amber/violet/red/green accents.
+- `tests/legend-smoke.spec.js` extends the Ranger battle test to check the initial state and transition through Guard Break and Heavy Wind-Up.
+- Active source/package version labels were bumped to `v0.20.20`; `index.html` loads the road controller and expedition CSS with `?v=0.20.20-enemy-telegraph`, and data/version/game scripts with `?v=0.20.20-build-label`.
+
+**Live deployment status:** the first browser check after these commits still served title/data version `v0.20.19`, road controller `?v=0.20.19-return-xp-fix`, and the old CSS reference. This is a stale/old deployment observation, not a confirmed failure of the source change. Do not describe enemy intent labels/colors as live or verified until the page loads the v0.20.20 references and the encounter test passes. GitHub connector currently confirms main-branch files contain the v0.20.20 changes, but no CI status checks were returned.
+
+Relevant implementation commits:
+- `5a8f1fbe76bf02876fd6d1fe8b49566ff143d88f`: enemy state classes/labels in the Road controller.
+- `af133002198220bdc2e857d7cdaa8e262b0a9433`: enemy intent visual styles.
+- `c8be18315b8aa6d5742fc9053f1568424468ef5f`: HTML asset cache-busting and v0.20.20 title.
+- `11bba6462950415a59a574b2a3ad0941a60da8d8`: visible in-game labels.
+- `2512d9d1eec446d4cdfad47150359b229a9fadd3`: core data version.
+- `02fb0fe33fafaf01dce7e0d8cb792586b8608fd4`: version override.
+- `566a0c1308b8ffeb885339500d2a8ba5c20c867b`: package version.
+- `29472490f1baf712429c427abe351296bf9a9184`: battle intent regression checks.
+
 ## Immediate next steps
-1. Run the broader Playwright suite when an execution environment is available, especially Wick ingredients/inventory, opening Pressure +3, one-time consumption followed by +8 next trip, first-click return, and level-up punctuation. Do not claim the full suite passes until it runs to completion.
-2. Investigate the previously observed Profile message `Supabase could not be reached: Failed to fetch` as a separate service/config/network issue. Do not change database/auth settings blindly.
-3. Resume game-facing work with combat presentation, particularly the enemy fight box and battle-state readability, then transitions, distinct Greyfen presentation, town/NPC interactions, and cohesive icons. Recheck desktop and mobile layouts.
+1. Check GitHub Pages again after the latest main-branch commits are published. Confirm title/footer/data version `v0.20.20`, road controller and CSS query strings `v=0.20.20-enemy-telegraph`, and data/version/game script cache strings `v=0.20.20-build-label`.
+2. Rerun the Ranger encounter and confirm the foe nameplate starts as OPPONENT, advances to GUARD BREAK after two guarded turns, then HEAVY WIND-UP on the third; confirm intent accent colors. If the page still serves v0.20.19, troubleshoot Pages source/build/CDN rather than claiming the UI failed.
+3. Re-run regression coverage for the Wisp Lantern Wick ingredients/inventory, opening Pressure +3, wick consumed once then +8 on the next trip, first-click expedition return, and level-up punctuation. The last three paths passed during live QA on v0.20.19, but the new full local Playwright suite has not run.
+4. Investigate the previously observed Profile message `Supabase could not be reached: Failed to fetch` separately as a service/config/network issue. Do not change database/auth settings blindly.
+5. Continue combat polish only after v0.20.20 deploy verification. Keep all changes browser-safe, test responsive layout, and preserve current save format.
 
 ## Local Playwright testing
 Requires Node.js/npm and a checkout.
