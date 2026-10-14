@@ -1,4 +1,4 @@
-/* LEGEND v0.20.14 — cinematic title upgrade */
+/* LEGEND v0.20.21 — cinematic title upgrade */
 .title-v100{
   --legend-gold:#e8c779;
   background:#070b08;
@@ -168,4 +168,12 @@
     font-size:clamp(2.65rem,15.5vw,4.35rem)!important;
     letter-spacing:.025em!important;
   }
+}
+
+
+/* v0.20.21 — fuller title-panel proportions on desktop; keep the mobile frame compact */
+@media(min-width:681px){
+ .title-v100 .v120-title-hero{width:min(600px,54vw)!important;max-width:600px!important;padding:clamp(26px,2.8vw,42px)!important}
+ .title-v100 .v120-primary{width:min(100%,420px)!important}
+ .title-v100 .v120-title-hero>p{max-width:440px!important}
 }
