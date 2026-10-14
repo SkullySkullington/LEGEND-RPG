@@ -421,6 +421,39 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
   });
 
 
+  test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
+    await startFreshCharacter(page, 'LanternWickQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.inventory=pl.inventory||{};
+      pl.inventory.bellFragment=1;
+      pl.inventory.oil=1;
+      pl.flags=pl.flags||{};
+      pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:0,pressure:0,trips:0,events:0,finds:0,battles:0};
+      pl.flags.roadExpeditionV100.pressure=0;
+      rt.savePlayer(pl);
+    });
+    await page.locator('[data-ash-view="craft"]').click();
+    const wickRecipe=page.locator('[data-craft="wispLanternWick"]');
+    await expect(wickRecipe).toBeEnabled();
+    await expect(wickRecipe).toContainText(/1 Bell Fragment/i);
+    await wickRecipe.click();
+    let inventory=await page.evaluate(() => window.LegendRuntimeV080.loadPlayer().inventory);
+    expect(inventory.bellFragment).toBe(0);
+    expect(inventory.oil).toBe(0);
+    expect(inventory.wispLanternWick).toBe(1);
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    const after=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {pressure:pl.flags.roadExpeditionV100.pressure,wick:Number(pl.inventory.wispLanternWick||0)};
+    });
+    expect(after.pressure).toBe(3);
+    expect(after.wick).toBe(0);
+    await expect(page.locator('.exp100-head')).toContainText(/opening Road Pressure rises by only 3 instead of 8/i);
+  });
+
   test('road discovery stays hidden until the player notices it', async ({ page }) => {
     await startFreshCharacter(page, 'DiscoveryQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
