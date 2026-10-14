@@ -378,6 +378,11 @@ function combatAction(enemy,action){
     if(move==='luck'){const heal=Math.min(Number(pl.maxHp||1)-Number(pl.hp||1),rand(3,5));pl.hp=Number(pl.hp||1)+heal;note='A lucky opening restores '+heal+' HP. ';}
     enemy.skillCooldown=2;
    }
+   if(action==='attack'&&w.perk==='quickdraw'&&enemy.intent==='guardbreak'){damage+=5;note+='Your Wooden Sword answers the feint with a quickdraw. ';}
+   if(action==='heavy'&&w.perk==='breaker'){damage=Math.round(damage*1.25);note+='The Stone Sword’s heavy edge bites deep. ';}
+   if(action==='skill'&&w.perk==='battleRhythm'){damage+=5;note+='Your Bronze Sword carries the technique through. ';}
+   if(action==='attack'&&w.perk==='heavyPunish'&&enemy.intent==='heavy'){damage+=7;note+='Your Iron Sword punishes the wind-up. ';}
+   if((action==='attack'||action==='heavy')&&w.perk==='keenEdge'&&Math.random()<.2){damage=Math.round(damage*1.5);note+='Keen Edge critical! ';}
    enemy.hp-=damage;
    note+=(action==='heavy'?'Your Heavy Strike lands for ':action==='skill'?'Your '+classTechnique(pl).name+' lands for ':'Your strike lands for ')+damage+' damage.';
    if(damage>=Math.max(1,Number(enemy.maxHp||1)*.28))note+=' The impact staggers your foe.';
@@ -401,7 +406,7 @@ function win(enemy){
  stopBattleMusic();playBattleFx('victory');tone('success');
  const pl=p();if(!pl)return;const s=ensure(pl);inv(pl,enemy.reward||'fur',1);
  const progress=window.LegendProgressionV100?.award(pl,25+Math.min(20,Number(s.stage||0)*4));
- s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;
+ s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;pl.stats.roadVictories=Number(pl.stats.roadVictories||0)+1;
  save(pl);renderExpedition(enemy.name+' defeated. You recover '+itemName(enemy.reward||'fur')+'. '+(progress?'XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'. ':'')+'You continue along the Old Road.');
 }
 function finish(){const pl=p();if(!pl)return;const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;pl.gold=Number(pl.gold||0)+reward;if(complete)inv(pl,'roadToken',1);const progress=window.LegendProgressionV100?.award(pl,15+Number(s.stage||0)*10);pl.stats=pl.stats||{};pl.stats.oldRoadClears=Number(pl.stats.oldRoadClears||0)+1;s.stage=0;s.pressure=clamp(Math.floor(s.pressure*.35),0,100);save(pl);outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':''),'Return')}
