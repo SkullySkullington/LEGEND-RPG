@@ -559,7 +559,7 @@ function renderTrader(tab='buy'){
       bronzeSword:{blade:'#b86c3d',edge:'#f1c27a',grip:'#603d29',guard:'#db9a50',dark:'#42281d'},
       ironSword:{blade:'#8999a3',edge:'#e2e9ed',grip:'#333d43',guard:'#a1b0b5',dark:'#1f282d'},
       steelSword:{blade:'#c0d4de',edge:'#ffffff',grip:'#29353e',guard:'#e3c77e',dark:'#16212a'},
-      hand:{blade:'#c8b98d',edge:'#efe2b5',grip:'#53422b',guard:'#8d7447',dark:'#251c13}
+      hand:{blade:'#c8b98d',edge:'#efe2b5',grip:'#53422b',guard:'#8d7447',dark:'#251c13'}
     };
     const v=palette[id]||palette.hand;
     let blade='M39 5 L48 17 L44 47 L40 55 L36 47 L32 17 Z',detail='',guard='M26 51 Q40 56 54 51 L51 57 Q40 61 29 57 Z';
@@ -592,7 +592,7 @@ function renderTrader(tab='buy'){
     const equipped=(kind==='weapon'?pl.weapon:pl.armor)===x.id,locked=level<required,canBuy=canAfford(pl,x.cost);
     const label=equipped?'Equipped':isOwned?'Equip owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & equip':'Need '+gold(x.cost);
     const disabled=equipped||(!isOwned&&(locked||!canBuy));
-    const artMarkup=kind==='weapon'?weaponArtSvg(x.id):(art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\\'none\\'">':'');
+    const artMarkup=kind==='weapon'?weaponArtSvg(x.id):(art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'');
     const statLine=kind==='weapon'?'Damage '+x.min+'–'+x.max:'Defense '+x.defense;
     const passive=kind==='weapon'&&x.passive?'<small class="ash099-gear-passive">'+esc(x.passive)+'</small>':'';
     return '<button class="ash099-gear-item '+(equipped?'equipped ':'')+(locked&&!isOwned?'locked':'')+'" data-gear="'+esc(x.id)+'" data-kind="'+kind+'" '+(disabled?'disabled':'')+'>'+
