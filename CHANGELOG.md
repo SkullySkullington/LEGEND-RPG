@@ -1,3 +1,10 @@
+## v0.20.19 — Return Fixes & Build Integrity
+- Fixed the secured-expedition return action so the first **Return to Ashmere** click directly renders the town instead of reopening the secured summary.
+- Corrected Work Board level-up punctuation; messages now end with one period.
+- Synchronized the HTML title, in-game build labels, `LEGEND_DATA.VERSION`, package metadata, and regression test on version `v0.20.19`.
+- Added a regression assertion for the internal data version and level-up punctuation.
+- Live QA on 2026-10-14 confirmed the version labels and cache-busted scripts, first-click expedition return, level-up punctuation, and Forge/Crafting Bench. The tested paths produced no console errors. The full local Playwright suite has not yet been run in this environment.
+
 ## v0.20.15 — Quiet Title & Town Hierarchy
 - Reworked the active title stylesheet (the actual screen is rendered by `js/game.js`) into a single left-aligned cinematic action column over the landscape, with a compact header, quieter secondary actions, and a low-profile footer.
 - Refined the Ashmere/Greyfen hub layout: removed the duplicated Your Camp quick-link panel, reduced nested card framing, simplified traveler status into a slim line, and gave destination links a consistent storybook hierarchy.
