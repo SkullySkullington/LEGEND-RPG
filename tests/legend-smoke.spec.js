@@ -9,6 +9,17 @@ async function openTitle(page) {
     sessionStorage.clear();
   });
   await page.reload();
+  // The game's ember/fog/CTA animations are decorative; disable them in test contexts
+  // so WebKit touch targets do not remain perpetually "unstable" during clicks.
+  await page.addStyleTag({ content: `
+    *, *::before, *::after {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  ` });
   await expect(page.locator('.v120-title')).toBeVisible();
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
@@ -76,7 +87,7 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
     await expect(page.locator('.ash100-destination')).toHaveCount(7);
     await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('navigation', { name: 'Ashmere town navigation' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
 
   test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
@@ -163,11 +174,12 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     await page.locator('.ash100-destination[data-ash-view="work"]').click();
     await expect(page.locator('#ashBack')).toHaveText('Back to Greyfen');
     await expect(page.locator('[data-job-open="peat"]')).toContainText('Dry Peat Bricks');
-    await page.locator('[data-job-open="peat"]').click();
-    await expect(page.locator('.ash099-job-meta')).toContainText('Dry Peat Brick');
     await expect(page.locator('[data-job-open="salvage"]')).toContainText('Sort a Salvage Basket');
     await expect(page.locator('[data-job-open="markers"]')).toContainText('Reset Flood Markers');
     await expect(page.locator('[data-job-open="wood"]')).toHaveCount(0);
+    await page.locator('[data-job-open="peat"]').click();
+    await expect(page.locator('.ash099-job-meta')).toContainText('Dry Peat Brick');
+    await expect(page.locator('.ash099-job-mode-sequence')).toBeVisible();
   });
 
   test('Greyfen uses its own local scene and keeper dialogue', async ({ page }) => {
@@ -314,7 +326,7 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
   test('Ashmere Town Square keeps direct conversations with local NPCs accessible', async ({ page }) => {
     await startFreshCharacter(page, 'PeopleQA');
     await expect(page.locator('.ash100-destinations')).toContainText('Town Square');
-    await page.getByRole('button', { name: /Town Square/i }).click();
+    await page.locator('.ash100-destinations .ash100-destination[data-ash-view="people"]').click();
     await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
     await expect(page.getByRole('button', { name: /Captain Oric/i })).toBeVisible();
     await page.locator('[data-ash-view="oric"]').click();
@@ -369,12 +381,17 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
 
   test('Ranger expedition encounter presents its distinct class technique', async ({ page }) => {
     await startFreshCharacter(page, 'BattleQA');
+    // Prime pressure so the first advance deterministically triggers combat.
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080, pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.roadExpeditionV100={...(pl.flags.roadExpeditionV100||{}),stage:0,pressure:53,trips:0,events:0,finds:0,battles:0};
+      rt.savePlayer(pl);
+    });
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
     await page.getByRole('button', { name: /The Old Road/i }).click();
-    for (let i = 0; i < 5; i++) {
-      const push = page.locator('#push');
-      if (await push.count()) await push.click();
-    }
+    await expect(page.locator('.exp100-head')).toBeVisible();
+    await page.locator('#push').click();
     await expect(page.locator('.exp100-combat')).toBeVisible();
     await expect(page.locator('#skill')).toContainText('Trap Shot');
     await expect(page.locator('.rpg-enemy-tell')).toContainText(/Enemy intent/i);
@@ -517,7 +534,10 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     expect(inventory.oil).toBe(0);
     expect(inventory.wispLanternWick).toBe(1);
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await expect(page.getByRole('button', { name: /The Old Road/i })).toBeVisible();
     await page.getByRole('button', { name: /The Old Road/i }).click();
+    await expect(page.locator('.exp100-head')).toBeVisible();
+    await expect(page.locator('.exp100-head')).toContainText(/opening Road Pressure rises by only 3 instead of 8/i);
     const after=await page.evaluate(() => {
       const pl=window.LegendRuntimeV080.loadPlayer();
       return {pressure:pl.flags.roadExpeditionV100.pressure,wick:Number(pl.inventory.wispLanternWick||0)};
@@ -553,14 +573,16 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
   });
 
-  test('Ashmere navigation and destination symbols use local image artwork', async ({ page }) => {
+  test('Ashmere navigation and destination symbols use local SVG sprite artwork', async ({ page }) => {
     await startFreshCharacter(page, 'IconArtQA');
-    await expect(page.locator('.ash100-destinations .ash099-icon img').first()).toBeVisible();
-    await expect(page.locator('.ash099-icon svg')).toHaveCount(0);
-    const remoteIcons = await page.locator('.ash099-icon img').evaluateAll(images =>
-      images.filter(image => /^https?:/i.test(image.getAttribute('src') || '')).length
+    const icons = page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg');
+    await expect(icons.first()).toBeVisible();
+    await expect(icons).toHaveCount(7);
+    const iconReferences = await page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg use').evaluateAll(nodes =>
+      nodes.map(node => node.getAttribute('href') || node.getAttribute('xlink:href') || '')
     );
-    expect(remoteIcons).toBe(0);
+    expect(iconReferences).toHaveLength(7);
+    expect(iconReferences.every(ref => ref.startsWith('assets/ui/icons/legend-ui-icons-v1.svg#icon-'))).toBe(true);
   });
 
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
