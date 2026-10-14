@@ -372,7 +372,7 @@ const workJobs = {
   };
   function jobsForCurrentRegion(){return String(p()?.currentRegion||'Ashmere')==='Greyfen'?greyfenWorkJobs:workJobs;}
   function jobModeName(mode){return ({timing:'Timing challenge',signal:'Read the signal',ledger:'Solve the clue',sequence:'Memory sequence',triage:'Worksite decision',route:'Route choice'}[mode]||'Field task');}
-function jobsForCurrentRegion(){return String(p()?.currentRegion||'Ashmere')==='Greyfen'?greyfenWorkJobs:workJobs;}
+
   function renderWorkBoard(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
     const jobs=jobsForCurrentRegion();
