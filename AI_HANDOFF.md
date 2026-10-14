@@ -128,6 +128,8 @@ The first live v0.20.21 smoke run found that the Ashmere controller failed to pa
 - Static V8 compilation now passes for `js/systems/ashmere-controller-v099.js`, `js/systems/road-controller-v100.js`, `js/data.js`, `js/game.js`, `js/version-v090.js`, and `tests/legend-smoke.spec.js`.
 - The interactive Browser Use smoke could not be rerun because its project reported insufficient credits. **Do not claim Work Board, contract, Forge, or combat paths are live-verified until interactive testing is available.** The previous run did verify title panel width at 600px on a 1440×900 viewport and no horizontal overflow at 390px.
 
+- Follow-up fit fix: the unique weapon SVG in the equipped-kit row is reduced to the 34px loadout slot size (`css/ashmere-workshops-v100.css?v=0.20.21-jobs-weapons-fit`). Base `LEGEND_DATA.VERSION` is now also set to `v0.20.21` and the data ref is cache-busted to `?v=0.20.21-release-data`.
+
 ## Immediate next steps
 1. Check GitHub Pages after the v0.20.21 main-branch files publish. Confirm title/footer/data version `v0.20.21` and the updated job, weapon, battle, and title assets load.
 2. Verify Work Board variety, side-contract progress/turn-in, each Forge sword passive/illustration, and enemy intent motion on desktop and mobile. If Pages still serves an older version, troubleshoot publish/cache rather than claiming source UI failed.
