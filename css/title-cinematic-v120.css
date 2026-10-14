@@ -143,3 +143,29 @@
  .title-v100 .portal100-footer span:last-child{max-width:55%;text-align:right}
 }
 @media(prefers-reduced-motion:reduce){.title-v100 .v120-title-backdrop{animation:none!important}}
+
+
+/* v0.20.16 — desktop title fit correction: keep the full word visible inside the hero. */
+.title-v100 .v120-title-hero{box-sizing:border-box;min-width:0}
+.title-v100 .v120-title-hero h1{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  font-size:clamp(2.55rem,5vw,4.35rem)!important;
+  line-height:.98!important;
+  letter-spacing:.025em!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+}
+@media(min-width:681px){
+  .title-v100 .v120-title-hero{width:min(500px,48vw)!important;max-width:500px!important}
+}
+@media(max-width:680px){
+  .title-v100 .v120-title-hero h1{
+    font-size:clamp(2.65rem,15.5vw,4.35rem)!important;
+    letter-spacing:.025em!important;
+  }
+}
