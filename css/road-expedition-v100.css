@@ -264,6 +264,16 @@
   box-shadow:0 12px 30px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.035);
 }
 .rpg-foe-nameplate>strong{max-width:100%;overflow-wrap:anywhere;font-size:clamp(1rem,2vw,1.28rem);line-height:1.1}
+.rpg-foe-nameplate{border-left-width:3px;transition:border-color .18s ease,box-shadow .18s ease}
+.rpg-foe-nameplate.rpg-foe-intent-attack{border-left-color:rgba(224,195,117,.92)}
+.rpg-foe-nameplate.rpg-foe-intent-heavy{border-color:rgba(218,105,75,.74);border-left-color:#e7835e;box-shadow:0 12px 30px rgba(0,0,0,.3),0 0 24px rgba(189,73,46,.16)}
+.rpg-foe-nameplate.rpg-foe-intent-guardbreak{border-color:rgba(184,151,224,.68);border-left-color:#c3a2e9;box-shadow:0 12px 30px rgba(0,0,0,.3),0 0 22px rgba(153,119,195,.14)}
+.rpg-foe-nameplate.rpg-foe-intent-snared{border-color:rgba(133,194,135,.65);border-left-color:#8dc991;box-shadow:0 12px 30px rgba(0,0,0,.3),0 0 22px rgba(88,150,93,.13)}
+.rpg-battle.rpg-intent-heavy .rpg-enemy-tell{border-color:rgba(218,105,75,.6);background:rgba(86,35,25,.34)}
+.rpg-battle.rpg-intent-heavy .rpg-tell-mark{background:rgba(190,69,45,.32);color:#ffd0a7}
+.rpg-battle.rpg-intent-guardbreak .rpg-enemy-tell{border-color:rgba(184,151,224,.5);background:rgba(68,49,82,.25)}
+.rpg-battle.rpg-intent-snared .rpg-enemy-tell{border-color:rgba(133,194,135,.5);background:rgba(33,71,38,.27)}
+
 .rpg-foe-sprite{right:4%;width:clamp(125px,29vw,230px);height:clamp(140px,30vw,245px)}
 .rpg-foe-art{filter:drop-shadow(0 18px 17px rgba(0,0,0,.58)) saturate(.95) contrast(1.08)}
 .rpg-foe-shadow{bottom:1%;left:12%;right:12%;height:17px;background:rgba(0,0,0,.45)}
