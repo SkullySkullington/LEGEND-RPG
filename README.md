@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.0 — Ashmere & Greyfen Visual Pass** unifies the title/menu, streamlines Ashmere's hub, adds a region-aware Greyfen town hub, and integrates the first locally stored Runway art pack: 25 environment, portrait, and icon assets plus nine sliced inventory icons.
+**v0.20.21 — Ashmere, Greyfen, and the Old Road polish pass** unifies the title/menu, streamlines Ashmere's hub, adds a region-aware Greyfen town hub, and integrates the first locally stored Runway art pack: 25 environment, portrait, and icon assets plus nine sliced inventory icons.
 
 ## Development Roadmap
 
@@ -15,6 +15,8 @@ The prioritized active plan, acceptance criteria, and compatibility guardrails a
 ## Art & Asset Direction
 
 The shared visual style, image-family specifications, prompt template, and web/mobile integration checklist live in [docs/ART-DIRECTION.md](docs/ART-DIRECTION.md). This keeps generated art consistent across Ashmere, the Old Road, class portraits, enemies, and item icons.
+
+**World and franchise foundation:** [docs/LEGEND_WORLD_BIBLE.md](docs/LEGEND_WORLD_BIBLE.md) separates established canon from open mysteries, while [docs/FRANCHISE_STRATEGY.md](docs/FRANCHISE_STRATEGY.md) lays out the longer-term IP path across games, stories, art, and audio.
 
 ## Play Now
 
