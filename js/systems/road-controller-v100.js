@@ -104,6 +104,24 @@ function shell(body){
   });
  }
 }
+function bindHotspotDelegation(){
+ const host=root();
+ if(!host||host.dataset.roadHotspotDelegationBound)return;
+ host.dataset.roadHotspotDelegationBound='1';
+ host.addEventListener('click',event=>{
+  const btn=event.target?.closest?.('.exp100-hotspot');
+  if(!btn)return;
+  const action=btn.dataset.hotspot;
+  if(action==='poi'){
+   const pl=p();if(!pl)return;
+   const s=ensure(pl);s.discoveryOpen=true;s.discoveryStage=Number(s.stage||0);save(pl);
+   return renderExpedition();
+  }
+  if(action==='search')return resolveChoice('search');
+  if(action==='move')return resolveChoice('push');
+  if(action==='finish')return finish();
+ });
+}
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
 function start(){stopBattleMusic();const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
@@ -186,13 +204,7 @@ function renderExpedition(note=''){
   const roadMood=s.pressure>=55?'A second set of footsteps keeps pace just beyond the lantern light.':s.pressure>=30?'The birds fall silent. Somewhere ahead, a branch snaps.':'The road bends into mist. Somewhere beyond it, a lantern flickers.';
   const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
   shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
-  document.querySelectorAll('.exp100-hotspot').forEach(btn=>btn.addEventListener('click',()=>{
-   const action=btn.dataset.hotspot;
-   if(action==='poi'){const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=true;s.discoveryStage=Number(s.stage||0);save(pl);return renderExpedition();}
-   if(action==='search')return resolveChoice('search');
-   if(action==='move')return resolveChoice('push');
-   if(action==='finish')return finish();
-  }));
+  bindHotspotDelegation();
   document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;save(pl);renderExpedition();});
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));

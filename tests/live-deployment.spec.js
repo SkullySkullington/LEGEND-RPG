@@ -78,11 +78,13 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     // The actual animations are still enabled for players in the published game.
     await page.addStyleTag({ content: `
       *, *::before, *::after {
-        animation-duration: 0s !important;
-        animation-delay: 0s !important;
-        transition-duration: 0s !important;
-        transition-delay: 0s !important;
+
+        animation: none !important;
+
+        transition: none !important;
+
         scroll-behavior: auto !important;
+
       }
     ` });
     const titleBounds = await page.locator('.v120-title-hero').boundingBox();

@@ -13,11 +13,13 @@ async function openTitle(page) {
   // so WebKit touch targets do not remain perpetually "unstable" during clicks.
   await page.addStyleTag({ content: `
     *, *::before, *::after {
-      animation-duration: 0s !important;
-      animation-delay: 0s !important;
-      transition-duration: 0s !important;
-      transition-delay: 0s !important;
+
+      animation: none !important;
+
+      transition: none !important;
+
       scroll-behavior: auto !important;
+
     }
   ` });
   await expect(page.locator('.v120-title')).toBeVisible();
@@ -397,7 +399,7 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     await expect(page.locator('.rpg-enemy-tell')).toContainText(/Enemy intent/i);
     await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
     await expect(page.locator('.rpg-foe-nameplate')).toContainText('OPPONENT');
-    await expect(page.locator('#guard')).toContainText('Guard');
+    await expect(page.locator('#guard')).toContainText(/GUARD/i);
     await expect(page.locator('.rpg-turn-heading')).toContainText('YOUR TURN');
     await expect(page.locator('.rpg-command-grid .rpg-command')).toHaveCount(4);
     await expect(page.locator('#strike')).toContainText('FIGHT');
