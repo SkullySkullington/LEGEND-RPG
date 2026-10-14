@@ -297,3 +297,12 @@
  .rpg-foe-sprite{width:134px;height:140px}
 }
 @media(prefers-reduced-motion:reduce){.rpg-foe-sprite{animation:none}}
+
+
+/* v0.20.21 — enemy tells drive motion, not just a floating idle loop */
+.rpg-battle.rpg-intent-heavy .rpg-foe-sprite{animation:rpg-foe-windup .72s ease-in-out infinite alternate}
+.rpg-battle.rpg-intent-guardbreak .rpg-foe-sprite{animation:rpg-foe-feint .86s ease-in-out infinite}
+.rpg-battle.rpg-intent-snared .rpg-foe-sprite{animation:none;filter:saturate(.5);transform:translateY(5px) scale(.96)}
+@keyframes rpg-foe-windup{from{transform:translateY(2px) scale(1)}to{transform:translateY(7px) scale(1.065) rotate(-1.8deg)}}
+@keyframes rpg-foe-feint{0%,100%{transform:translateX(0) scale(1)}28%{transform:translateX(-5px) scale(.98)}58%{transform:translateX(4px) scale(1.015)}}
+@media(prefers-reduced-motion:reduce){.rpg-battle.rpg-intent-heavy .rpg-foe-sprite,.rpg-battle.rpg-intent-guardbreak .rpg-foe-sprite{animation:none}.rpg-battle.rpg-intent-snared .rpg-foe-sprite{transform:none}}
