@@ -37,6 +37,8 @@ const BATTLE_AUDIO = {
  victory:'assets/audio/battle/battle_victory.wav'
 };
 let battleMusic=null;
+let hotspotDelegationBound=false;
+let visibleDiscoveryStage=null;
 function playBattleFx(kind){
  if(!soundOn())return;
  try{const audio=new Audio(BATTLE_AUDIO[kind]||BATTLE_AUDIO.swing);audio.volume=kind==='hit'?.34:kind==='victory'?.3:.2;audio.play().catch(()=>{});}catch(e){}
@@ -104,27 +106,36 @@ function shell(body){
   });
  }
 }
+function handleHotspotAction(btn){
+ const action=btn?.dataset?.hotspot;
+ if(action==='poi'){
+  const pl=p();if(!pl)return;
+  const s=ensure(pl);
+  // The discovery panel is transient view state; do not persist it with the traveler.
+  visibleDiscoveryStage=Number(s.stage||0);
+  return renderExpedition();
+ }
+ visibleDiscoveryStage=null;
+ if(action==='search')return resolveChoice('search');
+ if(action==='move')return resolveChoice('push');
+ if(action==='finish')return finish();
+}
 function bindHotspotDelegation(){
- const host=root();
- if(!host||host.dataset.roadHotspotDelegationBound)return;
- host.dataset.roadHotspotDelegationBound='1';
- host.addEventListener('click',event=>{
-  const btn=event.target?.closest?.('.exp100-hotspot');
+ if(hotspotDelegationBound)return;
+ hotspotDelegationBound=true;
+ // Capture at document level so scene redraws or root-level delegation cannot drop the click.
+ // Queue the state change until the click has finished propagating through the original button.
+ document.addEventListener('click',event=>{
+  const path=typeof event.composedPath==='function'?event.composedPath():[];
+  const btn=path.find(node=>node&&typeof node.matches==='function'&&node.matches('.exp100-hotspot'))
+   ||event.target?.closest?.('.exp100-hotspot');
   if(!btn)return;
-  const action=btn.dataset.hotspot;
-  if(action==='poi'){
-   const pl=p();if(!pl)return;
-   const s=ensure(pl);s.discoveryOpen=true;s.discoveryStage=Number(s.stage||0);save(pl);
-   return renderExpedition();
-  }
-  if(action==='search')return resolveChoice('search');
-  if(action==='move')return resolveChoice('push');
-  if(action==='finish')return finish();
- });
+  queueMicrotask(()=>handleHotspotAction(btn));
+ },true);
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){stopBattleMusic();const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
+function start(){stopBattleMusic();visibleDiscoveryStage=null;const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
   const areas=[
     {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
@@ -159,7 +170,7 @@ function pointOfInterest(stage){
 function pointOfInterestPanel(pl,s,stage){
  const point=pointOfInterest(stage);
  if(s.poiUsed&&s.poiUsed[point.key])return '';
- if(!s.discoveryOpen||Number(s.discoveryStage)!==Number(stage))return '';
+ if(visibleDiscoveryStage!==Number(stage))return '';
  return '<section class="exp100-poi exp100-discovery-beat"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>YOU NOTICE SOMETHING · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button><button class="exp100-poi-dismiss" id="poiLeave">Leave it</button></div></section>';
 }
 function routeChoicePanel(s,stage){
@@ -177,7 +188,7 @@ function inspectPointOfInterest(){
  const pl=p();if(!pl)return;const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),point=pointOfInterest(stage);
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
- s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;
+ s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
  else if(stage===1&&s.routeChoice==='ridge'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);note='You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';}
@@ -205,7 +216,7 @@ function renderExpedition(note=''){
   const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
   shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
   bindHotspotDelegation();
-  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;save(pl);renderExpedition();});
+  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;save(pl);renderExpedition();});
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));
   document.getElementById('routeReeds')?.addEventListener('click',()=>chooseRoadRoute('reeds'));
