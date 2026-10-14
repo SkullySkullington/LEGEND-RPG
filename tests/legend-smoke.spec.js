@@ -323,6 +323,12 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
 
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
     await startFreshCharacter(page, 'JobQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080;
+      const pl = rt.loadPlayer();
+      pl.xp = 95;
+      rt.savePlayer(pl);
+    });
     await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
     await expect(page.getByRole('heading', { name: 'Work Board' })).toBeVisible();
     await page.locator('[data-job-open="wood"]').click();
@@ -330,6 +336,8 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
     await expect(page.locator('#jobResult')).toBeVisible();
     await expect(page.locator('#jobResult')).toContainText(/Earned \d+g/);
     await expect(page.locator('#jobResult')).toContainText(/XP \+\d+/);
+    await expect(page.locator('#jobResult')).toContainText(/Level up! You are now level 2\./);
+    await expect(page.locator('#jobResult')).not.toContainText(/\.\./);
     await expect(page.locator('#jobStrike')).toHaveText('Job Complete');
   });
 
