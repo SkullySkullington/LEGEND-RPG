@@ -302,16 +302,18 @@ function combat(enemy,note=''){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
  enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
  const intentText=enemy.snared?'Snared · its next blow is weakened':enemy.intent==='heavy'?'Heavy wind-up · GUARD or disrupt it':enemy.intent==='guardbreak'?'Guard-break · strike first or use ACT':'Quick strike · GUARD softens the hit';
+ const foeIntentClass=enemy.snared?'snared':enemy.intent==='heavy'?'heavy':enemy.intent==='guardbreak'?'guardbreak':'attack';
+ const foeIntentLabel=foeIntentClass==='heavy'?'HEAVY WIND-UP':foeIntentClass==='guardbreak'?'GUARD BREAK':foeIntentClass==='snared'?'SNARED':'OPPONENT';
  const stableEnemies=A().enemies||{},legacyArt=A().byName?.(enemy.name)||'',enemyName=String(enemy.name||'').toLowerCase();
  const art=(enemyName.includes('wolf')?stableEnemies.blackrootWolf:enemyName.includes('goblin')?stableEnemies.roadGoblin:enemyName.includes('wisp')?stableEnemies.lanternWisp:'')||legacyArt;
  const heroArt=A().classes?.[pl.className]||'',technique=classTechnique(pl),health=hpPct(pl);
  const playerHit=/hits you for|blow|damage taken/i.test(note),foeHit=/lands for|attack lands|Heavy Strike lands|Rune Bolt lands|Cleave lands|Trap Shot lands|Swipe lands/i.test(note);
  const turnNumber=Number(enemy.turn||0)+1;
  startBattleMusic();
- shell('<section class="exp100-panel exp100-combat rpg-battle '+(playerHit?'rpg-player-hit ':'')+(foeHit?'rpg-foe-hit':'')+'" aria-label="Turn-based battle">'+
+ shell('<section class="exp100-panel exp100-combat rpg-battle rpg-intent-'+foeIntentClass+' '+(playerHit?'rpg-player-hit ':'')+(foeHit?'rpg-foe-hit':'')+'" aria-label="Turn-based battle">'+
   '<div class="rpg-battle-topline"><div><span class="rpg-overline">THE OLD ROAD</span><strong>ENCOUNTER <i> / </i> TURN '+turnNumber+'</strong></div><button class="rpg-sound-toggle" id="battleSound" type="button" aria-label="Toggle battle music and sound">'+(soundOn()?'♫ SOUND ON':'♫ SOUND OFF')+'</button></div>'+
   '<div class="rpg-battlefield"><div class="rpg-battle-moon" aria-hidden="true"></div><div class="rpg-battle-orbit" aria-hidden="true"></div><div class="rpg-ground-haze" aria-hidden="true"></div>'+
-   '<div class="rpg-foe-side"><div class="rpg-foe-nameplate"><span>OPPONENT</span><strong>'+esc(enemy.name)+'</strong><small>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</small><div class="rpg-foe-hp"><i style="width:'+clamp(Math.round(Number(enemy.hp)/Math.max(1,Number(enemy.maxHp))*100),0,100)+'%"></i></div></div>'+
+   '<div class="rpg-foe-side"><div class="rpg-foe-nameplate rpg-foe-intent-'+foeIntentClass+'"><span>'+foeIntentLabel+'</span><strong>'+esc(enemy.name)+'</strong><small>'+Math.max(0,Number(enemy.hp))+' / '+Number(enemy.maxHp)+' HP</small><div class="rpg-foe-hp"><i style="width:'+clamp(Math.round(Number(enemy.hp)/Math.max(1,Number(enemy.maxHp))*100),0,100)+'%"></i></div></div>'+
    '<div class="rpg-foe-sprite">'+(art?'<img class="rpg-foe-art" src="'+esc(art)+'" alt="'+esc(enemy.name)+'">':'<span class="rpg-foe-unknown" aria-hidden="true">✦</span>')+'<i class="rpg-foe-shadow"></i></div></div>'+
    '<div class="rpg-target-arrow" aria-hidden="true">‹</div></div>'+
   '<div class="rpg-combat-status"><div class="rpg-hero-portrait">'+(heroArt?'<img src="'+esc(heroArt)+'" alt="">':'<span aria-hidden="true">✧</span>')+'</div>'+
