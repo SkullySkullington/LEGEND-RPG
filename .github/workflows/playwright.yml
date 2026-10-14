@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -25,6 +26,14 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
+
+      - name: Check critical JavaScript syntax
+        run: |
+          node --check js/data.js
+          node --check js/version-v090.js
+          node --check js/game.js
+          node --check js/systems/ashmere-controller-v099.js
+          node --check js/systems/road-controller-v100.js
 
       - name: Run Playwright tests
         run: npm run test:e2e
