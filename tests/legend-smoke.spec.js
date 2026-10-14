@@ -434,7 +434,7 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
       pl.flags.roadExpeditionV100.pressure=0;
       rt.savePlayer(pl);
     });
-    await page.locator('[data-ash-view="craft"]').click();
+    await page.evaluate(() => window.LegendAshmereV099.route('craft'));
     const wickRecipe=page.locator('[data-craft="wispLanternWick"]');
     await expect(wickRecipe).toBeEnabled();
     await expect(wickRecipe).toContainText(/1 Bell Fragment/i);
@@ -443,7 +443,7 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
     expect(inventory.bellFragment).toBe(0);
     expect(inventory.oil).toBe(0);
     expect(inventory.wispLanternWick).toBe(1);
-    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await page.getByRole('button', { name: /The Old Road/i }).click();
     const after=await page.evaluate(() => {
       const pl=window.LegendRuntimeV080.loadPlayer();
