@@ -55,22 +55,39 @@ Failed:
 1. At 5/5, after securing an expedition, first **Return to Ashmere** click reopened the secured summary; a second click was needed.
 2. Work Board level-up text ended with double punctuation: `You are now level 2..`
 
-## Fixes committed, awaiting live verification
-- `9b6c4d67d46725f50859de1a76cff2f4b2203b90`: direct return handling in `js/systems/road-controller-v100.js`.
-- `844aed6717186bab0ec2000daf5b6c15bdf60121`: level-up punctuation fix in `js/systems/ashmere-controller-v099.js`.
-- `7e64b1810935e854335564de3cf39ef52e33fcd5`: cache-busting strings in `index.html` updated to `v=0.20.19-return-xp-fix`.
-- `1cf5e3a4647a7342347a86235e91a0cb08dffb58`: regression assertion added for level-up punctuation.
-- Context commits: `8509a26` Forge Crafting Bench; `b73bfa2` expedition return attempt; `563c481` regression tests; `8811194` cache-busting pass.
+## Release v0.20.19 — live verification complete (2026-10-14)
 
-**Important:** these source changes have not yet been confirmed on the deployed site. Do not call them live-verified until deployment propagates and the test is rerun.
+Live URL: https://tdtria.github.io/LEGEND-RPG/
+
+Verified on the deployed site using an isolated browser save:
+- Page title, visible build label, and `window.LEGEND_DATA.VERSION` all report `v0.20.19`.
+- Loaded `js/data.js`, `js/version-v090.js`, and `js/game.js` use `?v=0.20.19-build-label`.
+- Ashmere and Road controllers load with `?v=0.20.19-return-xp-fix`.
+- After a secured stage-5 expedition, clicking `#finish` and then `#outcomeReturn` once makes `.ash100-town` visible and removes the outcome summary.
+- The Work Board test starting at 95 XP produces `You are now level 2.` with one final period.
+- Forge/Crafting Bench still opens and displays recipes.
+- No console errors/uncaught exceptions occurred along these tested paths.
+- Live checks ran without editing source. The full local Playwright suite has not yet been run.
+
+Relevant commits:
+- `9b6c4d67d46725f50859de1a76cff2f4b2203b90`: direct expedition return.
+- `844aed6717186bab0ec2000daf5b6c15bdf60121`: level-up punctuation.
+- `7e64b1810935e854335564de3cf39ef52e33fcd5`: controller cache-busting.
+- `1cf5e3a4647a7342347a86235e91a0cb08dffb58`: punctuation regression assertion.
+- `04a9e5558fa4f59be732720a8eaed0479e384c45`: visible build labels to v0.20.19.
+- `45f42da8eadea83f70db7598eda03ddc4224502c`: game data version to v0.20.19.
+- `1633282d38caf1fa3e931d8be45f2801338ac8ef`: internal version declaration.
+- `bf66686eb1847000d85158e9a7ee1d1d61708aba`: package version.
+- `3bf793e20d9610b69d58c26106c2ecc3b70673a1`: build-version and punctuation regression test updates.
+- `f4b348e4fb508fdd99dd21d425e1fdfb5fd9d74a`: HTML title and cache-busting consistency.
+
+Historical baseline:
+The earlier live playtest was on a page labeled v0.20.14. It had verified Crafting Bench, the Wisp Lantern Wick's material consumption, the +3 opening Road Pressure bonus instead of +8, one-time wick consumption, and no art/text overlap on the tested desktop/mobile scenes. It initially found the two bugs fixed above.
 
 ## Immediate next steps
-1. Check GitHub Pages deployment and open the live site after commits propagate. Confirm loaded controller URLs include `v=0.20.19-return-xp-fix`.
-2. Complete a 5/5 expedition; verify the **first** Return to Ashmere click opens `.ash100-town`.
-3. Trigger a Work Board level-up; confirm exactly one final period.
-4. Rerun tests for Forge/Crafting Bench, wick ingredients/inventory, +3 pressure, one-time wick consumption then +8 next trip, first-click return, and punctuation.
-5. Diagnose Supabase/Profile connection separately; don't conflate it with local gameplay or claim a backend repair without evidence.
-6. Once stable, continue combat polish, action transitions, town/NPC usability, bespoke icons, and Greyfen identity. Keep mobile and desktop in the regression loop.
+1. Run the broader Playwright suite when an execution environment is available, especially Wick ingredients/inventory, opening Pressure +3, one-time consumption followed by +8 next trip, first-click return, and level-up punctuation. Do not claim the full suite passes until it runs to completion.
+2. Investigate the previously observed Profile message `Supabase could not be reached: Failed to fetch` as a separate service/config/network issue. Do not change database/auth settings blindly.
+3. Resume game-facing work with combat presentation, particularly the enemy fight box and battle-state readability, then transitions, distinct Greyfen presentation, town/NPC interactions, and cohesive icons. Recheck desktop and mobile layouts.
 
 ## Local Playwright testing
 Requires Node.js/npm and a checkout.
