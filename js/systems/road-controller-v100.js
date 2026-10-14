@@ -408,7 +408,17 @@ function outcome(title,text,kicker,skill,modifier){
  const pl=p();if(!pl)return;
  const s=ensure(pl);
  shell(header(pl,s,kicker||'EXPEDITION COMPLETE',title,text)+'<section class="exp100-explore-dock exp100-outcome"><div class="exp100-route"><span>THE ROAD REMEMBERS</span><strong>'+esc(title)+'</strong><small>'+esc(text)+'</small></div><div class="exp100-dock-actions"><button class="exp100-dock-action primary" id="outcomeReturn"><strong>Return to Ashmere</strong><span>Leave the road and return to town.</span></button></div></section>');
- document.getElementById('outcomeReturn')?.addEventListener('click',()=>ret());
+ document.getElementById('outcomeReturn')?.addEventListener('click',()=>{
+  const player=p();
+  if(player){player.town='Ashmere';save(player);}
+  const host=root();
+  if(host)host.innerHTML='';
+  if(window.LegendAshmereV099?.renderAshmere){
+    window.LegendAshmereV099.renderAshmere();
+    if(document.querySelector('.ash100-town'))return;
+  }
+  ret();
+});
 }
 window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition};
 })();
