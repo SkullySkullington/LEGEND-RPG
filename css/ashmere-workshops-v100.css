@@ -201,3 +201,77 @@
  .ash099-service-copy>strong{font-size:.94rem}
 }
 @media(prefers-reduced-motion:reduce){.ash099-card,.ash099-btn.ash099-service-card{transition:none}}
+
+/* v0.20.21 — distinct work activities, persistent contracts, and material-specific weapon art */
+.ash099-job-board{display:grid;gap:12px}
+.ash099-job-board-intro{display:grid;gap:5px;padding:14px 15px;border:1px solid rgba(215,184,106,.17);border-radius:10px;background:linear-gradient(105deg,rgba(61,48,27,.3),rgba(10,16,12,.88))}
+.ash099-job-board-intro>span,.ash099-job-overline{color:#cbb071;font-size:.57rem;font-weight:850;letter-spacing:.18em;text-transform:uppercase}
+.ash099-job-board-intro>strong{font:500 1.2rem/1.15 Georgia,'Times New Roman',serif;color:#ede2c3}
+.ash099-job-board-intro>small{color:#96a396;font-size:.75rem;line-height:1.45}
+.ash099-job-board-card{position:relative;align-content:start;gap:7px;min-height:150px;padding-top:30px}
+.ash099-job-board-mode{position:absolute;top:10px;left:12px;color:#cbb071;font-size:.53rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+.ash099-job-board-card>strong{font:600 1.02rem/1.15 Georgia,'Times New Roman',serif}
+.ash099-job-board-card>small{line-height:1.4}
+.ash099-job-board-card>em{color:#d9bd78;font-size:.65rem;font-style:normal}
+.ash099-job-challenge{display:grid;gap:14px;padding:clamp(14px,2vw,22px);border:1px solid rgba(215,184,106,.18);border-radius:12px;background:radial-gradient(ellipse at 50% 0%,rgba(215,184,106,.07),transparent 56%),linear-gradient(180deg,rgba(21,28,20,.91),rgba(6,10,8,.96))}
+.ash099-job-challenge-heading{display:grid;gap:8px}
+.ash099-job-challenge-heading h2{font:500 clamp(1.15rem,2.8vw,1.7rem)/1.2 Georgia,'Times New Roman',serif;color:#eee3c7}
+.ash099-job-challenge-heading p,.ash099-job-challenge>p{margin:0;color:#9fac9e;line-height:1.5;font-size:.82rem}
+.ash099-job-choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.ash099-job-choice{display:grid;grid-template-columns:28px minmax(0,1fr) 14px;align-items:start;gap:10px;min-height:118px;padding:13px 12px;border:1px solid rgba(215,184,106,.18);border-radius:9px;background:linear-gradient(145deg,rgba(34,40,29,.85),rgba(8,13,10,.96));color:#e9e1cd;text-align:left;cursor:pointer;transition:transform .15s ease,border-color .15s ease,background .15s ease}
+.ash099-job-choice:hover,.ash099-job-choice:focus-visible{transform:translateY(-2px);outline:none;border-color:rgba(233,202,125,.62);background:#1d261b}
+.ash099-job-choice-index{display:grid;place-items:center;width:26px;height:26px;border:1px solid rgba(215,184,106,.32);border-radius:50%;color:#d9bd78;font-size:.63rem}
+.ash099-job-choice-copy{display:grid;gap:6px}
+.ash099-job-choice-copy strong{font:500 .93rem/1.28 Georgia,'Times New Roman',serif;color:#eee2c6}
+.ash099-job-choice-arrow{color:#b9a36d;font-size:.8rem}
+.ash099-job-choice:disabled,.ash099-sequence-action:disabled,.ash099-sequence-start:disabled{opacity:.42;cursor:default}
+.ash099-job-sequence{background:radial-gradient(ellipse at 50% 100%,rgba(124,151,101,.1),transparent 55%),linear-gradient(180deg,rgba(17,28,20,.94),rgba(5,10,8,.97))}
+.ash099-sequence-preview{display:grid;place-items:center;gap:3px;min-height:105px;padding:16px;border:1px solid rgba(215,184,106,.22);border-radius:9px;background:rgba(0,0,0,.35);font:500 1.12rem Georgia,'Times New Roman',serif;color:#eee2c6;text-align:center}
+.ash099-sequence-preview>span{color:#cbb071;font:800 .55rem system-ui,sans-serif;letter-spacing:.18em}
+.ash099-sequence-preview>strong{font:500 clamp(1.65rem,6vw,2.8rem) Georgia,'Times New Roman',serif;color:#f3d58a;letter-spacing:.12em;text-shadow:0 0 20px rgba(215,184,106,.14)}
+.ash099-sequence-start{justify-self:start}
+.ash099-sequence-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ash099-sequence-action{display:grid;gap:7px;place-items:center;min-height:68px;padding:10px 6px;border:1px solid rgba(157,189,146,.23);border-radius:8px;background:linear-gradient(180deg,#202b20,#0d140e);color:#e7e3cf;cursor:pointer}
+.ash099-sequence-action:hover:not(:disabled),.ash099-sequence-action:focus-visible{outline:none;border-color:#d8be77;transform:translateY(-1px)}
+.ash099-sequence-action span{color:#a89c6f;font-size:.55rem;letter-spacing:.13em}
+.ash099-sequence-action strong{font-size:.74rem;letter-spacing:.06em}
+.ash099-sequence-status{margin:0;color:#b8bca4;font-size:.73rem;line-height:1.4}
+.ash099-contract-ledger{display:grid;gap:14px}
+.ash099-contract-intro{padding:16px;border:1px solid rgba(215,184,106,.18);border-radius:10px;background:linear-gradient(110deg,rgba(43,37,24,.48),rgba(8,13,10,.94))}
+.ash099-contract-intro h2{margin:7px 0;color:#eee3c7;font:500 clamp(1.35rem,3vw,2rem) Georgia,'Times New Roman',serif}
+.ash099-contract-intro p{margin:0;max-width:720px;color:#9aa798;font-size:.82rem;line-height:1.55}
+.ash099-contract-list{display:grid;gap:10px}
+.ash099-contract-card{padding:15px;border:1px solid rgba(215,184,106,.17);border-radius:10px;background:linear-gradient(120deg,rgba(20,29,21,.94),rgba(7,12,9,.97))}
+.ash099-contract-card>header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.ash099-contract-card>header span{color:#c8b476;font-size:.55rem;font-weight:900;letter-spacing:.13em}
+.ash099-contract-card>header small{color:#829082;font-size:.52rem;letter-spacing:.11em;text-align:right}
+.ash099-contract-card>h2{color:#eee2c7;font:500 1.22rem/1.15 Georgia,'Times New Roman',serif;margin:5px 0 8px}
+.ash099-contract-card>p{color:#a1ad9f;font-size:.79rem;line-height:1.5;margin:0}
+.ash099-contract-objective{display:grid;gap:5px;margin-top:12px;padding:11px;border-left:2px solid rgba(215,184,106,.44);background:rgba(0,0,0,.2)}
+.ash099-contract-objective>span,.ash099-contract-card footer>div>span{color:#b9a46c;font-size:.54rem;font-weight:850;letter-spacing:.16em}
+.ash099-contract-objective>strong{color:#e2ddc8;font-size:.78rem;line-height:1.45}
+.ash099-contract-objective>small{color:#839183;font-size:.66rem}
+.ash099-contract-card>footer{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(215,184,106,.12)}
+.ash099-contract-card footer>div{display:grid;gap:4px}
+.ash099-contract-card footer>div>strong{color:#e8d9ae;font:500 1rem Georgia,'Times New Roman',serif}
+.ash099-contract-card footer>div>small{color:#8a9889;font-size:.65rem}
+.ash099-contract-complete,.ash099-contract-pending{color:#97a78f;font-size:.67rem;line-height:1.4;text-align:right}
+.ash099-gear-copy .ash099-gear-passive{color:#d4b77b;font-size:.64rem;line-height:1.35}
+.ash099-weapon-art{display:grid;place-items:center;grid-row:1 / span 2;width:66px;height:66px;padding:5px;border:1px solid rgba(215,184,106,.17);border-radius:7px;background:radial-gradient(ellipse at 50% 35%,rgba(226,199,130,.12),rgba(4,8,6,.94) 72%);overflow:hidden}
+.ash099-weapon-art svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 3px rgba(0,0,0,.38))}
+.ash099-weapon-art-woodenSword{border-color:rgba(190,145,83,.38);background:radial-gradient(ellipse at 50% 35%,rgba(182,126,62,.17),rgba(4,8,6,.94) 72%)}
+.ash099-weapon-art-stoneSword{border-color:rgba(166,184,177,.42);background:radial-gradient(ellipse at 50% 35%,rgba(131,153,148,.17),rgba(4,8,6,.94) 72%)}
+.ash099-weapon-art-bronzeSword{border-color:rgba(220,148,75,.45);background:radial-gradient(ellipse at 50% 35%,rgba(183,102,55,.2),rgba(4,8,6,.94) 72%)}
+.ash099-weapon-art-ironSword{border-color:rgba(151,178,191,.42);background:radial-gradient(ellipse at 50% 35%,rgba(113,143,160,.18),rgba(4,8,6,.94) 72%)}
+.ash099-weapon-art-steelSword{border-color:rgba(231,212,150,.52);background:radial-gradient(ellipse at 50% 35%,rgba(202,221,230,.15),rgba(4,8,6,.94) 72%)}
+@media(max-width:640px){
+ .ash099-job-choice-grid{grid-template-columns:1fr}
+ .ash099-job-choice{min-height:74px}
+ .ash099-sequence-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ash099-contract-card>footer{align-items:flex-start;flex-direction:column}
+ .ash099-contract-complete,.ash099-contract-pending{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){
+ .ash099-job-choice,.ash099-sequence-action{transition:none}
+ .ash099-job-choice:hover,.ash099-sequence-action:hover{transform:none}
+}
