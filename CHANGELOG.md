@@ -1,3 +1,11 @@
+## v0.20.21 — Different Work, Side Stories & Tactical Weapons
+- Replaced the one-size-fits-all Work Board timing check with five task types: timing, signal reading, ledger clues, memory sequences, and worksite/route decisions. Ashmere and Greyfen contracts now use different interactions.
+- Added three persistent side contracts: a point-of-interest survey, a road battle proof request, and a five-stage expedition report. Contract progress is tracked in the save and rewards are claimed once.
+- Added material-specific sword illustrations and visible passives in the Forge. Wooden, stone, bronze, iron, and steel swords now have distinct tactical effects in combat in addition to their different damage ranges.
+- Changed enemy motion to reflect heavy wind-ups, guard-break feints, and snared states rather than relying only on a uniform idle bounce.
+- Widened the title panel and call-to-action on desktop while preserving the mobile layout.
+- Added regression coverage for varied job interactions, side-contract progress/turn-in, and weapon passives; full Playwright suite has not yet been executed here.
+
 ## v0.20.20 — Intent-Aware Enemy Telegraph (live verification pending)
 - Added a state class to the battle panel and foe nameplate for normal attack, guard-break, heavy wind-up, and snared states.
 - Updated the nameplate label to show `OPPONENT`, `GUARD BREAK`, `HEAVY WIND-UP`, or `SNARED`; visual accents reinforce the existing Enemy Intent warning.
