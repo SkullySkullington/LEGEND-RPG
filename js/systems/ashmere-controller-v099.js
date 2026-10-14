@@ -356,7 +356,7 @@ const workJobs = {
       if(Math.random()<bonusChance){ pl.inventory[j.item]=Number(pl.inventory[j.item]||0)+j.amount; bonus=` Bonus gained: ${j.amount} ${itemName(j.item)}.`; }
       if(grade==='Miss'&&Number(pl.hp||0)>1){ pl.hp=Math.max(1,Number(pl.hp||0)-1); bonus+=' You lose 1 HP from the rough work.'; }
       save(pl);
-      const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level+'.':'')+'.':'';
+      const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'';
       if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Local standing increased.`+xpNote; }
       if(strike){ strike.disabled=true; strike.textContent='Job Complete'; }
       setTimeout(()=>renderWorkBoard(),1600);
