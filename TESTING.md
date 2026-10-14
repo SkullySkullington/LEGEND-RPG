@@ -18,6 +18,20 @@ You do **not** need VS Code, but VS Code makes it easier.
 
 ---
 
+## Run the free GitHub-hosted checks
+
+The public repository runs its Playwright workflow automatically when code is pushed to `main`. The standard GitHub-hosted runner used by this public repository is free under GitHub's current Actions policy.
+
+To start a run manually:
+
+1. Open [LEGEND-RPG Actions](https://github.com/TDTRIA/LEGEND-RPG/actions).
+2. Select **Playwright Tests**.
+3. Choose **Run workflow** and the `main` branch.
+
+The workflow checks JavaScript syntax, runs the automated regression suite against the checked-out source, then runs a separate live smoke test against the published GitHub Pages game. The live test waits for the published version and key asset URLs to match the commit under test before it clicks through character creation, different Work Board activities, the Forge/Crafting Bench, and side contracts. It also checks desktop title sizing, mobile overflow, and browser errors.
+
+If a run fails, open the run and expand the failed step. The uploaded `playwright-report` artifact contains test details, screenshots, and video where available. A failed test means we found something to fix; it does not mean you need a paid browser session.
+
 ## First-time setup
 
 Open a terminal in the `LEGEND-RPG` repo folder and run:
