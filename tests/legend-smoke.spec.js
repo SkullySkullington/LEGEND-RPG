@@ -34,12 +34,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.19 browser regression tests', () => {
+test.describe('LEGEND v0.20.20 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.19/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.19');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.19');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.20/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.20');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.20');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -378,12 +378,21 @@ test.describe('LEGEND v0.20.19 browser regression tests', () => {
     await expect(page.locator('.exp100-combat')).toBeVisible();
     await expect(page.locator('#skill')).toContainText('Trap Shot');
     await expect(page.locator('.rpg-enemy-tell')).toContainText(/Enemy intent/i);
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
+    await expect(page.locator('.rpg-foe-nameplate')).toContainText('OPPONENT');
     await expect(page.locator('#guard')).toContainText('Guard');
     await expect(page.locator('.rpg-turn-heading')).toContainText('YOUR TURN');
     await expect(page.locator('.rpg-command-grid .rpg-command')).toHaveCount(4);
     await expect(page.locator('#strike')).toContainText('FIGHT');
     await expect(page.locator('#skill')).toContainText('ACT');
     await expect(page.locator('#item')).toContainText('ITEM');
+    await page.locator('#guard').click();
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-guardbreak/);
+    await expect(page.locator('.rpg-foe-nameplate')).toContainText('GUARD BREAK');
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
+    await expect(page.locator('.rpg-foe-nameplate')).toContainText('HEAVY WIND-UP');
   });
 
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
