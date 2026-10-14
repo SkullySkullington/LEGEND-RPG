@@ -1,5 +1,5 @@
 ## v0.20.21 — Different Work, Side Stories & Tactical Weapons
-- Replaced the one-size-fits-all Work Board timing check with five task types: timing, signal reading, ledger clues, memory sequences, and worksite/route decisions. Ashmere and Greyfen contracts now use different interactions.
+- Replaced the one-size-fits-all Work Board timing check with six task types: timing, signal reading, ledger clues, memory sequences, worksite decisions, and route choices. Ashmere and Greyfen contracts now use different interactions.
 - Added three persistent side contracts: a point-of-interest survey, a road battle proof request, and a five-stage expedition report. Contract progress is tracked in the save and rewards are claimed once.
 - Added material-specific sword illustrations and visible passives in the Forge. Wooden, stone, bronze, iron, and steel swords now have distinct tactical effects in combat in addition to their different damage ranges.
 - Changed enemy motion to reflect heavy wind-ups, guard-break feints, and snared states rather than relying only on a uniform idle bounce.
@@ -13,6 +13,8 @@
 - Extended the Ranger encounter regression test to advance the foe through attack → guard-break → heavy wind-up using Guard.
 - Synced source/package version strings to v0.20.20 and updated cache-busting for the changed road controller and expedition CSS.
 - The first live verification after these commits still loaded v0.20.19; therefore the new enemy-intent UI is **not yet confirmed deployed**. The earlier return and level-up fixes continued to pass on that older live build.
+
+- Fixed two JavaScript quoting/unterminated-string issues in the Ashmere controller that blocked the town UI from loading; corrected the cache-busting URL to `v=0.20.21-controller-syntaxfix`. The controller, road controller, data, game bootstrap, version script, and test file now pass static V8 parse checks. Interactive live re-test remains pending.
 
 ## v0.20.19 — Return Fixes & Build Integrity
 - Fixed the secured-expedition return action so the first **Return to Ashmere** click directly renders the town instead of reopening the secured summary.
