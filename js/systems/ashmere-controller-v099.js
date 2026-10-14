@@ -160,6 +160,7 @@
       return renderAshmere();
     }
     if(v === 'routes') return renderRoutes();
+    if(v === 'quests') return renderSideContracts();
     if(v === 'road') return startRoad();
     if(v === 'regions') {
       if(window.LegendRegionsV100?.render) return window.LegendRegionsV100.render();
@@ -178,6 +179,7 @@
         <div class="ash099-cards">
           <button class="ash099-btn ash099-card" data-ash-view="regions">${icon('regions')}<strong>Road Network</strong><small>Pay the fare to return to Ashmere or travel onward to lands already opened.</small><em>Open map</em></button>
           <button class="ash099-btn ash099-card" data-ash-view="people">${icon('people')}<strong>Ask the Keepers</strong><small>Compare the old boundary marks and hear the latest causeway warnings.</small><em>Visit the hall</em></button>
+          <button class="ash099-btn ash099-card" data-ash-view="quests">${icon('quest')}<strong>Side Stories & Contracts</strong><small>Take keeper requests that reward exploration, victories, and a safe return.</small><em>Read postings</em></button>
         </div>`);
       return;
     }
@@ -185,10 +187,62 @@
       <div class="ash099-cards">
         <button class="ash099-btn ash099-card" data-ash-view="road">${icon('road')}<strong>The Old Road</strong><small>Start a five-stage expedition with encounters, finds, and a safe return path.</small><em>Begin expedition</em></button>
         <button class="ash099-btn ash099-card" data-ash-view="regions">${icon('regions')}<strong>Road Network</strong><small>View known regions, spend Road Tokens to unlock new lands, and travel between places.</small><em>Open map</em></button>
+        <button class="ash099-btn ash099-card" data-ash-view="quests">${icon('quest')}<strong>Side Stories & Contracts</strong><small>Follow local stories that ask you to scout, survive a fight, or bring an expedition home.</small><em>Read postings</em></button>
       </div>`);
   }
 
-  function renderDryCrossing(){
+  const sideContracts=[
+    {id:'watchlightSurvey',title:'The Watchlight Survey',giver:'Captain Oric',description:'The watch captain needs fresh proof of what lies beyond the lantern line. Find one roadside point of interest after accepting this contract.',objective:'Investigate one new roadside discovery on the Old Road.',counter:'poi',gold:55,xp:25,item:'food',amount:1,completeText:'Oric studies your notes and marks a safer stretch of the lantern line.'},
+    {id:'blackrootProof',title:'Proof from the Blackroot Road',giver:'Old Brenn',description:'Brenn will pay for proof that you can handle the dangers beyond Ashmere. Win a road battle after taking the posting.',objective:'Win one road battle after accepting this contract.',counter:'battle',gold:75,xp:35,item:'clothScrap',amount:1,completeText:'Brenn accepts your proof without asking how close the fight came.'},
+    {id:'maraSafeReturn',title:'Mara’s Missing Road Ledger',giver:'Mara Vell',description:'Mara needs a complete field report, not another half-told rumor. Secure a five-stage expedition and return after accepting the posting.',objective:'Complete and secure one five-stage Old Road expedition.',counter:'return',gold:95,xp:50,item:'oil',amount:1,completeText:'Mara copies your route notes into the town archive and rewards the complete report.'}
+  ];
+  function sideContractCounter(pl,key){
+    const stats=pl?.stats||{};
+    if(key==='poi')return Number(stats.pointsOfInterest||0);
+    if(key==='battle')return Number(stats.roadVictories||0);
+    if(key==='return')return Number(stats.oldRoadClears||0);
+    return 0;
+  }
+  function renderSideContracts(message=''){
+    const pl=p();if(!pl)return;
+    pl.flags=pl.flags||{};
+    const saved=pl.flags.sideContracts||{};
+    const cards=sideContracts.map(q=>{
+      const state=saved[q.id];
+      let status='AVAILABLE',action='<button type="button" class="ash099-btn primary" data-contract-accept="'+q.id+'">Accept Contract</button>',progress='Not started';
+      if(state?.complete){
+        status='COMPLETED';action='<span class="ash099-contract-complete">✓ Recorded in Journal</span>';progress='Reward claimed';
+      }else if(state){
+        const now=sideContractCounter(pl,q.counter),ready=now>Number(state.startedAt||0);
+        progress=ready?'Objective fulfilled · ready to report':'In progress · 0 / 1';
+        if(ready){status='READY TO REPORT';action='<button type="button" class="ash099-btn primary" data-contract-turnin="'+q.id+'">Report Completion</button>';}
+        else{status='IN PROGRESS';action='<span class="ash099-contract-pending">Return when the objective is complete</span>';}
+      }
+      return '<article class="ash099-contract-card ash099-contract-'+status.toLowerCase().replaceAll(' ','-')+'"><header><span>'+esc(status)+'</span><small>POSTED BY '+esc(q.giver.toUpperCase())+'</small></header><h2>'+esc(q.title)+'</h2><p>'+esc(q.description)+'</p><div class="ash099-contract-objective"><span>OBJECTIVE</span><strong>'+esc(q.objective)+'</strong><small>'+esc(progress)+'</small></div><footer><div><span>REWARD</span><strong>'+q.gold+'g · '+q.xp+' XP</strong><small>Bonus: '+esc(itemName(q.item))+' ×'+q.amount+'</small></div>'+action+'</footer></article>';
+    }).join('');
+    const body='<section class="ash099-contract-ledger"><div class="ash099-contract-intro"><span class="ash099-job-overline">LOCAL STORIES · FIELD CONTRACTS</span><h2>Work that takes you beyond the board</h2><p>These one-time requests progress while you explore and fight. Accept a posting before doing the work; completed objectives can be turned in here.</p></div><div class="ash099-contract-list">'+cards+'</div>'+(message?'<p class="ash099-note" role="status">'+esc(message)+'</p>':'')+'</section>';
+    screen(head('Journal & Notices','Side Stories & Road Contracts','Three local requests add reasons to investigate the road, win a dangerous encounter, and bring a complete expedition home.',locationInterior('archive'),'quest'),body);
+    document.querySelectorAll('[data-contract-accept]').forEach(b=>b.onclick=()=>{
+      const q=sideContracts.find(x=>x.id===b.dataset.contractAccept);if(!q)return;
+      const player=p();if(!player)return;player.flags=player.flags||{};player.flags.sideContracts=player.flags.sideContracts||{};
+      if(player.flags.sideContracts[q.id])return renderSideContracts('That posting is already in your journal.');
+      player.flags.sideContracts[q.id]={startedAt:sideContractCounter(player,q.counter),complete:false};
+      save(player);renderSideContracts('Accepted: '+q.title+'. '+q.objective);
+    });
+    document.querySelectorAll('[data-contract-turnin]').forEach(b=>b.onclick=()=>{
+      const q=sideContracts.find(x=>x.id===b.dataset.contractTurnin);if(!q)return;
+      const player=p();if(!player)return;player.flags=player.flags||{};player.flags.sideContracts=player.flags.sideContracts||{};
+      const state=player.flags.sideContracts[q.id];
+      if(!state||state.complete||sideContractCounter(player,q.counter)<=Number(state.startedAt||0))return renderSideContracts('The objective is not ready to turn in yet.');
+      state.complete=true;player.gold=Number(player.gold||0)+q.gold;player.inventory=player.inventory||{};player.inventory[q.item]=Number(player.inventory[q.item]||0)+q.amount;
+      player.flags.ashmereFavor=Number(player.flags.ashmereFavor||0)+2;player.stats=player.stats||{};player.stats.sideContractsCompleted=Number(player.stats.sideContractsCompleted||0)+1;
+      player.memories=player.memories||[];player.memories.push('Completed side contract: '+q.title+'.');
+      const progress=window.LegendProgressionV100?.award(player,q.xp);
+      save(player);
+      renderSideContracts('Contract complete. '+q.completeText+' +'+q.gold+'g, '+q.xp+' XP, and '+q.amount+' '+itemName(q.item)+'.'+(progress?.levels?' Level up! You are now level '+progress.level+'.':''));
+    });
+  }
+function renderDryCrossing(){
     const pl=p(); if(!pl)return;
     if(String(pl.currentRegion||'Ashmere')!=='Greyfen')return renderAshmere();
     const completed=Boolean(pl.flags?.greyfenDryCrossingComplete);
@@ -304,71 +358,138 @@
 function buyService(cost,fn,msg){const pl=p();if(Number(pl.gold||0)<cost)return note('Not enough gold.');pl.gold-=cost;fn(pl);save(pl);note(msg);}
 
 const workJobs = {
-    wood:{title:'Split Firewood',desc:'Line up the axe strike and split clean through wet ash logs.',skill:'strength',pay:38,item:'woodScrap',amount:1,verb:'Strike',hint:'Hit the gold band for a clean split.'},
-    gate:{title:'Watch the Gate',desc:'Spot movement beyond the lantern line before Oric has to shout.',skill:'survival',pay:42,item:'food',amount:1,verb:'Signal',hint:'Signal when the marker crosses the watchlight.'},
-    records:{title:'Sort Archive Records',desc:'Find the right ledger tab before Mara loses patience.',skill:'lore',pay:45,item:'roadHerb',amount:1,verb:'File',hint:'Click when the marker reaches the stamped section.'},
-    crates:{title:'Carry Market Crates',desc:'Move heavy crates without dropping trader stock into the mud.',skill:'strength',pay:34,item:'camp',amount:1,verb:'Lift',hint:'Click in the steady zone to keep your grip.'},
-    yard:{title:'Clean Stable Yard',desc:'Unpleasant work, steady coin, and no monsters.',skill:'luck',pay:30,item:'clothScrap',amount:1,verb:'Shovel',hint:'Time the shovel when the rhythm lines up.'},
-    message:{title:'Run a Message',desc:'Carry sealed word through rain-heavy alleys before the ink runs.',skill:'survival',pay:46,item:'goblinTrinket',amount:1,verb:'Deliver',hint:'Click as the marker crosses the seal.'}
+    wood:{title:'Split Firewood',desc:'Split wet ash logs cleanly without sending the axe skidding into the block.',skill:'strength',pay:38,item:'woodScrap',amount:1,verb:'Strike',hint:'Catch the moving marker inside the gold band.',mode:'timing'},
+    gate:{title:'Watch the Gate',desc:'Read the lantern signals beyond Oric’s watch line before panic spreads through town.',skill:'survival',pay:42,item:'food',amount:1,mode:'signal',prompt:'A traveler flashes two short lights, pauses, then gives one more. What should the watch report?',choices:[{label:'A coded request for help',grade:'Perfect',feedback:'You recognize Oric’s distress pattern and send the correct reply.'},{label:'A wagon asking for the gate to open',grade:'Good',feedback:'You avoid sounding an alarm, but the signal is misread.'},{label:'An enemy charge; ring the great bell',grade:'Messy',feedback:'The bell draws every guard to the gate for a false alarm.'}]},
+    records:{title:'Sort Archive Records',desc:'Find the one ledger entry that matches Mara’s clue instead of filing a false record.',skill:'lore',pay:45,item:'roadHerb',amount:1,mode:'ledger',prompt:'Mara needs a ledger sealed with the old bell mark and dated before the first frost. Which entry fits?',choices:[{label:'Bell seal · Last week’s market tally',grade:'Messy',feedback:'The seal is right, but the date is too recent.'},{label:'Crow seal · Before first frost',grade:'Messy',feedback:'The date fits, but the wrong family kept this ledger.'},{label:'Bell seal · Late autumn, before first frost',grade:'Perfect',feedback:'You match both the seal and the date. Mara finds the page she needs.'}]},
+    crates:{title:'Carry Market Crates',desc:'Remember the porter’s safe lifting order and get the whole stack inside without a spill.',skill:'strength',pay:34,item:'camp',amount:1,mode:'sequence',sequence:['BRACE','LIFT','TURN','SET'],actions:['BRACE','LIFT','TURN','SET','DROP']},
+    yard:{title:'Clean Stable Yard',desc:'Clear the clogged drain before the next rain pushes muck beneath the stable door.',skill:'luck',pay:30,item:'clothScrap',amount:1,mode:'triage',prompt:'The yard drain is backing up and rain is coming. What do you clear first?',choices:[{label:'Open the main runoff channel',grade:'Perfect',feedback:'Water drains away from the stable before it can flood the bedding.'},{label:'Move the dry straw to higher ground',grade:'Good',feedback:'You save the bedding, though the drain still needs attention.'},{label:'Scrub the decorative railings',grade:'Miss',feedback:'The yard looks better, but the water keeps rising.'}]},
+    message:{title:'Run a Message',desc:'Carry sealed instructions across town before the rain ruins the ink.',skill:'survival',pay:46,item:'goblinTrinket',amount:1,mode:'route',prompt:'Rain is turning the streets to rivers. Which route keeps the sealed message dry?',choices:[{label:'Covered arcade behind the bakeries',grade:'Perfect',feedback:'You keep under the awnings and deliver the seal untouched.'},{label:'Market lane, cutting through the crowd',grade:'Good',feedback:'You arrive quickly, but the seal is damp around the edges.'},{label:'Ford the stream by the old mill',grade:'Miss',feedback:'The current soaks the wrapping before you reach the far bank.'}]}
   };
   const greyfenWorkJobs = {
-    peat:{title:'Dry Peat Bricks',desc:'Stack wet-cut peat beneath the Reedlight awning before the next shower.',skill:'strength',pay:40,item:'peatBrick',amount:2,verb:'Stack',hint:'Time the stack when the marker enters the dry band.'},
-    salvage:{title:'Sort a Salvage Basket',desc:'Separate usable iron and cloth from a basket lifted off the drowned walk.',skill:'luck',pay:44,item:'ore',amount:1,verb:'Sort',hint:'Click when the marker reaches the clean sorting band.'},
-    markers:{title:'Reset Flood Markers',desc:'Set the causeway stakes back to the bellkeeper’s recorded waterline.',skill:'survival',pay:48,item:'roadHerb',amount:2,verb:'Set Marker',hint:'Set the marker when the moving line crosses the old waterline.'}
+    peat:{title:'Dry Peat Bricks',desc:'Stack fresh-cut peat in the right order beneath the Reedlight awning before the shower.',skill:'strength',pay:40,item:'peatBrick',amount:2,mode:'sequence',sequence:['DRY','PRESS','STACK','COVER'],actions:['DRY','PRESS','STACK','COVER','RUSH']},
+    salvage:{title:'Sort a Salvage Basket',desc:'Separate useful metal and cloth from finds lifted off the drowned walk.',skill:'luck',pay:44,item:'ore',amount:1,mode:'triage',prompt:'The basket smells of brackish water. What do you save first before the rust spreads?',choices:[{label:'Dry the iron scraps on clean sacking',grade:'Perfect',feedback:'The metal is saved before the saltwater eats through it.'},{label:'Rinse everything together in the stream',grade:'Miss',feedback:'The fresh water spreads the grit into every seam.'},{label:'Separate cloth from metal, then dry both',grade:'Good',feedback:'You save most of the useful stock, though the finest pieces still need work.'}]},
+    markers:{title:'Reset Flood Markers',desc:'Use the keeper’s record to reset the causeway stakes to the correct waterline.',skill:'survival',pay:48,item:'roadHerb',amount:2,mode:'ledger',prompt:'The brass notch marks the last safe tide. The bell post stands east of the drowned stair. Which plan matches the record?',choices:[{label:'Set the east bell post first, then align the brass notch',grade:'Perfect',feedback:'The marker line matches the keeper’s record and the path becomes legible again.'},{label:'Raise every post to the highest mark',grade:'Messy',feedback:'The path looks clear, but the reading is no longer useful.'},{label:'Align the brass notch to the water, ignoring the bell post',grade:'Good',feedback:'The tide mark is close, but the causeway bearing is still wrong.'}]}
   };
   function jobsForCurrentRegion(){return String(p()?.currentRegion||'Ashmere')==='Greyfen'?greyfenWorkJobs:workJobs;}
+  function jobModeName(mode){return ({timing:'Timing challenge',signal:'Read the signal',ledger:'Solve the clue',sequence:'Memory sequence',triage:'Worksite decision',route:'Route choice'}[mode]||'Field task');}
+function jobsForCurrentRegion(){return String(p()?.currentRegion||'Ashmere')==='Greyfen'?greyfenWorkJobs:workJobs;}
   function renderWorkBoard(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
     const jobs=jobsForCurrentRegion();
-    screen(head(greyfen?'Local Work':'Ashmere Jobs',greyfen?'Bellkeeper’s Hall':'Work Board',greyfen?'Dry peat, sort salvaged goods, and reset flood markers to keep the lowland crossings usable.':'Pick a job around Ashmere, then complete a quick timing check. Better timing means better pay and better odds at bonus supplies.',locationInterior('archive'),'work'),`<div class="ash099-cards">${Object.entries(jobs).map(([id,j])=>`<button class="ash099-btn ash099-card" data-job-open="${id}">${icon('work')}<strong>${j.title}</strong><small>${j.desc} Check: ${j.skill.toUpperCase()}.</small><em>${j.pay}g</em></button>`).join('')}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
+    screen(head(greyfen?'Local Work':'Ashmere Jobs',greyfen?'Bellkeeper’s Hall':'Work Board',greyfen?'Take on lowland work with a mix of memory, judgment, clues, and careful handling.':'Every contract works a little differently: time a strike, decode a signal, solve a ledger clue, remember a work sequence, or choose the right approach.',locationInterior('archive'),'work'),`<div class="ash099-job-board"><div class="ash099-job-board-intro"><span>FIELD CONTRACTS</span><strong>${Object.keys(jobs).length} ways to earn your keep</strong><small>Clean work pays better. Thoughtful choices can earn supplies as well as coin.</small></div><div class="ash099-cards">${Object.entries(jobs).map(([id,j])=>`<button class="ash099-btn ash099-card ash099-job-board-card" data-job-open="${id}"><span class="ash099-job-board-mode">${esc(jobModeName(j.mode))}</span><strong>${j.title}</strong><small>${j.desc}</small><em>${j.pay}g base pay</em></button>`).join('')}</div></div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-job-open]').forEach(b=>b.onclick=()=>renderJobActivity(b.dataset.jobOpen));
   }
   function renderJobActivity(id){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
     const jobs=jobsForCurrentRegion();
     const j=jobs[id]||Object.values(jobs)[0];
+    const mode=j.mode||'timing';
     const zoneStart=34+Math.floor(Math.random()*16);
     const zoneWidth=18;
-    screen(head(greyfen?'Local Work':'Work Board',j.title,j.desc,locationInterior('archive'),'work'),`<section class="ash099-job-game"><p>${esc(j.hint)}</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:${zoneStart}%;width:${zoneWidth}%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><div class="ash099-job-meta"><span>Skill: ${esc(j.skill.toUpperCase())}</span><span>Base Pay: ${gold(j.pay)}</span><span>Bonus: ${esc(itemName(j.item))}</span></div><button class="ash099-btn primary" id="jobStrike">${esc(j.verb)}</button><p class="ash099-note" id="jobResult" style="display:none"></p><p class="ash099-note">Keyboard: press Space or Enter to complete the action.</p></section>`, `<button class="ash099-btn" id="backJobs">Choose Another Job</button>`);
+    const choices=['signal','ledger','triage','route'].includes(mode);
+    const sequence=Array.isArray(j.sequence)?j.sequence.slice():[];
+    let challengeMarkup='';
+    if(mode==='timing'){
+      challengeMarkup='<section class="ash099-job-challenge ash099-job-timing"><span class="ash099-job-overline">TIMING TEST</span><p>'+esc(j.hint||'Strike when the marker reaches the gold band.')+'</p><div class="ash099-job-track" id="jobTrack"><i class="ash099-job-zone" style="left:'+zoneStart+'%;width:'+zoneWidth+'%"></i><b class="ash099-job-marker" id="jobMarker"></b></div><small>Gold band = clean work · Outside the band = lost time or stock</small></section>';
+    }else if(choices){
+      challengeMarkup='<section class="ash099-job-challenge ash099-job-choice-challenge"><div class="ash099-job-challenge-heading"><span class="ash099-job-overline">'+esc(jobModeName(mode))+'</span><h2>'+esc(j.prompt||j.desc)+'</h2><p>Read the details, then commit to the response you think is right.</p></div><div class="ash099-job-choice-grid">'+(j.choices||[]).map((choice,i)=>'<button type="button" class="ash099-job-choice" data-job-choice="'+i+'" data-grade="'+esc(choice.grade||'Messy')+'" data-feedback="'+esc(choice.feedback||'You commit to your choice.')+'"><span class="ash099-job-choice-index">'+String(i+1).padStart(2,'0')+'</span><span class="ash099-job-choice-copy"><strong>'+esc(choice.label)+'</strong>'+(choice.detail?'<small>'+esc(choice.detail)+'</small>':'')+'</span><span class="ash099-job-choice-arrow">↗</span></button>').join('')+'</div></section>';
+    }else if(mode==='sequence'){
+      challengeMarkup='<section class="ash099-job-challenge ash099-job-sequence"><div class="ash099-job-challenge-heading"><span class="ash099-job-overline">MEMORY SEQUENCE</span><h2>Study the order, then repeat it</h2><p>The steps will flash once. Remember the order and choose each action in sequence.</p></div><div class="ash099-sequence-preview" id="jobSequencePreview" aria-live="polite">Ready when you are</div><button class="ash099-btn primary ash099-sequence-start" id="jobStartSequence" type="button">Study the sequence</button><div class="ash099-sequence-actions">'+(j.actions||[]).map((action,i)=>'<button type="button" class="ash099-sequence-action" data-job-sequence="'+esc(action)+'" disabled><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+esc(action)+'</strong></button>').join('')+'</div><p class="ash099-sequence-status" id="jobSequenceStatus">Choose Study the sequence to begin.</p></section>';
+    }
+    const body='<section class="ash099-job-game ash099-job-mode-'+esc(mode)+'" data-job-mode="'+esc(mode)+'">'+
+      '<div class="ash099-job-meta"><span>Skill: '+esc(j.skill.toUpperCase())+'</span><span>Base Pay: '+gold(j.pay)+'</span><span>Bonus: '+esc(itemName(j.item))+' ×'+Number(j.amount||1)+'</span></div>'+
+      challengeMarkup+
+      (mode==='timing'?'<button class="ash099-btn primary ash099-job-submit" id="jobStrike" type="button">'+esc(j.verb||'Commit')+'</button>':'')+
+      '<p class="ash099-note" id="jobResult" style="display:none" aria-live="polite"></p>'+
+      (mode==='timing'?'<p class="ash099-note">Keyboard: press Space or Enter to commit the action.</p>':'')+
+      '</section>';
+    screen(head(greyfen?'Local Work':'Work Board',j.title,j.desc,locationInterior('archive'),'work'),body,'<button class="ash099-btn" id="backJobs">Choose Another Job</button>');
     const marker=document.getElementById('jobMarker');
     const strike=document.getElementById('jobStrike');
     const result=document.getElementById('jobResult');
-    let pos=0,dir=1,done=false;
-    const timer=setInterval(()=>{ if(done) return; pos+=dir*2.35; if(pos>=100){pos=100;dir=-1;} if(pos<=0){pos=0;dir=1;} if(marker) marker.style.left=pos+'%'; },24);
-    function finish(){
-      if(done) return;
-      done=true;
-      clearInterval(timer);
+    let pos=0,dir=1,done=false,timer=null;
+    let sequenceIndex=0,sequenceErrors=0,sequenceReady=false;
+    const sequenceTimers=[];
+    function cleanup(){
+      if(timer)clearInterval(timer);
+      sequenceTimers.forEach(t=>clearTimeout(t));
       document.removeEventListener('keydown',onKey);
+    }
+    if(mode==='timing'){
+      timer=setInterval(()=>{if(done)return;pos+=dir*2.35;if(pos>=100){pos=100;dir=-1;}if(pos<=0){pos=0;dir=1;}if(marker)marker.style.left=pos+'%';},24);
+    }
+    function finish(gradeOverride,context){
+      if(done)return;
+      done=true;
+      cleanup();
       const center=zoneStart+(zoneWidth/2);
       const dist=Math.abs(pos-center);
-      const grade=dist<=4?'Perfect':dist<=9?'Good':dist<=17?'Messy':'Miss';
+      const grade=gradeOverride||(dist<=4?'Perfect':dist<=9?'Good':dist<=17?'Messy':'Miss');
       const mult=grade==='Perfect'?1.45:grade==='Good'?1.12:grade==='Messy'?.72:.38;
       const pay=Math.max(5,Math.round(j.pay*mult));
       const bonusChance=grade==='Perfect'?.95:grade==='Good'?.62:grade==='Messy'?.24:.05;
-      const pl=p();
-      pl.flags=pl.flags||{}; pl.inventory=pl.inventory||{};
-      const progress=window.LegendProgressionV100?.award(pl,grade==='Perfect'?28:grade==='Good'?20:grade==='Messy'?14:10);
-      pl.flags.ashmereJobs=Number(pl.flags.ashmereJobs||0)+1;
-      pl.flags.ashmereFavor=Number(pl.flags.ashmereFavor||0)+(grade==='Perfect'?2:1);
-      pl.gold=Number(pl.gold||0)+pay;
+      const player=p();
+      player.flags=player.flags||{};player.inventory=player.inventory||{};player.stats=player.stats||{};
+      const progress=window.LegendProgressionV100?.award(player,grade==='Perfect'?28:grade==='Good'?20:grade==='Messy'?14:10);
+      player.flags.ashmereJobs=Number(player.flags.ashmereJobs||0)+1;
+      player.flags.ashmereFavor=Number(player.flags.ashmereFavor||0)+(grade==='Perfect'?2:1);
+      player.gold=Number(player.gold||0)+pay;
       let bonus='';
-      if(Math.random()<bonusChance){ pl.inventory[j.item]=Number(pl.inventory[j.item]||0)+j.amount; bonus=` Bonus gained: ${j.amount} ${itemName(j.item)}.`; }
-      if(grade==='Miss'&&Number(pl.hp||0)>1){ pl.hp=Math.max(1,Number(pl.hp||0)-1); bonus+=' You lose 1 HP from the rough work.'; }
-      save(pl);
+      if(Math.random()<bonusChance){player.inventory[j.item]=Number(player.inventory[j.item]||0)+Number(j.amount||1);bonus=' Bonus gained: '+Number(j.amount||1)+' '+itemName(j.item)+'.';}
+      if(grade==='Miss'&&Number(player.hp||0)>1){player.hp=Math.max(1,Number(player.hp||0)-1);bonus+=' You lose 1 HP from the rough work.';}
+      save(player);
       const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'';
-      if(result){ result.style.display='block'; result.textContent=`${grade}! Earned ${pay}g.${bonus} Local standing increased.`+xpNote; }
-      if(strike){ strike.disabled=true; strike.textContent='Job Complete'; }
-      setTimeout(()=>renderWorkBoard(),1600);
+      if(result){result.style.display='block';result.textContent=grade+'! '+(context?context+' ':'')+'Earned '+pay+'g.'+bonus+' Local standing increased.'+xpNote;}
+      if(strike){strike.disabled=true;strike.textContent='Job Complete';}
+      document.querySelectorAll('[data-job-choice],[data-job-sequence],#jobStartSequence').forEach(b=>b.disabled=true);
+      setTimeout(()=>renderWorkBoard(),1800);
     }
-    if(strike) strike.onclick=finish;
-    const onKey=e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); document.removeEventListener('keydown',onKey); finish(); } };
-    document.addEventListener('keydown',onKey);
+    if(strike)strike.onclick=()=>finish();
+    if(choices){
+      document.querySelectorAll('[data-job-choice]').forEach(b=>b.onclick=()=>finish(b.dataset.grade,b.dataset.feedback));
+    }
+    if(mode==='sequence'){
+      const start=document.getElementById('jobStartSequence');
+      const preview=document.getElementById('jobSequencePreview');
+      const status=document.getElementById('jobSequenceStatus');
+      start?.addEventListener('click',()=>{
+        if(done)return;
+        start.disabled=true;
+        let revealIndex=0;
+        const reveal=()=>{
+          if(done)return;
+          if(revealIndex>=sequence.length){
+            sequenceReady=true;
+            if(preview)preview.textContent='Your turn · repeat all '+sequence.length+' steps';
+            if(status)status.textContent='Repeat the sequence from memory.';
+            document.querySelectorAll('[data-job-sequence]').forEach(b=>b.disabled=false);
+            return;
+          }
+          if(preview)preview.innerHTML='<span>STEP '+(revealIndex+1)+' / '+sequence.length+'</span><strong>'+esc(sequence[revealIndex])+'</strong>';
+          revealIndex++;
+          sequenceTimers.push(setTimeout(reveal,670));
+        };
+        reveal();
+      });
+      document.querySelectorAll('[data-job-sequence]').forEach(b=>b.addEventListener('click',()=>{
+        if(done||!sequenceReady)return;
+        if(b.dataset.jobSequence===sequence[sequenceIndex]){
+          sequenceIndex++;
+          if(status)status.textContent='Correct · '+sequenceIndex+' of '+sequence.length+' steps';
+          if(sequenceIndex>=sequence.length)finish(sequenceErrors===0?'Perfect':sequenceErrors===1?'Good':'Messy','You repeated the full handling sequence.');
+        }else{
+          sequenceErrors++;
+          if(status)status.textContent='Out of order. Take a breath and continue from the same step.';
+          if(sequenceErrors>=2)finish('Messy','You finish the work, but the sequence costs you time.');
+        }
+      }));
+    }
+    const onKey=e=>{if(mode!=='timing'||(e.key!==' '&&e.key!=='Enter'))return;e.preventDefault();document.removeEventListener('keydown',onKey);finish();};
+    if(mode==='timing')document.addEventListener('keydown',onKey);
     const backJobs=document.getElementById('backJobs');
-    if(backJobs) backJobs.onclick=()=>{ done=true; clearInterval(timer); document.removeEventListener('keydown',onKey); renderWorkBoard(); };
+    if(backJobs)backJobs.onclick=()=>{done=true;cleanup();renderWorkBoard();};
   }
-
-  function renderTrader(tab='buy'){
+function renderTrader(tab='buy'){
     const pl=p();
     const greyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
     const goods=[['food','Rations',60,'A day’s food for the road.'],['potion','Healing Potion',120,'Restore your strength in a fight.'],['camp','Camp Supplies',90,'Prepare a safe stop beyond the gate.'],['clothScrap','Cloth Scrap',34,'Material for field medicine.'],['oil','Lamp Oil',70,'Fuel for lanterns and preparations.']];
@@ -421,7 +542,7 @@ const workJobs = {
     const weapons=(D().weapons||[]).filter(w=>w.id!=='hand'),armors=(D().armors||[]).filter(a=>a.id!=='none');
     const equippedWeapon=weapons.find(w=>w.id===pl.weapon),equippedArmor=armors.find(a=>a.id===pl.armor);
     const portrait=A().classes?.[pl.className]||'';
-    const loadoutItem=(name,detail,art,kind)=>'<div class="ash099-loadout-slot">'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':icon(kind==='weapon'?'smith':'sheet'))+'<span><small>'+(kind==='weapon'?'WEAPON':'ARMOR')+'</small><strong>'+esc(name)+'</strong><em>'+esc(detail)+'</em></span></div>';
+    const loadoutItem=(name,detail,art,kind)=>'<div class="ash099-loadout-slot">'+(kind==='weapon'?weaponArtSvg(p()?.weapon):(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\\'none\\'">':icon('sheet')))+'<span><small>'+(kind==='weapon'?'WEAPON':'ARMOR')+'</small><strong>'+esc(name)+'</strong><em>'+esc(detail)+'</em></span></div>';
     const list=tab==='weapon'?weapons:armors;
     screen(head('Workshop',String(pl.currentRegion||'Ashmere')==='Greyfen'?'Causeway Smithy':'The Blacksmith','A good weapon is chosen. Good armor is earned. Equip what you own, or spend gold to improve your odds.',locationInterior('forge'),'smith'),
       '<section class="ash099-forge-console">'+
@@ -431,18 +552,53 @@ const workJobs = {
     document.querySelectorAll('[data-forge-tab]').forEach(b=>b.onclick=()=>b.dataset.forgeTab==='craft'?renderCrafting():renderSmith(b.dataset.forgeTab));
     document.querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear,b.dataset.kind));
   }
+  function weaponArtSvg(id){
+    const palette={
+      woodenSword:{blade:'#b99258',edge:'#f0d5a0',grip:'#69482b',guard:'#967043',dark:'#382519'},
+      stoneSword:{blade:'#8b9792',edge:'#e4e9db',grip:'#555b54',guard:'#737d75',dark:'#303a34'},
+      bronzeSword:{blade:'#b86c3d',edge:'#f1c27a',grip:'#603d29',guard:'#db9a50',dark:'#42281d'},
+      ironSword:{blade:'#8999a3',edge:'#e2e9ed',grip:'#333d43',guard:'#a1b0b5',dark:'#1f282d'},
+      steelSword:{blade:'#c0d4de',edge:'#ffffff',grip:'#29353e',guard:'#e3c77e',dark:'#16212a'},
+      hand:{blade:'#c8b98d',edge:'#efe2b5',grip:'#53422b',guard:'#8d7447',dark:'#251c13}
+    };
+    const v=palette[id]||palette.hand;
+    let blade='M39 5 L48 17 L44 47 L40 55 L36 47 L32 17 Z',detail='',guard='M26 51 Q40 56 54 51 L51 57 Q40 61 29 57 Z';
+    if(id==='stoneSword'){
+      blade='M38 5 L46 13 L49 25 L43 45 L40 56 L35 45 L31 25 L34 13 Z';
+      detail='<path d="M38 12 L36 25 L40 39 L42 24 Z" fill="'+v.edge+'" opacity=".56"/><path d="M33 31 L39 36 L36 44" fill="none" stroke="'+v.dark+'" stroke-width="1.8"/>';
+      guard='M24 49 L37 53 L40 50 L43 53 L56 49 L52 58 L41 56 L38 56 L28 58 Z';
+    }else if(id==='bronzeSword'){
+      blade='M39 5 Q46 9 47 18 L44 45 L40 55 L36 46 L32 18 Q33 9 39 5 Z';
+      detail='<path d="M39 12 L41 22 L40 45" fill="none" stroke="'+v.edge+'" stroke-width="2.3"/><path d="M35 20 L38 23" stroke="'+v.dark+'" stroke-width="1.3"/>';
+      guard='M23 48 Q32 53 37 50 L40 55 L43 50 Q49 53 57 48 L52 58 Q44 60 40 56 Q34 60 28 58 Z';
+    }else if(id==='ironSword'){
+      blade='M39 4 L46 15 L44 49 L40 56 L36 49 L32 15 Z';
+      detail='<path d="M39 11 L40 50" stroke="'+v.edge+'" stroke-width="2.4"/><path d="M35 19 L37 38" stroke="'+v.dark+'" stroke-width="1.1" opacity=".65"/>';
+      guard='M25 50 L38 52 L40 50 L42 52 L55 50 L51 57 L42 56 L38 56 L29 57 Z';
+    }else if(id==='steelSword'){
+      blade='M40 3 L47 16 L43 47 L40 55 L37 47 L33 16 Z';
+      detail='<path d="M40 8 L41 48" stroke="'+v.edge+'" stroke-width="2.1"/><path d="M42 18 L45 21 L43 24" fill="none" stroke="'+v.edge+'" stroke-width="1.5"/><path d="M50 13 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 Z" fill="'+v.guard+'"/>';
+      guard='M24 49 L38 52 L40 49 L42 52 L56 49 L51 57 L42 56 L38 56 L29 57 Z';
+    }else{
+      detail='<path d="M35 17 L37 38 M43 20 L42 42" stroke="'+v.dark+'" stroke-width="1.8" opacity=".55"/>';
+    }
+    const name=(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===id)?.name||'Weapon';
+    return '<span class="ash099-weapon-art ash099-weapon-art-'+esc(id)+'" role="img" aria-label="'+esc(name)+' illustration"><svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="'+blade+'" fill="'+v.blade+'" stroke="'+v.dark+'" stroke-width="1.2"/><path d="M39 8 L40 49" fill="none" stroke="'+v.edge+'" stroke-width="1.5" opacity=".9"/>'+detail+'<path d="'+guard+'" fill="'+v.guard+'" stroke="'+v.dark+'" stroke-width="1.4"/><path d="M37 56 L43 56 L45 69 L40 73 L35 69 Z" fill="'+v.grip+'" stroke="'+v.dark+'" stroke-width="1.3"/><path d="M36 61 L43 61 M36 65 L44 65 M37 69 L42 69" stroke="'+v.edge+'" stroke-width="1.2" opacity=".7"/><circle cx="40" cy="74" r="3.5" fill="'+v.guard+'" stroke="'+v.dark+'" stroke-width="1.2"/></svg></span>';
+  }
   function gearCard(x,kind){
-    const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor,assets=A().items||{};
-    const art=kind==='weapon'?(assets.shortSword||assets.bow):(assets.shield||assets.camp);
+    const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor;
+    const assets=A().items||{},art=kind==='weapon'?'':(assets.shield||assets.camp);
     const isOwned=Number(ownedMap?.[x.id]||0)>0,level=Number(pl.level||1),required=Number(x.level||1);
     const equipped=(kind==='weapon'?pl.weapon:pl.armor)===x.id,locked=level<required,canBuy=canAfford(pl,x.cost);
     const label=equipped?'Equipped':isOwned?'Equip owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & equip':'Need '+gold(x.cost);
     const disabled=equipped||(!isOwned&&(locked||!canBuy));
+    const artMarkup=kind==='weapon'?weaponArtSvg(x.id):(art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\\'none\\'">':'');
+    const statLine=kind==='weapon'?'Damage '+x.min+'–'+x.max:'Defense '+x.defense;
+    const passive=kind==='weapon'&&x.passive?'<small class="ash099-gear-passive">'+esc(x.passive)+'</small>':'';
     return '<button class="ash099-gear-item '+(equipped?'equipped ':'')+(locked&&!isOwned?'locked':'')+'" data-gear="'+esc(x.id)+'" data-kind="'+kind+'" '+(disabled?'disabled':'')+'>'+
-      (art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'')+
-      '<span class="ash099-gear-copy"><strong>'+esc(x.name)+'</strong><small>'+(kind==='weapon'?'Damage '+x.min+'–'+x.max:'Defense '+x.defense)+'</small><em>'+(isOwned?'Owned':locked?'Requires level '+required:gold(x.cost))+'</em></span><b class="ash099-gear-action">'+label+'</b></button>';
+      artMarkup+'<span class="ash099-gear-copy"><strong>'+esc(x.name)+'</strong><small>'+statLine+'</small>'+passive+'<em>'+(isOwned?'Owned':locked?'Requires level '+required:gold(x.cost))+'</em></span><b class="ash099-gear-action">'+label+'</b></button>';
   }
-  function buyGear(id,kind){
+function buyGear(id,kind){
     const pl=p();if(!pl)return;
     const list=kind==='weapon'?D().weapons:D().armors,item=(list||[]).find(x=>x.id===id);
     if(!item||kind!=='weapon'&&kind!=='armor')return renderSmith();
