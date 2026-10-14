@@ -56,7 +56,7 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 **Goal:** Road loot should lead to a useful decision back in Ashmere.
 
 - Audit current Bell Fragments, Road Tokens, materials, and loot for clear descriptions and uses.
-- Connect at least one road discovery to a town service, recipe, or unlock.
+- [x] Connect the Reed Cut's Bell Fragment to the Wisp Lantern Wick recipe; consuming the crafted wick reduces opening Road Pressure by 5 on the next expedition.
 - Make reward feedback explicit and ensure inventory changes persist after returning to town.
 - Avoid adding a new currency unless it has a distinct purpose.
 
@@ -95,6 +95,12 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - Added Playwright assertions for reaching Town Square and talking to Captain Oric, and for the four-command battle interface.
 - Source implementation is complete; automated Playwright and live-browser checks must pass before this entry is treated as fully validated.
 
+
+## v0.20.17 — Bell Fragment crafting and expedition preparation
+
+- Made the Wisp Lantern Wick a real route-reward recipe: craft it from a Bell Fragment and Lamp Oil at the workbench.
+- The next expedition consumes the wick and limits its opening Road Pressure increase to 3 instead of 8, making the route discovery a tangible preparation choice.
+- Added a Playwright regression test for ingredient consumption, single-use behavior, and the pressure reduction. Automated test execution is still pending.
 
 ## v0.20.13 — expedition layering and compact enemy plate
 
