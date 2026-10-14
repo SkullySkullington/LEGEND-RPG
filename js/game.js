@@ -199,7 +199,8 @@
     const prof = profile();
     const name = player?.username || 'No Traveler';
     const cls = player?.className || player?.class || 'Wayfarer';
-    const town = player?.town || 'Ashmere';
+    const savedRegion = String(player?.currentRegion || player?.town || 'Ashmere');
+    const town = ['Ashmere', 'Greyfen'].includes(savedRegion) ? savedRegion : 'Ashmere';
     const day = Number(player?.day || 1);
     const tokens = Number(player?.inventory?.roadToken || 0);
     root().innerHTML = `
