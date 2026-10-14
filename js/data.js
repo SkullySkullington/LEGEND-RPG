@@ -36,7 +36,12 @@ window.LEGEND_DATA = {
     RuinedMarch:{id:'RuinedMarch',name:'The Ruined March',type:'region',requiresRegion:'Blackwood',available:false,unlockTokens:25,travelCost:100,description:'A broken frontier where the oldest road secrets begin to surface.'}
   },
   weapons: [
-    {id:'hand',name:'Your Hand',min:8,max:20,cost:0,level:1},{id:'woodenSword',name:'Wooden Sword',min:14,max:34,cost:65,level:1},{id:'stoneSword',name:'Stone Sword',min:20,max:48,cost:140,level:1},{id:'bronzeSword',name:'Bronze Sword',min:28,max:62,cost:280,level:2},{id:'ironSword',name:'Iron Sword',min:36,max:82,cost:650,level:4},{id:'steelSword',name:'Steel Sword',min:48,max:108,cost:1400,level:7}
+    {id:'hand',name:'Your Hand',min:8,max:20,cost:0,level:1,passive:'No weapon trait'},
+    {id:'woodenSword',name:'Wooden Sword',min:14,max:34,cost:65,level:1,perk:'quickdraw',passive:'Quickdraw · +5 FIGHT damage against a Guard Break tell'},
+    {id:'stoneSword',name:'Stone Sword',min:20,max:48,cost:140,level:1,perk:'breaker',passive:'Breaker · Heavy Strike deals 25% more damage'},
+    {id:'bronzeSword',name:'Bronze Sword',min:28,max:62,cost:280,level:2,perk:'battleRhythm',passive:'Battle Rhythm · ACT deals +5 damage'},
+    {id:'ironSword',name:'Iron Sword',min:36,max:82,cost:650,level:4,perk:'heavyPunish',passive:'Punisher · FIGHT deals +7 against a Heavy Wind-Up'},
+    {id:'steelSword',name:'Steel Sword',min:48,max:108,cost:1400,level:7,perk:'keenEdge',passive:'Keen Edge · 20% critical chance for 1.5× damage'}
   ],
   armors: [
     {id:'none',name:'No Armor',defense:0,cost:0,level:1},{id:'clothArmor',name:'Cloth Armor',defense:10,cost:80,level:1},{id:'chainArmor',name:'Chain Armor',defense:22,cost:180,level:1},{id:'bronzeArmor',name:'Bronze Armor',defense:42,cost:380,level:2},{id:'ironArmor',name:'Iron Armor',defense:68,cost:850,level:4}
