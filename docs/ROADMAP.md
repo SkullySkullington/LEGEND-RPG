@@ -12,6 +12,10 @@ This is the active roadmap for the current modular HTML5 RPG. Priorities are ord
 - [x] Route-specific second-stop discoveries: Ridgeway Cairn on High Ridge; watcher tracks in Reed Cut, with distinct rewards and pressure changes.
 - [x] Shared art direction and asset integration rules in [ART-DIRECTION.md](ART-DIRECTION.md).
 
+## High-priority design brief: Opening Experience
+
+The title screen and new-traveler journey are planned for a deliberate redesign after the current browser regressions are stabilized. The target is a living world presentation and roleplay-led character creation—not a bigger pile of form screens. See [OPENING_EXPERIENCE_REDESIGN.md](OPENING_EXPERIENCE_REDESIGN.md) for the player journey, in-world creation framing, technical constraints, and acceptance criteria. This is a design brief, not a claim that the redesign is implemented.
+
 ## Next priorities
 
 ### 1. Make road choices echo through the expedition
