@@ -17,7 +17,9 @@ module.exports = defineConfig({
     baseURL: 'http://127.0.0.1:4173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    // Screenshots and first-retry traces retain useful failure context without
+    // uploading hundreds of megabytes of per-test video on broad matrix runs.
+    video: 'off'
   },
 
   webServer: {
