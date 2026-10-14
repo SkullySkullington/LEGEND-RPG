@@ -104,9 +104,24 @@ Relevant implementation commits:
 - `566a0c1308b8ffeb885339500d2a8ba5c20c867b`: package version.
 - `29472490f1baf712429c427abe351296bf9a9184`: battle intent regression checks.
 
+## Source release v0.20.21 — gameplay variety pass (deployment/test verification pending)
+
+Source changes on `main`:
+- Work Board now contains different interaction modes instead of a single moving-marker minigame: timing (firewood), signal reading (gate watch), ledger clues (archive records), memory sequence (crates and peat), and situational decisions (yard cleanup, delivery route, salvage).
+- Route Board now has a Side Stories & Road Contracts entry in Ashmere and Greyfen.
+- Three one-time save-persistent contracts track a new point-of-interest discovery, a road battle victory, and a secured five-stage expedition. Contracts grant gold, XP, and supplies on turn-in.
+- Blacksmith swords have material-specific SVG illustrations and visible combat passives; battle logic applies each passive.
+- Enemy art motion is tied to heavy wind-up/guard-break/snared state.
+- Desktop title panel gets a wider max width; mobile width override remains unchanged.
+- Release/version strings and asset query params are bumped to `v0.20.21`.
+
+Weapon passives: Wooden quickdraw +5 versus Guard Break; Stone Heavy Strike +25%; Bronze ACT +5; Iron FIGHT +7 versus Heavy Wind-Up; Steel 20% chance of 1.5× critical.
+
+**Full browser suite and live deployment verification are pending.** GitHub Pages previously lagged behind `main`; don't call the v0.20.21 release verified until it loads and the relevant tests pass.
+
 ## Immediate next steps
-1. Check GitHub Pages again after the latest main-branch commits are published. Confirm title/footer/data version `v0.20.20`, road controller and CSS query strings `v=0.20.20-enemy-telegraph`, and data/version/game script cache strings `v=0.20.20-build-label`.
-2. Rerun the Ranger encounter and confirm the foe nameplate starts as OPPONENT, advances to GUARD BREAK after two guarded turns, then HEAVY WIND-UP on the third; confirm intent accent colors. If the page still serves v0.20.19, troubleshoot Pages source/build/CDN rather than claiming the UI failed.
+1. Check GitHub Pages after the v0.20.21 main-branch files publish. Confirm title/footer/data version `v0.20.21` and the updated job, weapon, battle, and title assets load.
+2. Verify Work Board variety, side-contract progress/turn-in, each Forge sword passive/illustration, and enemy intent motion on desktop and mobile. If Pages still serves an older version, troubleshoot publish/cache rather than claiming source UI failed.
 3. Re-run regression coverage for the Wisp Lantern Wick ingredients/inventory, opening Pressure +3, wick consumed once then +8 on the next trip, first-click expedition return, and level-up punctuation. The last three paths passed during live QA on v0.20.19, but the new full local Playwright suite has not run.
 4. Investigate the previously observed Profile message `Supabase could not be reached: Failed to fetch` separately as a service/config/network issue. Do not change database/auth settings blindly.
 5. Continue combat polish only after v0.20.20 deploy verification. Keep all changes browser-safe, test responsive layout, and preserve current save format.
