@@ -5,6 +5,7 @@
 - Changed enemy motion to reflect heavy wind-ups, guard-break feints, and snared states rather than relying only on a uniform idle bounce.
 - Widened the title panel and call-to-action on desktop while preserving the mobile layout.
 - Added regression coverage for varied job interactions, side-contract progress/turn-in, and weapon passives; full Playwright suite has not yet been executed here.
+- Fixed the controller parsing issues found during the first live smoke; static V8 parsing passes for the main controllers, data, bootstrap, version file, and regression tests. Interactive post-fix verification is still pending because the Browser Use project ran out of credits.
 
 ## v0.20.20 — Intent-Aware Enemy Telegraph (live verification pending)
 - Added a state class to the battle panel and foe nameplate for normal attack, guard-break, heavy wind-up, and snared states.
