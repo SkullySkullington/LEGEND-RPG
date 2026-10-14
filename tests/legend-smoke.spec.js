@@ -503,6 +503,32 @@ test.describe('LEGEND v0.20.14 browser regression tests', () => {
     await expect(page.locator('[data-market-tab="buy"]')).toHaveAttribute('aria-selected', 'true');
   });
 
+  test('Workshop exposes the crafting bench directly from the Forge', async ({ page }) => {
+    await startFreshCharacter(page, 'CraftingEntryQA');
+    await page.locator('[data-ash-view="smith"]').click();
+    await expect(page.locator('.ash099-forge-tabs [data-forge-tab="craft"]')).toBeVisible();
+    await page.locator('.ash099-forge-tabs [data-forge-tab="craft"]').click();
+    await expect(page.getByRole('heading', { name: 'Crafting Bench' })).toBeVisible();
+    await expect(page.locator('[data-craft="wispLanternWick"]')).toBeVisible();
+  });
+
+  test('Secured expedition has a direct Return to Ashmere action', async ({ page }) => {
+    await startFreshCharacter(page, 'ReturnFromRoadQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.roadExpeditionV100={stage:5,pressure:20,trips:1,events:0,finds:0,battles:0};
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderHub();
+    });
+    await page.locator('#finish').click();
+    await expect(page.locator('#outcomeReturn')).toBeVisible();
+    await expect(page.locator('.exp100-outcome')).toContainText('Expedition Secured');
+    await page.locator('#outcomeReturn').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+  });
+
   test('Blacksmith puts the equipped kit first and separates weapons from armor', async ({ page }) => {
     await startFreshCharacter(page, 'ForgeUXQA');
     await page.locator('[data-ash-view="smith"]').click();
