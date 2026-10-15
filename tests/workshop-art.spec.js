@@ -72,9 +72,7 @@ test('Crafting Bench shows ingredients, recipe feedback, and armor comparisons',
     window.LegendAshmereV099.renderAshmere();
   });
   await expect(page.locator('.ash100-town')).toBeVisible();
-  await page.locator('.ash100-destination').filter({ hasText: /Causeway Smithy|Blacksmith|Blacksmith's Forge/i }).first().click().catch(async () => {
-    await page.locator('.ash100-destination').filter({ hasText: /Gear & craft/i }).click();
-  });
+  await page.locator('.ash100-destination').filter({ hasText: /Forge & Workshop/ }).click();
   await expect(page.locator('.ash099-forge-console')).toBeVisible();
   await page.locator('[data-forge-tab="armor"]').click();
   await expect(page.locator('.ash099-gear-item')).toHaveCount(4);
@@ -85,6 +83,5 @@ test('Crafting Bench shows ingredients, recipe feedback, and armor comparisons',
   await expect(page.locator('.ash099-craft-ingredient img').first()).toBeVisible();
   await page.locator('[data-craft="roadPoultice"]').click();
   await expect(page.locator('.ash099-craft-feedback')).toContainText('Crafted Road Poultice');
-  await expect(page.locator('.ash099-craft-card').filter({ has: page.locator('[data-craft="roadPoultice"]') })).toHaveCount(0).catch(() => {});
   expect(errors).toEqual([]);
 });
