@@ -1,0 +1,155 @@
+/* LEGEND v0.20.30 — Monster Wars / The Awakening title direction.
+   A landscape-led title with restrained fantasy ornament and readable controls. */
+.title-v100{
+  --legend-gold:#f0cf83;
+  background:#080b09;
+  color:#f3edda;
+  isolation:isolate;
+}
+.title-v100 .v120-title-backdrop{
+  filter:saturate(.96) contrast(1.08) brightness(.82)!important;
+  transform:scale(1.025);
+  animation:awakeningLandscapeDrift 38s ease-in-out infinite alternate;
+}
+.title-v100:after{
+  content:"";
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(4,8,6,.86) 0%,rgba(4,8,6,.72) 25%,rgba(4,8,6,.30) 49%,rgba(4,8,6,.04) 78%,rgba(4,8,6,.18) 100%),
+    linear-gradient(180deg,rgba(2,5,4,.48),transparent 23%,transparent 62%,rgba(2,5,4,.75)),
+    radial-gradient(ellipse at 66% 44%,rgba(224,174,82,.13),transparent 37%);
+}
+.title-v100 .title-atmosphere{z-index:1;pointer-events:none}
+.title-v100 .portal100-header,.title-v100 .v120-title-main,.title-v100 .v120-title-footer{position:relative;z-index:2}
+.title-v100 .portal100-header{
+  position:absolute!important;inset:0 0 auto!important;width:100%!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  padding:18px clamp(20px,4.5vw,72px)!important;
+  background:linear-gradient(180deg,rgba(3,7,5,.76),transparent)!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+.title-v100 .portal100-brand{gap:13px!important}
+.title-v100 .portal100-emblem-wrap{
+  width:48px!important;height:48px!important;flex:0 0 48px;
+  border:1px solid rgba(240,207,131,.38)!important;border-radius:50%!important;
+  background:rgba(6,11,8,.45)!important;box-shadow:0 0 30px rgba(240,207,131,.10)!important;
+}
+.title-v100 .portal100-emblem-wrap img{width:100%;height:100%;object-fit:contain}
+.title-v100 .portal100-brand span{
+  color:#f0cf83!important;font-size:.7rem!important;font-weight:800!important;
+  letter-spacing:.19em!important;text-shadow:0 2px 16px #000;
+}
+.title-v100 .portal100-brand p{margin-top:5px!important;color:#d4d7ca!important;font-size:.8rem!important;letter-spacing:.015em!important}
+.title-v100 .portal100-header-actions{gap:8px!important}
+.title-v100 .portal100-header-actions button{
+  min-height:38px!important;padding:8px 13px!important;border-radius:6px!important;
+  border:1px solid #e9d39b3b!important;background:#07100bd1!important;color:#eee7d3!important;
+  font-size:.78rem!important;backdrop-filter:blur(10px);transition:background .2s,border-color .2s,transform .2s;
+}
+.title-v100 .portal100-header-actions button:hover{background:#182219ed!important;border-color:#f0cf83a8!important;transform:translateY(-1px)}
+.title-v100 .v120-title-main{
+  min-height:100svh!important;display:flex!important;justify-content:flex-start!important;align-items:center!important;
+  padding:116px clamp(22px,8vw,132px) 76px!important;
+}
+.title-v100 .v120-title-hero{
+  width:min(560px,49vw)!important;max-width:560px!important;box-sizing:border-box!important;
+  margin:0!important;padding:clamp(24px,3.1vw,44px)!important;text-align:left!important;
+  border:0!important;border-left:2px solid rgba(240,207,131,.76)!important;border-radius:0 10px 10px 0!important;
+  background:linear-gradient(100deg,rgba(5,10,7,.87),rgba(5,10,7,.64) 76%,rgba(5,10,7,.15))!important;
+  box-shadow:-16px 0 42px rgba(0,0,0,.16),inset 18px 0 44px rgba(240,207,131,.025)!important;
+  backdrop-filter:blur(2px)!important;animation:awakeningHeroReveal .85s cubic-bezier(.18,.7,.2,1) both;
+}
+.title-v100 .v120-title-hero:before{
+  inset:12px 0 12px 12px!important;border:0!important;border-left:1px solid #f0cf831b!important;
+  border-radius:0!important;background:linear-gradient(90deg,#f0cf8308,transparent 80%)!important;
+}
+.title-v100 .v120-title-hero>*{position:relative}
+.title-v100 .v120-title-hero .portal100-kicker{
+  color:#f0cf83!important;font-size:.66rem!important;letter-spacing:.24em!important;font-weight:800!important;
+}
+.title-v100 .v120-title-hero h1{
+  width:auto!important;max-width:100%!important;margin:19px 0 7px!important;
+  font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(4.1rem,8vw,7.5rem)!important;
+  line-height:.86!important;letter-spacing:.045em!important;white-space:normal!important;
+  color:#f8edcc!important;text-shadow:0 4px 0 #554127,0 12px 38px #000e,0 0 50px #f0cf831a!important;
+}
+.title-v100 .v120-title-hero h2{
+  margin:0 0 21px!important;font-family:Georgia,"Times New Roman",serif!important;
+  font-size:clamp(1.45rem,2.5vw,2.1rem)!important;line-height:1.1!important;
+  letter-spacing:.12em!important;color:#e9e1ce!important;font-weight:500!important;
+}
+.title-v100 .v120-title-hero h2 em{font-style:normal!important;color:#f0cf83!important}
+.title-v100 .v120-title-hero>p{
+  max-width:450px!important;margin:0!important;color:#d8ddcf!important;
+  font-size:clamp(.94rem,1.1vw,1.05rem)!important;line-height:1.7!important;
+}
+.title-v100 .v120-divider{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:11px!important;margin:22px 0!important}
+.title-v100 .v120-divider span{display:block!important;width:28px!important;height:1px!important;background:#f0cf836b!important}
+.title-v100 .v120-divider b{font-size:.59rem!important;letter-spacing:.2em!important;color:#e5c77f!important;white-space:normal!important}
+.title-v100 .v120-traveler-line{
+  margin:0 0 19px!important;padding:14px 0!important;display:flex!important;gap:12px!important;align-items:center!important;
+  border-top:1px solid #e6d09c30!important;border-bottom:1px solid #e6d09c30!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:left!important;
+}
+.title-v100 .v120-avatar{
+  width:42px!important;height:42px!important;flex:0 0 42px!important;border-radius:50%!important;
+  border:1px solid #e9cc8b8a!important;background:#111a13!important;color:#f0cf83!important;
+  font-family:Georgia,serif!important;font-size:1.15rem!important;
+}
+.title-v100 .v120-traveler-line small{display:block;color:#b9c2b2!important;font-size:.6rem!important;letter-spacing:.15em!important}
+.title-v100 .v120-traveler-line strong{display:block;margin:3px 0;color:#f3e7c8!important;font-size:.94rem!important}
+.title-v100 .v120-traveler-line span:not(.v120-avatar){display:block;color:#c2cbbc!important;font-size:.75rem!important;line-height:1.4}
+.title-v100 .v120-title-actions{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:12px!important}
+.title-v100 .v120-primary{
+  width:min(100%,390px)!important;min-height:64px!important;box-sizing:border-box!important;
+  position:relative!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;
+  padding:13px 18px!important;border:1px solid #ffe4a0!important;border-radius:6px!important;
+  background:linear-gradient(135deg,#f1d58d,#d0a453 66%,#a97835)!important;color:#21190b!important;
+  text-align:left!important;box-shadow:0 14px 36px #0008,inset 0 1px #fff9d8!important;
+  transition:transform .2s,filter .2s,box-shadow .2s!important;
+}
+.title-v100 .v120-primary span{display:block;font-size:1rem!important;font-weight:900!important;letter-spacing:.025em}
+.title-v100 .v120-primary small{display:block;margin-top:3px;font-size:.72rem!important;font-weight:600!important;opacity:.78}
+.title-v100 .v120-primary i{font-size:1.45rem!important;font-style:normal!important}
+.title-v100 .v120-primary:hover{transform:translateY(-2px)!important;filter:brightness(1.06)!important;box-shadow:0 20px 44px #000b,inset 0 1px #fff9d8!important}
+.title-v100 .v120-secondary{min-height:38px!important;padding:8px 12px!important;color:#ded7c5!important;border:1px solid #e9d39b40!important;border-radius:5px!important;background:#08100bd9!important}
+.title-v100 .portal100-footer{
+  position:absolute!important;inset:auto 0 0!important;width:100%!important;box-sizing:border-box!important;
+  display:flex!important;justify-content:space-between!important;gap:12px!important;padding:15px clamp(20px,4.5vw,72px)!important;
+  border:0!important;border-radius:0!important;background:linear-gradient(0deg,rgba(3,7,5,.74),transparent)!important;
+  color:#c2c8b8!important;font-size:.63rem!important;letter-spacing:.14em!important;
+}
+.title-v100 .portal100-footer span:first-child{color:#f0cf83!important;font-weight:800!important}
+.title-v100 .portal100-footer span:last-child{text-align:right}
+@keyframes awakeningLandscapeDrift{from{transform:scale(1.025) translate3d(-.2%,0,0)}to{transform:scale(1.055) translate3d(.2%,-.35%,0)}}
+@keyframes awakeningHeroReveal{from{opacity:0;transform:translateY(16px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(max-width:760px){
+ .title-v100 .portal100-header{padding:12px 14px!important}
+ .title-v100 .portal100-emblem-wrap{width:38px!important;height:38px!important;flex-basis:38px}
+ .title-v100 .portal100-brand span{font-size:.53rem!important;letter-spacing:.11em!important}
+ .title-v100 .portal100-brand p{display:none!important}
+ .title-v100 .portal100-header-actions button{min-height:36px!important;padding:7px 9px!important;font-size:.72rem!important}
+ .title-v100 .v120-title-main{align-items:flex-end!important;padding:102px 14px 68px!important}
+ .title-v100 .v120-title-hero{width:100%!important;max-width:520px!important;padding:24px 18px!important;border-radius:0 8px 8px 0!important}
+ .title-v100 .v120-title-hero h1{font-size:clamp(3.7rem,15.5vw,5.4rem)!important;letter-spacing:.015em!important}
+ .title-v100 .v120-title-hero h2{font-size:clamp(1.15rem,5vw,1.6rem)!important;letter-spacing:.08em!important}
+ .title-v100 .v120-title-hero>p{font-size:.88rem!important;line-height:1.55!important}
+ .title-v100 .v120-divider{margin:16px 0!important}
+ .title-v100 .v120-divider b{font-size:.53rem!important;letter-spacing:.14em!important}
+ .title-v100 .v120-traveler-line{padding:11px 0!important;margin-bottom:14px!important}
+ .title-v100 .v120-primary{width:100%!important;min-height:60px!important}
+ .title-v100 .portal100-footer{padding:10px 14px!important;font-size:.48rem!important;letter-spacing:.05em!important}
+ .title-v100 .portal100-footer span:last-child{max-width:54%}
+}
+@media(max-height:680px) and (min-width:761px){
+ .title-v100 .v120-title-main{padding-top:88px!important;padding-bottom:52px!important}
+ .title-v100 .v120-title-hero{padding:20px 28px!important}
+ .title-v100 .v120-title-hero h1{font-size:clamp(3.4rem,6.5vw,5.4rem)!important;margin-top:10px!important}
+ .title-v100 .v120-title-hero h2{margin-bottom:12px!important}
+ .title-v100 .v120-divider{margin:14px 0!important}
+ .title-v100 .v120-traveler-line{padding:10px 0!important;margin-bottom:12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .title-v100 .v120-title-backdrop,.title-v100 .v120-title-hero{animation:none!important}
+ .title-v100 .v120-primary,.title-v100 .portal100-header-actions button{transition:none!important}
+}
