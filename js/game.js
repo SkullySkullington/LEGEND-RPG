@@ -210,7 +210,7 @@
         <header class="portal100-header">
           <div class="portal100-brand">
             <div class="portal100-emblem-wrap"><img src="${esc(window.LegendAssetsV090?.logo?.emblem || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND lantern-road emblem" onerror="this.style.display='none'"></div>
-            <div><span>ROADS OF ASHMERE</span><p>A world shaped by the road.</p></div>
+            <div><span>THE UNQUIET ROAD</span><p>A world shaped by the road.</p></div>
           </div>
           <div class="portal100-header-actions">
             <button id="account" type="button">Profile</button>
@@ -234,7 +234,7 @@
             </div>
           </section>
         </main>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: ROADS OF ASHMERE</span><span>v0.20.26 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE UNQUIET ROAD</span><span>v0.20.28 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
