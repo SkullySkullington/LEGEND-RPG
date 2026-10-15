@@ -178,7 +178,7 @@ If a test fails, retain failure details and distinguish app bugs from environmen
 - Validate generated assets for style fit, watermarks, format, dimensions, transparency, and in-game readability before integrating.
 
 
-## Source release v0.20.22 — first expedition story progression (verification pending)
+## Source release v0.20.22 — first expedition story progression (partial live verification; story callbacks pending)
 
 Source changes on `main`:
 - New `docs/LEGEND_MYSTERY_AND_STORY_ARC.md` proposes a coherent interpretation of the Bell/lantern/route-marker mystery, a first-game reveal ladder, route stories, NPC arcs, and implementation acceptance criteria. This is proposed direction, not locked canon.
@@ -200,7 +200,7 @@ Relevant commits:
 - `1d5c7e57133859f2397fe90c6ed5bfa29e4c8b41`: story regression tests.
 - `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: align the browser title assertion with v0.20.22.
 - `9147ef932e1d505a7f6601c5df7d32e77326f5b3`, `ebc48cedfa23f265d0e219412308704b70ed6ed3`, `50928025084e1e0bfc4de72a945cd8e2b11fc5b0`, `2b9cc3d46cd3b9974b2d86e86cad1d7f05f2d2dd`, and `de72b27eeaa63f3912ed86d3188f1db13e8f73ae`: HTML, runtime data/version, bootstrap, and package version bumps.
-- `c2cfa85330f7954a1d3780874b1a2f79369b6252`, `d40b6fee18e9094704967678904a24ac1a000b0c`, `8e6834b7403c2c49021124834a9ae2f2873d62b0`, and `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: README, changelog, handoff, and test release updates.
+- `c2cfa85330f7954a1d3780874b1a2f79369b6252`: README release summary; `d40b6fee18e9094704967678904a24ac1a000b0c`: changelog entry; `bae3ea903782f755e38466b56cf19979f42525cc`: initial release handoff; `8e6834b7403c2c49021124834a9ae2f2873d62b0`: test version label; `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: title assertion; `50d59334df5b1d790ab35b34ee94596acfa1e24b`: partial live verification record.
 
 Next:
 1. Run `npm run test:e2e` locally and fix any regressions before treating this release as verified.
