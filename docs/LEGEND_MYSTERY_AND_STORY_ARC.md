@@ -271,3 +271,12 @@ This trail narrows the timing of the alteration but does not identify its author
 **Source implementation added in v0.20.26; regression verification pending.** When Brenn's overwritten-ledger clue is known, Wayfarer's Camp can reveal an earlier weekly return marking the lower crossing closed pending inspection before an unsigned open correction. Recovering it advances to Brenn; his comparison advances to Mara, who files the evidence and leaves the missing closure order as the next lead.
 
 This closes the first evidence-filed chapter while keeping authorship unresolved. The next playable chain should look for the missing closure order rather than repeat the same “someone changed the marker” discovery in another location.
+
+
+## 11. Connection to the proposed series-wide antagonist
+
+The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) offers a franchise-wide explanation that can contain the current Bell hypothesis: an ancient route network was built to help places agree on safe connections, then a former roadkeeper began forcing the world to conform to one master map.
+
+Under that proposal, the bell is a warning that a route is no longer trustworthy; the repeated mark beneath newer cuts is evidence of a correction; the Reedwatch note and overwritten ledger establish a local chronology; and the missing closure order can lead toward records older than the current dispute. None of those clues alone should identify the Surveyor or prove a single author.
+
+**Important:** This is an unapproved narrative direction. Do not treat the Pale Surveyor, the Long Severance, or the Office of Measure as established canon until the project owner approves the core idea.
