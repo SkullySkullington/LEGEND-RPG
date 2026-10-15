@@ -1,4 +1,4 @@
-// LEGEND: The Awakening v0.20.31 - title logo and corner insignia polish
+// LEGEND: The Awakening v0.20.35 - production title screen finish
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -17,7 +17,7 @@
   function loadSettings(){ return S().loadSettings ? S().loadSettings() : { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false }; }
   function applySettings(){ if(S().applySettings) S().applySettings(); }
   function profile(){ return window.LegendAccountV09x?.getProfile?.() || null; }
-  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.30'); }
+  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.35'); }
 
   function playUi(kind){
     const src = AUDIO[kind];
@@ -218,12 +218,12 @@
     const tokens = Number(player?.inventory?.roadToken || 0);
     root().innerHTML = `
       <div class="title-wrap title-v100 portal-shell portal-v100 v120-title">
-        <img class="v120-title-backdrop" src="${esc(window.LegendAssetsV090?.title?.background || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
+        <img class="v120-title-backdrop" src="${esc(window.LegendAssetsV090?.title?.background || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
             <div class="portal100-emblem-wrap"><img src="assets/ui/icons/awakening-sigil.svg" alt="The Awakening arcane sigil" onerror="this.style.display='none'"></div>
-            <div><span>THE AWAKENING</span><p>A world where magic stirs and old borders break.</p></div>
+            <div><span>ASHMERE · THE OLD ROAD</span><p>A world where magic stirs and old borders break.</p></div>
           </div>
           <div class="portal100-header-actions">
             <button id="account" type="button">Profile</button>
@@ -231,10 +231,10 @@
           </div>
         </header>
         <main class="v120-title-main">
-          <section class="v120-title-hero">
+          <section class="v120-title-hero" aria-labelledby="legendTitleAccessibleName">
+            <h1 class="v120-title-accessible-name" id="legendTitleAccessibleName">LEGEND: The Awakening</h1>
             <div class="portal100-kicker">A DARK FANTASY RPG</div>
-            <img class="v120-legend-logo" src="${esc(window.LegendAssetsV090?.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png')}" alt="LEGEND" onerror="this.style.display='none'">
-            <h2>THE <em>AWAKENING</em></h2>
+            <img class="v120-legend-logo" src="${esc(window.LegendAssetsV090?.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.svg')}" alt="" aria-hidden="true" decoding="async" onerror="this.style.display='none'">
             <p>Monsters gather beyond the borders. Ancient magic stirs beneath the land. Begin in Ashmere, then carve your place in a world on the edge of war.</p>
             <div class="v120-divider"><span></span><b>THE WORLD IS WAKING</b><span></span></div>
             <div class="v120-traveler-line">
