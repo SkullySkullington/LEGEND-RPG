@@ -1,8 +1,7 @@
 # LEGEND — Series & Title Reframe
 
-**Status:** Proposed narrative direction; subtitle recommendation applied to the working UI, full lore remains unapproved  
-**Purpose:** Correct the series architecture, make the title fit the shared geography, and deepen the central horror so it belongs to a dark-fantasy world rather than a tidy conspiracy about maps.
-
+**Status:** Partly superseded proposal — subtitle/geography corrections remain useful; core mythology is superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
+**Purpose:** Preserve the useful subtitle/shared-geography correction while pointing to the new reboot direction. The Pale Surveyor/Hollow Mile story below is archived proposal material, superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 ## 1. The central correction
 
 **Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are regions and locations within the first LEGEND game. They are not separate game installments.** They should also recur across future titles.
