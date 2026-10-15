@@ -257,3 +257,10 @@ This is an intentionally small test of persistent route storytelling. Future rou
 **Source implementation added in v0.20.24; regression verification pending.** Once the player has inspected the Blackroot seal, the Greyfen Boundary Stone on the Old Road approach presents a matching bell-mark beneath a newer cut directed toward the reed bed. Recording it creates a persistent memory, advances The Bell That Rang Once objective, and unlocks a specific comparison in Mara’s Greyfen dialogue. That conversation advances the objective to finding dated evidence of when the newer cut was made.
 
 The discovery establishes alteration, not authorship or motive. Keep those unknown until later evidence supports an answer; the broader hidden-truth hypothesis remains proposed.
+
+
+## Implementation note — Reedwatch field note and ledger discrepancy
+
+**Source implementation added in v0.20.25; regression verification pending.** After the Greyfen Boundary Archive comparison, the Reedwatch Shelter locker can reveal a field note dated two days after the flood's retreat was logged. Returning to Mara records the timing, and Old Brenn then confirms that two Greyfen crossing destinations were rewritten in a later hand. The current journal objective points to an earlier weekly route return.
+
+This trail narrows the timing of the alteration but does not identify its author or motive. The next quest should locate the earlier route return and use it to establish which routes were officially closed, who signed the record, and what evidence is needed to distinguish a genuine closure order from a later alteration.
