@@ -47,12 +47,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.25 browser regression tests', () => {
+test.describe('LEGEND v0.20.26 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.25/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.25');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.25');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.26/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.26');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.26');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -820,6 +820,82 @@ test.describe('LEGEND v0.20.25 browser regression tests', () => {
     });
     expect(brennReport.compared).toBe(true);
     expect(brennReport.objective).toMatch(/earlier weekly route return/i);
+  });
+
+  test('Earlier weekly route return completes the Greyfen evidence filing and leaves a clear next lead', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenWeeklyReturnQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.greyfenLedgerCompared=true;
+      pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:2,pressure:0,trips:0,events:0,finds:0,battles:0};
+      Object.assign(pl.flags.roadExpeditionV100,{stage:2,routeChoice:'ridge',poiUsed:{}});
+      pl.questLog=['The Bell That Rang Once: Find the earlier weekly route return that accompanied the overwritten Greyfen ledger.'];
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Earlier Weekly Return/i);
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/CLOSED pending inspection/i);
+    await page.locator('#poiInspect').click();
+    const recovered=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        found:pl.flags.greyfenWeeklyReturnFound,
+        memory:pl.memories.some(m=>/earlier weekly route return.*CLOSED pending inspection/i.test(m)),
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(recovered.found).toBe(true);
+    expect(recovered.memory).toBe(true);
+    expect(recovered.objective).toMatch(/Bring the earlier weekly route return/i);
+
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.route('brenn');
+    });
+    await expect(page.locator('.ash099-lines')).toContainText(/lower crossing is clearly marked CLOSED pending inspection/i);
+    const brenn=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        reported:pl.flags.greyfenWeeklyReturnReported,
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(brenn.reported).toBe(true);
+    expect(brenn.objective).toMatch(/Ask Mara to preserve the field note/i);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('mara'));
+    await expect(page.locator('.ash099-lines')).toContainText(/field note, the crossing ledger, and the earlier weekly return are now preserved together/i);
+    const filed=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        evidenceFiled:pl.flags.greyfenEvidenceFiled,
+        memory:pl.memories.some(m=>/Mara filed the Blackroot seal.*weekly route return/i.test(m)),
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(filed.evidenceFiled).toBe(true);
+    expect(filed.memory).toBe(true);
+    expect(filed.objective).toMatch(/Find the missing closure order/i);
+
+    await page.reload();
+    const persisted=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        weeklyReturnFound:pl.flags.greyfenWeeklyReturnFound,
+        evidenceFiled:pl.flags.greyfenEvidenceFiled,
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(persisted.weeklyReturnFound).toBe(true);
+    expect(persisted.evidenceFiled).toBe(true);
+    expect(persisted.objective).toMatch(/Find the missing closure order/i);
   });
 
   test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
