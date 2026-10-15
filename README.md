@@ -1,4 +1,4 @@
-# LEGEND: The Unquiet Road
+# LEGEND: The Awakening
 
 **LEGEND: The Unquiet Road** is a dark medieval fantasy HTML5 RPG built around a persistent traveler, a living town, and expeditions into the Old Road.
 
@@ -173,7 +173,7 @@ No build pipeline is required for the live web game.
 
 Original concept and Windows Batch version created by **Keegan Lewis VanOrder**.
 
-Developed as **LEGEND: The Unquiet Road**, a dark fantasy RPG focused on travelers, towns, roads, encounters, and progression.
+Developed as **LEGEND: The Awakening**, a dark fantasy RPG focused on travelers, towns, roads, encounters, and progression.
 
 ## License
 
