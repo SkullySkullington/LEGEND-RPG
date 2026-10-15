@@ -343,7 +343,13 @@ function renderDryCrossing(){
       oric:{name:'Captain Oric',role:'Causeway Watch',art:npc('oric'),text:'Oric watches the raised paths between Greyfen and the drowned lowlands. He marks every stretch that can vanish after heavy rain.',lines:['Stay on the old stone where you can. Reeds hide holes deep enough to swallow a cart.','If something keeps pace with you in the water, do not turn your lantern toward it.','Rest before the causeway narrows. There is nowhere to stand once the flood reaches the markers.']}
     };
     const n=(greyfen?fenMap:ashMap)[id]||(greyfen?fenMap:ashMap).mara;
-    if(greyfen&&id==='mara'&&pl.flags?.greyfenBoundaryCompared){
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound){
+      n.lines=[
+        'The field note is dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut pointing into the reed bed.',
+        'The date means the cut was present after the flood was recorded; the water alone does not account for it. The signature is lost, so the writer remains unknown.',
+        'Take the date to Brenn. His ledger may show which deliveries changed direction that week.'
+      ];
+    }else if(greyfen&&id==='mara'&&pl.flags?.greyfenBoundaryCompared){
       n.lines=[
         'The Blackroot mark appears beneath the newer cut here. Water has worn the surface, but it did not make that clean, directional groove.',
         'The later line turns toward the reed bed instead of the raised path. Someone may have been diverting travelers—or trying to hide the higher route. The stone alone cannot tell us which.',
@@ -431,12 +437,33 @@ function renderDryCrossing(){
         ];
       }
     }
+    if(greyfen&&id==='brenn'&&pl.flags?.greyfenFieldNoteReported){
+      n.lines=[
+        'I have two crossings entered within days of the flood’s retreat. Both destinations were overwritten in a later hand, and neither entry carries the usual closure order.',
+        'That does not tell us who changed the route. It does tell us the newer cut and the redirected deliveries belong in the same investigation.',
+        'I will leave the discrepancy open until the earlier weekly route return can be found.'
+      ];
+      if(!pl.flags.greyfenLedgerCompared){
+        pl.flags.greyfenLedgerCompared=true;
+        pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+        const memory='Old Brenn found two Greyfen crossing entries rewritten within days of the flood’s retreat. Both lack a closure order; who changed the destinations is still unknown.';
+        if(!pl.memories.includes(memory))pl.memories.push(memory);
+        setBellQuestObjective(pl,'Find the earlier weekly route return that accompanied the overwritten Greyfen ledger.');
+      }
+    }
     if(!greyfen&&id==='oric'&&pl.flags?.highRidgeCairnOutcome){
       n.lines=pl.flags.highRidgeCairnOutcome==='restore'
         ?['You reset the Ridgeway Cairn. I have asked the road crew to check the lower cart track before anyone trusts the old line.','Keep the fresh scrape in your report. If someone moved it once, we need to know why before we call it settled.']
         :pl.flags.highRidgeCairnOutcome==='warn'
          ?['The warning strip is still doing a job. I have logged the shifted cairn as unsafe until we can survey it properly.','A warning is not a repair, but it gives the next traveler a chance to stop before the ground fails.']
          :['You recorded both alignments and left the stone untouched. Good. A route mark should be evidence, not an order no one can question.','I have copied both positions into the ledger. If someone moved it, we need the reason—not a cleaner story.'];
+    }
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound&&!pl.flags.greyfenFieldNoteReported){
+      pl.flags.greyfenFieldNoteReported=true;
+      pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+      const memory='Mara confirms the Reedwatch field note was recorded two days after the flood’s retreat was logged and that its sketch already shows the newer cut. The date narrows when the mark appeared, but the writer remains unknown.';
+      if(!pl.memories.includes(memory))pl.memories.push(memory);
+      setBellQuestObjective(pl,'Ask Old Brenn to compare the dated field note with Greyfen’s crossing ledger.');
     }
     if(greyfen&&id==='mara'&&pl.flags?.greyfenBoundaryCompared&&!pl.flags.greyfenArchiveRead){
       pl.flags.greyfenArchiveRead=true;
@@ -453,13 +480,19 @@ function renderDryCrossing(){
         pl.flags.firstRoadReturnMaraBriefed=true;
       }
       if(pl.flags.firstRoadReturnSeen){
-        const objective=pl.flags.greyfenArchiveRead
-          ? 'Find a dated record or physical sign showing when the newer Greyfen cut was made.'
-          : pl.flags.greyfenBoundaryCompared
-            ? 'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.'
-            : pl.flags.bellRoadSearched
-              ? 'Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.'
-              : 'Inspect the bell-marked seal at Blackroot Bend and return with your observations.';
+        const objective=pl.flags.greyfenLedgerCompared
+          ? 'Find the earlier weekly route return that accompanied the overwritten Greyfen ledger.'
+          : pl.flags.greyfenFieldNoteReported
+            ? 'Ask Old Brenn to compare the dated field note with Greyfen’s crossing ledger.'
+            : pl.flags.greyfenFieldNoteFound
+              ? 'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.'
+              : pl.flags.greyfenArchiveRead
+                ? 'Find a dated record or physical sign showing when the newer Greyfen cut was made.'
+                : pl.flags.greyfenBoundaryCompared
+                  ? 'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.'
+                  : pl.flags.bellRoadSearched
+                    ? 'Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.'
+                    : 'Inspect the bell-marked seal at Blackroot Bend and return with your observations.';
         setBellQuestObjective(pl,objective);
       }
     }
