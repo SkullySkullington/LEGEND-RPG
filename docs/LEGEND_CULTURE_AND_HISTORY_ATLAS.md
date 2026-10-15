@@ -718,17 +718,17 @@ The player does not need to know the complete history to enjoy an errand. The pu
 - Give every ruin a mundane history as well as any possible mystery significance.
 - Let people remember past events selectively, and give them reasons for what they preserve or omit.
 - Make travel and trade shape social life; never use a road as a purely abstract line between quest hubs.
-- Make the Office of Measure's useful work real enough that its centralization is tempting.
+- If an institution from the legacy route-network proposal is retained, make its useful work real enough that its policies and limits can be understood; do not assume the Office of Measure exists in current canon.
 - Let local knowledge be powerful but fallible, and official standards be useful but challengeable.
-- Ensure at least half of local conflicts remain unrelated to the Pale Surveyor.
+- Ensure at least half of local conflicts remain unrelated to the central awakening or any single antagonist.
 - Resolve the immediate personal or regional conflict at the end of a story even when a larger mystery remains open.
 - Reveal major historical claims through more than one source, including at least one source that complicates the first interpretation.
 
-The long-term aim is a world in which players can recognize Ashmere from how its people welcome travelers, Greyfen from how its residents talk about water, Ironpass from how it measures risk, Blackwood from how it preserves paths, and the Ruined March from the cost of making a claim. The Pale Surveyor's ideology should become more frightening because it threatens those distinct lives—not because every place turns out to have been designed for the same villain.
+The long-term aim is a world in which players can recognize Ashmere from how its people welcome travelers, Greyfen from how its residents talk about water, Ironpass from how it measures risk, Blackwood from how it preserves paths, and the Ruined March from the cost of making a claim. The central threat should become more frightening because it threatens those distinct lives—not because every place turns out to have been designed for the same villain.
 
 **The world's governing principle:** Routes connect places, but customs tell us what those places value. A shared world should preserve both connection and difference.
 
 
 ## 22. Recurring geography across titles
 
-All planned regions described in this atlas are intended to belong to the first LEGEND game's shared geography. They are not a release plan. Ashmere, Greyfen, Ironpass, Blackwood, and the Ruined March should return in future titles with visible changes to their routes, institutions, customs, relationships, and memory of earlier events. See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the corrected story architecture and proposed Hollow Mile mythology.
+All planned regions described in this atlas are intended to belong to the first LEGEND game's shared geography. They are not a release plan. Ashmere, Greyfen, Ironpass, Blackwood, and the Ruined March should return in future titles with visible changes to their routes, institutions, customs, relationships, and memory of earlier events. See [Fantasy RPG Direction](LEGEND_FANTASY_RPG_DIRECTION.md) for the current Monster Wars & Awakening direction and [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) for the leading magic-system proposal.
