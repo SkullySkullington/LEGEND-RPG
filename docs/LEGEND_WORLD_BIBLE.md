@@ -197,3 +197,12 @@ The companion document [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_
 The v0.20.23 source adds **The Moved Cairn** as the first playable route-side story built around a persistent environmental decision. On the High Ridge, the player can restore a shifted cairn stone, record both its current and older alignment, or mark the hazard and leave it untouched. The choice persists in the existing save, can be turned in for a reward, and changes later dialogue and route narration.
 
 **Verification status:** Source and regression test are committed; complete browser verification remains pending. This implementation is a pattern for future route stories, not proof of the larger Bell hypothesis.
+
+
+## 14. Blackroot-to-Greyfen evidence bridge
+
+The v0.20.24 source links the Blackroot seal to the Greyfen Boundary Stone only after the player has inspected the Blackroot mark. The second location shows the same older bell-mark beneath a newer cut angled toward the reed bed; inspecting it updates the quest log and lets Mara compare both surfaces in Greyfen’s Boundary Archive.
+
+The finding is deliberately limited: it supports that the marker was altered, but does not prove who changed it or why. Mara then asks for a dated record or another physical trace to establish when the newer cut appeared.
+
+**Verification status:** Implementation and regression coverage are committed; full browser verification remains pending.
