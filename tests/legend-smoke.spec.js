@@ -50,7 +50,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
 test.describe('LEGEND v0.20.24 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.23/);
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.24/);
     await expect(page.locator('.portal-footer')).toContainText('v0.20.24');
     await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.24');
   });
