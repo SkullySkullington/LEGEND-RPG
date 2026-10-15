@@ -47,12 +47,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.24 browser regression tests', () => {
+test.describe('LEGEND v0.20.25 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.24/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.24');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.24');
+    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.25/);
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.25');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.25');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -759,6 +759,67 @@ test.describe('LEGEND v0.20.24 browser regression tests', () => {
     expect(archiveRecord.read).toBe(true);
     expect(archiveRecord.objective).toMatch(/dated record or physical sign/i);
     expect(archiveRecord.memory).toBe(true);
+  });
+
+  test('Greyfen archive lead reveals a dated Reedwatch note and Brenn advances the ledger investigation', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenFieldNoteQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.greyfenArchiveRead=true;
+      pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:4,pressure:0,trips:0,events:0,finds:0,battles:0};
+      Object.assign(pl.flags.roadExpeditionV100,{stage:4,routeChoice:'ridge',poiUsed:{}});
+      pl.questLog=['The Bell That Rang Once: Find a dated record or physical sign showing when the newer Greyfen cut was made.'];
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/dated field note/i);
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/two days after Greyfen logged the flood/i);
+    await page.locator('#poiInspect').click();
+    const fieldNote=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        found:pl.flags.greyfenFieldNoteFound,
+        memory:pl.memories.some(m=>/Reedwatch Shelter.*field note dated two days/i.test(m)),
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(fieldNote.found).toBe(true);
+    expect(fieldNote.memory).toBe(true);
+    expect(fieldNote.objective).toMatch(/Bring the dated Reedwatch field note/i);
+
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.route('mara');
+    });
+    await expect(page.locator('.ash099-lines')).toContainText(/field note is dated two days after Greyfen logged the flood/i);
+    const maraReport=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        reported:pl.flags.greyfenFieldNoteReported,
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(maraReport.reported).toBe(true);
+    expect(maraReport.objective).toMatch(/Ask Old Brenn to compare the dated field note/i);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('brenn'));
+    await expect(page.locator('.ash099-lines')).toContainText(/destinations were overwritten in a later hand/i);
+    const brennReport=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        compared:pl.flags.greyfenLedgerCompared,
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(brennReport.compared).toBe(true);
+    expect(brennReport.objective).toMatch(/earlier weekly route return/i);
   });
 
   test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
