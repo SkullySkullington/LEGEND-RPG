@@ -47,7 +47,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.21 browser regression tests', () => {
+test.describe('LEGEND v0.20.22 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.21/);
@@ -512,6 +512,127 @@ test.describe('LEGEND v0.20.21 browser regression tests', () => {
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 3/i);
   });
 
+
+  test('first secured expedition records its route and advances the Bell quest through Blackroot Bend', async ({ page }) => {
+    await startFreshCharacter(page, 'StoryRidgeQA');
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeRidge').click();
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080;
+      const pl = rt.loadPlayer();
+      const state = pl.flags.roadExpeditionV100;
+      state.stage = 5;
+      state.routeChoice = 'ridge';
+      state.poiUsed = { 'ridge-cairn': true };
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('#finish').click();
+    await expect(page.locator('.exp100-outcome')).toContainText(/Ridgeway Cairn/i);
+    await page.locator('#outcomeReturn').click();
+
+    let firstReturn = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        seen: pl.flags.firstRoadReturnSeen,
+        route: pl.flags.firstRoadReturnRoute,
+        discovery: pl.flags.firstRoadReturnDiscovery,
+        objective: pl.questLog.find(item => item.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(firstReturn.seen).toBe(true);
+    expect(firstReturn.route).toBe('ridge');
+    expect(firstReturn.discovery).toBe('ridge-cairn');
+    expect(firstReturn.objective).toMatch(/Ridgeway Cairn/i);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('mara'));
+    await expect(page.locator('.ash099-lines')).toContainText(/Ridgeway Cairn marks a dry line/i);
+    let afterMara = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        briefed: pl.flags.firstRoadReturnMaraBriefed,
+        objective: pl.questLog.find(item => item.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(afterMara.briefed).toBe(true);
+    expect(afterMara.objective).toMatch(/Blackroot Bend/i);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080;
+      const pl = rt.loadPlayer();
+      const state = pl.flags.roadExpeditionV100;
+      state.stage = 3;
+      state.routeChoice = 'ridge';
+      state.poiUsed = {};
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Roots Around an Old Seal/i);
+    await page.locator('#poiInspect').click();
+
+    let sealReport = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        searched: pl.flags.bellRoadSearched,
+        memory: pl.memories.some(item => /Blackroot Bend.*bell-mark/i.test(item)),
+        objective: pl.questLog.find(item => item.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(sealReport.searched).toBe(true);
+    expect(sealReport.memory).toBe(true);
+    expect(sealReport.objective).toMatch(/Return to Mara/i);
+
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080;
+      const pl = rt.loadPlayer();
+      pl.flags.roadExpeditionV100.stage = 5;
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('#finish').click();
+    await page.locator('#outcomeReturn').click();
+    await page.evaluate(() => window.LegendAshmereV099.route('mara'));
+    await expect(page.locator('.ash099-lines')).toContainText(/Blackroot seal bears the same bell-mark/i);
+    const nextObjective = await page.evaluate(() => window.LegendRuntimeV080.loadPlayer().questLog.find(item => item.startsWith('The Bell That Rang Once:')));
+    expect(nextObjective).toMatch(/Greyfen.*boundary marks/i);
+  });
+
+  test('first Reed Cut return preserves its own clue and directs the player to Mara', async ({ page }) => {
+    await startFreshCharacter(page, 'StoryReedQA');
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeReeds').click();
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080;
+      const pl = rt.loadPlayer();
+      const state = pl.flags.roadExpeditionV100;
+      state.stage = 5;
+      state.routeChoice = 'reeds';
+      state.poiUsed = { 'marsh-watcher-tracks': true };
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('#finish').click();
+    await expect(page.locator('.exp100-outcome')).toContainText(/tracks beneath the blue light/i);
+    await page.locator('#outcomeReturn').click();
+    await page.evaluate(() => window.LegendAshmereV099.route('mara'));
+    await expect(page.locator('.ash099-lines')).toContainText(/Bell Fragment is physical evidence/i);
+    const result = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        route: pl.flags.firstRoadReturnRoute,
+        discovery: pl.flags.firstRoadReturnDiscovery,
+        objective: pl.questLog.find(item => item.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(result.route).toBe('reeds');
+    expect(result.discovery).toBe('marsh-watcher-tracks');
+    expect(result.objective).toMatch(/Blackroot Bend/i);
+  });
 
   test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
     await startFreshCharacter(page, 'LanternWickQA');
