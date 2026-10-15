@@ -214,7 +214,7 @@ Next:
 Source changes on `main`:
 - Added the one-time Side Stories contract `movedCairn`, posted by Captain Oric and paid in gold, XP, and one Road Herb.
 - When the accepted contract's player investigates the High Ridge's Ridgeway Cairn, three disclosed options are available: restore the older alignment, record both positions, or mark the hazard and step back.
-- The selected outcome is stored inside the existing persistent side-contract flag. It adds a memory, can be reported for a reward, changes Oric's later dialogue, and changes the cairn's description on future expeditions.
+- The selected outcome is stored inside the existing persistent side-contract flag. It adds a memory, can be reported for a reward, changes Oric's later dialogue, and changes the cairn's description and repeat-inspection narration on future expeditions.
 - No new subsystem or currency was added; current route choices, POI discovery, Side Stories board, save flags, and memory list are reused.
 - `tests/legend-smoke.spec.js` adds an end-to-end test for accepting, choosing, reporting, and observing the callback.
 - Version labels moved to `v0.20.23`.
