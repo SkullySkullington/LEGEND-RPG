@@ -134,7 +134,7 @@ function handleHotspotAction(btn){
  if(action==='finish')return finish();
 }
 function bindHotspotDelegation(){
- // Bind directly to the fresh hotspot nodes after each shell update. The discovery
+ // Bind directly to fresh hotspot buttons after each shell update. The discovery
  // action inserts its panel in place and does not replace the button during the click.
  document.querySelectorAll('.exp100-hotspot').forEach(btn=>{
   if(btn.dataset.roadHotspotBound==='1')return;
@@ -145,6 +145,25 @@ function bindHotspotDelegation(){
    handleHotspotAction(btn);
   });
  });
+ // Some browser hit-tests round a transformed button's left edge just outside its
+ // sub-pixel bounds. If that click lands on the scene/shade immediately beside it,
+ // honor the tap within a small forgiving margin. Ordinary button clicks stop above,
+ // so this fallback cannot double-trigger a successful click.
+ const scene=root()?.querySelector('.exp100-scene-live');
+ if(scene&&!scene.dataset.hotspotEdgeFallbackBound){
+  scene.dataset.hotspotEdgeFallbackBound='1';
+  scene.addEventListener('click',event=>{
+   if(event.defaultPrevented)return;
+   const btn=scene.querySelector('.exp100-hotspot');
+   if(!btn)return;
+   const rect=btn.getBoundingClientRect(),slop=5;
+   if(event.clientX<rect.left-slop||event.clientX>rect.right+slop||
+      event.clientY<rect.top-slop||event.clientY>rect.bottom+slop)return;
+   event.preventDefault();
+   event.stopPropagation();
+   handleHotspotAction(btn);
+  });
+ }
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}

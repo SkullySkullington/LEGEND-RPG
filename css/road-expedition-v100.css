@@ -14,6 +14,7 @@
 .exp100-scene-live{height:clamp(190px,34vw,340px);isolation:isolate;overflow:hidden}
 .exp100-scene-live img{object-position:center 55%;animation:exp100-scene-drift 24s ease-in-out infinite alternate;transform:scale(1.025)}
 .exp100-scene-live .exp100-scene-shade{background:linear-gradient(180deg,rgba(6,13,10,.04) 12%,rgba(6,13,10,.12) 50%,rgba(4,7,5,.94) 100%)}
+.exp100-scene-live .exp100-scene-shade{pointer-events:none}
 .exp100-scene-label{position:absolute;left:16px;bottom:42px;color:#e7d4a0;font-size:.66rem;font-weight:800;letter-spacing:.2em;text-shadow:0 2px 8px #000}
 .exp100-scene-label i{font-style:normal;color:#9eaf9e;padding:0 .35em}
 .exp100-sound{position:absolute;z-index:3;right:12px;top:12px;border:1px solid #b7c7a84a;border-radius:999px;background:#09110dd9;color:#dfe9d7;padding:8px 11px;font-size:.72rem;font-weight:700}
