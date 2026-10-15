@@ -117,7 +117,7 @@ The player learns about the Long Severance and the Seven-Wagon Dispatch through 
 
 **Act payoff:** the Pale Surveyor's history becomes intelligible, but it does not become innocent. The Hollow Mile is hinted at through traces, not explained by one complete journal.
 
-### Act VI — The Ruined March: the first great correction
+### Act VI — The Ruined March: the First Accounting
 
 The March's displaced households, disputed borders, abandoned roads, and damaged registries show the human consequence of making a community officially absent. Here the Surveyor attempts a broader alignment, using the same methods seen in smaller cases. This is not a magical blast that deletes the map's blank spaces; it is a process that makes institutions and linked routes stop recognizing alternatives.
 
