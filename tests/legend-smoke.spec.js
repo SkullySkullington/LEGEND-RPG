@@ -61,12 +61,16 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
   });
 
-  test('title emblem loads from the committed SVG artwork', async ({ page }) => {
+  test('title logo and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const emblem = page.locator('.portal100-emblem-wrap img');
+    const logo = page.locator('.v120-legend-logo');
     await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /logo_legend_emblem_v2\.svg/);
+    await expect(emblem).toHaveAttribute('src', /awakening-sigil\\.svg/);
+    await expect(logo).toBeVisible();
+    await expect(logo).toHaveAttribute('src', /logo_legend_main_v1\\.png/);
     await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
 
   test('game opens directly on the actual title menu without the redundant Ashmere Gate screen', async ({ page }) => {
@@ -82,10 +86,10 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'LEGEND', exact: true })).toBeVisible();
+    await expect(page.locator('.v120-legend-logo')).toBeVisible();
     await expect(page.locator('.v120-title-hero h2')).toHaveText('THE AWAKENING');
     await expect(page.locator('.v120-title-hero')).toContainText('Monsters gather beyond the borders');
-    await expect(page.locator('.portal100-brand')).toContainText('MONSTER WARS');
+    await expect(page.locator('.portal100-brand')).not.toContainText('MONSTER WARS');
     await expect(page.locator('.portal100-traveler')).toHaveCount(0);
     await expect(page.locator('#newPrimary')).toBeVisible();
     await expect(page.locator('#new')).toHaveCount(0);
