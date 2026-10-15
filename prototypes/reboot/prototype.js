@@ -695,7 +695,8 @@
       this.clearExplorationGraphics();
       const { width, height } = this.dimensions();
       this.exploreShadow = this.add.ellipse(width * this.explorationState.playerX, height * this.explorationState.playerY + 35, 45, 13, 0x050807, .62).setDepth(19);
-      this.explorePlayer = this.add.image(width * this.explorationState.playerX, height * this.explorationState.playerY, 'hero').setDepth(20);
+      const classTexture = ({ Adventurer: 'hero', Warrior: 'warrior', Ranger: 'ranger', Mage: 'mage', Thief: 'thief', Skiller: 'skiller' })[selectedClass()] || 'hero';
+      this.explorePlayer = this.add.image(width * this.explorationState.playerX, height * this.explorationState.playerY, classTexture).setDepth(20);
       this.fitArtwork(this.explorePlayer, width * .11, height * .18);
       this.createExplorationMarkers();
       this.layoutExploration();
