@@ -213,3 +213,10 @@ The finding is deliberately limited: it supports that the marker was altered, bu
 The v0.20.25 source adds the next main-story evidence beat after the player compares the Blackroot seal with the Greyfen boundary stone. On a later Old Road trip, the Reedwatch Shelter locker can yield a dated field note whose sketch already shows the newer cut two days after Greyfen logged the flood’s retreat. Mara confirms what the date supports—and what it cannot prove—then sends the player to Brenn's crossing ledger.
 
 Brenn reports that two destinations were overwritten in a later hand and points toward an earlier weekly route return. The current story therefore establishes a narrow timeline and a record discrepancy, but does not yet identify the writer or decision-maker. Treat this as current implemented source direction; full gameplay verification remains pending.
+
+
+## 16. The Earlier Weekly Return
+
+The v0.20.26 source adds the earlier weekly route return to the Wayfarer's Camp discovery when Brenn's ledger discrepancy has been established. It records the lower crossing as **closed pending inspection**, then shows a later **open** correction with no initials. The wording distinguishes the record's contents from the unknown person who made the correction.
+
+Brenn compares this return with the rewritten ledger; Mara then files the Blackroot, Greyfen boundary, Reedwatch, and weekly-return evidence together. The missing closure order becomes the next lead. Full integration and live-browser verification remain pending.
