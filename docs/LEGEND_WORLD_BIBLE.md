@@ -183,3 +183,10 @@ Until those decisions are made, create local stories that enrich the world while
 ## 11. The canon test
 
 New LEGEND content belongs if it could only happen in this world: practical medieval life meets a restrained, repeating mystery; choices matter; clues have provenance; places remember through people and objects; and the road tempts travelers to trade safety for answers.
+
+
+## 12. Active story-arc proposal
+
+The companion document [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md) proposes a hidden explanation for the Bell, lanterns, route markers, and the Old Road's unreliable passages, then maps that explanation into a first-game arc and practical quest chains.
+
+**Status remains proposed, not canon.** Its current working hypothesis is “the Bell is an alarm, not a summons.” Use it as a coherent development model while planning routes and quest callbacks, but do not present it as an established fact in player-facing dialogue until the project owner approves it. If the hypothesis changes, update the clue matrix and affected quest specs together rather than leaving contradictory fragments in different regions.
