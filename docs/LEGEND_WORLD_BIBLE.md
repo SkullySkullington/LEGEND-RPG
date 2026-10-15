@@ -220,3 +220,12 @@ Brenn reports that two destinations were overwritten in a later hand and points 
 The v0.20.26 source adds the earlier weekly route return to the Wayfarer's Camp discovery when Brenn's ledger discrepancy has been established. It records the lower crossing as **closed pending inspection**, then shows a later **open** correction with no initials. The wording distinguishes the record's contents from the unknown person who made the correction.
 
 Brenn compares this return with the rewritten ledger; Mara then files the Blackroot, Greyfen boundary, Reedwatch, and weekly-return evidence together. The missing closure order becomes the next lead. Full integration and live-browser verification remain pending.
+
+
+## 17. Series-wide antagonist proposal
+
+The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) proposes one antagonist whose goal is to make the world conform to a single authoritative map. Under this interpretation, the old route network began as a protective system; the Surveyor's decision to force agreement turned it into a means of suppressing contradictory routes, records, and eventually communities.
+
+**Status:** Proposed franchise direction, not locked canon. The Pale Surveyor, the Long Severance, and the Office of Measure must not be stated as established lore until approved. The proposal is designed to build on—rather than replace—the current Bell/Old Road hypothesis: the Bell acts as a warning, while the repeated marks, newer cuts, altered ledgers, and missing closure order are early evidence of a larger pattern.
+
+Use the series arc to coordinate future reveals. Keep local conflicts and ordinary human choices independent unless evidence links them; the Surveyor must not become the explanation for every monster, flood, crime, or hardship.
