@@ -1,3 +1,11 @@
+## v0.20.30 — Town and service icon integration
+- Wire the imported local service-icon family into the existing Ashmere/Greyfen navigation for the Inn, Market, Forge, Journal, Map, Work Board, Traveler, Route Milestone, and Regional Gate.
+- Preserve existing SVG fallback icons for unrelated actions.
+- Add Playwright coverage for local icon paths and successful image decoding; sync build metadata to v0.20.30.
+- **Verification:** source integration is prepared; automated browser tests and deployed desktop/mobile review remain pending.
+
+---
+
 ## v0.20.29 — Greyfen, service, skill and equipment art intake
 - Import and optimize three new 3×3 art atlases into stable local WebP files, including individual service, magic/skill, equipment, and material icons.
 - Register the Greyfen marsh walkway environment as a route-scene asset separately from the Greyfen town hub.
