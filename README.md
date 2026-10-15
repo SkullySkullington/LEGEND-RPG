@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.22 — First expedition story progression** preserves the first Old Road route and its discovered clue, gives Ashmere’s characters route-aware follow-up dialogue, and advances The Bell That Rang Once from the first return to the Blackroot Bend seal. The expanded mystery and first-game arc remain documented as proposals, not locked canon.
+**v0.20.23 — The Moved Cairn side story** adds a persistent High Ridge quest in which players restore a shifted cairn, record both alignments, or mark the hazard. The decision changes the quest report, Oric’s response, and later route descriptions. The broader Bell mystery remains proposed, not locked canon.
 
 ## Development Roadmap
 
