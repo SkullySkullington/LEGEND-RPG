@@ -2,7 +2,7 @@
 
 **Status:** Proposed franchise-wide story direction; not locked canon  
 **Purpose:** Give LEGEND one central evil and a connected multi-game story without making every local problem the same conspiracy.  
-**Companions:** [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) (expanded rules, history, and continuity architecture), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
+**Companions:** [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) (expanded rules, history, and continuity architecture), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **Core idea:** LEGEND's great enemy does not want to destroy the world. They want to remove uncertainty from it. They believe suffering comes from a world that cannot be made to agree with itself, so they are forcing every road, record, and community to conform to one perfect map—even when people must be erased to make the map correct.
 
