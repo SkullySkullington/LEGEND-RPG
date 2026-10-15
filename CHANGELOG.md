@@ -1,3 +1,12 @@
+## v0.20.28 — The Unquiet Road title & continuity reframe
+- Change the visible working subtitle from “Roads of Ashmere” to “The Unquiet Road” so the title fits the shared geography beyond Ashmere.
+- Clarify that Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended regions within the first game, not separate installments; future titles revisit these places at later points in the shared timeline.
+- Add the proposed Hollow Mile mythology: a bounded shadow-passage associated with damaged route anchors, missing journeys, and the Surveyor's false promise to restore the Unreturned.
+- Align the series myth arc, deep canon foundation, world bible, franchise strategy, culture atlas, character compendium, and README with this structure.
+- **Verification:** Source edits are committed, but title rendering, automated tests, and the live GitHub Pages build have not been verified in a browser during this pass.
+
+---
+
 ## v0.20.27 — Desktop-first polish & Captain Oric portrait
 - Replace Captain Oric’s handcrafted shape-based SVG portrait with the existing Runway-generated portrait, committed locally and used in both the People card and dialogue screen.
 - Add regression checks so both Oric views assert the stable local asset path and successful image decoding.
