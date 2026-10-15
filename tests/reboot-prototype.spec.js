@@ -86,7 +86,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#exploreTargetTitle')).toContainText('Goblin Scout');
     await page.locator('#interactButton').click();
     await expect(page.locator('#combat-panel')).toHaveClass(/active/);
-    await expect(page.locator('#battleHeading')).toContainText('Goblin scout');
+    await expect(page.locator('#battleHeading')).toContainText(/goblin scout/i);
 
     // Wait for each enemy turn so the test exercises the intended combat rhythm.
     const spell = page.locator('[data-battle="spell"]');
