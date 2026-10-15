@@ -202,14 +202,14 @@ Relevant commits:
 - `9147ef932e1d505a7f6601c5df7d32e77326f5b3`, `ebc48cedfa23f265d0e219412308704b70ed6ed3`, `50928025084e1e0bfc4de72a945cd8e2b11fc5b0`, `2b9cc3d46cd3b9974b2d86e86cad1d7f05f2d2dd`, and `de72b27eeaa63f3912ed86d3188f1db13e8f73ae`: HTML, runtime data/version, bootstrap, and package version bumps.
 - `c2cfa85330f7954a1d3780874b1a2f79369b6252`: README release summary; `d40b6fee18e9094704967678904a24ac1a000b0c`: changelog entry; `bae3ea903782f755e38466b56cf19979f42525cc`: initial release handoff; `8e6834b7403c2c49021124834a9ae2f2873d62b0`: test version label; `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: title assertion; `50d59334df5b1d790ab35b34ee94596acfa1e24b`: partial live verification record.
 
-Next:
-1. Run `npm run test:e2e` locally and fix any regressions before treating this release as verified.
-2. Verify the first Ridge and Reed return paths in a fresh save, including reload persistence and the Blackroot clue step.
-3. Confirm GitHub Pages is serving `v0.20.22` before reporting the changes as live.
-4. Continue only after this slice is stable: design the Moved Cairn side chain and Greyfen archive follow-up using existing quest flags and route discovery patterns.
+Historical next steps for v0.20.22 (superseded by v0.20.23):
+1. Run `npm run test:e2e` locally when a checkout is available.
+2. Verify the first Ridge and Reed return paths and Blackroot clue step.
+3. The v0.20.22 live smoke was subsequently completed; its result is recorded above.
+4. The Moved Cairn work now exists in v0.20.23 source; verify that path before expanding the Greyfen archive follow-up.
 
 
-## Source release v0.20.23 — The Moved Cairn (verification pending)
+## Source release v0.20.23 — The Moved Cairn (implementation complete in source; verification blocked)
 
 Source changes on `main`:
 - Added the one-time Side Stories contract `movedCairn`, posted by Captain Oric and paid in gold, XP, and one Road Herb.
@@ -224,7 +224,10 @@ Source changes on `main`:
 
 Relevant v0.20.23 commits:
 - `e93bf272ee3af836677d484c6c3b2c4330f4bae5`: persistent Moved Cairn decision panel and route callback.
+- `4f61c8683d3138120dbd094bdbc25464df2d0881`: repeat discovery text reflects the stored cairn outcome.
+- `cc9cf1d67a8a187c5b8a6b1062fd7e6a9558496c`: cache-busting for the route follow-up update.
 - `3a9cfbf861ac59218d006e7a1766aaf5569c3fcd`: side contract, turn-in reward, and Oric dialogue callback.
 - `62b39516b1b1c7b73914981b6c448928f942c974`: align title-version assertion to v0.20.23.
+- `68ebc0109046bb70feaa74637e3c7dedf3eeb02a`: test saved decision and journal memory across a reload.
 - `c661fc3e6e64e028fb055a93eb91f61fc5ea8cee`: HTML title and asset cache-busting.
 - `19b0ee0f94c6f23b86e236396499889dec03b3c8`: package version; `ceaac84e4b142986b7881e9f6ef5ede2a33e768e`: README; `1bf94b473d062ae280a89a7aeb9dcb894396eac3`: changelog; `c9ccd3b1214afa5169321504f25bf583e9287384`: handoff; `19fd065b885814b5c6cd6d78fb6f869c6bb3c9f2`, `8484b4b68c58ade92ee148e029ebcb07ce1e5e6e`, `b871068ceed8eb9348ff248b29312575a5a758df`: lore/documentation updates.
