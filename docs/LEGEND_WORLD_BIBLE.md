@@ -250,3 +250,10 @@ The [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md) deepens the establish
 **Recommended working subtitle:** *LEGEND: The Unquiet Road*. This replaces the location-specific working title *Roads of Ashmere* in the visible title treatment so the first game is not framed as an Ashmere-only adventure. The intended first game spans every planned region; future releases are organized around new conflicts and consequences, and revisit the same geography.
 
 See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the corrected first-game act structure and proposed dark-fantasy expansion, including the Hollow Mile. That proposal remains unapproved lore; the title and geography correction does not make its supernatural explanation established canon.
+
+
+## 21. Reboot direction and superseded mythology
+
+As of 2026-10-15, [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) is the primary proposed direction for a broader dark-fantasy RPG. It reframes magic around the Veil and Five Arts, proposes the Last Mercy / Afterwake / Hollow Saint as a world-level story candidate, and treats Bells primarily as Ashmere currency and ordinary civic signaling rather than the central cosmology.
+
+The older Pale Surveyor / Hollow Mile mythology in [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md) and [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) is **superseded as the default direction**. Preserve it as an archived proposal only. The subtitle and shared-geography corrections remain useful, but new story or gameplay content must not assume the old supernatural explanation is canon. The new Veil / Last Mercy lore is also proposed, not locked canon.
