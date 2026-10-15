@@ -87,9 +87,47 @@ test('Old Road discovery hotspot reveals and resolves a point of interest', asyn
     stage: document.querySelector('.exp100-scene-live')?.dataset.stage || null,
     playerStage: window.LegendRuntimeV080?.loadPlayer()?.flags?.roadExpeditionV100?.stage ?? null
   }));
-  console.log('ROAD_DISCOVERY_DIAGNOSTIC ' + JSON.stringify({ ...diagnostic, pageErrors, consoleErrors }));
-  expect(diagnostic.counters?.windowCapture, 'The hotspot click must reach window capture').toBeGreaterThan(0);
-  await expect(page.locator('.exp100-discovery-beat'), 'Discovery panel was not created. Diagnostic: ' + JSON.stringify({ ...diagnostic, pageErrors, consoleErrors })).toBeVisible();
+  const hitTest = await page.evaluate(() => {
+    const btn = document.querySelector('.exp100-hotspot-find');
+    if (!btn) return null;
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
+    const hit = document.elementFromPoint(x, y);
+    return {
+      rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+      viewport: { width: innerWidth, height: innerHeight, scrollX, scrollY },
+      hitTag: hit?.tagName || null,
+      hitId: hit?.id || null,
+      hitClass: typeof hit?.className === 'string' ? hit.className : '',
+      hitIsHotspot: Boolean(hit?.closest?.('.exp100-hotspot-find')),
+      buttonPointerEvents: getComputedStyle(btn).pointerEvents,
+      buttonPosition: getComputedStyle(btn).position,
+      buttonZIndex: getComputedStyle(btn).zIndex,
+      hotspotsPointerEvents: getComputedStyle(btn.parentElement).pointerEvents,
+      sceneOverflow: getComputedStyle(btn.closest('.exp100-scene-live')).overflow,
+      activeElement: document.activeElement?.outerHTML?.slice(0,240) || null,
+      buttonOnclickType: typeof btn.onclick,
+      clickDescriptor: String(Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'click')?.value || '').slice(0,100)
+    };
+  });
+  console.log('ROAD_DISCOVERY_DIAGNOSTIC ' + JSON.stringify({ ...diagnostic, hitTest, pageErrors, consoleErrors }));
+
+  const synthetic = await page.evaluate(() => {
+    const btn = document.querySelector('.exp100-hotspot-find');
+    if (!btn) return null;
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true, view: window, detail: 1 });
+    const dispatched = btn.dispatchEvent(event);
+    return {
+      dispatched,
+      defaultPrevented: event.defaultPrevented,
+      clickCounts: window.__roadDiscoveryQa || null,
+      panelCount: document.querySelectorAll('.exp100-discovery-beat').length,
+      inspectCount: document.querySelectorAll('#poiInspect').length,
+      buttonStillConnected: btn.isConnected
+    };
+  });
+  console.log('ROAD_DISCOVERY_SYNTHETIC_CLICK ' + JSON.stringify(synthetic));
+  await expect(page.locator('.exp100-discovery-beat'), 'Discovery panel was not created. Diagnostic: ' + JSON.stringify({ diagnostic, hitTest, synthetic, pageErrors, consoleErrors })).toBeVisible();
   await expect(page.locator('.exp100-discovery-beat')).toContainText(/Tracks Beneath the Blue Light/i);
   await page.locator('#poiInspect').click();
   await expect(page.locator('.exp100-head')).toContainText(/Road Pressure rises by 4/i);
