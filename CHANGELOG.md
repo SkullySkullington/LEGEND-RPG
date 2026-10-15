@@ -1,3 +1,13 @@
+## v0.20.29 — Greyfen, service, skill and equipment art intake
+- Import and optimize three new 3×3 art atlases into stable local WebP files, including individual service, magic/skill, equipment, and material icons.
+- Register the Greyfen marsh walkway environment as a route-scene asset separately from the Greyfen town hub.
+- Register the Mirebound Sentinel bestiary portrait in the stable asset manifest and name-to-art mapping.
+- Use the new Inn, milestone, and journal illustrations on the inn service actions while preserving the existing shared SVG navigation icons.
+- Extend the generated-art import workflow to crop declared atlas grids automatically and to preserve/retry manifests when a source URL fails instead of stopping the entire batch.
+- The import workflow completed successfully. Desktop/mobile visual review, image crop QA, and the Playwright run remain required before visual sign-off.
+
+---
+
 ## 2026-10-15 — Narrative direction: Monster Wars & the Awakening
 - Added `docs/LEGEND_FANTASY_RPG_DIRECTION.md` as the current preferred reference for a fantasy RPG centered on monster incursions, returning magic, regional conflicts, and an unknown awakening; aligned `docs/LEGEND_GAME_REBOOT_PLAN.md` so the monster invasion connects to the candidate Veil / Five Arts / Last Mercy / Afterwake mythology.
 - Reconciled the existing world bible, first-session spine, mystery/story arc, series mythology, deep canon, continuity reframe, culture atlas, character compendium, and franchise strategy with the new direction.
