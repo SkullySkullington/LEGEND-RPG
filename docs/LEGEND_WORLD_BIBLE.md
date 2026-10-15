@@ -206,3 +206,10 @@ The v0.20.24 source links the Blackroot seal to the Greyfen Boundary Stone only 
 The finding is deliberately limited: it supports that the marker was altered, but does not prove who changed it or why. Mara then asks for a dated record or another physical trace to establish when the newer cut appeared.
 
 **Verification status:** Implementation and regression coverage are committed; full browser verification remains pending.
+
+
+## 15. Reedwatch field note and crossing-ledger lead
+
+The v0.20.25 source adds the next main-story evidence beat after the player compares the Blackroot seal with the Greyfen boundary stone. On a later Old Road trip, the Reedwatch Shelter locker can yield a dated field note whose sketch already shows the newer cut two days after Greyfen logged the flood’s retreat. Mara confirms what the date supports—and what it cannot prove—then sends the player to Brenn's crossing ledger.
+
+Brenn reports that two destinations were overwritten in a later hand and points toward an earlier weekly route return. The current story therefore establishes a narrow timeline and a record discrepancy, but does not yet identify the writer or decision-maker. Treat this as current implemented source direction; full gameplay verification remains pending.
