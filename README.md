@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.23 — The Moved Cairn side story** adds a persistent High Ridge quest in which players restore a shifted cairn, record both alignments, or mark the hazard. The decision changes the quest report, Oric’s response, and later route descriptions. The broader Bell mystery remains proposed, not locked canon.
+**v0.20.24 — Route stories and Greyfen evidence** adds the persistent Moved Cairn quest and advances the Bell mystery from the Blackroot seal to Greyfen’s boundary stone and Mara’s archive. The evidence establishes that a marker was altered, but leaves its author and motive unresolved. The broader hidden-truth hypothesis remains proposed, not locked canon.
 
 ## Development Roadmap
 
