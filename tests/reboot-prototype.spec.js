@@ -79,6 +79,17 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#exploreResources')).toContainText('8 Bells');
     await expect(page.locator('#exploreResources')).toContainText('1 Tonic');
 
+    // Speak with Roadwarden Brenn before pursuing the warband.
+    await page.keyboard.down('ArrowLeft');
+    await page.waitForTimeout(520);
+    await page.keyboard.up('ArrowLeft');
+    await page.keyboard.down('ArrowUp');
+    await page.waitForTimeout(480);
+    await page.keyboard.up('ArrowUp');
+    await expect(page.locator('#exploreTargetTitle')).toContainText('Roadwarden Brenn', { timeout: 3000 });
+    await page.locator('#interactButton').click();
+    await expect(page.locator('#exploreObjective')).toContainText('Inspect the waystone');
+
     // Move to the goblin scout and trigger a real combat transition.
     await page.keyboard.down('ArrowRight');
     await page.waitForTimeout(2050);
