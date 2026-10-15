@@ -98,6 +98,51 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
 
+  test('new generated RPG art is registered and exists as stable local files', async ({ page }) => {
+    await openTitle(page);
+    const assets = await page.evaluate(() => {
+      const a = window.LegendAssetsV090;
+      return {
+        paths: [
+          a.ui.townServiceIconAtlas,
+          ...Object.values(a.ui.serviceIcons),
+          ...Object.values(a.skills),
+          a.locations.greyfenMarshWalkway,
+          a.enemies.mireboundSentinel,
+          a.items.ironShortSword,
+          a.items.woodcuttersAxe,
+          a.items.huntingBowV2,
+          a.items.reinforcedRoundShield,
+          a.items.ironHelmet,
+          a.items.leatherBracers,
+          a.items.ironOre,
+          a.items.animalHide,
+          a.items.marshHerbs
+        ],
+        sentinelLookup: a.byName('Mirebound Sentinel'),
+        sentinelPath: a.enemies.mireboundSentinel
+      };
+    });
+    expect(assets.sentinelLookup).toBe(assets.sentinelPath);
+    for (const assetPath of assets.paths) {
+      expect(fs.existsSync(path.join(__dirname, '..', assetPath)), assetPath).toBe(true);
+    }
+  });
+
+  test('inn actions show the newly generated local service illustrations', async ({ page }) => {
+    await startFreshCharacter(page, 'ServiceArtQA');
+    await page.locator('.ash100-destination[data-ash-view="inn"]').click();
+    const innIcon = page.locator('#rest .ash099-asset-icon img');
+    const roadIcon = page.locator('#camp .ash099-asset-icon img');
+    const journalIcon = page.locator('#rumor .ash099-asset-icon img');
+    await expect(innIcon).toHaveAttribute('src', /service-inn\.webp/);
+    await expect(roadIcon).toHaveAttribute('src', /service-milestone\.webp/);
+    await expect(journalIcon).toHaveAttribute('src', /service-journal\.webp/);
+    await expect.poll(async () => page.locator('.ash099-asset-icon img').evaluateAll(imgs =>
+      imgs.length === 3 && imgs.every(img => img.complete && img.naturalWidth > 0)
+    )).toBe(true);
+  });
+
   test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenQA');
     await page.evaluate(() => {
