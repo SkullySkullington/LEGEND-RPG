@@ -87,7 +87,13 @@ test('Mobile Safari can complete traveler creation with touch-stable choices', a
   await expect(page.getByRole('heading',{name:'WebKitTouchQA',exact:true})).toBeVisible();
 
   await page.evaluate(() => {
-    window.__ashmereHandoffQA = { events: [], buttonHandlerCalls: 0, renderCalls: 0, runtimeReturnCalls: 0 };
+    window.__ashmereHandoffQA = {
+      events: [], buttonHandlerCalls: 0, renderCalls: 0, runtimeReturnCalls: 0,
+      originalButtonHandlerSource: '', buttonHandlerHadSource: false,
+      storageAvailable: typeof window.LegendStorage,
+      savePlayerAvailable: typeof window.LegendStorage?.savePlayer,
+      loadPlayerAvailable: typeof window.LegendStorage?.loadPlayer
+    };
     document.addEventListener('click', event => {
       if (event.target?.closest?.('#v094Next')) {
         window.__ashmereHandoffQA.events.push({
@@ -98,6 +104,8 @@ test('Mobile Safari can complete traveler creation with touch-stable choices', a
     }, true);
     const button=document.getElementById('v094Next');
     const originalButtonHandler=button?.onclick;
+    window.__ashmereHandoffQA.originalButtonHandlerSource = originalButtonHandler ? String(originalButtonHandler) : '';
+    window.__ashmereHandoffQA.buttonHandlerHadSource = Boolean(originalButtonHandler);
     if(button&&originalButtonHandler){
       button.onclick=function(event){
         window.__ashmereHandoffQA.buttonHandlerCalls++;
@@ -144,6 +152,9 @@ test('Mobile Safari can complete traveler creation with touch-stable choices', a
       rootHTML:document.getElementById('root')?.innerHTML?.slice(0,700)||'',
       townVisible:Boolean(document.querySelector('.ash100-town')),
       introVisible:Boolean(document.querySelector('.v094-beginning')),
+      buttonSource:document.getElementById('v094Next')?.onclick ? String(document.getElementById('v094Next').onclick) : '',
+      globalPlayer:rt?.loadPlayer?.() ? {username:rt.loadPlayer().username,town:rt.loadPlayer().town,intro:rt.loadPlayer().flags?.introV094Complete} : null,
+      storageRawLength:localStorage.getItem(window.LEGEND_DATA?.SAVE_KEY||'')?.length||0,
       storageKey:window.LEGEND_DATA?.SAVE_KEY,
       storedPlayer:pl?{
         username:pl.username,town:pl.town,currentRegion:pl.currentRegion,
