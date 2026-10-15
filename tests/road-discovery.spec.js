@@ -55,12 +55,33 @@ test('Old Road discovery hotspot reveals and resolves a point of interest', asyn
     for (let node = btn; node; node = node.parentElement) {
       chain.push({ tag: node.tagName, id: node.id || '', className: typeof node.className === 'string' ? node.className : '', matchedTransitionAncestor: node.matches?.(selector) || false });
     }
-    window.__roadDiscoveryQa = { windowCapture: 0, documentCapture: 0, buttonCapture: 0, buttonBubble: 0, documentBubble: 0, windowBubble: 0 };
+    window.__roadDiscoveryQa = {
+      events: [],
+      windowCapture: 0, documentCapture: 0, buttonCapture: 0,
+      buttonBubble: 0, documentBubble: 0, windowBubble: 0
+    };
     const isHotspot = event => Boolean(event.target?.closest?.('.exp100-hotspot-find'));
-    window.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.windowCapture += 1; }, true);
-    document.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.documentCapture += 1; }, true);
+    for (const type of ['pointerdown','pointerup','mousedown','mouseup','click']) {
+      window.addEventListener(type, event => {
+        if (isHotspot(event)) {
+          window.__roadDiscoveryQa.events.push({ type, phase:'window-capture', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
+          if (type === 'click') window.__roadDiscoveryQa.windowCapture += 1;
+        }
+      }, true);
+      document.addEventListener(type, event => {
+        if (isHotspot(event)) {
+          window.__roadDiscoveryQa.events.push({ type, phase:'document-capture', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
+          if (type === 'click') window.__roadDiscoveryQa.documentCapture += 1;
+        }
+      }, true);
+      btn?.addEventListener(type, event => {
+        if (isHotspot(event)) {
+          window.__roadDiscoveryQa.events.push({ type, phase:'button-bubble', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
+          if (type === 'click') window.__roadDiscoveryQa.buttonBubble += 1;
+        }
+      });
+    }
     btn?.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.buttonCapture += 1; }, true);
-    btn?.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.buttonBubble += 1; });
     document.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.documentBubble += 1; });
     window.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.windowBubble += 1; });
     return {
@@ -111,6 +132,19 @@ test('Old Road discovery hotspot reveals and resolves a point of interest', asyn
     };
   });
   console.log('ROAD_DISCOVERY_DIAGNOSTIC ' + JSON.stringify({ ...diagnostic, hitTest, pageErrors, consoleErrors }));
+
+  const physicalMouse = await page.evaluate(() => {
+    const rect = document.querySelector('.exp100-hotspot-find')?.getBoundingClientRect();
+    return rect ? { x: rect.left + rect.width/2, y: rect.top + rect.height/2 } : null;
+  });
+  if (physicalMouse) await page.mouse.click(physicalMouse.x, physicalMouse.y);
+  const mouseDiagnostic = await page.evaluate(() => ({
+    counters: window.__roadDiscoveryQa || null,
+    panelCount: document.querySelectorAll('.exp100-discovery-beat').length,
+    inspectCount: document.querySelectorAll('#poiInspect').length,
+    hotspot: document.querySelector('.exp100-hotspot-find')?.outerHTML || null
+  }));
+  console.log('ROAD_DISCOVERY_PHYSICAL_MOUSE ' + JSON.stringify(mouseDiagnostic));
 
   const synthetic = await page.evaluate(() => {
     const btn = document.querySelector('.exp100-hotspot-find');
