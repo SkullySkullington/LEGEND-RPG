@@ -12,7 +12,11 @@
     library: ASSET + 'images/backgrounds/gothic_library_of_arcane_secrets.png',
     swamp: ASSET + 'images/backgrounds/goblin_in_a_haunted_swamp_path.png',
     hero: ASSET + 'generated/classes/class-adventurer.webp',
+    warrior: ASSET + 'generated/classes/class-warrior.webp',
+    ranger: ASSET + 'generated/classes/class-ranger.webp',
     mage: ASSET + 'generated/classes/class-mage.webp',
+    thief: ASSET + 'generated/classes/class-thief.webp',
+    skiller: ASSET + 'generated/classes/class-skiller.webp',
     goblin: ASSET + 'generated/enemies/road-goblin.webp',
     wolf: ASSET + 'generated/enemies/blackroot-wolf.webp',
     wisp: ASSET + 'generated/enemies/lantern-wisp.webp',
@@ -40,6 +44,15 @@
   let currentMode = 'title';
   let soundEnabled = false;
   let trainingRank = 0;
+  const gameData = () => window.LegendRebootData || {};
+  const selectedClass = () => $('#classChoice')?.value || 'Adventurer';
+  const selectedClassStats = () => gameData().classStats?.(selectedClass()) || { name: 'Adventurer', maxHp: 100, hp: 100, gold: 100, mods: {}, move: 'Strike' };
+  function updateClassSummary() {
+    const c = selectedClassStats();
+    const mods = Object.entries(c.mods || {}).map(([key, value]) => key + ' +' + value).join(' · ') || 'Balanced attributes';
+    const summary = $('#classSummary');
+    if (summary) summary.textContent = c.maxHp + ' HP · ' + c.gold + ' starting Bells · ' + mods + ' · Technique: ' + c.move;
+  }
   let chosenRunes = [];
   const intendedPattern = ['TIDE', 'EMBER', 'ROOT'];
   let toastHandle = null;
@@ -68,10 +81,10 @@
   function updateBars() {
     if (!scene || !scene.battle) return;
     const b = scene.battle;
-    $('#heroHpText').textContent = Math.max(0, b.hp) + ' / 100';
-    $('#heroMpText').textContent = Math.max(0, b.mp) + ' / 30';
-    $('#heroHpBar').style.width = Math.max(0, b.hp) + '%';
-    $('#heroMpBar').style.width = Math.max(0, b.mp / 30 * 100) + '%';
+    $('#heroHpText').textContent = Math.max(0, b.hp) + ' / ' + b.maxHp;
+    $('#heroMpText').textContent = Math.max(0, b.mp) + ' / ' + b.maxMp;
+    $('#heroHpBar').style.width = Math.max(0, b.hp / Math.max(1, b.maxHp) * 100) + '%';
+    $('#heroMpBar').style.width = Math.max(0, b.mp / Math.max(1, b.maxMp) * 100) + '%';
     $$('[data-battle]').forEach(button => {
       button.disabled = b.busy || b.hp <= 0 || b.enemyHp <= 0 ||
         (button.dataset.battle === 'spell' && b.mp < 10);
@@ -154,6 +167,8 @@
     begin: startCinematic
   };
 
+  $('#classChoice')?.addEventListener('change', updateClassSummary);
+  updateClassSummary();
   $('#beginButton').addEventListener('click', startCinematic);
   $('#combatButton').addEventListener('click', () => showMode('combat'));
   $('#runeButton').addEventListener('click', () => showMode('training'));
@@ -415,13 +430,16 @@
     enterCombat() {
       this.stopModeEffects();
       const isScoutEncounter = Boolean(this.explorationState && this.explorationState.scoutEngaged && !this.explorationState.scoutDefeated);
-      this.battle = { hp: 100, mp: 30, enemyHp: isScoutEncounter ? 68 : 72, busy: false, guarding: false, finished: false, isScoutEncounter };
+      const character = selectedClassStats();
+      const enemy = (gameData().enemies || []).find(item => item.id === 'goblin') || { name: 'Road Goblin', hp: [24, 38], damage: [3, 8], text: 'A road goblin slips from the brush.' };
+      const range = enemy.hp || [30, 40];
+      this.battle = { hp: character.maxHp, maxHp: character.maxHp, mp: 30, maxMp: 30, enemyHp: isScoutEncounter ? 68 : Phaser.Math.Between(range[0], range[1]), enemyMaxHp: isScoutEncounter ? 68 : range[1], enemyDamage: enemy.damage || [3, 8], enemyName: isScoutEncounter ? 'Goblin Scout' : enemy.name, busy: false, guarding: false, finished: false, isScoutEncounter, character };
       $('#battleContinue').hidden = true;
       this.showBackdrop('road');
       this.placeBattleActors();
       setBattleLog(
-        isScoutEncounter ? 'A goblin scout blocks the road' : 'A road-goblin blocks the pass',
-        isScoutEncounter ? 'The scout carries a charcoal mark used to signal a larger warband.' : 'It watches your hands. It has not committed to an attack yet.'
+        isScoutEncounter ? 'A goblin scout blocks the road' : (this.battle.enemyName || 'A road-goblin blocks the pass'),
+        isScoutEncounter ? 'The scout carries a charcoal mark used to signal a larger warband.' : ((enemy.text || 'It watches your hands. It has not committed to an attack yet.') + ' Your ' + character.name + ' training shapes your strength and technique.')
       );
       updateBars();
     }
@@ -440,6 +458,8 @@
       }
       this.heroOrigin = { x: heroX, y: actorY };
       this.enemyOrigin = { x: enemyX, y: actorY };
+      this.heroArt.setTexture(({ Adventurer: 'hero', Warrior: 'warrior', Ranger: 'ranger', Mage: 'mage', Thief: 'thief', Skiller: 'skiller' })[selectedClass()] || 'hero');
+      this.enemyArt.setTexture('goblin');
       this.heroArt.setPosition(heroX, actorY);
       this.enemyArt.setPosition(enemyX, actorY);
       this.fitArtwork(this.heroArt, width * .25, height * .52);
@@ -483,7 +503,11 @@
         return;
       }
       const isSpell = action === 'spell';
-      const damage = isSpell ? Phaser.Math.Between(23, 31) : Phaser.Math.Between(14, 21);
+      const mods = b.character?.mods || {};
+      const weapon = (gameData().weapons || []).find(item => item.id === 'ironSword') || { min: 14, max: 28 };
+      const forceBonus = Number(mods.strength || 0) * 2;
+      const magicBonus = Number(mods.magic || 0) * 3;
+      const damage = isSpell ? Phaser.Math.Between(23, 31) + magicBonus : Phaser.Math.Between(Math.max(5, weapon.min * .45), Math.max(10, weapon.max * .45)) + forceBonus;
       if (isSpell) {
         b.mp -= 10;
         this.sfx('magic');
@@ -601,7 +625,8 @@
         duration: 220,
         ease: 'Quad.easeIn',
         onComplete: () => {
-          const rawDamage = Phaser.Math.Between(11, 17);
+          const enemyRange = b.enemyDamage || [3, 8];
+          const rawDamage = Phaser.Math.Between(enemyRange[0], enemyRange[1]) + (b.isScoutEncounter ? 5 : 0);
           const damage = b.guarding ? Math.ceil(rawDamage * .28) : rawDamage;
           b.hp = Math.max(0, b.hp - damage);
           b.guarding = false;
