@@ -52,6 +52,59 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     expect(pageErrors).toEqual([]);
   });
 
+  test('first expedition supports movement, discovery, a goblin battle, and a return report', async ({ page }) => {
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.message));
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
+    await page.evaluate(() => window.LegendRebootPrototype.exploration());
+    await expect(page.locator('#exploration-panel')).toHaveClass(/active/);
+    await expect(page.locator('#interactButton')).toBeDisabled();
+
+    // Walk to the roadside cache using the same keyboard controls as a player.
+    await page.keyboard.down('ArrowRight');
+    await page.waitForTimeout(560);
+    await page.keyboard.up('ArrowRight');
+    await page.keyboard.down('ArrowUp');
+    await page.waitForTimeout(240);
+    await page.keyboard.up('ArrowUp');
+    await expect(page.locator('#interactButton')).toBeEnabled({ timeout: 3000 });
+    await page.locator('#interactButton').click();
+    await expect(page.locator('#exploreResources')).toContainText('8 Bells');
+    await expect(page.locator('#exploreResources')).toContainText('1 Tonics');
+
+    // Move to the goblin scout and trigger a real combat transition.
+    await page.keyboard.down('ArrowRight');
+    await page.waitForTimeout(2050);
+    await page.keyboard.up('ArrowRight');
+    await page.keyboard.down('ArrowUp');
+    await page.waitForTimeout(200);
+    await page.keyboard.up('ArrowUp');
+    await expect(page.locator('#interactButton')).toBeEnabled({ timeout: 3000 });
+    await expect(page.locator('#exploreTargetTitle')).toContainText('Goblin Scout');
+    await page.locator('#interactButton').click();
+    await expect(page.locator('#combat-panel')).toHaveClass(/active/);
+    await expect(page.locator('#battleHeading')).toContainText('Goblin scout');
+
+    // The tutorial scout is balanced to fall to three successful Ember Bolts.
+    await page.locator('[data-battle="spell"]').click();
+    await page.locator('[data-battle="spell"]').click();
+    await page.locator('[data-battle="spell"]').click();
+    await expect(page.locator('#battleContinue')).toBeVisible({ timeout: 6000 });
+    await page.locator('#battleContinue').click();
+    await expect(page.locator('#exploration-panel')).toHaveClass(/active/);
+    await expect(page.locator('#returnAshmereButton')).toBeEnabled();
+
+    await page.locator('#returnAshmereButton').click();
+    await expect(page.locator('#debrief-panel')).toHaveClass(/active/);
+    await expect(page.locator('#debriefSummary')).toContainText('charcoal warband mark');
+    await expect(page.locator('#debriefRewards')).toContainText('25 XP');
+    await expect(page.locator('#debriefRewards')).toContainText('26 Bells');
+    expect(pageErrors).toEqual([]);
+  });
+
   test('rune training mini-game accepts the demonstrated sequence and records practice rank', async ({ page }) => {
     const pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.message));
