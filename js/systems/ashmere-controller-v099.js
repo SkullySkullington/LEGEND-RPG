@@ -53,7 +53,7 @@
   };
   const armorArt = id => {
     const items=A().items||{};
-    const keys={clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon'};
+    const keys={clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon',none:'shield'};
     const path=items[keys[id]||id]||items.shield||items.camp||'';
     return path;
   };
@@ -755,7 +755,7 @@ function renderTrader(tab='buy'){
   function sellItem(k,value){const pl=p();if(owned(pl,k)<=0)return note('Nothing to sell.');pl.inventory[k]-=1;pl.gold=Number(pl.gold||0)+value;save(pl);renderTrader('sell');}
   function sellAllLoot(sellables){const pl=p();let total=0;sellables.forEach(([k,v])=>{const qty=owned(pl,k);if(qty>0){total+=qty*v;pl.inventory[k]=0;}});if(total<=0)return note('No sellable road loot.');pl.gold=Number(pl.gold||0)+total;save(pl);renderTrader('sell');}
 
-  function renderCrafting(){
+  function renderCrafting(feedback=''){
     const pl=p();
     const recipes=[
       ['roadPoultice','Road Poultice',[['roadHerb',2],['clothScrap',1]],'Healing item for rough travel.'],
@@ -771,7 +771,7 @@ function renderTrader(tab='buy'){
     const openTrader=document.getElementById('openTrader');
     if(openTrader) openTrader.onclick=renderTrader;
   }
-  function craftItem(id,needsTextRaw){const pl=p();const needs=String(needsTextRaw||'').split(',').filter(Boolean).map(x=>{const [k,v]=x.split(':');return [k,Number(v||0)];});if(!canCraft(pl,needs))return note('Missing ingredients.');needs.forEach(([k,v])=>pl.inventory[k]-=v);pl.inventory[id]=Number(pl.inventory[id]||0)+1;save(pl);renderCrafting();}
+  function craftItem(id,needsTextRaw){const pl=p();const needs=String(needsTextRaw||'').split(',').filter(Boolean).map(x=>{const [k,v]=x.split(':');return [k,Number(v||0)];});if(!canCraft(pl,needs))return note('Missing ingredients.');const recipeNames={roadPoultice:'Road Poultice',blackrootTonic:'Blackroot Tonic',huntersCharm:'Hunter\'s Charm',reinforcedBuckle:'Reinforced Buckle',wispLanternWick:'Wisp Lantern Wick',tradeBundle:'Trade Bundle'};needs.forEach(([k,v])=>pl.inventory[k]=Math.max(0,owned(pl,k)-v));pl.inventory[id]=Number(pl.inventory[id]||0)+1;save(pl);renderCrafting('Crafted '+(recipeNames[id]||itemName(id))+'. Ingredients used: '+needs.map(([k,v])=>v+' '+itemName(k)).join(', ')+'.');}
 
   function renderSmith(tab='weapon'){
     const pl=p(),assets=A().items||{};
