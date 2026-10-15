@@ -60,7 +60,7 @@
     return `<header class="portal-header">
       <div class="portal-brand">
         <img src="${esc(window.LegendAssetsV090?.logo?.emblemFull || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND emblem" onerror="this.style.display='none'">
-        <div><h1>LEGEND</h1><p>The Unquiet Road</p><span>✧ Lantern Gate of Ashmere ✧</span></div>
+        <div><h1>LEGEND</h1><p>The Awakening</p><span>✧ Lantern Gate of Ashmere ✧</span></div>
       </div>
       <div class="portal-profile-card">
         <span class="portal-crest" aria-hidden="true">◆</span>
@@ -153,7 +153,7 @@
         <div class="title-gate-border" aria-hidden="true"></div>
         <main class="title-gate-card">
           <h1 class="game-title">LEGEND</h1>
-          <p class="title-gate-subtitle">The Unquiet Road</p>
+          <p class="title-gate-subtitle">The Awakening</p>
           <p class="title-gate-kicker">✧ Ashmere Gate ✧</p>
           <button class="title-gate-prompt" id="enterRealm" type="button">Press Any Key to Enter Ashmere</button>
           <p class="title-gate-quote">The lantern gate opens for travelers, not heroes.</p>
