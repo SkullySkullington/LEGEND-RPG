@@ -223,6 +223,7 @@
       this.showBackdrop('title');
       this.scale.on('resize', () => this.resizeCurrentScene());
       this.soundscape();
+      window.__legendRebootReady = true;
       window.dispatchEvent(new CustomEvent('legend-reboot-prototype-ready'));
     }
 
