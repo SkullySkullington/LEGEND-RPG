@@ -1,3 +1,12 @@
+## v0.20.35 — Production title screen finish
+- Rework the actual production title screen into a cinematic, landscape-led composition using the committed Ashmere road panorama, full Awakening wordmark, and Awakening sigil.
+- Remove the repeated subtitle beneath the wordmark, simplify the hero treatment so the art remains the focus, and keep one clear primary traveler action with profile/settings and credits available.
+- Eager-load the title panorama while retaining the existing local fallback image, accessible title heading, keyboard focus styling, mobile layout, and reduced-motion behavior.
+- Refresh production cache-busting and update title asset regression checks to verify the generated panorama, SVG wordmark, and sigil.
+- The production page was inspected at desktop resolution before this change; final browser regression for this commit remains to be run.
+
+---
+
 ## v0.20.29 — Greyfen, service, skill and equipment art intake
 - Import and optimize three new 3×3 art atlases into stable local WebP files, including individual service, magic/skill, equipment, and material icons.
 - Register the Greyfen marsh walkway environment as a route-scene asset separately from the Greyfen town hub.
