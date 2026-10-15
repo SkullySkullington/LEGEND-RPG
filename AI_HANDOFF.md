@@ -312,3 +312,10 @@ Relevant v0.20.26 commits:
 - Playwright defaults to Desktop Chrome full regression and four critical mobile compatibility checks on Mobile Safari/Mobile Chrome. Set `FULL_BROWSER_MATRIX=1` locally or select the full-matrix input on manual GitHub Actions dispatch for the four-project sweep.
 - GitHub Actions ignores Markdown-only pushes/PRs and cancels superseded checks by branch/PR to reduce the queue from documentation-only edits.
 - **Verification boundary:** the Runway source PNG passed signature, size, and dimension checks (1792×2400; 5,870,268 bytes), and its production WebP is now committed in this development branch (262,938 bytes). PR merge, deployed People/dialogue view, automated browser verification, and desktop-first visual review with a 390px mobile crop/overflow check are still outstanding. Do not describe the release as deployed or fully verified yet.
+
+
+## Narrative design update — proposed franchise-wide antagonist
+
+Added \`docs/LEGEND_SERIES_MYTH_ARC.md\` (commit \`3252296d77a2e87320ae0e557a76b3548eacd5cd\`). The proposal introduces the Pale Surveyor: a former mortal roadkeeper who tries to remove uncertainty by forcing the world to conform to a single authoritative map. It gives the existing Bell/Old Road/Greyfen evidence a possible long-term meaning, states limits on the supernatural system, and maps possible arcs through Ashmere/Greyfen, Ironpass, Blackwood, and the Ruined March.
+
+The World Bible, Mystery & Story Arc Blueprint, Franchise Strategy, and README now link to this proposal. It remains unapproved and must not be presented as locked canon. No gameplay code was changed in this lore pass; current implementation and test status are unchanged.
