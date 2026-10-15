@@ -88,6 +88,7 @@
     if (mode === 'title') {
       scene.showBackdrop('title');
       scene.clearBattle();
+      scene.resetExplorationState();
       scene.soundscape();
     } else if (mode === 'exploration') {
       scene.enterExploration();
@@ -768,7 +769,7 @@
       $('#exploreObjective').textContent = state.scoutDefeated
         ? 'Objective: Return to Ashmere with evidence of an organized warband.'
         : 'Objective: Find the goblin scout. Supply and waystone discoveries are optional.';
-      $('#exploreResources').textContent = state.bells + ' Bells  ·  ' + state.potions + ' Tonics  ·  ' + state.xp + ' XP';
+      $('#exploreResources').textContent = state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic' : ' Tonics') + '  ·  ' + state.xp + ' XP';
       $('#exploreClue').textContent = state.shrineInspected
         ? 'Evidence: The waystone was disturbed recently.'
         : 'No magical evidence collected yet.';
@@ -831,7 +832,7 @@
       $('#debriefSummary').textContent = state.scoutDefeated
         ? 'The scout carried a charcoal warband mark—not proof of the force behind the attacks, but the first sign that these raids may be coordinated. Ashmere needs to know.'
         : 'You return to Ashmere before the expedition is complete. The road will still be there when you are ready.';
-      $('#debriefRewards').textContent = '+' + state.xp + ' XP  ·  ' + state.bells + ' Bells  ·  ' + state.potions + ' Tonics recovered';
+      $('#debriefRewards').textContent = '+' + state.xp + ' XP  ·  ' + state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic recovered' : ' Tonics recovered');
       const findings = [];
       if (state.cacheFound) findings.push('Roadside supplies recovered');
       if (state.shrineInspected) findings.push('Waystone disturbance recorded');
