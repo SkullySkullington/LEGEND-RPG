@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.26 — The Earlier Weekly Return** completes the Greyfen evidence-filing beat: an old route report shows the lower crossing marked closed, then overwritten as open without initials. Brenn compares it to the newer ledger, and Mara preserves the conflicting records together. The missing closure order—and who authorized the change—remains the next mystery.
+**v0.20.27 — Desktop-first polish & Captain Oric portrait.** Builds on the v0.20.26 Greyfen evidence-filing beat. This technical pass replaces Oric’s handcrafted SVG stand-in with the existing Runway portrait as a committed local asset, makes desktop the primary design and QA target, and streamlines Playwright to run the full regression suite on desktop Chrome plus focused mobile compatibility checks.
 
 ## Development Roadmap
 
@@ -28,7 +28,7 @@ The shared visual style, image-family specifications, prompt template, and web/m
 
 ## Current Direction
 
-LEGEND is being developed as a **mobile-first, progression-focused fantasy RPG**.
+LEGEND is being developed as a **desktop-first, progression-focused fantasy RPG**, while retaining mobile compatibility.
 
 The intended loop is:
 
@@ -70,13 +70,13 @@ The new expedition layer introduces:
 - Clear fall-back and return options
 - Rewards that feed the Ashmere progression loop
 - Road Tokens and discoveries as progression resources
-- Mobile-first touch controls
+- Touch-friendly responsive controls
 
 ## Current Features
 
 - Browser-based HTML5 RPG
 - GitHub Pages deployment
-- Mobile-first responsive presentation
+- Desktop-first responsive presentation with mobile compatibility
 - Local browser saves
 - Supabase account/auth integration
 - Cloud traveler slots
@@ -91,7 +91,7 @@ The new expedition layer introduces:
 - Settings and accessibility options
 - Portable Save Vault
 - Dark fantasy art and interface assets
-- Playtest / smoke-test tooling
+- Playtest / smoke-test tooling (full desktop regression suite plus focused mobile compatibility checks)
 
 ## Progression Philosophy
 
@@ -111,9 +111,9 @@ Progress should come from connected loops:
 
 Rewards should feed another meaningful choice instead of simply filling a number.
 
-## Mobile-First Rule
+## Desktop-first Development, Mobile Compatibility
 
-The game is being designed for phones first, especially 360–430px wide screens.
+Desktop browsers are the primary development and visual-polish target, starting around 1440×900. The game must remain responsive and playable on phones around 360–430px wide, but layouts are no longer designed mobile-first.
 
 That means:
 
@@ -123,7 +123,7 @@ That means:
 - Persistent Back / Continue / Return paths
 - Shorter information blocks
 - Menus that do not trap the player
-- Desktop layouts that expand from the mobile foundation
+- Mobile layouts that adapt the desktop presentation without horizontal overflow
 
 ## Important Files
 
@@ -149,7 +149,7 @@ For active development:
 1. Treat the live game and current modular controllers as the source of truth.
 2. Preserve established architecture and load order unless a change is deliberate.
 3. Prefer coherent system-level changes over temporary UI patches.
-4. Test the actual mobile flow after meaningful changes.
+4. Test the main desktop flow after meaningful changes and run focused mobile smoke checks.
 5. Keep public documentation synchronized with the current build.
 6. Record meaningful development changes in the changelog and devlog.
 
