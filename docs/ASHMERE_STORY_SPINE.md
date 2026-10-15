@@ -4,6 +4,13 @@
 **Purpose:** Turn the first 30–60 minutes into a memorable RPG journey with a clear emotional arc, not a checklist of unrelated features.  
 **Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Ashmere Vertical Slice GDD](ASHMERE_VERTICAL_SLICE_GDD.md), [Opening Experience Redesign](OPENING_EXPERIENCE_REDESIGN.md).
 
+## CURRENT DIRECTION UPDATE — OPEN WITH A FANTASY ADVENTURE
+
+Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the main story direction. Preserve the implemented dead-lantern arrival, single bell, High Ridge/Reed Cut choice, Bell Fragment, Moved Cairn, Blackroot mark, Greyfen comparison, Reedwatch note, Brenn's ledger, weekly return, and missing-closure-order lead. Reframe the *meaning* only when supported by evidence; do not replace their implemented facts.
+
+The first session should give the player a tangible fantasy-RPG problem and a taste of danger: a warning, a monster encounter or raid, a practical contract, preparations, and a return to people who need help. The bell/route investigation can develop alongside this and become the first clue that the frontier's problems may be connected. It should not make the entire setting feel like an abstract puzzle about roads. The invasion, the return of magic, and the deeper awakening should become the wider arc over time; their exact causal relationship remains open.
+
+
 ## 1. What the first session must deliver
 
 When a player finishes the first substantial loop, they should be able to say:
@@ -11,7 +18,7 @@ When a player finishes the first substantial loop, they should be able to say:
 2. I made a real choice about how to approach the Old Road.
 3. That choice changed something I saw, heard, found, or risked.
 4. I brought back proof that mattered to someone.
-5. I understand one new detail about the bell/lantern mystery, but I still have a question I want answered.
+5. I have a concrete reason to return to Ashmere, I understand one new detail about the local investigation, and I have a larger question about the growing danger.
 
 The opening does not need a large cast or a long cutscene. It needs a few well-written moments connected by consequences.
 
