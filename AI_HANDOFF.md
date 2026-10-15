@@ -319,3 +319,10 @@ Relevant v0.20.26 commits:
 Added \`docs/LEGEND_SERIES_MYTH_ARC.md\` (commit \`3252296d77a2e87320ae0e557a76b3548eacd5cd\`). The proposal introduces the Pale Surveyor: a former mortal roadkeeper who tries to remove uncertainty by forcing the world to conform to a single authoritative map. It gives the existing Bell/Old Road/Greyfen evidence a possible long-term meaning, states limits on the supernatural system, and maps possible arcs through Ashmere/Greyfen, Ironpass, Blackwood, and the Ruined March.
 
 The World Bible, Mystery & Story Arc Blueprint, Franchise Strategy, and README now link to this proposal. It remains unapproved and must not be presented as locked canon. No gameplay code was changed in this lore pass; current implementation and test status are unchanged.
+
+
+## Narrative design update — expanded deep canon foundation
+
+Added `docs/LEGEND_DEEP_CANON_FOUNDATION.md` (commit `3dfdd560c63cccee686158487f8eb2bf8e49105e`). It expands the proposed Pale Surveyor saga with the Four Witnesses (Ground, Mark, Record, Passage), bounded route-network rules, the proposed Seven-Wagon Dispatch as the Surveyor's founding moral failure, a human and institutional escalation through Ashmere/Greyfen → Ironpass → Blackwood → the Ruined March, a clue-by-clue plan for the current missing-closure-order lead, recurring character themes, ending principles, and a canon framework for player choices across future games.
+
+Updated `docs/LEGEND_SERIES_MYTH_ARC.md` (commit `feef285f47cb54e8ec11d3d90aa9e6656f8a37eb`) and `docs/LEGEND_WORLD_BIBLE.md` (commit `2c1163b5d6b5baf14dc4c4682428f0519f944491`) to link the expanded foundation. Updated `README.md` to make it discoverable. The new names and ancient history—Aren Vey, Ivara, and the Seven-Wagon Dispatch—are proposals only; do not present them as established canon or implement lore-heavy gameplay without a deliberate approval pass. Gameplay was not changed in this narrative documentation pass.
