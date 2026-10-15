@@ -2,7 +2,7 @@
 
 **Status:** Proposed series canon; not locked  
 **Purpose:** Deepen the Pale Surveyor arc into a durable story architecture that can support multiple games, protagonists, side stories, and later adaptations without contradicting the first game.  
-**Use with:** [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
+**Use with:** [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **The central truth:** A road is more than a line on a map. It is a relationship maintained by the ground, the people who travel it, the signs they trust, and the records they leave behind. LEGEND's great evil begins when someone decides that a relationship is too dangerous to remain uncertain—and takes the power to dictate what everyone else must call true.
 
