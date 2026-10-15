@@ -2,8 +2,8 @@
 - Extended the Bell quest from the Blackroot seal to the existing Greyfen Boundary Stone. Once Blackroot evidence is known, the Greyfen discovery presents a matching bell-mark beneath a newer cut pointed toward the reed bed.
 - Inspecting the Greyfen mark records a persistent memory and advances the quest log to Mara’s Boundary Archive.
 - Mara’s Greyfen dialogue now acknowledges the comparison, records both layers as evidence, and gives the next objective: find a dated record or physical sign that establishes when the newer cut was made.
-- Added regression coverage for the Blackroot-to-Greyfen field evidence and archive callback; the test suite also covers The Moved Cairn decision surviving a reload.
-- Full Playwright and live story-path verification are pending. The live browser attempt currently fails before the page loads with \`ERR_TUNNEL_CONNECTION_FAILED\`; no game failure has been confirmed.
+- Added regression coverage for the Blackroot-to-Greyfen field evidence and archive callback, including the Ashmere return dialogue preserving the advanced objective; the test suite also covers The Moved Cairn decision surviving a reload.
+- Full Playwright and live story-path verification are pending. The live browser attempt currently fails before the page loads with `ERR_TUNNEL_CONNECTION_FAILED`; no game failure has been confirmed.
 
 ---
 
