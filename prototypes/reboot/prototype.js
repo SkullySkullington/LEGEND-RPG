@@ -689,6 +689,7 @@
           scoutDefeated: false,
           expeditionComplete: false,
           brennSpoken: false,
+          herbsFound: false,
           questAccepted: false,
           questReported: false,
           objects: [
@@ -696,7 +697,8 @@
             { id: 'shrine', label: 'Veil-touched Waystone', shortLabel: 'Waystone', nx: .51, ny: .49, glyph: '✧', color: 0x9bc9bf },
             { id: 'tracks', label: 'Fresh Warband Tracks', shortLabel: 'Warband Tracks', nx: .61, ny: .72, glyph: '⌁', color: 0xc3b28b },
             { id: 'scout', label: 'Goblin Scout', shortLabel: 'Goblin Scout', nx: .72, ny: .61, glyph: '!', color: 0xd27b69 },
-            { id: 'brenn', label: 'Brenn · Roadwarden', shortLabel: 'Roadwarden Brenn', nx: .19, ny: .53, glyph: '⚑', color: 0xb4c5a2 }
+            { id: 'brenn', label: 'Brenn · Roadwarden', shortLabel: 'Roadwarden Brenn', nx: .19, ny: .53, glyph: '⚑', color: 0xb4c5a2 },
+            { id: 'herbs', label: 'Roadside Herbs', shortLabel: 'Roadside Herbs', nx: .43, ny: .78, glyph: '✿', color: 0x9fbd82 }
           ]
         };
       }
@@ -761,6 +763,7 @@
       if (id === 'tracks') return state.tracksInspected;
       if (id === 'scout') return state.scoutDefeated;
       if (id === 'brenn') return state.brennSpoken;
+      if (id === 'herbs') return state.herbsFound;
       return false;
     }
 
@@ -856,6 +859,8 @@
           ? 'The scout keeps looking over its shoulder. Press E when you are ready to confront it.'
           : target.id === 'cache'
             ? 'A supply cart was abandoned in a hurry. Search it for anything useful.'
+            : target.id === 'herbs'
+            ? 'Hardy herbs grow in the shelter of the mile-marker. Gather a few before moving on.'
             : target.id === 'tracks'
               ? 'Deep boot prints and claw marks cross the mud. Follow their direction to learn how many passed this way.'
               : 'Faint green-gold lines move beneath the moss. The stone is warmer than the air.';
@@ -891,6 +896,12 @@
         state.warbandEvidence = true;
         this.sfx('confirm', .5);
         toast('Tracks recorded · +7 XP · Warband evidence');
+      } else if (target.id === 'herbs') {
+        state.herbsFound = true;
+        state.xp += 3;
+        window.LegendRebootInventory?.addItem?.('roadHerb', 1);
+        this.sfx('confirm', .45);
+        toast('Road herbs gathered · +3 XP · +1 Road Herb');
       } else if (target.id === 'brenn') {
         state.brennSpoken = true;
         state.questAccepted = true;
@@ -924,6 +935,7 @@
       const findings = [];
       if (state.brennSpoken) findings.push('Brenn’s road commission accepted');
       if (state.cacheFound) findings.push('Roadside supplies recovered');
+      if (state.herbsFound) findings.push('Roadside herbs gathered');
       if (state.shrineInspected) findings.push('Waystone disturbance recorded');
       if (state.tracksInspected) findings.push('Warband tracks recorded');
       if (state.scoutDefeated) findings.push('Charcoal warband mark secured');
