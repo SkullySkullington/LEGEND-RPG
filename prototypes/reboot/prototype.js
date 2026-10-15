@@ -504,10 +504,11 @@
       }
       const isSpell = action === 'spell';
       const mods = b.character?.mods || {};
-      const weapon = (gameData().weapons || []).find(item => item.id === 'ironSword') || { min: 14, max: 28 };
+      const equippedWeapon = window.LegendRebootInventory?.getWeapon?.();
+      const weapon = equippedWeapon || (gameData().weapons || []).find(item => item.id === 'hand') || { min: 8, max: 20 };
       const forceBonus = Number(mods.strength || 0) * 2;
       const magicBonus = Number(mods.magic || 0) * 3;
-      const damage = isSpell ? Phaser.Math.Between(23, 31) + magicBonus : Phaser.Math.Between(Math.max(5, weapon.min * .45), Math.max(10, weapon.max * .45)) + forceBonus;
+      const damage = isSpell ? Phaser.Math.Between(23, 31) + magicBonus : Phaser.Math.Between(Math.max(5, weapon.min), Math.max(10, weapon.max)) + forceBonus;
       if (isSpell) {
         b.mp -= 10;
         this.sfx('magic');
@@ -542,6 +543,8 @@
               this.explorationState.scoutEngaged = false;
               this.explorationState.xp += 25;
               this.explorationState.bells += 18;
+              window.LegendRebootInventory?.addBells?.(18);
+              window.LegendRebootInventory?.addItem?.('gmail', 1);
               this.explorationState.expeditionComplete = true;
               $('#battleContinue').textContent = 'Return to the road';
               $('#battleContinue').hidden = false;
@@ -627,7 +630,9 @@
         onComplete: () => {
           const enemyRange = b.enemyDamage || [3, 8];
           const rawDamage = Phaser.Math.Between(enemyRange[0], enemyRange[1]) + (b.isScoutEncounter ? 5 : 0);
-          const damage = b.guarding ? Math.ceil(rawDamage * .28) : rawDamage;
+          const armorDefense = Number(window.LegendRebootInventory?.getArmor?.()?.defense || 0);
+          const afterArmor = Math.max(1, rawDamage - Math.floor(armorDefense * .12));
+          const damage = b.guarding ? Math.ceil(afterArmor * .28) : afterArmor;
           b.hp = Math.max(0, b.hp - damage);
           b.guarding = false;
           this.sfx('hit');
@@ -859,6 +864,8 @@
         state.cacheFound = true;
         state.bells += 8;
         state.potions += 1;
+        window.LegendRebootInventory?.addBells?.(8);
+        window.LegendRebootInventory?.addItem?.('roadPoultice', 1);
         this.sfx('confirm', .55);
         toast('Supplies recovered · +8 Bells · +1 Tonic');
       } else if (target.id === 'shrine') {
