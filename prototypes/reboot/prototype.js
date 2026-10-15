@@ -231,6 +231,8 @@
       this.exploreShadow = null;
       this.exploreMarkerVisuals = [];
       this.exploreKeys = null;
+      this.exploreStamina = 100;
+      this.exploreStepElapsed = 0;
     }
 
     preload() {
@@ -260,9 +262,20 @@
       let dy = (keys.S && keys.S.isDown ? 1 : 0) - (keys.W && keys.W.isDown ? 1 : 0);
       dx += (keys.RIGHT && keys.RIGHT.isDown ? 1 : 0) - (keys.LEFT && keys.LEFT.isDown ? 1 : 0);
       dy += (keys.DOWN && keys.DOWN.isDown ? 1 : 0) - (keys.UP && keys.UP.isDown ? 1 : 0);
+      const frameMs = Math.min(delta || 16, 50);
+      const sprinting = Boolean(keys.SHIFT && keys.SHIFT.isDown && (dx || dy) && this.exploreStamina > 0);
+      if (sprinting) this.exploreStamina = Math.max(0, this.exploreStamina - frameMs * .035);
+      else this.exploreStamina = Math.min(100, this.exploreStamina + frameMs * .018);
       if (dx || dy) {
         const length = Math.hypot(dx, dy) || 1;
-        const distance = 248 * Math.min(delta || 16, 50) / 1000;
+        const distance = (sprinting ? 390 : 220) * frameMs / 1000;
+        this.exploreStepElapsed += frameMs;
+        if (this.exploreStepElapsed > (sprinting ? 175 : 290)) {
+          this.exploreStepElapsed = 0;
+          if (this.explorePlayer && this.explorePlayer.active) {
+            this.tweens.add({ targets: this.explorePlayer, scaleY: this.explorePlayer.scaleY * .94, duration: 65, yoyo: true, ease: 'Sine.easeOut' });
+          }
+        }
         const { width, height } = this.dimensions();
         this.explorationState.playerX = Phaser.Math.Clamp(this.explorationState.playerX + dx / length * distance / width, .06, .94);
         this.explorationState.playerY = Phaser.Math.Clamp(this.explorationState.playerY + dy / length * distance / height, .39, .82);
@@ -641,12 +654,14 @@
           potions: 0,
           cacheFound: false,
           shrineInspected: false,
+          tracksInspected: false,
           scoutEngaged: false,
           scoutDefeated: false,
           expeditionComplete: false,
           objects: [
             { id: 'cache', label: 'Abandoned Supply Cache', shortLabel: 'Supply Cache', nx: .33, ny: .65, glyph: '▣', color: 0xd7b46f },
             { id: 'shrine', label: 'Veil-touched Waystone', shortLabel: 'Waystone', nx: .51, ny: .49, glyph: '✧', color: 0x9bc9bf },
+            { id: 'tracks', label: 'Fresh Warband Tracks', shortLabel: 'Warband Tracks', nx: .61, ny: .72, glyph: '⌁', color: 0xc3b28b },
             { id: 'scout', label: 'Goblin Scout', shortLabel: 'Goblin Scout', nx: .72, ny: .61, glyph: '!', color: 0xd27b69 }
           ]
         };
@@ -770,6 +785,8 @@
         ? 'Objective: Return to Ashmere with evidence of an organized warband.'
         : 'Objective: Find the goblin scout. Supply and waystone discoveries are optional.';
       $('#exploreResources').textContent = state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic' : ' Tonics') + '  ·  ' + state.xp + ' XP';
+      $('#exploreStamina').style.width = this.exploreStamina + '%';
+      $('#exploreStaminaText').textContent = 'STAMINA ' + Math.round(this.exploreStamina) + '%';
       $('#exploreClue').textContent = state.shrineInspected
         ? 'Evidence: The waystone was disturbed recently.'
         : 'No magical evidence collected yet.';
@@ -791,7 +808,9 @@
           ? 'The scout keeps looking over its shoulder. Press E when you are ready to confront it.'
           : target.id === 'cache'
             ? 'A supply cart was abandoned in a hurry. Search it for anything useful.'
-            : 'Faint green-gold lines move beneath the moss. The stone is warmer than the air.';
+            : target.id === 'tracks'
+              ? 'Deep boot prints and claw marks cross the mud. Follow their direction to learn how many passed this way.'
+              : 'Faint green-gold lines move beneath the moss. The stone is warmer than the air.';
         button.disabled = false;
         button.textContent = 'Interact: ' + target.shortLabel + ' (E)';
       }
@@ -816,6 +835,12 @@
         state.xp += 5;
         this.sfx('magic', .4);
         toast('Waystone studied · +5 XP');
+      } else if (target.id === 'tracks') {
+        state.tracksInspected = true;
+        state.xp += 7;
+        state.warbandEvidence = true;
+        this.sfx('confirm', .5);
+        toast('Tracks recorded · +7 XP · Warband evidence');
       } else if (target.id === 'scout') {
         state.scoutEngaged = true;
         this.sfx('confirm', .7);
@@ -836,6 +861,7 @@
       const findings = [];
       if (state.cacheFound) findings.push('Roadside supplies recovered');
       if (state.shrineInspected) findings.push('Waystone disturbance recorded');
+      if (state.tracksInspected) findings.push('Warband tracks recorded');
       if (state.scoutDefeated) findings.push('Charcoal warband mark secured');
       $('#debriefFindings').textContent = findings.length ? findings.join('  ·  ') : 'No discoveries recorded on this trip.';
     }
