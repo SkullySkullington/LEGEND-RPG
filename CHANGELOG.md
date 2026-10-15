@@ -1,3 +1,13 @@
+## v0.20.22 — First Expedition Story Progression
+- Persisted the player's first secured Old Road route and optional discovery so returning to Ashmere can produce route-specific story responses.
+- Mara, Old Brenn, and Captain Oric now respond to the first expedition differently depending on whether the traveler took High Ridge or Reed Cut.
+- The Bell That Rang Once quest log now advances from the first return to inspecting the bell-marked seal at Blackroot Bend; recording the seal adds a persistent memory and points the player back to Mara, then toward Greyfen's boundary records.
+- Added Playwright regression coverage for both first-return branches and the Blackroot Bend clue progression.
+- Added docs/LEGEND_MYSTERY_AND_STORY_ARC.md and linked it from the world bible and Ashmere story spine. The hidden-truth proposal remains unapproved and is not treated as locked canon.
+- Browser regression suite and live deployment verification are pending; do not claim the new dialogue or quest callbacks are deployed until verified.
+
+---
+
 ## v0.20.21 — Different Work, Side Stories & Tactical Weapons
 - Replaced the one-size-fits-all Work Board timing check with six task types: timing, signal reading, ledger clues, memory sequences, worksite decisions, and route choices. Ashmere and Greyfen contracts now use different interactions.
 - Added three persistent side contracts: a point-of-interest survey, a road battle proof request, and a five-stage expedition report. Contract progress is tracked in the save and rewards are claimed once.
