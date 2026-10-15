@@ -1,0 +1,15 @@
+{
+  "batch": "2026-10-15-core-npc-portraits",
+  "assets": [
+    {
+      "name": "Mara Vell — Archive Keeper portrait",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-lite-image/images/0ad9e6c7-49af-49cb-ba3b-5b27316e60e5/0f1912d3-f518-43ad-b561-b6a6d97422dc/A_single_standalone_character_portrait_for_a_dark_medieval_f.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNmM2N2ZmNDVmNDk3MDgxMSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIzMDA4NX0.QA9WzuhgRDeeT0UuNZsskohLZ_jgb9BkCe9SXci6R_c",
+      "target": "assets/generated/npcs/mara-vell.webp"
+    },
+    {
+      "name": "Old Brenn — Ledger Keeper portrait",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-lite-image/images/2bce44bd-62dd-43c8-8b72-a5d7253e188b/549ff83b-9835-4b7a-9d74-3f5680a4ea21/A_single_standalone_character_portrait_for_a_dark_medieval_f.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzdiZjY4MDM5NThlZmNlNSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIwODM4N30.hu6Mi2HJxwKjQL5PeCOuEDcZ89QDGeZelSHQbhVmKW4",
+      "target": "assets/generated/npcs/old-brenn.webp"
+    }
+  ]
+}
