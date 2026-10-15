@@ -1,0 +1,33 @@
+name: Hotspot Single-Click Regression
+
+on:
+  push:
+    branches: [ qa/hotspot-single-click ]
+
+jobs:
+  hotspot-single-click:
+    name: One-click road discovery check
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Check critical JavaScript syntax
+        run: node --check js/systems/road-controller-v100.js
+      - name: Run the single-click regression
+        run: npx playwright test tests/road-discovery-regression.spec.js --project="Desktop Chrome"
+      - name: Upload regression report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hotspot-single-click-report
+          path: playwright-report/
+          retention-days: 14
