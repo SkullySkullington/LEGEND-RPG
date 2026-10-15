@@ -99,13 +99,15 @@ Aren was good at the work. The network saved lives. That part must remain true; 
 
 ### The Seven-Wagon Dispatch
 
-**Proposed historical event:** During the Long Severance, seven relief wagons were sent through a contested pass to reach an isolated settlement. The central dispatch ledger marked the road as usable. Local witnesses had reported a dangerous change in the ground, and the warning bell was rung. The information did not agree, and there was no time to complete the full inspection.
+**Proposed historical event:** During the Long Severance, seven relief wagons carrying food and essential supplies were sent through a contested pass to reach an isolated settlement. The central dispatch ledger still marked the route usable. **Ivara**, a local keeper, had witnessed a dangerous change in the ground and rang the warning bell. The evidence disagreed, the settlement was running out of supplies, and a full inspection would cost time the wagons might not have.
 
-Aren faced a real choice under pressure. If the wagons waited, the settlement might not receive food in time. If they went, the route might hold—or fail. Aren used the central record to authorize the passage. The route failed, and the wagons were lost.
+**Aren Vey** authorized the passage using the central record. The decision had a human logic under terrible pressure; it was still Aren's decision. The route failed, and the wagons did not arrive. No clear wreckage was recovered. Later witnesses disagreed about what they saw near the pass: some spoke of lights on a road no surviving map could locate, others insisted grief had turned an ordinary search into a ghost story. Keep those conflicting accounts alive in the early games.
 
-The decisive wrong came after the disaster. Instead of leaving the record to show the full disagreement and Aren's decision, the surviving official account was altered to say that no valid closure had been filed. A human choice became an administrative certainty. The warning had existed, but the system made it appear as though no warning had counted.
+The decisive wrong came afterward. The surviving official account was changed to say that no valid closure warning had been filed and that the intended destination could not be verified as an active settlement. Families who should have been able to demand answers were left with a ledger saying the dispatch had been carried out correctly. The cost was not only the lost wagons: it was the removal of responsibility and the beginning of a community's disappearance from public memory.
 
-This is the wound at the center of the saga. The network did not fail because there were several witnesses. It failed because one authority chose which witness to trust, then hid the cost.
+The full record would have shown a stale central report, Ivara's warning, Aren's authorization, and the consequences. The corrected record made the conflict vanish on paper while the people were still missing. This becomes the saga's defining wound: a human authority chose one witness and then removed the evidence that could challenge the choice.
+
+
 
 ### The wrong lesson
 
@@ -113,7 +115,7 @@ Aren could have accepted the truth: sometimes evidence conflicts, a decision mus
 
 Instead, Aren drew the opposite conclusion: **a system that permits disagreement will always risk another Seven-Wagon Dispatch.**
 
-Aren redesigned the network to resolve contradictions automatically in favor of a single master record. A local warning could no longer overrule the central line. Instead of asking whether the map was wrong, the system began to make the route behave as though the approved map must be right.
+Aren redesigned the network to resolve contradictions automatically in favor of a single master record. A local warning could no longer overrule the central line. Instead of asking whether the map was wrong, the system began to make the route behave as though the approved map must be right. At certain damaged nodes, rejected routes could fold into the Hollow Mile, leaving a person or a trace cut off from ordinary passage.
 
 The change initially made travel more predictable. It also made dangerous reports easier to discard. Every time the network corrected a discrepancy, it appeared to prove that further correction was necessary.
 
