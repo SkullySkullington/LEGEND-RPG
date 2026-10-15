@@ -1,4 +1,4 @@
-// LEGEND: The Awakening v0.20.30 - Monster Wars title and game bootstrap
+// LEGEND: The Awakening v0.20.31 - title logo and corner insignia polish
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -210,8 +210,8 @@
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
-            <div class="portal100-emblem-wrap"><img src="${esc(window.LegendAssetsV090?.logo?.emblem || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND lantern-road emblem" onerror="this.style.display='none'"></div>
-            <div><span>MONSTER WARS · THE AWAKENING</span><p>A world where magic stirs and old borders break.</p></div>
+            <div class="portal100-emblem-wrap"><img src="assets/ui/icons/awakening-sigil.svg" alt="The Awakening arcane sigil" onerror="this.style.display='none'"></div>
+            <div><span>THE AWAKENING</span><p>A world where magic stirs and old borders break.</p></div>
           </div>
           <div class="portal100-header-actions">
             <button id="account" type="button">Profile</button>
@@ -221,7 +221,7 @@
         <main class="v120-title-main">
           <section class="v120-title-hero">
             <div class="portal100-kicker">A DARK FANTASY RPG</div>
-            <h1>LEGEND</h1>
+            <img class="v120-legend-logo" src="${esc(window.LegendAssetsV090?.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png')}" alt="LEGEND" onerror="this.style.display='none'">
             <h2>THE <em>AWAKENING</em></h2>
             <p>Monsters gather beyond the borders. Ancient magic stirs beneath the land. Begin in Ashmere, then carve your place in a world on the edge of war.</p>
             <div class="v120-divider"><span></span><b>THE WORLD IS WAKING</b><span></span></div>
