@@ -1,5 +1,5 @@
 window.LEGEND_DATA = {
-  VERSION: 'v0.20.27',
+  VERSION: 'v0.20.28',
   SAVE_KEY: 'legend-roads-of-ashmere-v09',
   OLD_KEYS: ['legend-recovered-build-v06','legend-recovered-build-v051','legend-recovered-build-v05','legend-recovered-build-v041','legend-recovered-build-v04','legend-recovered-build-v03','legend-recovered-build-v02'],
   classes: {
@@ -52,7 +52,7 @@ window.LEGEND_DATA = {
     {name:'Giant',glyph:'🗿',maxDamage:38,hp:[105,165],drop:['hbone',2,'Huge Bones'],trait:'Heavy',intent:['winds up a heavy blow','stomps the road','raises both fists']}
   ],
   ascii: {
-    title:'LEGEND: Roads of Ashmere',
+    title:'LEGEND: The Unquiet Road',
     ashmere:'ASHMERE - Lantern Town of the Old Road',
     road:'THE OLD ROAD',
     npc:'Traveler of Ashmere',
