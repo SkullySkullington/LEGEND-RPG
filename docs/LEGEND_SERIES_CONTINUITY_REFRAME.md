@@ -31,7 +31,7 @@ The recommended working subtitle for the first game is:
 - It allows the first game to cross every planned region while still feeling like one story.
 - It remains relevant when the same roads and towns return in later titles.
 - “Unquiet” carries dark-fantasy meaning: something unresolved remains beneath the ground, in memory, in ruins, and among the missing.
-- It does not reveal the Pale Surveyor, the Hollow Mile, or the nature of the bell before the player earns those revelations.
+- It does not reveal the awakening's cause, the Last Mercy, or the nature of the bell before the player earns those revelations.
 
 **Proposed title-screen line:** “Ashmere is a refuge of tired lamps and hard bargains. Beyond its gate, the road has begun returning things no one remembers losing.”
 
