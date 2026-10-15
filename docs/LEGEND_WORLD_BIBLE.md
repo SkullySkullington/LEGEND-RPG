@@ -8,7 +8,7 @@ This is an internal production document, not an in-world encyclopedia. It record
 
 ## CURRENT DIRECTION OVERRIDE — MONSTER WARS & THE AWAKENING
 
-**This is the current preferred creative direction.** Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the primary reference when interpreting this bible. LEGEND is a dark fantasy RPG about a spreading monster incursion, the return of old magic, regional conflicts, and a deeper power that may be awakening. The world must offer tangible adventure—monsters, dungeons, factions, exploration, crafting, training, and meaningful regional stories—before it asks the player to solve a supernatural mystery.
+**This is the current preferred creative direction.** Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the narrative north star and [Game Reboot & Playable Foundation Plan](LEGEND_GAME_REBOOT_PLAN.md) for the current candidate Veil / Five Arts / Last Mercy / Afterwake system and gameplay direction. LEGEND is a dark fantasy RPG about a spreading monster incursion, the return of old magic, regional conflicts, and a deeper power that may be awakening. The world must offer tangible adventure—monsters, dungeons, factions, exploration, crafting, training, and meaningful regional stories—before it asks the player to solve a supernatural mystery.
 
 This direction supersedes the earlier road/map-centered mythology as the primary franchise explanation. Bells, lanterns, route markers, cairns, ledgers, and the Old Road remain established motifs and useful story objects, but they do **not** explain every mystery or every monster. The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey, and Ivara are legacy proposals, not approved central canon. They may be retained as optional or secondary lore only after review.
 
@@ -251,14 +251,14 @@ The companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) expands t
 
 The [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md) deepens the established Mara Vell, Old Brenn, Captain Oric, and Sella Marr while proposing new supporting characters and personal quest arcs across Ashmere, Greyfen, and future regions. The [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md) expands the regions' histories, civic customs, livelihoods, folk beliefs, seasonal practices, and public institutions.
 
-**Status:** Both companions are proposed expansions, not locked canon. New names, biographies, institutions, customs, and historical details should be checked against current source dialogue and assets before implementation. Keep at least half of local story conflicts independent of the Pale Surveyor, and do not make a character's full life secretly revolve around the Bell mystery.
+**Status:** Both companions are proposed expansions, not locked canon. New names, biographies, institutions, customs, and historical details should be checked against current source dialogue and assets before implementation. Keep at least half of local story conflicts independent of the central awakening, and do not make a character's full life secretly revolve around the Bell mystery.
 
 
 ## 20. The title and recurring geography
 
 **Recommended working subtitle:** *LEGEND: The Unquiet Road*. This replaces the location-specific working title *Roads of Ashmere* in the visible title treatment so the first game is not framed as an Ashmere-only adventure. The intended first game spans every planned region; future releases are organized around new conflicts and consequences, and revisit the same geography.
 
-See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the corrected first-game act structure and proposed dark-fantasy expansion, including the Hollow Mile. That proposal remains unapproved lore; the title and geography correction does not make its supernatural explanation established canon.
+See [Fantasy RPG Direction](LEGEND_FANTASY_RPG_DIRECTION.md) and [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) for the current Monster Wars & Awakening premise and proposed Veil / Afterwake mythology. The title and geography correction does not make any proposed supernatural explanation established canon.
 
 
 ## 21. Reboot direction and superseded mythology
