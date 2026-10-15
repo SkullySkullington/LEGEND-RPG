@@ -679,6 +679,20 @@ test.describe('LEGEND v0.20.23 browser regression tests', () => {
     expect(turnedIn.complete).toBe(true);
     expect(turnedIn.herbs).toBeGreaterThanOrEqual(1);
 
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    const persisted = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        outcome: pl.flags.highRidgeCairnOutcome,
+        complete: pl.flags.sideContracts.movedCairn.complete,
+        memory: pl.memories.some(m => /recorded both the shifted stone/i.test(m))
+      };
+    });
+    expect(persisted.outcome).toBe('record');
+    expect(persisted.complete).toBe(true);
+    expect(persisted.memory).toBe(true);
+
     await page.evaluate(() => window.LegendAshmereV099.route('oric'));
     await expect(page.locator('.ash099-lines')).toContainText(/You recorded both alignments/i);
 
