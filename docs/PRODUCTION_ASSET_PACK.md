@@ -21,7 +21,7 @@ The original 25-image production set is already committed locally (see the impor
 | Town/service icon atlas (3×3 grid: inn, market, smith, journal, map, work board, traveler, forked road, regional gate) | `e48d6c42-853c-4b7f-a217-6ca45e9ab4a7` | `assets/generated/ui/town-service-icon-atlas.png` plus nine cropped files under `assets/generated/ui/icons/` | Replace interim semantic reuse of item/portrait art in hub and service navigation |
 | Captain Oric portrait | `3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb` | `assets/generated/npcs/captain-oric.webp` | Replace the interim Oric portrait/icon with a cast-consistent portrait |
 
-**Important:** both follow-up generations completed in Runway, but their exports have not yet been imported into the repository as stable local files. Do not point the production manifest at the temporary preview URLs. The title and hub layout pass is committed; icon/portrait integration and final visual QA are still outstanding.
+**Import status:** the Runway-generated Captain Oric portrait is being integrated at the intended stable local WebP path, `assets/generated/npcs/captain-oric.webp`, in the manifest and People/dialogue views. The runtime will not use the temporary signed Runway URL. The town/service icon atlas remains unimported; final portrait crop and full UI visual QA still need to be checked in the deployed build.
 
 ## Environment and location scenes
 

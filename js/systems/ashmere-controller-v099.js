@@ -39,7 +39,7 @@
     return locations[key] || bg();
   };
   const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
-  const npc = id => id==='oric' ? 'assets/npcs/ashmere/npc_oric_portrait_v2.svg' : (A().npcs?.[id] || '');
+  const npc = id => A().npcs?.[id] || (id === 'oric' ? 'assets/generated/npcs/captain-oric.webp' : '');
   const weaponName = id => (D().weapons || []).find(w => w.id === id)?.name || id || 'Hands';
   const armorName = id => (D().armors || []).find(a => a.id === id)?.name || id || 'None';
 

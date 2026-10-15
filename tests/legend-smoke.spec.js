@@ -330,10 +330,15 @@ test.describe('LEGEND v0.20.25 browser regression tests', () => {
     await expect(page.locator('.ash100-destinations')).toContainText('Town Square');
     await page.locator('.ash100-destinations .ash100-destination[data-ash-view="people"]').click();
     await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Captain Oric/i })).toBeVisible();
+    const oricCard = page.locator('.ash099-npc-card[data-ash-view="oric"] img');
+    await expect(oricCard).toBeVisible();
+    await expect(oricCard).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricCard.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await page.locator('[data-ash-view="oric"]').click();
     await expect(page.getByRole('heading', { name: 'Captain Oric' })).toBeVisible();
-    await expect.poll(() => page.locator('.ash099-head img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    const oricDialoguePortrait = page.locator('.ash099-head img');
+    await expect(oricDialoguePortrait).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricDialoguePortrait.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
 
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
