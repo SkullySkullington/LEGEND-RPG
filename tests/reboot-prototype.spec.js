@@ -73,7 +73,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#interactButton')).toBeEnabled({ timeout: 3000 });
     await page.locator('#interactButton').click();
     await expect(page.locator('#exploreResources')).toContainText('8 Bells');
-    await expect(page.locator('#exploreResources')).toContainText('1 Tonics');
+    await expect(page.locator('#exploreResources')).toContainText('1 Tonic');
 
     // Move to the goblin scout and trigger a real combat transition.
     await page.keyboard.down('ArrowRight');
