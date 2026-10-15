@@ -3,7 +3,7 @@
 - Investigating the Ridgeway Cairn while on High Ridge now reveals a three-way decision: restore the old alignment, document both positions, or mark the hazard and step back.
 - Each choice is saved, becomes reportable for the contract reward, adds a journal memory, affects Oric’s follow-up dialogue, and changes what the player sees at the cairn on a later trip.
 - Added regression coverage for accepting the contract, discovering the shifted stone, choosing a response, turning in the report, and seeing the persistent callback.
-- Full Playwright and live story-path verification remain pending.
+- Live story-path QA was attempted but blocked by `ERR_TUNNEL_CONNECTION_FAILED` in two fresh isolated browser sessions; the game UI never loaded, so this is an environment blocker rather than a confirmed game pass or failure. The full Playwright suite has not run.
 
 ---
 
