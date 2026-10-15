@@ -2,6 +2,8 @@
 .ash099-icon{overflow:hidden;border-radius:11px;background:#0d1510;border-color:rgba(215,184,106,.19);box-shadow:inset 0 0 0 1px rgba(215,184,106,.025)}
 .ash099-icon img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.82) contrast(1.04)}
 .ash099-footer-item .ash099-icon img{object-fit:cover}
+.ash099-icon.ash099-asset-icon{display:inline-grid;place-items:center;padding:3px}
+.ash099-icon.ash099-asset-icon img{object-fit:contain;filter:none}
 .ash099-head{grid-template-columns:minmax(140px,235px) minmax(0,1fr);gap:clamp(14px,2.4vw,24px);align-items:center;padding-bottom:14px;border-bottom:1px solid rgba(215,184,106,.13)}
 .ash099-head img{height:190px;border-radius:10px;border-color:rgba(215,184,106,.15);filter:saturate(.76) contrast(1.04)}
 .ash099-head h1{font:500 clamp(2rem,4.5vw,3.4rem)/.98 Georgia,'Times New Roman',serif;color:#f1e6c9;letter-spacing:0;text-transform:none}
