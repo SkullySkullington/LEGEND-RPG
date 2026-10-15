@@ -8,7 +8,10 @@
 
 This document is a strong working proposal for the series. Do not treat its new title, ancient history, faction, or endgame as public canon until the project owner approves it.
 
-## 1. The franchise story in one paragraph
+> **CURRENT DIRECTION NOTICE (2026-10-15):** This document is retained as a legacy concept archive, not the current primary series mythology. The preferred direction is the monster invasion and returning-magic awakening described in [Fantasy RPG Direction](LEGEND_FANTASY_RPG_DIRECTION.md). The Pale Surveyor, Hollow Mile, and route-correction cosmology are not approved as the franchise's central evil. If any of this material survives, it must become bounded secondary lore and must not explain every monster, region, or hardship.
+
+
+## 1. The legacy proposal in one paragraph
 
 Long ago, a brilliant roadkeeper created a network of bells, lanterns, mile-markers, cairns, boundary stones, and records to keep distant communities connected. The network became more than infrastructure: where its old signs and records were aligned, it could make a route behave as though the mapped connection were true. Its creator came to believe that every tragedy came from conflicting versions of the world. Rather than accept uncertainty, the roadkeeper bound their will to the network and began imposing one master map upon reality. History remembers this figure only as **the Pale Surveyor**. The Surveyor cannot simply command the entire world; they need physical markers, records, routes, and human institutions to extend their reach. Across the series, the player finds communities suffering from seemingly separate route failures and record alterations, until they uncover one old system—and one will—trying to make every place conform to a single, unquestionable version of the world.
 
