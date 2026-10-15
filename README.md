@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.25 — The Reedwatch field note** continues the Bell mystery through the Greyfen Boundary Archive, a dated note found at Reedwatch Shelter, and overwritten crossing records in Brenn’s ledger. The chain establishes that the route marker was altered after the flood record, but leaves the author and motive unresolved. The broader hidden-truth hypothesis remains proposed, not locked canon.
+**v0.20.26 — The Earlier Weekly Return** completes the Greyfen evidence-filing beat: an old route report shows the lower crossing marked closed, then overwritten as open without initials. Brenn compares it to the newer ledger, and Mara preserves the conflicting records together. The missing closure order—and who authorized the change—remains the next mystery.
 
 ## Development Roadmap
 
