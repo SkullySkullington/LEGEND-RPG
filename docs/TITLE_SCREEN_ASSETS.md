@@ -2,13 +2,15 @@
 
 ## Current direction
 
-The active title screen is rendered by `js/game.js`; it layers the committed landscape behind readable HTML title and menu controls. Do not add a second title replacement overlay. Keep one clear brand, one primary action, concise player context, and Settings/Profile secondary actions.
+The active production title screen is rendered by `js/game.js`; it layers the committed landscape behind a transparent, left-aligned hero and accessible HTML controls. Do not add a second title replacement overlay. Keep one clear brand, one primary action, concise player context, and Settings/Profile secondary actions.
 
 ## Stable art
 
 - `assets/generated/title/title-ashmere-road.webp` — 1536×857 cinematic title background, local and cache-independent.
-- `assets/ui/logos/logo_legend_emblem_v1.png` — existing emblem mark. The title text itself remains HTML, not baked into the image.
-- `css/title-menu-cleanup-v09x.css` — active cinematic layout and mobile behavior.
+- `assets/ui/logos/logo_legend_awakening_wordmark.svg` — full antique-gold LEGEND: The Awakening wordmark used on the title screen.
+- `assets/ui/icons/awakening-sigil.svg` — compact title insignia used in the top bar.
+- `css/title-screen-v135.css` — final cinematic layout and mobile behavior, loaded after earlier title passes.
+- `js/systems/assets-v090.js` — stable local manifest for the panorama, wordmark, and sigil.
 - `js/game.js` — active title rendering and menu actions.
 
 ## Behavior and QA
