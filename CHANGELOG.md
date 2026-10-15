@@ -1,3 +1,12 @@
+## v0.20.23 — The Moved Cairn
+- Added Captain Oric’s one-time side contract, The Moved Cairn, to the existing Side Stories & Road Contracts board.
+- Investigating the Ridgeway Cairn while on High Ridge now reveals a three-way decision: restore the old alignment, document both positions, or mark the hazard and step back.
+- Each choice is saved, becomes reportable for the contract reward, adds a journal memory, affects Oric’s follow-up dialogue, and changes what the player sees at the cairn on a later trip.
+- Added regression coverage for accepting the contract, discovering the shifted stone, choosing a response, turning in the report, and seeing the persistent callback.
+- Full Playwright and live story-path verification remain pending.
+
+---
+
 ## v0.20.22 — First Expedition Story Progression
 - Persisted the player's first secured Old Road route and optional discovery so returning to Ashmere can produce route-specific story responses.
 - Mara, Old Brenn, and Captain Oric now respond to the first expedition differently depending on whether the traveler took High Ridge or Reed Cut.
