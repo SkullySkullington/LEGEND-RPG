@@ -47,7 +47,6 @@ jobs:
           sudo apt-get install -y -qq webp
           mkdir -p assets/generated/npcs
           cwebp -quiet -q 86 /tmp/captain-oric-source.png -o assets/generated/npcs/captain-oric.webp
-          cwebp -info assets/generated/npcs/captain-oric.webp
           test -s assets/generated/npcs/captain-oric.webp
           file assets/generated/npcs/captain-oric.webp
           sha256sum /tmp/captain-oric-source.png assets/generated/npcs/captain-oric.webp
