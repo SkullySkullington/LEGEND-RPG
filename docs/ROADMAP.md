@@ -18,7 +18,15 @@ The first-session story spine links the dead lantern, first conversations in Ash
 
 ## High-priority design brief: Opening Experience
 
-The title screen and new-traveler journey are planned for a deliberate redesign after the current browser regressions are stabilized. The target is a living world presentation and roleplay-led character creation—not a bigger pile of form screens. See [OPENING_EXPERIENCE_REDESIGN.md](OPENING_EXPERIENCE_REDESIGN.md) for the player journey, in-world creation framing, technical constraints, and acceptance criteria. This is a design brief, not a claim that the redesign is implemented.
+The title screen and new-traveler journey were previously framed as a DOM-led redesign. The broader [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) now proposes proving a persistent animated game layer instead of indefinitely polishing screen-by-screen flows. See the isolated [Phaser reboot prototype](../prototypes/reboot/) for an experimental title scene, draft cinematic, battle feel test, and rune-training activity. This remains a separate experiment, not production gameplay.
+
+## Reboot direction — prototype before migration
+
+- [ ] Review [LEGEND_GAME_REBOOT_PLAN.md](LEGEND_GAME_REBOOT_PLAN.md) as the primary design proposal for the next phase.
+- [ ] Evaluate the [isolated Phaser prototype](../prototypes/reboot/) on desktop Chrome: loading, scene animation, combat feedback, rune training, sound toggle, and mobile layout.
+- [ ] Decide whether Phaser is sufficient for the target or whether a Godot proof is warranted before changing production dependencies.
+- [ ] Build one small playable slice with movement, an NPC interaction, a skill activity, one battle, and a persistent reward before migrating existing systems.
+- [ ] Keep the current build and saves intact until the new slice passes the acceptance tests.
 
 ## Next priorities
 
