@@ -2,6 +2,13 @@
 
 **Status:** Partly superseded proposal — subtitle/geography corrections remain useful; core mythology is superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
 **Purpose:** Preserve the useful subtitle/shared-geography correction while pointing to the new reboot direction. The Pale Surveyor/Hollow Mile story below is archived proposal material, superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
+## CURRENT DIRECTION UPDATE — KEEP THE GEOGRAPHY, CHANGE THE CENTRAL CONFLICT
+
+The shared-geography guidance in this document remains useful: Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended to belong to one connected first game, with places able to recur and change in later titles. However, the Pale Surveyor / Hollow Mile mythology is no longer the primary story direction. Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the current reference for the central conflict, monster ecology, magic, and regional escalation.
+
+The Old Road should be a real travel route with practical dangers and optional mysteries—not the master explanation for the world. The monster invasion and return of magic lead the larger plot. Bells, route marks, missing travelers, and altered records can remain a smaller investigation if supported by the existing clues. The exact relationship between that investigation and the awakening remains open.
+
+
 ## 1. The central correction
 
 **Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are regions and locations within the first LEGEND game. They are not separate game installments.** They should also recur across future titles.
@@ -30,7 +37,7 @@ The recommended working subtitle for the first game is:
 
 This is a working title and tagline, not an immutable brand decision. Names of source files, save keys, and old development posts may retain the earlier working title for compatibility and historical clarity. The visible product title should use the new subtitle consistently.
 
-## 3. The more cohesive dark-fantasy premise
+## 3. Legacy dark-fantasy premise (secondary proposal)
 
 The old road network was created to help distant communities survive a world where routes constantly change and authorities compete over which reports count. It joined four kinds of witness: the ground, the marker, the record, and the living traveler.
 
