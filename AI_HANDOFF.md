@@ -344,3 +344,14 @@ The current visible working subtitle is now **LEGEND: The Unquiet Road** (source
 Added [Series & Title Reframe](docs/LEGEND_SERIES_CONTINUITY_REFRAME.md). The revised proposal deepens the Pale Surveyor with the Hollow Mile and the disputed Unreturned: people or traces excluded by a supernatural route correction. This is **proposed lore, not locked canon**. The mystery must remain bounded to damaged old-road anchors, preserve human accountability, and not explain every monster or misfortune. The first game's proposed arc crosses all planned regions; later titles are organized by consequences and story eras rather than one region per installment.
 
 Title and documentation changes are committed, but the UI, regression tests, and GitHub Pages deployment still require browser verification. Do not claim v0.20.28 is fully tested/live-verified until that check succeeds.
+
+
+## Game reboot direction — 2026-10-15
+
+Read [docs/LEGEND_GAME_REBOOT_PLAN.md](docs/LEGEND_GAME_REBOOT_PLAN.md) before making further large gameplay or lore changes. Current production remains the existing browser RPG v0.20.28; this is a design/reboot phase, not authorization to remove the live game or invalidate saves.
+
+Created the isolated [Phaser proof of concept](prototypes/reboot/README.md), using existing local assets and audio plus a pinned Phaser 4.1.0 CDN build. It tests a moving title scene, a skippable cinematic concept, an animated battle with strike/guard/spell/retreat, and a rune-pattern training mini-game. It is separate from production and has no access to production save state. Verify the deployed preview and browser console before relying on it.
+
+Recommended direction: keep browser delivery, desktop-first with mobile compatibility, but replace the screen-by-screen runtime with a persistent 2D game layer if the prototype passes. Phaser is the first candidate; do not commit the production game to a migration until a complete small slice (movement, NPC interaction, skill activity, battle, persistent reward) proves enjoyable. Godot remains an alternative if a standalone desktop editor-driven workflow becomes more important.
+
+**Lore reset:** the previous Pale Surveyor / Hollow Mile cosmology is superseded as the default proposal, not canon. New working candidate: magic through the Veil and Five Arts; a world-level threat called the Hollow Saint tied to the Last Mercy and the Afterwake; Bells are ordinary Ashmere currency/civic signaling. These ideas are still proposals. Do not implement the Last Mercy as fact in dialogue until deliberately approved. Old NPC, culture, and region ideas may be retained after checking whether they still fit.
