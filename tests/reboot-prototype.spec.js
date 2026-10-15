@@ -137,12 +137,13 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
+    await page.locator('#classChoice').selectOption('Thief');
     await page.locator('#inventoryToggle').click();
     await expect(page.locator('#inventoryPanel')).toBeVisible();
-    await expect(page.locator('#inventoryPanel')).toContainText('120 Bells');
+    await expect(page.locator('#inventoryPanel')).toContainText('160 Bells');
     await page.locator('#inventoryPanel [data-weapon="woodenSword"]').click();
     await expect(page.locator('#inventoryPanel')).toContainText('Wooden Sword · EQUIPPED');
-    await expect(page.locator('#inventoryPanel')).toContainText('55 Bells');
+    await expect(page.locator('#inventoryPanel')).toContainText('95 Bells');
     await page.locator('#inventoryPanel [data-armor="clothArmor"]').click();
     await expect(page.locator('#inventoryPanel')).toContainText('Cloth Armor · EQUIPPED');
     await page.locator('#inventoryPanel #closeInventory').click();
@@ -156,7 +157,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#interactButton')).toBeEnabled({ timeout: 3000 });
     await page.locator('#interactButton').click();
     await page.locator('#inventoryToggle').click();
-    await expect(page.locator('#inventoryPanel')).toContainText('63 Bells');
+    await expect(page.locator('#inventoryPanel')).toContainText('23 Bells');
     await expect(page.locator('#inventoryPanel')).toContainText('Road Poultice');
     expect(pageErrors).toEqual([]);
   });
