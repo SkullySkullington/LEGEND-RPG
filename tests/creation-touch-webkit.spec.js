@@ -86,9 +86,78 @@ test('Mobile Safari can complete traveler creation with touch-stable choices', a
   });
   await expect(page.getByRole('heading',{name:'WebKitTouchQA',exact:true})).toBeVisible();
 
+  await page.evaluate(() => {
+    window.__ashmereHandoffQA = { events: [], buttonHandlerCalls: 0, renderCalls: 0, runtimeReturnCalls: 0 };
+    document.addEventListener('click', event => {
+      if (event.target?.closest?.('#v094Next')) {
+        window.__ashmereHandoffQA.events.push({
+          trusted:event.isTrusted, target:event.target?.tagName, targetId:event.target?.id || '',
+          defaultPrevented:event.defaultPrevented, phase:'capture'
+        });
+      }
+    }, true);
+    const button=document.getElementById('v094Next');
+    const originalButtonHandler=button?.onclick;
+    if(button&&originalButtonHandler){
+      button.onclick=function(event){
+        window.__ashmereHandoffQA.buttonHandlerCalls++;
+        return originalButtonHandler.call(this,event);
+      };
+    }
+    const controller=window.LegendAshmereV099;
+    if(controller?.renderAshmere){
+      const original=controller.renderAshmere;
+      controller.renderAshmere=function(){
+        window.__ashmereHandoffQA.renderCalls++;
+        window.__ashmereHandoffQA.renderStateBefore={
+          runtimePlayer:window.LegendRuntimeV080?.loadPlayer?.() ? {
+            username:window.LegendRuntimeV080.loadPlayer().username,
+            town:window.LegendRuntimeV080.loadPlayer().town,
+            currentRegion:window.LegendRuntimeV080.loadPlayer().currentRegion,
+            intro:window.LegendRuntimeV080.loadPlayer().flags?.introV094Complete
+          } : null,
+          rootBefore:document.getElementById('root')?.innerText?.slice(0,160)||''
+        };
+        return original.apply(this,arguments);
+      };
+    }
+    const runtime=window.LegendRuntimeV080;
+    if(runtime?.returnToAshmere){
+      const original=runtime.returnToAshmere;
+      runtime.returnToAshmere=function(){
+        window.__ashmereHandoffQA.runtimeReturnCalls++;
+        return original.apply(this,arguments);
+      };
+    }
+  });
+
   await step('enter-ashmere', '#v094Next', async () => {
     await page.locator('#v094Next').click({timeout:7000});
   });
+  await page.waitForTimeout(150);
+  const handoff = await page.evaluate(() => {
+    const rt=window.LegendRuntimeV080;
+    const pl=rt?.loadPlayer?.();
+    return {
+      qa:window.__ashmereHandoffQA,
+      rootText:document.getElementById('root')?.innerText?.slice(0,700)||'',
+      rootHTML:document.getElementById('root')?.innerHTML?.slice(0,700)||'',
+      townVisible:Boolean(document.querySelector('.ash100-town')),
+      introVisible:Boolean(document.querySelector('.v094-beginning')),
+      storageKey:window.LEGEND_DATA?.SAVE_KEY,
+      storedPlayer:pl?{
+        username:pl.username,town:pl.town,currentRegion:pl.currentRegion,
+        intro:pl.flags?.introV094Complete,flags:pl.flags?.tutorialStep
+      }:null,
+      available:{
+        legendAshmere:typeof window.LegendAshmereV099?.renderAshmere,
+        legendRuntime:typeof rt?.returnToAshmere,
+        legendTown:typeof window.LegendTownControllerV080?.renderTown,
+        beginning:typeof window.LegendBeginningV094
+      }
+    };
+  });
+  console.log('WEBKIT_ASHMERE_HANDOFF ' + JSON.stringify({handoff, errors}));
   await expect(page.locator('.ash100-town')).toBeVisible({timeout:7000});
   expect(errors).toEqual([]);
 });
