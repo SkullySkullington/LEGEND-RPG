@@ -1,4 +1,4 @@
-// LEGEND: Roads of Ashmere v0.20.26 - Cinematic title and game bootstrap
+// LEGEND: The Unquiet Road v0.20.28 - Cinematic title and game bootstrap
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -59,7 +59,7 @@
     return `<header class="portal-header">
       <div class="portal-brand">
         <img src="${esc(window.LegendAssetsV090?.logo?.emblemFull || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND emblem" onerror="this.style.display='none'">
-        <div><h1>LEGEND</h1><p>Roads of Ashmere</p><span>✧ Lantern Gate of Ashmere ✧</span></div>
+        <div><h1>LEGEND</h1><p>The Unquiet Road</p><span>✧ Lantern Gate of Ashmere ✧</span></div>
       </div>
       <div class="portal-profile-card">
         <span class="portal-crest" aria-hidden="true">◆</span>
@@ -152,7 +152,7 @@
         <div class="title-gate-border" aria-hidden="true"></div>
         <main class="title-gate-card">
           <h1 class="game-title">LEGEND</h1>
-          <p class="title-gate-subtitle">Roads of Ashmere</p>
+          <p class="title-gate-subtitle">The Unquiet Road</p>
           <p class="title-gate-kicker">✧ Ashmere Gate ✧</p>
           <button class="title-gate-prompt" id="enterRealm" type="button">Press Any Key to Enter Ashmere</button>
           <p class="title-gate-quote">The lantern gate opens for travelers, not heroes.</p>
@@ -221,8 +221,8 @@
           <section class="v120-title-hero">
             <div class="portal100-kicker">A WEATHERED STORYBOOK RPG</div>
             <h1>LEGEND</h1>
-            <h2>Roads of <em>Ashmere</em></h2>
-            <p>Ashmere is your refuge. The Old Road is uncertain. Prepare well, choose your path, and bring something home.</p>
+            <h2>The Unquiet <em>Road</em></h2>
+            <p>Ashmere is a refuge of tired lamps and hard bargains. Beyond its gate, the road has begun returning things no one remembers losing.</p>
             <div class="v120-divider"><span></span><b>THE ROAD REMEMBERS</b><span></span></div>
             <div class="v120-traveler-line">
               <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '✦'}</span>
