@@ -2,7 +2,7 @@
 
 **Status:** Proposed series canon; not locked  
 **Purpose:** Deepen the Pale Surveyor arc into a durable story architecture that can support multiple games, protagonists, side stories, and later adaptations without contradicting the first game.  
-**Use with:** [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
+**Use with:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **The central truth:** A road is more than a line on a map. It is a relationship maintained by the ground, the people who travel it, the signs they trust, and the records they leave behind. LEGEND's great evil begins when someone decides that a relationship is too dangerous to remain uncertain—and takes the power to dictate what everyone else must call true.
 
@@ -179,63 +179,27 @@ The Office is not the Pale Surveyor's puppet in every scene. It should have real
 
 The franchise must preserve the distinction between *a useful standard* and *an unchallengeable standard*. The ultimate answer is not to abolish records, engineering, or coordination. It is to maintain them with visible provenance, independent witnesses, a right of appeal, and copies that no single authority can quietly overwrite.
 
-## 6. How the mystery escalates without repeating the same game
+## 6. The first game and the wider series
 
-Each major installment should uncover a different consequence of the same ideology. The setting expands in subject, not just geographic size.
+The first game, under the recommended working subtitle **LEGEND: The Unquiet Road**, is intended to travel through all planned regions: Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. These are different acts within one continuous story, not separate releases. Each region dramatizes a new consequence of the same ancient failure.
 
-### I. Ashmere and Greyfen — access
+- **Ashmere — trust:** the player has to decide whom to trust when the traveler cannot account for the last mile.
+- **The Old Road — contradiction:** physical route evidence conflicts with markers and old instructions.
+- **Greyfen — authority:** a crossing is marked open without a valid closure order, causing a local danger and exposing the difference between a record and an accountable decision.
+- **Ironpass — dependency:** central standards genuinely protect travelers but can also make a settlement's survival depend on one corridor and one authority.
+- **Blackwood — memory:** independent oral and family histories preserve names and paths missing from official records.
+- **The Ruined March — erasure:** the Surveyor attempts its first broad alignment; the player interrupts the immediate catastrophe but does not cure every loss or destroy the Surveyor's will.
 
-**Local question:** Who changed the crossing's status, and who benefited?
+The first game's climax should stop a concrete operation and leave visible consequences. Some routes reopen; some people remain missing; communities disagree about how to repair the network; authorities must answer for what they did. Do not end with a lore reveal that makes the player's local victories irrelevant.
 
-The player compares the cairn, Blackroot mark, boundary stone, Reedwatch note, overwritten ledger, and earlier weekly return. The human cause of the immediate danger must remain grounded in the people and pressures already established by the first game.
+Future titles revisit the same places at later points in the shared timeline. The next story should not be “the Ironpass game” simply because Ironpass is a distinct region. A later release may be set partly in Ashmere, Greyfen, and the March together, depending on the conflict and which characters are central. Each sequel needs a new dramatic problem built from the previous title's consequences—not just another node to disable.
 
-**Deeper question:** How can the same road be closed in one source and open in another without a valid order?
+The longer series can move through three broad thematic arcs, with exact title count left open:
+1. **The missing:** families and communities pursue the truth about those taken or cut off by the Hollow Mile. The Surveyor exploits grief by promising their return.
+2. **The reckoning:** Aren Vey's choices, Ivara's resistance, and the institutions that hid the losses are judged through several independent sources. Understanding the original wound does not absolve the harm.
+3. **The final measure:** the Surveyor attempts to make one account permanent. The world must choose between centralized certainty and a dangerous but accountable network maintained by many local keepers.
 
-The first game resolves the immediate crossing crisis, records the evidence in independent places, and establishes that the correction pattern predates the current dispute. It does not name the Pale Surveyor or prove that every person involved knowingly served an ancient will.
-
-**Required payoff:** The player understands the difference between a physical warning and an official instruction. The local consequences of their route choices still matter.
-
-### II. Ironpass — dependency
-
-**Local question:** Who controls access when a mountain pass becomes the only officially recognized supply route?
-
-Ironpass's mines, freight roads, and exposed passes make standardization attractive. The Office of Measure improves the timing and safety of most shipments, while a single newly approved corridor makes outlying communities dependent on whoever controls its gates.
-
-The player discovers that a route can be made powerful politically before its supernatural effects are visible. Whoever defines the approved corridor can decide which mine gets supplies, which village pays more, whose testimony is heard, and which local road is allowed to remain maintained.
-
-**Reveal:** Several unrelated regions are using procedures that reproduce the same old correction pattern. The Office did not invent the underlying system. The title “Pale Surveyor” appears in a damaged archive or instruction attached to a synchronized node.
-
-**Required payoff:** Ironpass's immediate material conflict is settled even though the identity and original purpose of the Surveyor remain uncertain. The player learns that destroying one node will not destroy a network whose authority has been copied into ordinary institutions.
-
-### III. Blackwood — memory and identity
-
-**Local question:** What survives when a community's history is kept in more than one form?
-
-Blackwood's routes rely on oral directions, seasonal landmarks, family records, local names, and overlapping versions of the same story. These are not infallible or quaintly magical. They can be biased, incomplete, and disputed. Their strength is redundancy: no single copied record contains the whole community's knowledge.
-
-The Surveyor's system tries to turn that plural archive into one official account. The player encounters two incompatible histories in which each contains true evidence and a consequential omission.
-
-**Reveal:** The Long Severance, the Seven-Wagon Dispatch, Aren Vey's decision, and the original purpose of the warning bell come into view. The player learns that the network did not become coercive because its creator wanted destruction; it became coercive because its creator would not accept accountability for a choice made under uncertainty.
-
-**Required payoff:** The Surveyor becomes understandable without becoming innocent. The player gains a practical way to resist correction: preserve multiple independent versions, including the uncomfortable version that shows who made the original decision.
-
-### IV. The Ruined March — authority
-
-**Local question:** What happens when a disputed border is made indisputable by the only map an army is willing to recognize?
-
-The Ruined March turns the route system into a problem of borders, military logistics, refugees, and historical claims. The master map could make travel across the region more orderly, but it would also decide which settlements count, which roads remain available, and whose evidence is legally invisible.
-
-The Surveyor attempts a final alignment at the oldest network node. The goal is not to destroy every place outside the map in one magical blast. It is to eliminate the network's ability to recognize alternatives: every linked marker, ledger, and institution would accept the same master version.
-
-**Final reveal:** The Surveyor cannot complete alignment through supernatural force alone. It needs the human world to keep treating its record as final. The system's weakness is the same as its origin: it depends on people and institutions repeating a claim after the evidence contradicts it.
-
-**Required payoff:** The player and allies do not replace the Surveyor with a kinder master map. They break the central authority and rebuild the route network as a distributed system whose records can disagree openly, whose corrections preserve the former version, and whose warnings can stop a journey without dictating a single approved answer.
-
-### Stories after the central saga
-
-A later game can follow another traveler, a former Office surveyor, a ferryman, a courier, or a community restoring a road. The central saga can be complete even while its social consequences continue. The recurring question remains relevant: when the records disagree, who gets heard, and what does it cost to find out?
-
-The Surveyor should not return as a copy of the same villain after the main arc. Later stories can explore the human temptation to rebuild unchallengeable authority without implying that the original enemy secretly survived every ending.
+Every future title should alter familiar locations, local rules, public memory, and relationships. Returning to a town should feel like returning to a place that lived through the last story.
 
 ## 7. The first game's clue architecture
 
@@ -364,3 +328,29 @@ Use the Pale Surveyor as a strong **proposed** long-range antagonist, but do not
 The franchise-scale story will become deeper because the small story is specific. One unsigned correction at one crossing should carry the same moral shape as the Seven-Wagon Dispatch centuries ago. Later, Ironpass, Blackwood, and the Ruined March can reveal increasingly consequential versions of that same choice.
 
 **The saga's guiding line:** *A map should help people find their way. It should never be allowed to decide who is real, whose warning counts, or which loss must be forgotten.*
+
+
+## 14. The Hollow Mile: the dark consequence of correction
+
+**Status:** Proposed addition to the mythology; not established canon.
+
+The Hollow Mile is the name later travelers give to the shadow-passage that can form at a damaged old-road anchor when the network forces a route to agree with an account that contradicts the ground or living testimony. It is not a new continent, an ordinary dungeon, or a portal the player can open on command. It is a failure of passage: a place remains physically real, yet the route that connected it to the rest of the world no longer reliably holds.
+
+A person caught in a full correction might lose hours, return without the memory of a turn, hear a voice on a road with no one on it, or fail to come back. Some traces that persist along the abandoned path may be echoes. Others may be evidence that a living traveler is stranded somewhere the network no longer knows how to reach. In-world people call these cases “the Unreturned,” but this is a disputed term, not a precise scientific or religious category. Cold-blue lights may sometimes be remnants associated with such passages; not every Wisp or blue light is automatically part of the Hollow Mile.
+
+The Surveyor's horror is partly that it believes it can reclaim every missing passage by making the records complete. It can preserve a route, a name, or an echo while still failing to restore the person who lived the journey. Its promise of rescue keeps people cooperating with a process that can take more people from their families.
+
+### The rules that keep it coherent
+
+1. The effect requires an existing old-road anchor and a correction under pressure; it cannot happen at arbitrary locations.
+2. A correction must have a traceable human and institutional process: a marker is moved, a warning is suppressed, or an official order is accepted as final. The supernatural amplifies the act but does not erase responsibility.
+3. It affects passage, access, and reliable memory around a linked route before it affects anything else. It does not create matter, resurrect the dead perfectly, or delete bodies at will.
+4. Independent witnesses, preserved copies, physical landmarks, and local testimony can reveal the missing route and help interrupt a correction. They do not guarantee a rescue.
+5. The player can rescue individuals or reopen a path, but each rescue requires investigation, access, and consequence. No one spell repairs every loss.
+6. Keep ambiguity where evidence genuinely remains incomplete. A blue light may be a remnant in one scene and a separate phenomenon in another. Any classification should be earned through comparison.
+
+### The intended dark themes
+
+The Hollow Mile makes the Surveyor's ideology concrete: a government can fail to recognize a village; a family can be told that a missing person was never assigned to a route; a clerk can close a file while someone is still looking for the traveler. The supernatural horror grows from the human decision to make a record more real than the person it describes.
+
+The tone should remain dark fantasy rather than empty grimness. A remembered name, a lamp kept burning, a road repaired by neighbors, or a witness finally believed is a real act of resistance. Hope is work, not a reset button.
