@@ -898,10 +898,7 @@
         toast('Brenn: “Bring me proof the raids are organized. The road is not safe by accident.”');
         this.sfx('confirm', .5);
       } else if (target.id === 'scout') {
-        if (!state.questAccepted) {
-          toast('The scout is too dangerous to pursue without a commission. Find Roadwarden Brenn first.');
-          return;
-        }
+        if (!state.questAccepted) toast('You confront the scout without Brenn’s commission. The roadwarden will still want your report.');
         state.scoutEngaged = true;
         this.sfx('confirm', .7);
         showMode('combat');
@@ -920,8 +917,9 @@
       const state = this.explorationState || { bells: 0, xp: 0, potions: 0, cacheFound: false, shrineInspected: false, scoutDefeated: false };
       $('#debriefSummary').textContent = state.scoutDefeated
         ? 'Brenn studies the charcoal mark, then folds the report shut. “That is enough to warn the gate. It is not enough to know who commands them.” Your first commission is complete.'
-        : state.scoutDefeated
-        ? 'The scout carried a charcoal warband mark—not proof of the force behind the attacks, but the first sign that these raids may be coordinated. Ashmere needs to know.'
+        : 'The scout carried a charcoal warband mark—not proof of the force behind the attacks, but the first sign that these raids may be coordinated. Ashmere needs to know.';
+      /*
+      $('#debriefSummary').textContent = state.scoutDefeated
         : 'You return to Ashmere before the expedition is complete. The road will still be there when you are ready.';
       $('#debriefRewards').textContent = '+' + state.xp + ' XP  ·  ' + state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic recovered' : ' Tonics recovered');
       const findings = [];
