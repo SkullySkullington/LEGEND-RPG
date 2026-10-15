@@ -1,3 +1,10 @@
+## 2026-10-15 — Narrative direction: Monster Wars & the Awakening
+- Added `docs/LEGEND_FANTASY_RPG_DIRECTION.md` as the current preferred reference for a fantasy RPG centered on monster incursions, returning magic, regional conflicts, and an unknown awakening.
+- Reconciled the existing world bible, first-session spine, mystery/story arc, series mythology, deep canon, continuity reframe, culture atlas, character compendium, and franchise strategy with the new direction.
+- Preserved existing Ashmere characters, regions, mechanics, and the implemented bell/route evidence chain as continuity; the evidence remains a local investigation and does not automatically prove the larger awakening.
+- Demoted the Pale Surveyor, Hollow Mile, and related route-network cosmology from primary franchise mythology to legacy proposals/optional secondary lore pending review.
+- Documentation-only change. No gameplay code, saves, currencies, or runtime systems were changed. Planned regions and magic systems are not being represented as implemented.
+
 ## v0.20.28 — The Unquiet Road title & continuity reframe
 - Change the visible working subtitle from “Roads of Ashmere” to “The Unquiet Road” so the title fits the shared geography beyond Ashmere.
 - Clarify that Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended regions within the first game, not separate installments; future titles revisit these places at later points in the shared timeline.
