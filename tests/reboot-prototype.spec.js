@@ -131,4 +131,34 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#trainingResult')).toContainText('Rune Craft mastery +1');
     expect(pageErrors).toEqual([]);
   });
+  test('inventory buys production weapons and armor and expedition loot updates the pack', async ({ page }) => {
+    const pageErrors = [];
+    page.on('pageerror', error => pageErrors.push(error.message));
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
+    await page.locator('#inventoryToggle').click();
+    await expect(page.locator('#inventoryPanel')).toBeVisible();
+    await expect(page.locator('#inventoryPanel')).toContainText('120 Bells');
+    await page.locator('#inventoryPanel [data-weapon="woodenSword"]').click();
+    await expect(page.locator('#inventoryPanel')).toContainText('Wooden Sword · EQUIPPED');
+    await expect(page.locator('#inventoryPanel')).toContainText('55 Bells');
+    await page.locator('#inventoryPanel [data-armor="clothArmor"]').click();
+    await expect(page.locator('#inventoryPanel')).toContainText('Cloth Armor · EQUIPPED');
+    await page.locator('#inventoryPanel #closeInventory').click();
+    await page.evaluate(() => window.LegendRebootPrototype.exploration());
+    await page.keyboard.down('ArrowRight');
+    await page.waitForTimeout(560);
+    await page.keyboard.up('ArrowRight');
+    await page.keyboard.down('ArrowUp');
+    await page.waitForTimeout(240);
+    await page.keyboard.up('ArrowUp');
+    await expect(page.locator('#interactButton')).toBeEnabled({ timeout: 3000 });
+    await page.locator('#interactButton').click();
+    await page.locator('#inventoryToggle').click();
+    await expect(page.locator('#inventoryPanel')).toContainText('63 Bells');
+    await expect(page.locator('#inventoryPanel')).toContainText('Road Poultice');
+    expect(pageErrors).toEqual([]);
+  });
+
 });
