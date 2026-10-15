@@ -236,3 +236,10 @@ Use the series arc to coordinate future reveals. Keep local conflicts and ordina
 The companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) expands the proposed Pale Surveyor arc into a shared framework for the road network's rules, the original historical failure, the modern institution, the long-range game structure, and continuity across player choices.
 
 **Status:** Proposed, not locked canon. It introduces additional working names and events—including Aren Vey, Ivara, the Seven-Wagon Dispatch, and the Four Witnesses—that must not be presented as established facts until deliberately approved. Its most important design constraint is that the network influences routes and access through linked anchors and human compliance; it is not a limitless power that explains every supernatural event.
+
+
+## 19. Character and cultural continuity companions
+
+The [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md) deepens the established Mara Vell, Old Brenn, Captain Oric, and Sella Marr while proposing new supporting characters and personal quest arcs across Ashmere, Greyfen, and future regions. The [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md) expands the regions' histories, civic customs, livelihoods, folk beliefs, seasonal practices, and public institutions.
+
+**Status:** Both companions are proposed expansions, not locked canon. New names, biographies, institutions, customs, and historical details should be checked against current source dialogue and assets before implementation. Keep at least half of local story conflicts independent of the Pale Surveyor, and do not make a character's full life secretly revolve around the Bell mystery.
