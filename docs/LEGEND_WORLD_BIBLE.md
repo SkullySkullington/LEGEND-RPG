@@ -70,7 +70,7 @@ Its first planned identity includes Reedgate landing, the Silted Cup, Float Mark
 
 The signature contract **A Dry Crossing** is established in the design: follow old posts for a safer, slower approach, or attempt a riskier reed-bed shortcut. The route marker and the changed route are story hooks, not just rewards.
 
-### Further regions
+### Shared geography and intended first-game scope
 **Intended first-game geography:** Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are all regions and locations intended to be explored in the first LEGEND game. They are not separate game installments. Ashmere and Greyfen have the current implementation foundations; Ironpass, Blackwood, and the Ruined March remain in-development and must not be described as playable until their hubs, stories, and tests exist. Future titles will revisit these same locations as the world changes, rather than treating each region as a separate sequel.
 
 ## 5. The central mystery: bells, lanterns, and the road
