@@ -4,7 +4,7 @@
 - The Bell That Rang Once quest log now advances from the first return to inspecting the bell-marked seal at Blackroot Bend; recording the seal adds a persistent memory and points the player back to Mara, then toward Greyfen's boundary records.
 - Added Playwright regression coverage for both first-return branches and the Blackroot Bend clue progression.
 - Added docs/LEGEND_MYSTERY_AND_STORY_ARC.md and linked it from the world bible and Ashmere story spine. The hidden-truth proposal remains unapproved and is not treated as locked canon.
-- Browser regression suite and live deployment verification are pending; do not claim the new dialogue or quest callbacks are deployed until verified.
+- Live GitHub Pages smoke confirmed title/footer v0.20.22 and a complete High Ridge expedition return without console errors. The specific new story callback path and the full Playwright suite remain unverified.
 
 ---
 
