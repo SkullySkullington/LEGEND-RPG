@@ -12,7 +12,6 @@ permissions:
 
 jobs:
   import:
-    if: startsWith(github.event.head_commit.message, 'chore: stage Runway Oric asset import')
     runs-on: ubuntu-latest
     steps:
       - name: Check out import branch
