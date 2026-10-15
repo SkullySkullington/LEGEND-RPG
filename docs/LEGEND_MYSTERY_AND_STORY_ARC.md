@@ -264,3 +264,10 @@ The discovery establishes alteration, not authorship or motive. Keep those unkno
 **Source implementation added in v0.20.25; regression verification pending.** After the Greyfen Boundary Archive comparison, the Reedwatch Shelter locker can reveal a field note dated two days after the flood's retreat was logged. Returning to Mara records the timing, and Old Brenn then confirms that two Greyfen crossing destinations were rewritten in a later hand. The current journal objective points to an earlier weekly route return.
 
 This trail narrows the timing of the alteration but does not identify its author or motive. The next quest should locate the earlier route return and use it to establish which routes were officially closed, who signed the record, and what evidence is needed to distinguish a genuine closure order from a later alteration.
+
+
+## Implementation note — The Earlier Weekly Return
+
+**Source implementation added in v0.20.26; regression verification pending.** When Brenn's overwritten-ledger clue is known, Wayfarer's Camp can reveal an earlier weekly return marking the lower crossing closed pending inspection before an unsigned open correction. Recovering it advances to Brenn; his comparison advances to Mara, who files the evidence and leaves the missing closure order as the next lead.
+
+This closes the first evidence-filed chapter while keeping authorship unresolved. The next playable chain should look for the missing closure order rather than repeat the same “someone changed the marker” discovery in another location.
