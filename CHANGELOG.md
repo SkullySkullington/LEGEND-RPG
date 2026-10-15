@@ -1,3 +1,12 @@
+## v0.20.24 — A Mark Beneath the Mark
+- Extended the Bell quest from the Blackroot seal to the existing Greyfen Boundary Stone. Once Blackroot evidence is known, the Greyfen discovery presents a matching bell-mark beneath a newer cut pointed toward the reed bed.
+- Inspecting the Greyfen mark records a persistent memory and advances the quest log to Mara’s Boundary Archive.
+- Mara’s Greyfen dialogue now acknowledges the comparison, records both layers as evidence, and gives the next objective: find a dated record or physical sign that establishes when the newer cut was made.
+- Added regression coverage for the Blackroot-to-Greyfen field evidence and archive callback; the test suite also covers The Moved Cairn decision surviving a reload.
+- Full Playwright and live story-path verification are pending. The live browser attempt currently fails before the page loads with \`ERR_TUNNEL_CONNECTION_FAILED\`; no game failure has been confirmed.
+
+---
+
 ## v0.20.23 — The Moved Cairn
 - Added Captain Oric’s one-time side contract, The Moved Cairn, to the existing Side Stories & Road Contracts board.
 - Investigating the Ridgeway Cairn while on High Ridge now reveals a three-way decision: restore the old alignment, document both positions, or mark the hazard and step back.
