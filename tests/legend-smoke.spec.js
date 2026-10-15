@@ -47,12 +47,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.22 browser regression tests', () => {
+test.describe('LEGEND v0.20.23 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.22/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.22');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.22');
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.23');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.23');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -632,6 +632,63 @@ test.describe('LEGEND v0.20.22 browser regression tests', () => {
     expect(result.route).toBe('reeds');
     expect(result.discovery).toBe('marsh-watcher-tracks');
     expect(result.objective).toMatch(/Blackroot Bend/i);
+  });
+
+  test('The Moved Cairn offers three decisions, can be reported, and changes future route clues', async ({ page }) => {
+    await startFreshCharacter(page, 'MovedCairnQA');
+    await page.evaluate(() => window.LegendAshmereV099.route('quests'));
+    await expect(page.locator('.ash099-contract-card')).toHaveCount(4);
+    await page.locator('[data-contract-accept="movedCairn"]').click();
+
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeRidge').click();
+    await page.locator('#push').click();
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/One stone sits outside a weathered groove/i);
+    await page.locator('#poiInspect').click();
+    await expect(page.locator('.exp100-moved-cairn')).toContainText(/Restore the older alignment/i);
+    await expect(page.locator('.exp100-moved-cairn')).toContainText(/Record both positions/i);
+    await expect(page.locator('.exp100-moved-cairn')).toContainText(/Mark the hazard and step back/i);
+    await page.locator('[data-moved-cairn="record"]').click();
+    await expect(page.locator('.exp100-head')).toContainText(/Both alignments are recorded/i);
+
+    const choice = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        decision: pl.flags.sideContracts.movedCairn.decision,
+        memory: pl.memories.some(m => /recorded both the shifted stone/i.test(m))
+      };
+    });
+    expect(choice.decision).toBe('record');
+    expect(choice.memory).toBe(true);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('quests'));
+    await expect(page.locator('[data-contract-turnin="movedCairn"]')).toBeVisible();
+    await page.locator('[data-contract-turnin="movedCairn"]').click();
+    await expect(page.locator('.ash099-contract-completed')).toContainText(/Recorded in Journal/i);
+    const turnedIn = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        outcome: pl.flags.highRidgeCairnOutcome,
+        complete: pl.flags.sideContracts.movedCairn.complete,
+        herbs: Number(pl.inventory.roadHerb || 0)
+      };
+    });
+    expect(turnedIn.outcome).toBe('record');
+    expect(turnedIn.complete).toBe(true);
+    expect(turnedIn.herbs).toBeGreaterThanOrEqual(1);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('oric'));
+    await expect(page.locator('.ash099-lines')).toContainText(/You recorded both alignments/i);
+
+    await page.evaluate(() => window.LegendAshmereV099.route('routes'));
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#routeRidge').click();
+    await page.locator('#push').click();
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Chalk marks preserve both positions/i);
+    await expect(page.locator('.exp100-moved-cairn')).toHaveCount(0);
   });
 
   test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
