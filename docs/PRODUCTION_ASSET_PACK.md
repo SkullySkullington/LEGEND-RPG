@@ -77,3 +77,20 @@ The original 25-image production set is already committed locally (see the impor
 - The Trading Post uses Buy/Sell tabs and local item art; the Blacksmith leads with equipped gear and local weapon/shield art; Character Sheet is now a Traveler profile with portrait, vitals, loadout, and pack inventory.
 - Full desktop and 390px mobile visual review remains outstanding. The deployed site was unreachable from the isolated browser due to `ERR_TUNNEL_CONNECTION_FAILED`, so no live-screen check is claimed.
 - Do not call the art pack fully signed off until scene crops, icon semantics/centering, contrast, image loading/fallbacks, file size, and the Playwright smoke suite have been checked.
+
+
+## Follow-up generation — v0.20.29: Greyfen, skills, equipment and services
+
+The latest generated-art intake is now imported into stable local WebP files by the repository workflow. The importer also supports optional 3×3 atlas slicing: each listed grid is converted into a high-quality atlas plus individual 512px (or source-limited) icon crops, so individual UI and inventory assets can be used without loading a whole sprite sheet.
+
+| Category | Stable paths |
+|---|---|
+| Town/service icons | `assets/generated/ui/town-service-icon-atlas.webp` and individual assets under `assets/generated/ui/icons/` |
+| Magic/skills | `assets/generated/skills/skills-icon-atlas.webp` and individual assets under `assets/generated/skills/icons/` |
+| Equipment/materials | `assets/generated/items/equipment-materials-atlas.webp`, equipment under `assets/generated/items/equipment/`, materials under `assets/generated/items/materials/` |
+| Greyfen marsh route scene | `assets/generated/locations/greyfen-marsh-walkway.webp` |
+| New bestiary portrait | `assets/generated/enemies/mirebound-sentinel.webp` |
+
+The stable runtime manifest in `js/systems/assets-v090.js` exposes these paths; the Greyfen marsh scene is registered separately from the Greyfen town hub. The Inn action cards now use the new Inn, milestone, and journal illustrations. The new enemy portrait is searchable through the existing name-to-art mapping and is available for a Mirebound Sentinel encounter.
+
+**Verification still required:** visually inspect the full atlas grids and individual crops, especially how their charcoal backgrounds read against UI panels; check at 1440×900 and 390px; verify image failure fallbacks and run the Playwright smoke suite. Registration and automated import are complete, but that does not constitute full visual sign-off or mean every skills icon is already used by a playable skills screen.
