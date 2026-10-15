@@ -154,3 +154,16 @@ This packet keeps future work consistent and makes collaboration easier.
 7. Use the canon bible to plan the first major reveal and deliberately keep some questions for later.
 
 This order keeps the IP ambition connected to a game people can actually play and remember.
+
+
+## 8. Proposed connected saga: The Pale Surveyor
+
+The companion [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md) is a proposed franchise-level antagonist and reveal plan. It builds around an enemy who seeks to eliminate uncertainty by forcing roads, records, and communities to agree with one master map. That premise ties the Bell, route markers, contradictory ledgers, and later regional conflicts into a single saga while preserving distinct local stories.
+
+The proposed escalation uses the planned regions as narrative opportunities:
+- **Ashmere and Greyfen:** prove that route markers and records have been deliberately altered; resolve a local crisis without naming the full enemy.
+- **Ironpass:** discover the institutional and economic costs of standardizing every route, and encounter the title of the Pale Surveyor.
+- **Blackwood:** uncover the original road network's protective purpose and the creator's choice to turn it coercive.
+- **The Ruined March:** confront the master network and decide how to preserve connection without giving one map authority over every community.
+
+These beats are not fixed release commitments. They should guide foreshadowing and continuity while the first game remains the production priority. The central idea can be approved or revised before names, timelines, and faction details become canon.
