@@ -86,6 +86,13 @@ test('Mobile Safari can complete traveler creation with touch-stable choices', a
   });
   await expect(page.getByRole('heading',{name:'WebKitTouchQA',exact:true})).toBeVisible();
 
+  // The confirmation button creates the traveler and opens the intro. It is not the
+  // Enter Ashmere button; that appears on the following intro screen.
+  await step('begin-road', '#v094Next', async () => {
+    await page.getByRole('button',{name:/Begin the Road/i}).click({timeout:7000});
+  });
+  await expect(page.getByRole('button',{name:/Enter Ashmere/i})).toBeVisible();
+
   await page.evaluate(() => {
     window.__ashmereHandoffQA = {
       events: [], buttonHandlerCalls: 0, renderCalls: 0, runtimeReturnCalls: 0,
