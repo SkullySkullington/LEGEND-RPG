@@ -322,6 +322,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
     const greyfen=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Greyfen', exact: true }) });
     const ironpass=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Ironpass', exact: true }) });
+    await expect(greyfen.locator('.reg100-card-scene img')).toHaveAttribute('src', /greyfen-marsh-walkway\\.webp/);
+    await expect.poll(() => greyfen.locator('.reg100-card-scene img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect(greyfen.locator('[data-unlock="Greyfen"]')).toBeVisible();
     await expect(ironpass).toContainText('Requires Greyfen first');
     await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
