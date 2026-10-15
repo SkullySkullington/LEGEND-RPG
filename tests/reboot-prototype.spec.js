@@ -14,6 +14,8 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('h1')).toHaveText('LEGEND');
     await expect(page.locator('.subtitle')).toHaveText('The Unquiet Road');
     await expect(page.locator('#beginButton')).toBeVisible();
+    await expect(page.locator('#classChoice option')).toHaveCount(6);
+    await expect(page.locator('#classSummary')).toContainText('110 HP');
     await expect(page.locator('#combatButton')).toBeVisible();
     await expect(page.locator('#runeButton')).toBeVisible();
     await expect(page.locator('#game-container canvas')).toHaveCount(1);
@@ -30,7 +32,9 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
     await expect(page.locator('#combatButton')).toBeVisible();
+    await page.locator('#classChoice').selectOption('Warrior');
     await page.locator('#combatButton').click();
+    await expect(page.locator('#heroHpText')).toHaveText('140 / 140');
     await expect(page.locator('#combat-panel')).toHaveClass(/active/);
     await expect(page.locator('#battleLog')).toBeVisible();
 
