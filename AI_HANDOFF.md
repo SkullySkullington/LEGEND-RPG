@@ -2,7 +2,7 @@
 
 Last updated: 2026-10-15. Read this file before changing code, and update it when project status changes.
 
-## Production title refresh — v0.20.30
+## Production title refresh — v0.20.31
 The title screen now uses **LEGEND: The Awakening** and foregrounds **Monster Wars & the Awakening**: monsters gathering beyond borders, ancient magic returning, and a wider world beyond Ashmere. The production title layout is landscape-led, uses a new dedicated CSS layer (`css/title-awakening-v130.css`), and retains the existing Continue/New Traveler/Profile/Settings actions and save key. This is a title/presentation change only; it does not claim future regions or the new magic/combat systems are already playable. Browser regression and live deployment still need verification.
 
 
@@ -354,18 +354,18 @@ Updated `docs/LEGEND_WORLD_BIBLE.md`, `docs/LEGEND_DEEP_CANON_FOUNDATION.md`, `d
 
 ## 2026-10-15 — Series continuity and working subtitle reframe
 
-The current visible working title is **LEGEND: The Awakening** (source build label v0.20.30). The opening screen now leads with the Monster Wars / returning-magic direction instead of treating the Old Road as the world's central mystery. The title is a working identity and remains open to future creative revision.
+The current visible working title is **LEGEND: The Awakening** (source build label v0.20.31). The opening screen now leads with the Monster Wars / returning-magic direction instead of treating the Old Road as the world's central mystery. The title is a working identity and remains open to future creative revision.
 
 **First-game geography correction:** Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended regions of the first game, not separate future games. Ashmere and Greyfen are the current source foundations; Ironpass, Blackwood, and the Ruined March remain in-development, so do not describe them as playable until their regions, story, and tests exist. Future titles should revisit the same geography after events have changed its people, laws, routes, and memories.
 
 Added [Series & Title Reframe](docs/LEGEND_SERIES_CONTINUITY_REFRAME.md). The revised proposal deepens the Pale Surveyor with the Hollow Mile and the disputed Unreturned: people or traces excluded by a supernatural route correction. This is **proposed lore, not locked canon**. The mystery must remain bounded to damaged old-road anchors, preserve human accountability, and not explain every monster or misfortune. The first game's proposed arc crosses all planned regions; later titles are organized by consequences and story eras rather than one region per installment.
 
-The v0.20.30 Awakening title refresh is committed to source. The title regression assertions were updated; run the browser suite and verify GitHub Pages before calling the redesign live or fully tested.
+The v0.20.31 Awakening title refresh is committed to source. The title regression assertions were updated; run the browser suite and verify GitHub Pages before calling the redesign live or fully tested.
 
 
 ## Game reboot direction — 2026-10-15
 
-Read [docs/LEGEND_GAME_REBOOT_PLAN.md](docs/LEGEND_GAME_REBOOT_PLAN.md) before making further large gameplay or lore changes. Current production remains the existing browser RPG v0.20.30; the title refresh preserves the existing save key and gameplay flow. Any game-layer migration still requires a proven separate build and save-compatibility plan.
+Read [docs/LEGEND_GAME_REBOOT_PLAN.md](docs/LEGEND_GAME_REBOOT_PLAN.md) before making further large gameplay or lore changes. Current production remains the existing browser RPG v0.20.31; the title refresh preserves the existing save key and gameplay flow. Any game-layer migration still requires a proven separate build and save-compatibility plan.
 
 Created the isolated [Phaser proof of concept](prototypes/reboot/README.md), using existing local assets and audio plus a pinned Phaser 4.1.0 CDN build. It tests a moving title scene, a skippable cinematic concept, an animated battle with strike/guard/spell/retreat, and a rune-pattern training mini-game. It is separate from production and has no access to production save state. Verify the deployed preview and browser console before relying on it.
 
