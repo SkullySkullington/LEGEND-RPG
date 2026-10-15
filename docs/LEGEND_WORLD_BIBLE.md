@@ -1,14 +1,23 @@
 # LEGEND — World & Story Bible
 
-**Document status:** Working canon reference, version 1.0  
+**Document status:** Working canon reference, version 1.1 — fantasy RPG direction reconciliation in progress  
 **Scope:** The shared world of LEGEND, beginning with *LEGEND: The Unquiet Road* (recommended working subtitle)  
 **Purpose:** Give future games, stories, art, audio, and adaptations one consistent foundation.
 
 This is an internal production document, not an in-world encyclopedia. It records what the current game and design documents establish, distinguishes open mysteries from facts, and gives future additions a continuity check.
 
+## CURRENT DIRECTION OVERRIDE — MONSTER WARS & THE AWAKENING
+
+**This is the current preferred creative direction.** Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the primary reference when interpreting this bible. LEGEND is a dark fantasy RPG about a spreading monster incursion, the return of old magic, regional conflicts, and a deeper power that may be awakening. The world must offer tangible adventure—monsters, dungeons, factions, exploration, crafting, training, and meaningful regional stories—before it asks the player to solve a supernatural mystery.
+
+This direction supersedes the earlier road/map-centered mythology as the primary franchise explanation. Bells, lanterns, route markers, cairns, ledgers, and the Old Road remain established motifs and useful story objects, but they do **not** explain every mystery or every monster. The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey, and Ivara are legacy proposals, not approved central canon. They may be retained as optional or secondary lore only after review.
+
+**Reconciliation rule:** preserve implemented facts and character identities; reframe clues only where their observed evidence supports it; demote or retire repetitive abstractions; keep the origin of the awakening and its relationship to the invasion open until the arcs have been reconciled. This is a narrative documentation change; it does not by itself change game code or imply that planned regions/systems are implemented.
+
+
 ## 1. The franchise promise
 
-LEGEND is grounded dark medieval fantasy about ordinary people living beside a road that may be carrying something older and stranger than anyone understands. It is about journeys, hard choices, small communities, found clues, and the cost of going farther than safety allows.
+LEGEND is grounded dark fantasy RPG about a frontier world under pressure from monster incursions while old magic returns. It combines practical adventure—dangerous expeditions, creatures, ruins, factions, training, crafting, and regional conflicts—with a slowly unfolding mystery about what is driving the upheaval. Roads and journeys remain part of the world, but are not its sole identity or central cosmology.
 
 **Player promise:** Prepare in a place that feels human, leave it for somewhere uncertain, make choices that change the journey, and return with more than loot: bring back evidence, relationships, and a different understanding of the world.
 
@@ -73,7 +82,7 @@ The signature contract **A Dry Crossing** is established in the design: follow o
 ### Shared geography and intended first-game scope
 **Intended first-game geography:** Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are all regions and locations intended to be explored in the first LEGEND game. They are not separate game installments. Ashmere and Greyfen have the current implementation foundations; Ironpass, Blackwood, and the Ruined March remain in-development and must not be described as playable until their hubs, stories, and tests exist. Future titles will revisit these same locations as the world changes, rather than treating each region as a separate sequel.
 
-## 5. The central mystery: bells, lanterns, and the road
+## 5. Established motifs and the early mystery: bells, lanterns, and the road
 
 ### Established elements
 - The first major quest is titled **The Bell That Rang Once**.
@@ -84,7 +93,7 @@ The signature contract **A Dry Crossing** is established in the design: follow o
 - Greyfen’s route has changed after the water rose, according to its early story hooks.
 
 ### Current interpretation
-These elements appear to belong to a shared mystery around memory, routes, warnings, and the reliability of what a place seems to remember. This connection is a useful narrative through-line, **not a locked explanation**.
+These elements support an early investigative thread about warnings, route safety, conflicting evidence, and possible human concealment. They may eventually intersect with the larger monster incursion or returning magic, but that connection is **not established**. They are not the explanation for the whole setting.
 
 ### Questions deliberately left open
 1. What rang once, and who heard it?
@@ -222,16 +231,16 @@ The v0.20.26 source adds the earlier weekly route return to the Wayfarer's Camp 
 Brenn compares this return with the rewritten ledger; Mara then files the Blackroot, Greyfen boundary, Reedwatch, and weekly-return evidence together. The missing closure order becomes the next lead. Full integration and live-browser verification remain pending.
 
 
-## 17. Series-wide antagonist proposal
+## 17. Legacy series-wide antagonist proposal — secondary / not approved
 
 The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) and [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) propose an antagonist whose goal is to make the world conform to one account, even when doing so causes people and routes to disappear into the Hollow Mile. Under this interpretation, the old route network began as a protective system; the Surveyor's decision to force agreement turned it into a means of suppressing contradictory routes, records, and eventually communities.
 
-**Status:** Proposed franchise direction, not locked canon. The Pale Surveyor, the Long Severance, and the Office of Measure must not be stated as established lore until approved. The proposal is designed to build on—rather than replace—the current Bell/Old Road hypothesis: the Bell acts as a warning, while the repeated marks, newer cuts, altered ledgers, and missing closure order are early evidence of a larger pattern.
+**Status:** Legacy proposal, superseded as the primary franchise mythology by the Monster Wars & Awakening direction. The Pale Surveyor, the Long Severance, and the Office of Measure are not approved central canon. Keep only as optional secondary lore if a later reconciliation finds a strong fit. The proposal is designed to build on—rather than replace—the current Bell/Old Road hypothesis: the Bell acts as a warning, while the repeated marks, newer cuts, altered ledgers, and missing closure order are early evidence of a larger pattern.
 
 Use the series arc to coordinate future reveals. Keep local conflicts and ordinary human choices independent unless evidence links them; the Surveyor must not become the explanation for every monster, flood, crime, or hardship.
 
 
-## 18. Deep canon foundation
+## 18. Legacy deep-canon proposal — retain for reference, not as the primary saga
 
 The companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) expands the proposed Pale Surveyor arc into a shared framework for the road network's rules, the original historical failure, the modern institution, the long-range game structure, and continuity across player choices.
 
@@ -257,3 +266,8 @@ See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the correc
 As of 2026-10-15, [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) is the primary proposed direction for a broader dark-fantasy RPG. It reframes magic around the Veil and Five Arts, proposes the Last Mercy / Afterwake / Hollow Saint as a world-level story candidate, and treats Bells primarily as Ashmere currency and ordinary civic signaling rather than the central cosmology.
 
 The older Pale Surveyor / Hollow Mile mythology in [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md) and [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) is **superseded as the default direction**. Preserve it as an archived proposal only. The subtitle and shared-geography corrections remain useful, but new story or gameplay content must not assume the old supernatural explanation is canon. The new Veil / Last Mercy lore is also proposed, not locked canon.
+
+
+## 22. Current fantasy-RPG direction and reconciliation reference
+
+See [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) for the current premise, monster ecology, proposed magic disciplines, regional hooks, canon reconciliation categories, and open decisions. This direction is the priority over earlier map-centered franchise proposals. The existing Ashmere investigation—The Bell That Rang Once, The Moved Cairn, Blackroot Bend, Greyfen boundary evidence, Reedwatch field note, Brenn's ledger, the earlier weekly return, and the missing closure order—should be preserved as an early case about practical evidence and uncertainty, then connected to the wider conflict only where the story earns that connection.
