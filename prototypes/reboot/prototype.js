@@ -918,9 +918,6 @@
       $('#debriefSummary').textContent = state.scoutDefeated
         ? 'Brenn studies the charcoal mark, then folds the report shut. “That is enough to warn the gate. It is not enough to know who commands them.” Your first commission is complete.'
         : 'The scout carried a charcoal warband mark—not proof of the force behind the attacks, but the first sign that these raids may be coordinated. Ashmere needs to know.';
-      /*
-      $('#debriefSummary').textContent = state.scoutDefeated
-        : 'You return to Ashmere before the expedition is complete. The road will still be there when you are ready.';
       $('#debriefRewards').textContent = '+' + state.xp + ' XP  ·  ' + state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic recovered' : ' Tonics recovered');
       const findings = [];
       if (state.brennSpoken) findings.push('Brenn’s road commission accepted');
