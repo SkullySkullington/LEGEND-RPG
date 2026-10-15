@@ -298,3 +298,42 @@
  .ash099-craft-output{width:64px;height:64px}
  .ash099-region-shop-icon{width:42px;height:42px}
 }
+
+
+/* v0.20.33 — tactile workshop feedback and clear equipment comparison */
+.ash099-market-summary{display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 14px}
+.ash099-market-summary .ash099-region-shop-icon{grid-row:1;grid-column:1;width:50px;height:50px}
+.ash099-bench-copy{display:grid;gap:4px;min-width:0}
+.ash099-bench-copy strong{font:500 1.08rem Georgia,'Times New Roman',serif;color:#e9dbb8}
+.ash099-bench-copy span{font-size:.72rem;line-height:1.4;color:#97a596}
+.ash099-craft-card{position:relative;grid-template-rows:76px auto 1fr auto auto;align-content:start;gap:9px;overflow:hidden;isolation:isolate}
+.ash099-craft-card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 16% 0%,rgba(207,177,101,.07),transparent 48%);opacity:.7}
+.ash099-craft-output{width:76px;height:76px;transition:transform .22s ease,filter .22s ease}
+.ash099-craft-card:hover:not(:disabled) .ash099-craft-output{transform:translateY(-2px) scale(1.035);filter:brightness(1.08)}
+.ash099-craft-card:active:not(:disabled){transform:scale(.99)}
+.ash099-craft-card:disabled .ash099-craft-output{filter:saturate(.45) brightness(.82)}
+.ash099-craft-needs{min-width:0}
+.ash099-craft-ingredient{padding:3px 0;border-radius:5px;transition:background .16s ease}
+.ash099-craft-ingredient>img{transition:transform .16s ease}
+.ash099-craft-card:hover .ash099-craft-ingredient>img{transform:scale(1.04)}
+.ash099-craft-ingredient small{white-space:nowrap}
+.ash099-craft-feedback{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid rgba(157,184,118,.3);border-radius:9px;background:linear-gradient(100deg,rgba(40,57,34,.68),rgba(13,22,14,.92));color:#e2e9d5;font-size:.82rem;line-height:1.45;animation:ash099-craft-reveal .26s ease-out both}
+.ash099-craft-feedback-mark{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:rgba(157,184,118,.16);border:1px solid rgba(174,201,134,.4);color:#c9dfa9;font-weight:850}
+.ash099-gear-compare{display:block;font-size:.62rem!important;line-height:1.35;color:#8c9b8c}
+.ash099-gear-compare.better{color:#b9d39a}
+.ash099-gear-compare.worse{color:#d2a28d}
+.ash099-gear-compare.same{color:#a9b0a0}
+.ash099-gear-item.equipped .ash099-gear-art{box-shadow:0 0 0 1px rgba(173,190,131,.25),0 0 18px rgba(125,153,89,.08)}
+.ash099-gear-art{transition:transform .18s ease,filter .18s ease}
+.ash099-gear-item:hover:not(:disabled) .ash099-gear-art{transform:translateY(-1px) scale(1.025);filter:brightness(1.06)}
+@keyframes ash099-craft-reveal{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){
+ .ash099-market-summary{grid-template-columns:44px minmax(0,1fr);gap:9px;padding:10px}
+ .ash099-market-summary .ash099-region-shop-icon{width:42px;height:42px}
+ .ash099-market-summary #openTrader{grid-column:1/-1;width:100%;min-height:44px}
+ .ash099-craft-card{grid-template-rows:64px auto 1fr auto auto}
+ .ash099-craft-output{width:64px;height:64px}
+}
+@media(prefers-reduced-motion:reduce){
+ .ash099-craft-card,.ash099-craft-output,.ash099-craft-ingredient>img,.ash099-gear-art,.ash099-gear-item,.ash099-craft-feedback{animation:none!important;transition:none!important}
+}
