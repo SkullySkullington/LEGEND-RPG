@@ -1,8 +1,8 @@
-# LEGEND: Roads of Ashmere — Mystery & Story Arc Blueprint
+# LEGEND: The Unquiet Road — Mystery & Story Arc Blueprint
 
 **Status:** Proposed narrative direction; not locked canon  
 **Purpose:** Give the first game a coherent hidden truth, a fair clue progression, a meaningful local climax, and a quest framework that can be implemented incrementally.  
-**Companions:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [First-Session Story Spine](ASHMERE_STORY_SPINE.md), [Greyfen Expansion Plan](GREYFEN_EXPANSION_PLAN.md).
+**Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [First-Session Story Spine](ASHMERE_STORY_SPINE.md), [Greyfen Expansion Plan](GREYFEN_EXPANSION_PLAN.md).
 
 > **Design rule:** The team should know more than the player, but every reveal must be supported by clues already present in the world. This document proposes a workable answer; it does not silently change established canon.
 
