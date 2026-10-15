@@ -226,3 +226,10 @@ The most important design constraint is that the writing team should know what t
 The v0.20.23 source adds Captain Oric's **The Moved Cairn** to Side Stories & Road Contracts. After accepting the contract, the player can inspect the Ridgeway Cairn on High Ridge and choose to restore the old alignment, record both positions, or mark the hazard and step back. The choice is recorded for turn-in and affects later dialogue and route narration.
 
 This is the first implementation of a route choice that leaves a remembered consequence. Full end-to-end verification remains pending; see the project handoff and changelog before treating it as release-verified.
+
+
+## 11. Main-story continuation: Blackroot to Greyfen
+
+After the player records the Blackroot seal, the Greyfen Boundary Stone becomes a contextual discovery on the final Old Road approach. It records the matching older mark and its newer cut, then directs the player to Mara’s Boundary Archive. Mara compares the layers and asks for evidence that dates the alteration.
+
+This creates a concrete sequence—Blackroot observation, second-site comparison, archive interpretation, dated-evidence lead—without claiming that the player knows who made the cut. The source and regression test are committed in v0.20.24; verification remains pending.
