@@ -2,7 +2,7 @@
 
 **Status:** Proposed franchise-wide story direction; not locked canon  
 **Purpose:** Give LEGEND one central evil and a connected multi-game story without making every local problem the same conspiracy.  
-**Companions:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
+**Companions:** [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) (expanded rules, history, and continuity architecture), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **Core idea:** LEGEND's great enemy does not want to destroy the world. They want to remove uncertainty from it. They believe suffering comes from a world that cannot be made to agree with itself, so they are forcing every road, record, and community to conform to one perfect map—even when people must be erased to make the map correct.
 
@@ -11,6 +11,8 @@ This document is a strong working proposal for the series. Do not treat its new 
 ## 1. The franchise story in one paragraph
 
 Long ago, a brilliant roadkeeper created a network of bells, lanterns, mile-markers, cairns, boundary stones, and records to keep distant communities connected. The network became more than infrastructure: where its old signs and records were aligned, it could make a route behave as though the mapped connection were true. Its creator came to believe that every tragedy came from conflicting versions of the world. Rather than accept uncertainty, the roadkeeper bound their will to the network and began imposing one master map upon reality. History remembers this figure only as **the Pale Surveyor**. The Surveyor cannot simply command the entire world; they need physical markers, records, routes, and human institutions to extend their reach. Across the series, the player finds communities suffering from seemingly separate route failures and record alterations, until they uncover one old system—and one will—trying to make every place conform to a single, unquestionable version of the world.
+
+For the deeper proposed history of the Seven-Wagon Dispatch, the Four Witnesses, the limits of route correction, the multi-game reveal plan, and rules for keeping future releases consistent, use the companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md). This shorter myth arc remains the overview; the companion expands the same proposal rather than replacing established game facts.
 
 ## 2. The antagonist: the Pale Surveyor
 
