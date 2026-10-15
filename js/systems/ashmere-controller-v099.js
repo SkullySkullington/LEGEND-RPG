@@ -360,7 +360,19 @@ function renderDryCrossing(){
       const route=pl.flags.firstRoadReturnRoute||'unknown';
       const discovery=pl.flags.firstRoadReturnDiscovery||'none';
       if(id==='mara'){
-        if(pl.flags.bellRoadSearched){
+        if(pl.flags.greyfenArchiveRead){
+          n.lines=[
+            'The Greyfen archive now preserves both surfaces, but we still do not know when the newer cut was made.',
+            'The matching mark shows that the Blackroot seal and the boundary stone belong in the same record. It does not identify the hand that changed either stone.',
+            'We need a dated field note or another physical trace before we can say when the route was altered.'
+          ];
+        }else if(pl.flags.greyfenBoundaryCompared){
+          n.lines=[
+            'You found the same older bell-mark at the Greyfen Approach beneath a newer cut. That is stronger evidence than either stone alone.',
+            'Do not move the boundary stone. Bring the comparison to my desk in Greyfen so I can preserve both surfaces in the archive.',
+            'The marker shows an alteration, but not who made it or why.'
+          ];
+        }else if(pl.flags.bellRoadSearched){
           n.lines=[
             'The Blackroot seal bears the same bell-mark you saw near Ashmere. A repeated symbol is evidence of a pattern, not a complete explanation.',
             'I will keep the seal and your first route report together. The record must preserve what we saw, not what we wish it meant.',
@@ -439,11 +451,16 @@ function renderDryCrossing(){
       pl.flags.bellQuestStarted=true;
       if(pl.flags.firstRoadReturnSeen&&!pl.flags.firstRoadReturnMaraBriefed){
         pl.flags.firstRoadReturnMaraBriefed=true;
-        setBellQuestObjective(pl,pl.flags.bellRoadSearched
-          ? 'Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.'
-          : 'Inspect the bell-marked seal at Blackroot Bend and return with your observations.');
-      }else if(pl.flags.firstRoadReturnSeen&&pl.flags.bellRoadSearched){
-        setBellQuestObjective(pl,'Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.');
+      }
+      if(pl.flags.firstRoadReturnSeen){
+        const objective=pl.flags.greyfenArchiveRead
+          ? 'Find a dated record or physical sign showing when the newer Greyfen cut was made.'
+          : pl.flags.greyfenBoundaryCompared
+            ? 'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.'
+            : pl.flags.bellRoadSearched
+              ? 'Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.'
+              : 'Inspect the bell-marked seal at Blackroot Bend and return with your observations.';
+        setBellQuestObjective(pl,objective);
       }
     }
     save(pl);
