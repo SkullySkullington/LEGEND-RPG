@@ -202,6 +202,7 @@
       this.heroOrigin = { x: 390, y: 440 };
       this.enemyOrigin = { x: 1200, y: 420 };
       this.runeRings = [];
+      this.trainingGlyphs = [];
       this.cinematicEvents = [];
       this.cinematicIndex = 0;
       this.cinematicRunning = false;
@@ -269,6 +270,8 @@
       this.clearBattle();
       this.runeRings.forEach(ring => ring.destroy());
       this.runeRings = [];
+      this.trainingGlyphs.forEach(glyph => glyph.destroy());
+      this.trainingGlyphs = [];
     }
 
     resizeCurrentScene() {
@@ -550,10 +553,11 @@
       this.showBackdrop('library');
       chosenRunes = [];
       $('#trainingResult').textContent = 'Choose the marks in the order shown.';
-      this.add.text(this.dimensions().width * .5, this.dimensions().height * .47, '✦  ≈  ◇', {
+      const glyphs = this.add.text(this.dimensions().width * .5, this.dimensions().height * .47, '✦  ≈  ◇', {
         fontFamily: 'Georgia, serif', fontSize: '54px', color: '#e7c887',
         stroke: '#16100a', strokeThickness: 5
       }).setOrigin(.5).setAlpha(.68);
+      this.trainingGlyphs.push(glyphs);
       this.sfx('magic', .35);
     }
 
