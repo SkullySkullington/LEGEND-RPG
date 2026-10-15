@@ -1,4 +1,4 @@
-// LEGEND v0.20.29 - Stable local production asset manifest.
+// LEGEND v0.20.30 - Stable local production asset manifest.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
@@ -61,6 +61,17 @@
       healing: 'assets/generated/skills/icons/healing.webp',
       weaponMastery: 'assets/generated/skills/icons/weapon-mastery.webp',
       survival: 'assets/generated/skills/icons/survival.webp'
+    },
+    uiIcons: {
+      inn: 'assets/generated/ui/icons/service-inn.webp',
+      market: 'assets/generated/ui/icons/service-market.webp',
+      forge: 'assets/generated/ui/icons/service-blacksmith.webp',
+      journal: 'assets/generated/ui/icons/service-journal.webp',
+      map: 'assets/generated/ui/icons/service-map.webp',
+      workBoard: 'assets/generated/ui/icons/service-job-board.webp',
+      traveler: 'assets/generated/ui/icons/service-traveler.webp',
+      route: 'assets/generated/ui/icons/service-milestone.webp',
+      gate: 'assets/generated/ui/icons/service-gatehouse.webp'
     },
     npcs: {
       mara: 'assets/npcs/ashmere/npc_mara_portrait_v1.jpg',
