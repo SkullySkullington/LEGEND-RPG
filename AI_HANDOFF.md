@@ -1,6 +1,6 @@
 # AI Handoff — LEGEND: Roads of Ashmere
 
-Last updated: 2026-10-14. Read this file before changing code, and update it when project status changes.
+Last updated: 2026-10-15. Read this file before changing code, and update it when project status changes.
 
 ## Identity and hard constraints
 - Game: **LEGEND: Roads of Ashmere**
@@ -176,3 +176,31 @@ If a test fails, retain failure details and distinguish app bugs from environmen
 - GitHub remains the shared source of truth.
 - Prefer free tiers and local tooling. Check current credit limits before planning work using Runway, Mirelo, or OpenArt; do not assume credits are available.
 - Validate generated assets for style fit, watermarks, format, dimensions, transparency, and in-game readability before integrating.
+
+
+## Source release v0.20.22 — first expedition story progression (verification pending)
+
+Source changes on \`main\`:
+- New \`docs/LEGEND_MYSTERY_AND_STORY_ARC.md\` proposes a coherent interpretation of the Bell/lantern/route-marker mystery, a first-game reveal ladder, route stories, NPC arcs, and implementation acceptance criteria. This is proposed direction, not locked canon.
+- \`docs/LEGEND_WORLD_BIBLE.md\` and \`docs/ASHMERE_STORY_SPINE.md\` now link to that blueprint.
+- The first secured Old Road expedition records its first route and discovered route clue in save flags and updates The Bell That Rang Once quest-log line.
+- Ashmere NPC dialogue now reacts to the first route report. Talking to Mara moves the journal objective to the bell-marked seal at Blackroot Bend; inspecting the seal records a memory and advances the objective back to Mara, then toward comparing Greyfen boundary marks.
+- \`tests/legend-smoke.spec.js\` adds regression tests for the High Ridge and Reed Cut first-return branches and Blackroot Bend clue progression.
+- Version labels are bumped to \`v0.20.22\`.
+
+**Verification status:** The files and test cases are committed on main, but the Playwright suite and live GitHub Pages deployment have not yet been verified for this release. Do not describe the new story callbacks as live-tested until that verification is complete.
+
+Relevant commits:
+- \`5facef122e405895488fef2b64332f76898fad3f\`: proposed mystery/story arc blueprint.
+- \`276a9f8256671da6afd55120c59f77b67125fe95\`: world bible companion link.
+- \`6b51591b3f058d60f58c965dd6be6ceb3b7aebe0\`: story spine companion link.
+- \`bbbc7bb21914224952afe378f8ec234dca21fc2c\`: route-aware NPC callbacks.
+- \`dacf01f721d3c732798c982494d392dcc760eb85\`: first expedition story flags and quest updates.
+- \`36151c8d69e71e38a405b9bb11f595410eb2e01d\`: normalized story flags.
+- \`1d5c7e57133859f2397fe90c6ed5bfa29e4c8b41\`: story regression tests.
+
+Next:
+1. Run \`npm run test:e2e\` locally and fix any regressions before treating this release as verified.
+2. Verify the first Ridge and Reed return paths in a fresh save, including reload persistence and the Blackroot clue step.
+3. Confirm GitHub Pages is serving \`v0.20.22\` before reporting the changes as live.
+4. Continue only after this slice is stable: design the Moved Cairn side chain and Greyfen archive follow-up using existing quest flags and route discovery patterns.
