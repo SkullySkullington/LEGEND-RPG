@@ -1,7 +1,7 @@
 # LEGEND — Series Myth Arc: The Pale Surveyor
 
-**Status:** Proposed franchise-wide story direction; not locked canon  
-**Purpose:** Give LEGEND one central evil and a connected multi-game story without making every local problem the same conspiracy.  
+**Status:** Archived proposal; superseded as the default mythology by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
+**Purpose:** Preserve the earlier Pale Surveyor idea for reference only. Do not use its cosmology as the current story baseline; see [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 **Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **Core idea:** The Pale Surveyor wants every loss and every journey entered into one final account. Their corrections can make a road, a household, or a person's testimony cease to be recognized by the world. At damaged nodes, what is excluded can slip into the Hollow Mile—a shadow-passage where the Unreturned may persist as traces, trapped travelers, or something harder to name. The Surveyor calls this restoration. The people left behind call it disappearance.
