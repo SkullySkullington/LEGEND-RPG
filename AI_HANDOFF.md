@@ -275,3 +275,25 @@ Relevant v0.20.25 commits:
 - `f6ba96b8a0a3cf463303d0ba754a1e39b2e7e332`: normalized field-note story flags.
 - `ae7b9de94daf4bd4ee7465a0160bc351c7a8e4fd`: field-note and ledger regression test.
 - `3dd264de98fc75c21947d4609a94099465012db5`, `718cc128e26c60ec6a8307772aeec5f9cbe058ec`, `55307e64598370879d3b8b204e8fd9a3cc4dfb06`, `4541f1080e3e693eaf99cbf3165b3aed06d1a572`, and `4ab864f715f3dc8a6c41840c5ddca8db06a5dda3`: HTML/cache, data, runtime, bootstrap, and package version.
+
+
+## Source release v0.20.26 — The Earlier Weekly Return (verification pending)
+
+Source changes on `main`:
+- Once `greyfenLedgerCompared` is saved, the Wayfarer's Camp / stage-2 POI can reveal an earlier weekly route return. It records the lower crossing as `CLOSED pending inspection`, then shows a later `OPEN` correction without initials.
+- Inspecting the document sets `greyfenWeeklyReturnFound`, records a memory, and advances The Bell That Rang Once objective to Old Brenn in Greyfen.
+- Brenn compares the earlier return with the overwritten ledger, stores a memory, and directs the player to Mara. Mara preserves the Blackroot seal, Greyfen boundary comparison, Reedwatch note, and weekly return together, then points to the missing closure order.
+- Storage normalizes `greyfenWeeklyReturnFound`, `greyfenWeeklyReturnReported`, and `greyfenEvidenceFiled`. The existing POI, NPC, save, memory, and quest-log systems are reused.
+- `tests/legend-smoke.spec.js` adds coverage for the document, both NPC handoffs, the final objective, and persistence across reload.
+- Build labels and controller cache keys are v0.20.26.
+
+**Verification status (2026-10-15):** Code and regression cases are committed, but the Playwright suite has not run locally. The live browser attempt most recently failed before page load with `ERR_TUNNEL_CONNECTION_FAILED`, so v0.20.26 is not live-verified. The tunnel failure is an environment blocker, not evidence of application failure. Do not report the story path as passing until the targeted tests and responsive browser checks complete.
+
+Relevant v0.20.26 commits:
+- `94cd95d4ce01b9b76f7e2990c8a9e1012d009a1a`: earlier weekly return POI, saved memory, and quest update.
+- `55c35ee9b375548581ef26ca884a2037c6cb1b17`: Brenn/Mara evidence filing and missing-closure-order lead.
+- `2830c5e9b5de4d7b90bf9460e7226927fc21795c`: normalized weekly-return flags.
+- `9d8dee7160aea08bb9743e304d838e40cabaad28`: weekly-return story regression test.
+- `5d60a4c9b3e6f6bc3c7c0a021799397ecdb760e6`: adjust Mara’s filing dialogue to match the saved callback.
+- `570d768dc85beae8b59053b1d4a645df7114d9d7`: Ashmere controller cache refresh.
+- `91fef40d28bea3cfb9ea3afa2576a0341a4e1057`, `718a086116b596c2d1928a5277730597109e6361`, `a7aadd062ffe67b5159580e8395e532fcb5adc6c`, `74d718c01936fbcc12610536044ad1e83995f968`, and `fb9028bf8d49a02a43ba139cd68a383889f96b5e`: HTML, data, runtime, bootstrap, and package version.
