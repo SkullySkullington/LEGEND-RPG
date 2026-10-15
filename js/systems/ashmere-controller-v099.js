@@ -831,8 +831,11 @@ function renderTrader(tab='buy'){
     const artMarkup=kind==='weapon'?weaponArtSvg(x.id):(art?'<img class="ash099-gear-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'');
     const statLine=kind==='weapon'?'Damage '+x.min+'–'+x.max:'Defense '+x.defense;
     const passive=kind==='weapon'&&x.passive?'<small class="ash099-gear-passive">'+esc(x.passive)+'</small>':'';
+    const current=(kind==='weapon'?(D().weapons||[]):(D().armors||[])).find(item=>item.id===(kind==='weapon'?pl.weapon:pl.armor));
+    const delta=kind==='weapon'?Number(x.max||0)-Number(current?.max||0):Number(x.defense||0)-Number(current?.defense||0);
+    const compare=equipped?'<small class="ash099-gear-compare same">Currently equipped</small>':(current?'<small class="ash099-gear-compare '+(delta>0?'better':delta<0?'worse':'same')+'">'+(delta>0?'+'+delta:delta<0?String(delta):'No stat change')+(kind==='weapon'?' max damage':' defense')+' vs equipped</small>':'');
     return '<button class="ash099-gear-item '+(equipped?'equipped ':'')+(locked&&!isOwned?'locked':'')+'" data-gear="'+esc(x.id)+'" data-kind="'+kind+'" '+(disabled?'disabled':'')+'>'+
-      artMarkup+'<span class="ash099-gear-copy"><strong>'+esc(x.name)+'</strong><small>'+statLine+'</small>'+passive+'<em>'+(isOwned?'Owned':locked?'Requires level '+required:gold(x.cost))+'</em></span><b class="ash099-gear-action">'+label+'</b></button>';
+      artMarkup+'<span class="ash099-gear-copy"><strong>'+esc(x.name)+'</strong><small>'+statLine+'</small>'+compare+passive+'<em>'+(isOwned?'Owned':locked?'Requires level '+required:gold(x.cost))+'</em></span><b class="ash099-gear-action">'+label+'</b></button>';
   }
 function buyGear(id,kind){
     const pl=p();if(!pl)return;
