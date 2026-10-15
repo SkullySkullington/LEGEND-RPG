@@ -200,6 +200,12 @@ function pointOfInterest(stage){
   {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The boundary stone is scored with route marks. A few fresh scratches point beyond the reeds.',action:'Record the route marks',icon:'⚑',short:'Boundary',x:78,y:48}
  ];
  const index=clamp(Number(stage||0),0,5);
+ if(index===2){
+  const pl=p();
+  if(pl?.flags?.greyfenLedgerCompared&&!pl?.flags?.greyfenWeeklyReturnFound){
+   return {key:'camp-firepit',name:'The Earlier Weekly Return',kind:'Route Record',text:'Beneath a warped plank beside the abandoned firepit, you find an oilskin packet. The weekly return predates the overwritten Greyfen entries: “Lower crossing — CLOSED pending inspection.” A second line, in darker ink, says “OPEN” but has no initials.',action:'Recover the weekly route return',icon:'▤',short:'Route return',x:28,y:57};
+  }
+ }
  if(index===4){
   const pl=p();
   if(pl?.flags?.greyfenArchiveRead&&!pl?.flags?.greyfenFieldNoteFound){
@@ -287,7 +293,7 @@ function inspectPointOfInterest(){
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
  s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
- let foundGreyfenFieldNote=false;
+ let foundGreyfenFieldNote=false,foundGreyfenWeeklyReturn=false;
  if(point.key==='blackroot-mark'){
   pl.flags=pl.flags||{};
   pl.flags.bellRoadSearched=true;
@@ -312,6 +318,14 @@ function inspectPointOfInterest(){
   const memory='At Reedwatch Shelter, you found a field note dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut angled toward the reed bed; the signature is unreadable.';
   if(!pl.memories.includes(memory))pl.memories.push(memory);
   setBellQuestObjective(pl,'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.');
+ }else if(point.key==='camp-firepit'&&pl.flags?.greyfenLedgerCompared&&!pl.flags?.greyfenWeeklyReturnFound){
+  foundGreyfenWeeklyReturn=true;
+  pl.flags=pl.flags||{};
+  pl.flags.greyfenWeeklyReturnFound=true;
+  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+  const memory='At Wayfarer’s Camp, you found an earlier weekly route return: the lower crossing was marked CLOSED pending inspection, then overwritten as OPEN without initials. The record shows a changed instruction, not who changed it.';
+  if(!pl.memories.includes(memory))pl.memories.push(memory);
+  setBellQuestObjective(pl,'Bring the earlier weekly route return to Old Brenn in Greyfen’s Bellkeeper’s Ledger.');
  }
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
@@ -328,7 +342,12 @@ function inspectPointOfInterest(){
  }
  else if(stage===1&&s.routeChoice==='reeds'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure+4,0,100);note='You recover the torn herb pouch, but the tracks circle closer as you leave. +1 Road Herb; Road Pressure rises by 4.';}
  else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
- else if(stage===2){inv(pl,'food',1);inv(pl,'roadHerb',1);note='You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';}
+ else if(stage===2){
+  inv(pl,'food',1);inv(pl,'roadHerb',1);
+  note=foundGreyfenWeeklyReturn
+   ?'The oilskin return is damp but legible: the lower crossing was closed pending inspection, then changed to open in darker ink without initials. You wrap it separately for Brenn. +1 Ration, +1 Road Herb.'
+   :'You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';
+ }
  else if(stage===3){s.pressure=clamp(s.pressure-8,0,100);inv(pl,'bellFragment',1);note='The seal’s pattern matches an old Ashmere mark. You take a Bell Fragment and learn a safer way around the roots. +1 Bell Fragment; Road Pressure falls by 8.';}
  else if(stage===4){
   inv(pl,'clothScrap',1);inv(pl,'roadHerb',1);
