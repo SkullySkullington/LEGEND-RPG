@@ -6,6 +6,14 @@ const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, clamp=(n,a,b)=>Math.max(a,Math.min(b,n)), pick=a=>a?.length?a[Math.floor(Math.random()*a.length)]:null;
 const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
 const inv=(pl,k,n)=>{pl.inventory=pl.inventory||{};pl.inventory[k]=Number(pl.inventory[k]||0)+n};
+
+function setBellQuestObjective(pl,objective){
+ pl.questLog=Array.isArray(pl.questLog)?pl.questLog:[];
+ const prefix='The Bell That Rang Once:';
+ const entry=prefix+' '+objective;
+ const index=pl.questLog.findIndex(item=>String(item).startsWith(prefix));
+ if(index>=0)pl.questLog[index]=entry;else pl.questLog.unshift(entry);
+}
 const itemName=k=>window.LEGEND_DATA?.itemNames?.[k]||({food:'Rations',camp:'Camp Supplies',roadToken:'Road Tokens',potion:'Healing Potions',fur:'Furs',bellFragment:'Bell Fragments',log:'Logs'}[k]||k);
 const score=(pl,skill)=>{const c=window.LEGEND_DATA?.classes?.[pl.className]?.mod||{},o=window.LEGEND_DATA?.origins?.[pl.origin]?.bonus||{},k=window.LEGEND_DATA?.keepsakes?.[pl.keepsake]?.bonus||{},a=pl.creationV094?.bonuses||pl.creationV090?.bonuses||{};return Number(c[skill]||0)+Number(o[skill]||0)+Number(k[skill]||0)+Number(a[skill]||0)};
 const weapon=pl=>(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===pl.weapon)||{name:'Hands',min:1,max:3}, armor=pl=>(window.LEGEND_DATA?.armors||[]).find(a=>a.id===pl.armor)||{name:'None',defense:0};
@@ -221,6 +229,16 @@ function inspectPointOfInterest(){
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
  s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
+ if(point.key==='blackroot-mark'){
+  pl.flags=pl.flags||{};
+  pl.flags.bellRoadSearched=true;
+  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+  const memory='At Blackroot Bend, black roots split a stone seal bearing the same bell-mark found near Ashmere. The mark repeats, but its purpose remains unclear.';
+  if(!pl.memories.includes(memory))pl.memories.push(memory);
+  if(pl.flags.firstRoadReturnMaraBriefed){
+   setBellQuestObjective(pl,'Return to Mara with your observation of the bell-marked seal at Blackroot Bend.');
+  }
+ }
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
  else if(stage===1&&s.routeChoice==='ridge'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);note='You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';}
@@ -464,7 +482,44 @@ function win(enemy){
  s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;pl.stats.roadVictories=Number(pl.stats.roadVictories||0)+1;
  save(pl);renderExpedition(enemy.name+' defeated. You recover '+itemName(enemy.reward||'fur')+'. '+(progress?'XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'. ':'')+'You continue along the Old Road.');
 }
-function finish(){const pl=p();if(!pl)return;const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;pl.gold=Number(pl.gold||0)+reward;if(complete)inv(pl,'roadToken',1);const progress=window.LegendProgressionV100?.award(pl,15+Number(s.stage||0)*10);pl.stats=pl.stats||{};pl.stats.oldRoadClears=Number(pl.stats.oldRoadClears||0)+1;s.stage=0;s.pressure=clamp(Math.floor(s.pressure*.35),0,100);save(pl);outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':''),'Return')}
+function finish(){
+ const pl=p();if(!pl)return;
+ const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;
+ pl.flags=pl.flags||{};
+ const firstSecuredReturn=complete&&!pl.flags.firstRoadReturnSeen;
+ let routeReport='';
+ if(firstSecuredReturn){
+  const route=s.routeChoice==='ridge'?'ridge':s.routeChoice==='reeds'?'reeds':'unknown';
+  const discovery=route==='ridge'&&s.poiUsed?.['ridge-cairn']?'ridge-cairn':route==='reeds'&&s.poiUsed?.['marsh-watcher-tracks']?'marsh-watcher-tracks':'none';
+  pl.flags.firstRoadReturnSeen=true;
+  pl.flags.firstRoadReturnRoute=route;
+  pl.flags.firstRoadReturnDiscovery=discovery;
+  if(route==='ridge'&&discovery==='ridge-cairn'){
+   setBellQuestObjective(pl,'Ask Mara to compare the Ridgeway Cairn’s marks with Ashmere’s route records.');
+   routeReport=' Your report includes the Ridgeway Cairn: it marks a dry line, but does not explain the single bell.';
+  }else if(route==='ridge'){
+   setBellQuestObjective(pl,'Report the High Ridge route to Mara and ask what marker evidence to collect next.');
+   routeReport=' You returned by the High Ridge. Mara can tell you what details to record on your next trip.';
+  }else if(route==='reeds'&&discovery==='marsh-watcher-tracks'){
+   setBellQuestObjective(pl,'Ask Mara to compare the Bell Fragment and watcher tracks with Ashmere’s route records.');
+   routeReport=' Your report includes the tracks beneath the blue light. Their source remains unknown.';
+  }else if(route==='reeds'){
+   setBellQuestObjective(pl,'Report the Bell Fragment to Mara and record the watcher tracks on a later trip.');
+   routeReport=' You brought back a Bell Fragment. The tracks beneath the blue light still need a closer look.';
+  }else{
+   setBellQuestObjective(pl,'Report your expedition to Mara and ask what route evidence to look for next.');
+   routeReport=' Mara can help identify what evidence would make the next report more useful.';
+  }
+ }
+ pl.gold=Number(pl.gold||0)+reward;
+ if(complete)inv(pl,'roadToken',1);
+ const progress=window.LegendProgressionV100?.award(pl,15+Number(s.stage||0)*10);
+ pl.stats=pl.stats||{};
+ pl.stats.oldRoadClears=Number(pl.stats.oldRoadClears||0)+1;
+ s.stage=0;s.pressure=clamp(Math.floor(s.pressure*.35),0,100);
+ save(pl);
+ outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'')+routeReport,'Return')
+}
 function outcome(title,text,kicker,skill,modifier){
  stopBattleMusic();
  const pl=p();if(!pl)return;
