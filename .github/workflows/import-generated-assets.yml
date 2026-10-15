@@ -138,4 +138,8 @@ jobs:
             exit 0
           fi
           git commit -m "Import optimized generated game art"
-          git push
+          # Other production edits may land while images are downloading. Rebase
+          # the generated-art commit onto the latest main before pushing it.
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
