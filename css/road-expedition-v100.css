@@ -307,3 +307,15 @@
 @keyframes rpg-foe-windup{from{transform:translateY(2px) scale(1)}to{transform:translateY(7px) scale(1.065) rotate(-1.8deg)}}
 @keyframes rpg-foe-feint{0%,100%{transform:translateX(0) scale(1)}28%{transform:translateX(-5px) scale(.98)}58%{transform:translateX(4px) scale(1.015)}}
 @media(prefers-reduced-motion:reduce){.rpg-battle.rpg-intent-heavy .rpg-foe-sprite,.rpg-battle.rpg-intent-guardbreak .rpg-foe-sprite{animation:none}.rpg-battle.rpg-intent-snared .rpg-foe-sprite{transform:none}}
+
+/* v0.20.34 combat impact polish */
+.rpg-battle.rpg-foe-hit .rpg-battlefield{animation:rpg-combat-impact .28s ease-out}
+.rpg-battle.rpg-player-hit .rpg-combat-status{animation:rpg-combat-flinch .32s ease-out}
+.rpg-battle.rpg-intent-heavy .rpg-enemy-tell{border-color:rgba(220,119,74,.65);box-shadow:inset 3px 0 0 rgba(220,119,74,.7)}
+.rpg-battle.rpg-intent-guardbreak .rpg-enemy-tell{border-color:rgba(208,158,76,.55);box-shadow:inset 3px 0 0 rgba(208,158,76,.65)}
+.rpg-command:not(:disabled){transition:transform .13s ease,filter .13s ease,box-shadow .13s ease}
+.rpg-command:not(:disabled):hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.rpg-command:focus-visible,.rpg-utility-command:focus-visible{outline:2px solid #e5c777;outline-offset:3px}
+@keyframes rpg-combat-impact{0%,100%{filter:none}25%{filter:brightness(1.28) saturate(1.15)}55%{filter:brightness(.94)}}
+@keyframes rpg-combat-flinch{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}65%{transform:translateX(3px)}}
+@media(prefers-reduced-motion:reduce){.rpg-battle.rpg-foe-hit .rpg-battlefield,.rpg-battle.rpg-player-hit .rpg-combat-status,.rpg-command:not(:disabled){animation:none;transition:none}.rpg-command:not(:disabled):hover{transform:none}}
