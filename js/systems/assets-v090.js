@@ -1,4 +1,4 @@
-// LEGEND v0.20.32 - Stable local production asset manifest.
+// LEGEND v0.20.33 - Stable local production asset manifest.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
