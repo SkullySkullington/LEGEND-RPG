@@ -10,7 +10,10 @@ Everything below is a story proposal for the project owner to approve, revise, o
 
 ---
 
-## 1. The saga's deeper premise
+> **CURRENT DIRECTION NOTICE (2026-10-15):** Keep this file as a reference for potentially reusable themes and bounded supernatural design, but do not use its road-network mythology as LEGEND's primary canon. The current preferred foundation is [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md): a monster incursion, returning magic, regional conflicts, and an unknown power stirring beneath the world. The Pale Surveyor, Four Witnesses, Seven-Wagon Dispatch, Office of Measure, and Hollow Mile are legacy proposals pending deliberate re-approval; they do not explain the new central conflict by default.
+
+
+## 1. Legacy thematic premise — retain selectively
 
 LEGEND is not secretly about maps alone. It is about **who gets to decide which version of the world other people must live inside**.
 
