@@ -1,4 +1,4 @@
-// LEGEND: The Unquiet Road v0.20.28 - Cinematic title and game bootstrap
+// LEGEND: The Unquiet Road v0.20.30 - Cinematic title and game bootstrap
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -17,7 +17,7 @@
   function loadSettings(){ return S().loadSettings ? S().loadSettings() : { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false }; }
   function applySettings(){ if(S().applySettings) S().applySettings(); }
   function profile(){ return window.LegendAccountV09x?.getProfile?.() || null; }
-  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.28'); }
+  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.30'); }
 
   function playUi(kind){
     const src = AUDIO[kind];
