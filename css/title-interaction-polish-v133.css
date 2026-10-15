@@ -1,0 +1,80 @@
+/* LEGEND v0.20.33 — tactile, animated title controls and atmospheric finish. */
+.title-v100 .v120-title-actions{gap:12px!important}
+.title-v100 .v120-primary,.title-v100 .v120-secondary,.title-v100 .portal100-header-actions button{
+  -webkit-tap-highlight-color:transparent;cursor:pointer;isolation:isolate;overflow:hidden;
+  transform-origin:center;will-change:transform;
+}
+.title-v100 .v120-primary{
+  animation:legendButtonArrive .72s cubic-bezier(.2,.8,.2,1) .18s both;
+  outline-offset:4px;
+}
+.title-v100 .v120-primary:after{
+  content:"";position:absolute;inset:3px;z-index:-1;pointer-events:none;
+  border:1px solid rgba(93,58,18,.24);border-radius:3px;
+}
+.title-v100 .v120-primary:active{transform:translateY(1px) scale(.99)!important;filter:brightness(.96)!important}
+.title-v100 .v120-secondary{
+  position:relative;display:inline-flex!important;align-items:center;justify-content:center;gap:8px;
+  min-height:44px!important;padding:10px 16px!important;cursor:pointer;
+  color:#eee4cd!important;border:1px solid rgba(232,199,121,.38)!important;
+  background:linear-gradient(135deg,rgba(22,31,23,.94),rgba(5,10,7,.92))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 8px 22px rgba(0,0,0,.24)!important;
+  font-size:.78rem!important;letter-spacing:.035em;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease!important;
+}
+.title-v100 .v120-secondary:before{
+  content:"";position:absolute;left:14px;right:14px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,207,131,.4),transparent);
+}
+.title-v100 .v120-secondary:hover{
+  transform:translateY(-2px)!important;border-color:rgba(240,207,131,.78)!important;
+  background:linear-gradient(135deg,rgba(39,48,33,.98),rgba(10,16,10,.96))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 12px 28px rgba(0,0,0,.36),0 0 22px rgba(240,207,131,.07)!important;
+}
+.title-v100 .v120-secondary:active{transform:translateY(0) scale(.985)!important}
+.title-v100 .portal100-header-actions button{
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .18s ease,color .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease!important;
+}
+.title-v100 .portal100-header-actions button:hover{
+  transform:translateY(-1px);color:#f7dfa0!important;border-color:rgba(240,207,131,.78)!important;
+  box-shadow:0 5px 20px rgba(0,0,0,.24),0 0 18px rgba(240,207,131,.08);
+}
+.title-v100 button:focus-visible{
+  outline:2px solid #ffe7a6!important;outline-offset:4px!important;
+  box-shadow:0 0 0 5px rgba(240,207,131,.16),0 10px 32px rgba(0,0,0,.36)!important;
+}
+.title-v100 .portal100-emblem-wrap{
+  position:relative;overflow:visible!important;
+}
+.title-v100 .portal100-emblem-wrap:after{
+  content:"";position:absolute;inset:-5px;border:1px solid rgba(240,207,131,.18);border-radius:50%;
+  animation:legendSigilPulse 5.5s ease-in-out infinite;pointer-events:none;
+}
+.title-v100 .v120-title-hero .portal100-kicker:before{
+  content:"✦";display:inline-block;margin-right:9px;color:#f0cf83;opacity:.8;
+  animation:legendRuneFlicker 6s ease-in-out infinite;
+}
+.title-v100 .v120-divider span:first-child{transform-origin:right;animation:legendRuleReveal .9s ease .25s both}
+.title-v100 .v120-divider span:last-child{transform-origin:left;animation:legendRuleReveal .9s ease .25s both}
+.title-v100 .v120-traveler-line{animation:legendSoftReveal .7s ease .2s both}
+.title-v100 .v120-title-footer{opacity:.88;transition:opacity .25s ease}
+.title-v100:hover .v120-title-footer{opacity:1}
+@keyframes legendButtonArrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes legendSigilPulse{0%,100%{opacity:.28;transform:scale(.98)}50%{opacity:.7;transform:scale(1.035)}}
+@keyframes legendRuneFlicker{0%,90%,100%{opacity:.7;text-shadow:none}94%{opacity:1;text-shadow:0 0 12px rgba(240,207,131,.75)}}
+@keyframes legendRuleReveal{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+@keyframes legendSoftReveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:none){.title-v100 .v120-primary:hover,.title-v100 .v120-secondary:hover{transform:none!important}}
+@media(max-width:680px){
+ .title-v100 .v120-title-actions{align-items:stretch!important;flex-direction:column!important}
+ .title-v100 .v120-primary,.title-v100 .v120-secondary{width:100%!important;max-width:100%!important}
+ .title-v100 .v120-secondary{min-height:46px!important}
+ .title-v100 .portal100-header-actions button{min-height:42px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .title-v100 .v120-primary,.title-v100 .portal100-emblem-wrap:after,
+ .title-v100 .v120-title-hero .portal100-kicker:before,.title-v100 .v120-divider span,
+ .title-v100 .v120-traveler-line{animation:none!important}
+ .title-v100 .v120-primary,.title-v100 .v120-secondary,.title-v100 .portal100-header-actions button{transition:none!important}
+}
