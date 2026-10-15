@@ -7,6 +7,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
 
     await expect(page).toHaveTitle(/LEGEND — Reboot Prototype/);
     await expect(page.locator('#title-panel')).toBeVisible();
@@ -27,6 +28,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
     await expect(page.locator('#combatButton')).toBeVisible();
     await page.locator('#combatButton').click();
     await expect(page.locator('#combat-panel')).toHaveClass(/active/);
@@ -56,6 +58,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
     await page.locator('#runeButton').click();
     await expect(page.locator('#training-panel')).toHaveClass(/active/);
 
