@@ -219,3 +219,10 @@ Use the companion [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.m
 The most important design constraint is that the writing team should know what the clues are building toward while the player receives answers gradually. The current proposal treats the Bell as an old route-warning signal, not a summons to a chosen protagonist; this is a working hypothesis, not locked lore. It preserves the traveler's flexible origin, makes High Ridge and Reed Cut tell different parts of the story, and gives Greyfen a local route conflict that grows from flooding, livelihoods, and records.
 
 **Implementation order:** First strengthen the first return from the Old Road with route-specific NPC responses and a useful journal update. Then add one small route-side quest and a consequential Greyfen follow-up. Build a larger new route only after early clues, objective flags, rewards, save behavior, and regression tests are specified. Do not expand quest quantity before the first evidence chain pays off.
+
+
+## 10. Route-side quest implementation: The Moved Cairn
+
+The v0.20.23 source adds Captain Oric's **The Moved Cairn** to Side Stories & Road Contracts. After accepting the contract, the player can inspect the Ridgeway Cairn on High Ridge and choose to restore the old alignment, record both positions, or mark the hazard and step back. The choice is recorded for turn-in and affects later dialogue and route narration.
+
+This is the first implementation of a route choice that leaves a remembered consequence. Full end-to-end verification remains pending; see the project handoff and changelog before treating it as release-verified.
