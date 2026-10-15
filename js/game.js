@@ -194,6 +194,18 @@
     document.addEventListener('keydown',unlockAudio);
   }
 
+  function credits(){
+    const overlay=document.createElement('div');
+    overlay.className='legend-credits-overlay';
+    overlay.innerHTML='<section class="legend-credits-panel" role="dialog" aria-modal="true" aria-labelledby="legendCreditsTitle"><div class="legend-credits-kicker">A WORLD IN THE MAKING</div><h2 id="legendCreditsTitle">LEGEND</h2><h3>THE AWAKENING</h3><div class="legend-credits-rule"></div><p>A dark-fantasy role-playing game about the roads we travel, the magic we awaken, and the places we choose to protect.</p><p><strong>World &amp; game:</strong> LEGEND RPG project</p><p><strong>Visual development:</strong> Original game art and AI-assisted asset production</p><p><strong>First light:</strong> Ashmere<br><strong>Beyond the lanterns:</strong> Greyfen and the wider realm</p><div class="legend-credits-rule"></div><p>Thank you for walking the road.</p><button class="legend-credits-close" type="button" data-credits-close>Return to the Title</button></section>';
+    const close=()=>{overlay.remove();document.removeEventListener('keydown',onKey);document.getElementById('credits')?.focus();};
+    const onKey=e=>{if(e.key==='Escape'){e.preventDefault();close();}};
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    overlay.querySelector('[data-credits-close]').addEventListener('click',close);
+    document.addEventListener('keydown',onKey);
+    document.body.appendChild(overlay);
+    overlay.querySelector('button').focus();
+  }
   function title(){
     applySettings();
     const player = loadPlayer();
@@ -232,6 +244,7 @@
             <div class="v120-title-actions">
               ${player ? `<button class="v120-primary" id="continue"><span>Continue Journey</span><small>Return to ${esc(town)}</small><i>→</i></button>` : '<button class="v120-primary" id="newPrimary"><span>Begin Your Journey</span><small>Create your traveler</small><i>→</i></button>'}
               ${player ? '<button class="v120-secondary" id="new" type="button">New Traveler</button>' : ''}
+              <button class="v120-secondary" id="credits" type="button">Credits</button>
             </div>
           </section>
         </main>
@@ -247,6 +260,7 @@
     if(newButton) newButton.onclick = () => titleTransition('Preparing New Traveler...', newTraveler);
     document.getElementById('account').onclick = () => titleTransition('Opening Traveler Profile...', account);
     document.getElementById('settings').onclick = () => titleTransition('Opening Options...', settings);
+    document.getElementById('credits').onclick = credits;
   }
 
   function continueGame(){
@@ -303,7 +317,7 @@
     if(backGame) backGame.onclick = continueGame;
   }
 
-  window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account };
+  window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account, credits };
   // v0.20.26: enter directly on the actual title menu. The former Ashmere Gate
   // splash was a redundant extra screen before the title and required an extra click.
   const boot = () => title();
