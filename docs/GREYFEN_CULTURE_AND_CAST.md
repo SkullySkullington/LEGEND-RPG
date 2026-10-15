@@ -129,7 +129,29 @@ Until that choice is made, use role cards rather than permanent names:
 
 These are role proposals, not approved names or final biographies. A local cast should get final names, portraits, voice rules, relationships, and save IDs together—not piecemeal.
 
-## 6. A Dry Crossing — playable regional story
+## 6. Candidate Greyfen residents (proposal only)
+
+These names and personality directions are **concepts for review, not canon**. If the project owner chooses to keep the same three keepers in both towns, discard this roster rather than creating duplicate versions of Mara, Brenn, or Oric.
+
+| Candidate | Role | Immediate want | Voice and friction | Gameplay/story function |
+|---|---|---|---|---|
+| **Tamsin Rill** | Reedgate Warden | Reopen a crossing before people depend on it for the next market run | Direct, alert, lightly dry; prefers a workable answer over a long debate | Gives the player the A Dry Crossing contract and explains the route-marker's practical value |
+| **Hesta Wren** | Boundary Archive keeper | Keep flood marks and route records usable when old measurements no longer match current conditions | Precise and patient; uneasy about uncertainty but refuses to conceal gaps | Lets the player compare old waterlines and learns to record contradictions without inventing an explanation |
+| **Noll Fenn** | Float Market salvage grader | Keep salvage prices credible so residents know what is worth carrying back from the water | Wry, observant, suspicious of grand claims; knows the difference between junk and something that can be repaired | Teaches salvage sorting, market value, and the practical source of Greyfen materials |
+| **Nerin Holt** | Drowned Anvil smith | Keep tools and equipment serviceable despite damp, corrosion, and narrow wet walkways | Grounded, craft-proud, economical with words; judges kit by what it can survive | Gives region-specific gear advice and crafting context without turning the smithy into a lore terminal |
+
+### Relationship seeds (proposed)
+- Tamsin trusts Hesta’s records but feels the archive can delay practical repairs while it seeks certainty.
+- Hesta knows Tamsin’s urgency is justified but worries that a poorly marked route will hurt someone later.
+- Noll believes both undercount the labor hidden inside salvaged materials; he can be wrong about a specific item without being dishonest.
+- Nerin’s equipment advice can settle a disagreement by showing what damp and corrosion actually do to a tool.
+
+These relationships should appear in small cooperative moments, not a mandatory four-way argument. Their goals overlap—keep the crossing usable and the town supplied—but each notices a different kind of failure.
+
+### Name review rule
+Before finalizing any name, check it against Ashmere residents, player origins/keepsakes, existing quest names, and any future region plans. Once chosen, record pronunciation, spelling, portrait silhouette, clothing/material cues, role, first appearance, dialogue ID, and the state that tracks whether the player has met them.
+
+## 7. A Dry Crossing — playable regional story
 
 **Implemented mechanics from the expansion plan:**
 - The traveler must recover a washed route marker.
