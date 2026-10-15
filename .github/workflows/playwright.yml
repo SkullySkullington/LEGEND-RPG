@@ -14,6 +14,33 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  road-discovery-diagnostic:
+    name: Focused road-discovery diagnostic
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Check road controller syntax
+        run: node --check js/systems/road-controller-v100.js
+      - name: Reproduce the road discovery interaction
+        run: npx playwright test tests/road-discovery.spec.js --project="Desktop Chrome"
+      - name: Upload focused diagnostic report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: road-discovery-diagnostic
+          path: playwright-report/
+          retention-days: 30
+
   test:
     name: Browser checks — ${{ matrix.project }}
     timeout-minutes: 20

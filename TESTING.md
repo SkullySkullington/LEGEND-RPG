@@ -79,6 +79,10 @@ npm run test:e2e:report
 
 ---
 
+## Focused regression diagnosis
+
+The workflow runs a short **Focused road-discovery diagnostic** job before the full matrix. It creates a synthetic traveler, takes the Reed Cut, advances to the first discovery, clicks **Look closer**, and records whether the click reached the document, whether the discovery panel appeared, and whether browser errors were raised. This isolates the known interaction from the rest of the suite; the full browser jobs still run afterward.
+
 ## Current smoke tests
 
 The starter tests check that:
