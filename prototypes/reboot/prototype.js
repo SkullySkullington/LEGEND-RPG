@@ -249,7 +249,7 @@
       scene = this;
       this.showBackdrop('title');
       this.scale.on('resize', () => this.resizeCurrentScene());
-      this.exploreKeys = this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
+      this.exploreKeys = this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SHIFT');
       this.soundscape();
       window.__legendRebootReady = true;
       window.dispatchEvent(new CustomEvent('legend-reboot-prototype-ready'));
@@ -723,6 +723,7 @@
       if (!state) return false;
       if (id === 'cache') return state.cacheFound;
       if (id === 'shrine') return state.shrineInspected;
+      if (id === 'tracks') return state.tracksInspected;
       if (id === 'scout') return state.scoutDefeated;
       return false;
     }
@@ -787,9 +788,13 @@
       $('#exploreResources').textContent = state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic' : ' Tonics') + '  ·  ' + state.xp + ' XP';
       $('#exploreStamina').style.width = this.exploreStamina + '%';
       $('#exploreStaminaText').textContent = 'STAMINA ' + Math.round(this.exploreStamina) + '%';
-      $('#exploreClue').textContent = state.shrineInspected
-        ? 'Evidence: The waystone was disturbed recently.'
-        : 'No magical evidence collected yet.';
+      $('#exploreClue').textContent = state.shrineInspected && state.tracksInspected
+        ? 'Evidence: Disturbed waystone + fresh warband tracks.'
+        : state.shrineInspected
+          ? 'Evidence: The waystone was disturbed recently.'
+          : state.tracksInspected
+            ? 'Evidence: Fresh tracks suggest an organized patrol.'
+            : 'No magical evidence collected yet.';
       $('#returnAshmereButton').disabled = !state.scoutDefeated;
       const target = this.nearestExplorationObject(98);
       const title = $('#exploreTargetTitle');
