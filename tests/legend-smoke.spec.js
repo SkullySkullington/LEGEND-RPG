@@ -47,12 +47,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.23 browser regression tests', () => {
+test.describe('LEGEND v0.20.24 browser regression tests', () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.23/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.23');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.23');
+    await expect(page.locator('.portal-footer')).toContainText('v0.20.24');
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.24');
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -703,6 +703,58 @@ test.describe('LEGEND v0.20.23 browser regression tests', () => {
     await page.locator('.exp100-hotspot-find').click();
     await expect(page.locator('.exp100-discovery-beat')).toContainText(/Chalk marks preserve both positions/i);
     await expect(page.locator('.exp100-moved-cairn')).toHaveCount(0);
+  });
+
+  test('Blackroot evidence advances through the Greyfen boundary stone and Mara’s archive', async ({ page }) => {
+    await startFreshCharacter(page, 'GreyfenEvidenceQA');
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.flags=pl.flags||{};
+      pl.flags.firstRoadReturnSeen=true;
+      pl.flags.firstRoadReturnMaraBriefed=true;
+      pl.flags.bellRoadSearched=true;
+      pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:5,pressure:0,trips:0,events:0,finds:0,battles:0};
+      Object.assign(pl.flags.roadExpeditionV100,{stage:5,routeChoice:'ridge',poiUsed:{}});
+      pl.questLog=['The Bell That Rang Once: Compare the Blackroot seal record with Greyfen’s boundary marks when the lowland archive is available.'];
+      rt.savePlayer(pl);
+      window.LegendRoadControllerV100.renderExpedition();
+    });
+    await page.locator('.exp100-hotspot-find').click();
+    await expect(page.locator('.exp100-discovery-beat')).toContainText(/same bell-mark from Blackroot/i);
+    await page.locator('#poiInspect').click();
+    const fieldEvidence=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        compared:pl.flags.greyfenBoundaryCompared,
+        memory:pl.memories.some(m=>/Greyfen Approach.*bell-mark.*Blackroot Bend/i.test(m)),
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:'))
+      };
+    });
+    expect(fieldEvidence.compared).toBe(true);
+    expect(fieldEvidence.memory).toBe(true);
+    expect(fieldEvidence.objective).toMatch(/Greyfen.*Boundary Archive/i);
+
+    await page.evaluate(() => {
+      const rt=window.LegendRuntimeV080;
+      const pl=rt.loadPlayer();
+      pl.currentRegion='Greyfen';
+      pl.discoveredRegions=['Ashmere','Greyfen'];
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.route('mara');
+    });
+    await expect(page.locator('.ash099-lines')).toContainText(/Blackroot mark appears beneath the newer cut/i);
+    const archiveRecord=await page.evaluate(() => {
+      const pl=window.LegendRuntimeV080.loadPlayer();
+      return {
+        read:pl.flags.greyfenArchiveRead,
+        objective:pl.questLog.find(q=>q.startsWith('The Bell That Rang Once:')),
+        memory:pl.memories.some(m=>/Mara compared the Blackroot seal record with the Greyfen boundary stone/i.test(m))
+      };
+    });
+    expect(archiveRecord.read).toBe(true);
+    expect(archiveRecord.objective).toMatch(/dated record or physical sign/i);
+    expect(archiveRecord.memory).toBe(true);
   });
 
   test('Wisp Lantern Wick uses a Bell Fragment and reduces opening Road Pressure once', async ({ page }) => {
