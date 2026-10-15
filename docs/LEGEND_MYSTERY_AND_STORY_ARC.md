@@ -244,3 +244,9 @@ These decisions should be discussed before the relevant content is implemented:
 - How much of the old route network is understood by ordinary people, and what terms do they use for it?
 
 Until approved, treat this blueprint as a coherent proposal for development, not finalized public lore.
+
+## Implementation note — The Moved Cairn
+
+**Source implementation added in v0.20.23; regression verification pending.** The existing Side Stories board now has a one-time contract from Captain Oric. After accepting it, the player can inspect the Ridgeway Cairn on High Ridge and choose to restore its old alignment, record both positions, or mark the hazard. The result is saved inside the existing contract state, is reported for a reward, changes Oric's response, and changes the cairn's description on later journeys.
+
+This is an intentionally small test of persistent route storytelling. Future route quests should follow the same principle: reveal the actual condition of the place, disclose the stakes of each response, record a consequence that survives a reload, and acknowledge the decision later. The broader explanation of the Bell and old route network remains a proposal until approved.
