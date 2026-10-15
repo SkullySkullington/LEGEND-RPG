@@ -1,9 +1,9 @@
-# AI Handoff — LEGEND: Roads of Ashmere
+# AI Handoff — LEGEND: The Unquiet Road
 
 Last updated: 2026-10-15. Read this file before changing code, and update it when project status changes.
 
 ## Identity and hard constraints
-- Game: **LEGEND: Roads of Ashmere**
+- Game: **LEGEND: The Unquiet Road**
 - Repository: https://github.com/TDTRIA/LEGEND-RPG
 - Live site: https://tdtria.github.io/LEGEND-RPG/
 - Default branch: `main`; GitHub is the source of truth.
@@ -333,3 +333,14 @@ Updated `docs/LEGEND_SERIES_MYTH_ARC.md` (commit `feef285f47cb54e8ec11d3d90aa9e6
 Added `docs/LEGEND_CHARACTER_COMPENDIUM.md` (commit `edf9841712a449d9503afc350e67e0379e9707a8`) and `docs/LEGEND_CULTURE_AND_HISTORY_ATLAS.md` (commit `8d097148730855851d06469cd2f84c3b039d34b4`). The character compendium preserves the four established recurring characters (Mara Vell, Old Brenn, Captain Oric, Sella Marr), proposes new residents and later-region characters, defines relationship tensions and personal quest arcs, and adds dialogue/portrait continuity rules. The culture atlas deepens each region's history, customs, livelihoods, governance, seasonal practices, folklore, rumors, and relationship to the old road network; it also sets limits on what should and should not be attributed to the Pale Surveyor.
 
 Updated `docs/LEGEND_WORLD_BIBLE.md`, `docs/LEGEND_DEEP_CANON_FOUNDATION.md`, `docs/LEGEND_SERIES_MYTH_ARC.md`, and `README.md` with companion links. All newly introduced people, institutions, eras, customs, and personal histories remain proposed rather than canon. Before implementation, compare names and roles against live game source and assets, choose a small production slice, and add dialogue/flags/tests only for stories the current game can support. No gameplay code was changed in this lore/documentation pass; browser verification state is unchanged.
+
+
+## 2026-10-15 — Series continuity and working subtitle reframe
+
+The current visible working subtitle is now **LEGEND: The Unquiet Road** (source build label v0.20.28). The previous “Roads of Ashmere” subtitle was too tightly identified with the opening town. The recommended title is broader without revealing the later mythology.
+
+**First-game geography correction:** Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended regions of the first game, not separate future games. Ashmere and Greyfen are the current source foundations; Ironpass, Blackwood, and the Ruined March remain in-development, so do not describe them as playable until their regions, story, and tests exist. Future titles should revisit the same geography after events have changed its people, laws, routes, and memories.
+
+Added [Series & Title Reframe](docs/LEGEND_SERIES_CONTINUITY_REFRAME.md). The revised proposal deepens the Pale Surveyor with the Hollow Mile and the disputed Unreturned: people or traces excluded by a supernatural route correction. This is **proposed lore, not locked canon**. The mystery must remain bounded to damaged old-road anchors, preserve human accountability, and not explain every monster or misfortune. The first game's proposed arc crosses all planned regions; later titles are organized by consequences and story eras rather than one region per installment.
+
+Title and documentation changes are committed, but the UI, regression tests, and GitHub Pages deployment still require browser verification. Do not claim v0.20.28 is fully tested/live-verified until that check succeeds.
