@@ -735,6 +735,10 @@ test.describe('LEGEND v0.20.24 browser regression tests', () => {
     expect(fieldEvidence.memory).toBe(true);
     expect(fieldEvidence.objective).toMatch(/Greyfen.*Boundary Archive/i);
 
+    await page.evaluate(() => window.LegendAshmereV099.route('mara'));
+    const ashmereObjective = await page.evaluate(() => window.LegendRuntimeV080.loadPlayer().questLog.find(q=>q.startsWith('The Bell That Rang Once:')));
+    expect(ashmereObjective).toMatch(/Greyfen.*Boundary Archive/i);
+
     await page.evaluate(() => {
       const rt=window.LegendRuntimeV080;
       const pl=rt.loadPlayer();
