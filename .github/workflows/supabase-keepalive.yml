@@ -1,0 +1,71 @@
+name: Supabase Keep-Alive
+
+# Free Supabase projects pause after about a week of low database activity.
+# This job makes one harmless read per day so the project stays awake, and it
+# fails (GitHub emails the repo owner) if the project is unreachable or paused.
+#
+# It reads the project URL and public anon key from the game's own config file,
+# so there is no second copy to keep in sync and no secret to store.
+# The anon key is public by design; never put a service-role key here.
+
+on:
+  schedule:
+    - cron: '17 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-keepalive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: js/systems/supabase-config-v09x.js
+          sparse-checkout-cone-mode: false
+
+      - name: Ping Supabase database
+        shell: bash
+        run: |
+          set -euo pipefail
+          CONFIG=js/systems/supabase-config-v09x.js
+          URL=$(sed -n "s/.*SUPABASE_URL = '\([^']*\)'.*/\1/p" "$CONFIG" | head -n1)
+          KEY=$(sed -n "s/.*SUPABASE_ANON_KEY = '\([^']*\)'.*/\1/p" "$CONFIG" | head -n1)
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::error::Could not read SUPABASE_URL / SUPABASE_ANON_KEY from $CONFIG. Did the config format change?"
+            exit 1
+          fi
+          echo "Pinging ${URL}"
+
+          # Read one row from the cloud-save table. Row-level security may return
+          # an empty list or a permission error for the anon role; either way the
+          # request reached the database, which is what counts as activity.
+          STATUS=$(curl -sS -o /tmp/ping-body.txt -w '%{http_code}' \
+            --retry 3 --retry-delay 10 --retry-all-errors --max-time 30 \
+            -H "apikey: ${KEY}" \
+            -H "Authorization: Bearer ${KEY}" \
+            "${URL}/rest/v1/traveler_slots?select=slot&limit=1" || true)
+          echo "Database read returned HTTP ${STATUS:-none}"
+
+          case "${STATUS:-}" in
+            200|401|403)
+              echo "Supabase project is awake."
+              ;;
+            404)
+              echo "::warning::Project answered, but the traveler_slots table was not found. Run supabase/traveler-slots.sql in the Supabase SQL editor so this check counts as database activity."
+              ;;
+            *)
+              echo "::error::Unexpected response (HTTP ${STATUS:-none}). The project may be paused: open the Supabase dashboard and choose Resume project."
+              head -c 400 /tmp/ping-body.txt 2>/dev/null || true
+              echo
+              exit 1
+              ;;
+          esac
