@@ -1,0 +1,57 @@
+/* LEGEND v0.20.31 — keep the real wordmark clear of the backdrop. */
+.title-v100 .portal100-brand{gap:12px!important;min-width:0!important}
+.title-v100 .portal100-emblem-wrap{
+  display:grid!important;place-items:center!important;
+  width:44px!important;height:44px!important;flex:0 0 44px!important;
+  overflow:hidden!important;border:1px solid rgba(240,207,131,.52)!important;
+  border-radius:50%!important;background:rgba(5,10,7,.72)!important;
+  box-shadow:0 0 24px rgba(240,207,131,.14)!important;
+}
+.title-v100 .portal100-emblem-wrap img{
+  display:block!important;width:28px!important;height:28px!important;
+  object-fit:contain!important;opacity:.96;
+}
+.title-v100 .portal100-brand>div:last-child{min-width:0!important}
+.title-v100 .portal100-brand span{
+  display:block!important;color:#f0cf83!important;
+  font-size:.68rem!important;line-height:1.25!important;letter-spacing:.2em!important;
+  white-space:normal!important;text-shadow:0 2px 16px #000;
+}
+.title-v100 .portal100-brand p{
+  max-width:310px!important;margin:5px 0 0!important;color:#d4d7ca!important;
+  font-size:.76rem!important;line-height:1.4!important;
+}
+.title-v100 .v120-title-hero{overflow:visible!important}
+.title-v100 .v120-title-hero .v120-legend-logo{
+  display:block!important;width:min(100%,510px)!important;height:auto!important;
+  max-height:clamp(100px,17vh,178px)!important;object-fit:contain!important;
+  object-position:left center!important;box-sizing:border-box!important;
+  margin:2px 0 18px!important;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.56))!important;
+}
+.title-v100 .v120-title-hero h2{
+  max-width:100%!important;margin:0 0 20px!important;
+  font-size:clamp(1.25rem,2.25vw,1.9rem)!important;
+  line-height:1.16!important;letter-spacing:.09em!important;
+  overflow-wrap:normal!important;
+}
+@media(max-width:760px){
+  .title-v100 .portal100-header{align-items:flex-start!important;padding:14px 15px!important;gap:12px!important}
+  .title-v100 .portal100-brand{gap:9px!important;max-width:calc(100% - 94px)!important}
+  .title-v100 .portal100-emblem-wrap{width:38px!important;height:38px!important;flex-basis:38px!important}
+  .title-v100 .portal100-emblem-wrap img{width:24px!important;height:24px!important}
+  .title-v100 .portal100-brand span{font-size:.6rem!important;letter-spacing:.14em!important}
+  .title-v100 .portal100-brand p{font-size:.68rem!important;line-height:1.3!important;max-width:250px!important}
+  .title-v100 .v120-title-hero .v120-legend-logo{
+    width:min(100%,420px)!important;max-height:clamp(78px,13vh,118px)!important;
+    margin:0 0 15px!important;
+  }
+  .title-v100 .v120-title-hero h2{font-size:clamp(1.1rem,4.6vw,1.55rem)!important;margin-bottom:15px!important}
+}
+@media(max-width:390px){
+  .title-v100 .portal100-brand p{display:none!important}
+  .title-v100 .v120-title-hero .v120-legend-logo{max-height:86px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .title-v100 .v120-title-hero .v120-legend-logo{filter:none!important}
+}
