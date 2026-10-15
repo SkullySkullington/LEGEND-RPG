@@ -81,3 +81,37 @@ Successful exports: 25/25
 - Equipment and materials icon atlas / Marsh herbs: `assets/generated/items/materials/marsh-herbs.webp` — 317×317, 5 KiB
 - Greyfen marsh walkway environment: `assets/generated/locations/greyfen-marsh-walkway.webp` — 2048×1143, 207 KiB
 - Mirebound Sentinel enemy portrait: `assets/generated/enemies/mirebound-sentinel.webp` — 1529×2048, 287 KiB
+
+
+## Imported batch: crafting-armor-ashmere-greyfen-2026-10-15
+
+- Crafting bench ingredient and output icon atlas: `assets/generated/items/crafting-icon-atlas.webp` — 2048×2048, 177 KiB
+- Crafting bench ingredient and output icon atlas / roadHerbBundle: `assets/generated/items/materials/road-herb-bundle.webp` — 512×512, 21 KiB
+- Crafting bench ingredient and output icon atlas / blackrootTonicIngredients: `assets/generated/items/materials/blackroot-tonic-ingredients.webp` — 511×512, 8 KiB
+- Crafting bench ingredient and output icon atlas / huntersCharm: `assets/generated/items/materials/hunters-charm.webp` — 512×512, 12 KiB
+- Crafting bench ingredient and output icon atlas / ironOreChunk: `assets/generated/items/materials/iron-ore-chunk.webp` — 512×511, 14 KiB
+- Crafting bench ingredient and output icon atlas / tornHide: `assets/generated/items/materials/torn-hide.webp` — 512×512, 12 KiB
+- Crafting bench ingredient and output icon atlas / reinforcedBuckle: `assets/generated/items/materials/reinforced-buckle.webp` — 512×511, 15 KiB
+- Crafting bench ingredient and output icon atlas / bellFragmentCraft: `assets/generated/items/materials/bell-fragment.webp` — 512×512, 13 KiB
+- Crafting bench ingredient and output icon atlas / lampOil: `assets/generated/items/materials/lamp-oil.webp` — 511×512, 10 KiB
+- Crafting bench ingredient and output icon atlas / tradeBundle: `assets/generated/items/materials/trade-bundle.webp` — 512×512, 24 KiB
+- Blacksmith armor icon atlas: `assets/generated/items/armor-icon-atlas.webp` — 2048×2048, 303 KiB
+- Blacksmith armor icon atlas / clothArmor: `assets/generated/items/armor/cloth-armor.webp` — 512×512, 15 KiB
+- Blacksmith armor icon atlas / leatherReinforcedArmor: `assets/generated/items/armor/leather-reinforced-armor.webp` — 511×512, 21 KiB
+- Blacksmith armor icon atlas / chainArmor: `assets/generated/items/armor/chain-armor.webp` — 512×512, 48 KiB
+- Blacksmith armor icon atlas / bronzeArmor: `assets/generated/items/armor/bronze-armor.webp` — 512×511, 28 KiB
+- Blacksmith armor icon atlas / ironArmor: `assets/generated/items/armor/iron-armor.webp` — 512×512, 21 KiB
+- Blacksmith armor icon atlas / kettleHelmet: `assets/generated/items/armor/kettle-helmet.webp` — 512×511, 12 KiB
+- Blacksmith armor icon atlas / leatherBracersArmor: `assets/generated/items/armor/leather-bracers.webp` — 512×512, 19 KiB
+- Blacksmith armor icon atlas / armorShield: `assets/generated/items/armor/round-shield.webp` — 511×512, 21 KiB
+- Blacksmith armor icon atlas / armorRepairKit: `assets/generated/items/armor/armor-repair-kit.webp` — 512×512, 19 KiB
+- Ashmere and Greyfen shop icon atlas: `assets/generated/ui/region-shop-icon-atlas.webp` — 2048×2048, 273 KiB
+- Ashmere and Greyfen shop icon atlas / ashmereTrader: `assets/generated/ui/region-shops/ashmere-trader.webp` — 512×512, 27 KiB
+- Ashmere and Greyfen shop icon atlas / ashmereForge: `assets/generated/ui/region-shops/ashmere-forge.webp` — 511×512, 18 KiB
+- Ashmere and Greyfen shop icon atlas / ashmereWorkbench: `assets/generated/ui/region-shops/ashmere-workbench.webp` — 512×512, 22 KiB
+- Ashmere and Greyfen shop icon atlas / ashmereInn: `assets/generated/ui/region-shops/ashmere-inn.webp` — 512×511, 17 KiB
+- Ashmere and Greyfen shop icon atlas / greyfenMarket: `assets/generated/ui/region-shops/greyfen-market.webp` — 512×512, 36 KiB
+- Ashmere and Greyfen shop icon atlas / greyfenForge: `assets/generated/ui/region-shops/greyfen-forge.webp` — 512×511, 19 KiB
+- Ashmere and Greyfen shop icon atlas / greyfenWorkbench: `assets/generated/ui/region-shops/greyfen-workbench.webp` — 512×512, 23 KiB
+- Ashmere and Greyfen shop icon atlas / greyfenFerryman: `assets/generated/ui/region-shops/greyfen-ferryman.webp` — 511×512, 20 KiB
+- Ashmere and Greyfen shop icon atlas / greyfenApothecary: `assets/generated/ui/region-shops/greyfen-apothecary.webp` — 512×512, 27 KiB
