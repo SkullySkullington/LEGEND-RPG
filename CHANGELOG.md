@@ -1,9 +1,19 @@
+## v0.20.26 — The Earlier Weekly Return
+- After Brenn identifies rewritten Greyfen crossing entries, the Wayfarer’s Camp discovery can reveal an earlier weekly return marked “CLOSED pending inspection,” then overwritten as “OPEN” without initials.
+- Recovering the return creates a journal memory and directs the player to Old Brenn in Greyfen.
+- Brenn compares the dated return with the overwritten ledger; Mara then preserves the Blackroot seal, Greyfen boundary comparison, Reedwatch field note, and weekly return together in the archive.
+- The story now ends this evidence chapter with a clear lead: find the missing closure order that authorized the later change to the lower crossing.
+- Added regression coverage for discovery, NPC handoffs, objective progression, and save/reload persistence.
+- Full Playwright and live story-path verification remain pending. Browser testing has been blocked before page load by \`ERR_TUNNEL_CONNECTION_FAILED\`; this is not a confirmed game failure or a passing test.
+
+---
+
 ## v0.20.25 — The Reedwatch Field Note
 - Following Mara’s Greyfen Archive comparison, the Reedwatch Shelter locker becomes a contextual discovery on a later Old Road expedition.
 - The player can recover a rain-blurred field note dated two days after Greyfen logged the flood’s retreat; the sketch already shows the newer cut toward the reed bed.
 - Returning the note to Mara advances the investigation to Old Brenn. His ledger dialogue reveals overwritten crossing destinations without resolving who altered the records, then directs the player toward an earlier weekly route return.
 - The story flags and quest objective are stored through the existing save and journal systems. Regression coverage has been added for finding the note, reporting it to Mara, and advancing Brenn’s lead.
-- Full Playwright and live story-path verification are pending. The latest live browser attempt was blocked before page load by \`ERR_TUNNEL_CONNECTION_FAILED\`; no game failure has been confirmed.
+- Full Playwright and live story-path verification are pending. The latest live browser attempt was blocked before page load by `ERR_TUNNEL_CONNECTION_FAILED`; no game failure has been confirmed.
 
 ---
 
