@@ -79,11 +79,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
   });
 
-  test('title screen has a single cinematic brand and no duplicate traveler card', async ({ page }) => {
+  test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'LEGEND', exact: true })).toBeVisible();
-    await expect(page.locator('.v120-title-hero h2')).toHaveText('The Unquiet Road');
+    await expect(page.locator('.v120-title-hero h2')).toHaveText('THE AWAKENING');
+    await expect(page.locator('.v120-title-hero')).toContainText('Monsters gather beyond the borders');
+    await expect(page.locator('.portal100-brand')).toContainText('MONSTER WARS');
     await expect(page.locator('.portal100-traveler')).toHaveCount(0);
     await expect(page.locator('#newPrimary')).toBeVisible();
     await expect(page.locator('#new')).toHaveCount(0);
