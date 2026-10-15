@@ -32,17 +32,21 @@ This sounds almost benevolent when described by the Surveyor's agents. It become
 
 ### The origin: grief became doctrine
 
-During an ancient crisis remembered in surviving fragments as the **Long Severance**, kingdoms were cut off from one another by war, flooding, landslides, and the collapse of old roads. Relief caravans followed contradictory maps. Messages arrived too late. Some settlements vanished from the political record because no messenger could prove they still existed.
+During the Long Severance, a chain of war, flooding, collapsed bridges, and broken authority left settlements close enough to see one another's smoke but too isolated to help. The first road network was built to compare local warnings, dated records, physical inspections, and the testimony of people who had actually walked a route. It saved lives because no single source could quietly overrule the rest.
 
-The Surveyor was then a mortal roadkeeper who helped design a shared network of verified routes. The first version saved lives. Its records, markers, and bells required local keepers to compare reports rather than trust one map blindly.
+The disaster later called the **Seven-Wagon Dispatch** broke that principle. Seven wagons carrying relief were sent through a contested pass to an isolated settlement. The central ledger still listed the pass as open. **Ivara**, a local keeper, had seen the ground shift and rang the warning bell. There was no time to inspect the route fully, and the settlement was running out of food.
 
-After a later disaster, the roadkeeper concluded that local disagreement had made the system fail. They redesigned it so that markers and records would not merely describe a road; they would make all connected signs agree. The new system worked at first, then began suppressing whatever contradicted its master record.
+**Aren Vey**, then a respected roadkeeper coordinating the dispatch, authorized the wagons to proceed. The decision was understandable under the pressure; it was still Aren's decision. The road failed. The wagons never reached their destination. Rescuers found no clear wreckage, only a stretch of path that no longer joined the land in the way the older reports described. Some later accounts speak of seven lights in the fog; others dismiss that detail as grief turning into folklore.
 
-The roadkeeper saw the damage and had a choice: dismantle the network and return the world to uncertain, fractured travel, or keep correcting the inconsistencies until the system was complete. They chose completion. To continue directing the system beyond an ordinary human lifetime, they bound their memory and will into its oldest central node.
+The catastrophe should have left a record of uncertainty: Ivara's warning, the stale central ledger, Aren's authorization, and the lives lost. Instead, the final account was amended to say that no valid closure warning had been filed and that the destination could not be verified as an active settlement. Families were denied claims because, on paper, the relief had been sent correctly and the people it was meant to reach were not properly counted. A missing road became a missing duty; a missing duty became a missing community.
 
-Their personal name disappeared from the records. Only the title remained.
+Aren helped build the system that made that account authoritative. Whether Aren personally made the first alteration or accepted it under pressure is a guarded mystery, but Aren did not dismantle the network when its correction process began suppressing contradictory testimony. The first wrong was a decision made under uncertainty. The deeper wrong was turning the decision into an unquestionable truth.
 
-This origin gives the Surveyor a comprehensible wound and a culpable choice. Their original fear was understandable. Their refusal to stop is not excused by it.
+Aren redesigned the network so connected markers and records would force routes into agreement. This appeared to prevent the kind of contradiction that had preceded the disaster. At damaged junctions, however, corrections began folding rejected passages into a shadow-way later called the **Hollow Mile**. The network could preserve a route's outline or a lost person's trace without restoring the person who had lived it.
+
+Aren bound memory and intent into the oldest central node to ensure the network would never abandon that mission. The title **Pale Surveyor** survived while the personal name disappeared from most records. Over centuries the system kept the compulsion to correct and the promise to recover the lost, while losing its ability to distinguish a person from the account it held of them.
+
+This origin gives the Surveyor a comprehensible wound and a culpable choice. Its original fear was understandable. Its promise to rescue the Unreturned may even contain a belief it still holds sincerely. Its refusal to accept that a perfect account cannot replace a living person is not excused by grief.
 
 ### What makes the Surveyor evil
 
