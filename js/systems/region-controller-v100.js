@@ -1,7 +1,7 @@
 // LEGEND v0.10.1 - Regional Travel Controller
 // Owns the world-map layer: Road Tokens unlock regions; gold pays for travel between them.
 (() => {
-  const RT=()=>window.LegendRuntimeV080||{}, D=()=>window.LEGEND_DATA||{}, root=()=>document.getElementById('root');
+  const RT=()=>window.LegendRuntimeV080||{}, D=()=>window.LEGEND_DATA||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
   const p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl);
   const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const gold=n=>Number(n||0).toLocaleString()+'g';
@@ -23,7 +23,9 @@
     else if(!available) action='<span class="reg100-state">In development</span>';
     else action='<button class="reg100-btn" data-travel="'+esc(r.id)+'">'+(travel?'Travel • '+gold(travel):'Enter')+'</button>';
     const meta=has?(current?'Current location':'Unlocked'):(!regionMet?'First unlock '+esc(requirement?.name||r.requiresRegion):!flagMet?'Complete '+esc(r.requiresFlagLabel||r.requiresFlag):!available?'In development':'Unlock: '+cost+' Road Tokens');
-    return '<article class="reg100-card '+(has?'unlocked ':'locked ')+(current?'current':'')+'"><div class="reg100-card-top"><span class="reg100-mark">'+(has?'✦':'•')+'</span><div><div class="reg100-kicker">'+(r.type==='home'?'HOME REGION':'REGION')+'</div><h2>'+esc(r.name)+'</h2></div></div><p>'+esc(r.description||'A place beyond the known road.')+'</p><div class="reg100-meta">'+meta+(has&&!current&&available?' • Fare '+travel+'g':'')+'</div>'+action+'</article>';
+    const scenePath=r.id==='Greyfen'?A().locations?.greyfenMarshWalkway:'';
+    const scene=scenePath?'<div class="reg100-card-scene"><img src="'+esc(scenePath)+'" alt="Raised walkway across the Greyfen marsh" loading="lazy" onerror="this.parentElement.remove()"></div>':'';
+    return '<article class="reg100-card '+(has?'unlocked ':'locked ')+(current?'current':'')+'">'+scene+'<div class="reg100-card-top"><span class="reg100-mark">'+(has?'✦':'•')+'</span><div><div class="reg100-kicker">'+(r.type==='home'?'HOME REGION':'REGION')+'</div><h2>'+esc(r.name)+'</h2></div></div><p>'+esc(r.description||'A place beyond the known road.')+'</p><div class="reg100-meta">'+meta+(has&&!current&&available?' • Fare '+travel+'g':'')+'</div>'+action+'</article>';
   }
   function render(note=''){
     const pl=p(); if(!pl)return;
