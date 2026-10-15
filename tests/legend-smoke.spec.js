@@ -1138,3 +1138,16 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   });
 
 });
+
+
+test('Credits dialog opens accessibly and closes with Escape', async ({ page }) => {
+  await openTitle(page);
+  await page.getByRole('button', { name: 'Credits' }).click();
+  const dialog = page.getByRole('dialog', { name: 'LEGEND' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('A WORLD IN THE MAKING');
+  await expect(dialog.getByRole('button', { name: 'Return to the Title' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Credits' })).toBeFocused();
+});
