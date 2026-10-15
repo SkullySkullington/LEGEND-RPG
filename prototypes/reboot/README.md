@@ -9,7 +9,7 @@ This prototype tests the direction proposed in [LEGEND Game Reboot Plan](../../d
 - A short, skippable opening-cinematic proof using moving/crossfading scenes and draft narration.
 - A first combat feel test with enemy intent text, animated strike/guard/spell actions, feedback, and a retreat action.
 - A small rune-pattern mini-game as a proof of skill training.
-- A first playable Old Road expedition: keyboard movement, nearby interactions, a recoverable supply cache, a waystone clue, a goblin scout encounter, battle rewards, and a return-to-Ashmere report.
+- A first playable Old Road expedition: keyboard movement, stamina-limited sprinting with a stamina HUD, nearby interactions, a recoverable supply cache, a waystone clue, optional warband-track investigation, a goblin scout encounter, battle rewards, and a return-to-Ashmere report.
 - A short tutorial encounter with an explicit return-to-exploration transition; the expedition state is kept in memory only.
 - Sound toggle and a responsive layout; desktop is the primary review target.
 
