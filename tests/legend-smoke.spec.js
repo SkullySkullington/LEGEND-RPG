@@ -98,6 +98,51 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
 
+  test('new generated RPG art is registered and exists as stable local files', async ({ page }) => {
+    await openTitle(page);
+    const assets = await page.evaluate(() => {
+      const a = window.LegendAssetsV090;
+      return {
+        paths: [
+          a.ui.townServiceIconAtlas,
+          ...Object.values(a.ui.serviceIcons),
+          ...Object.values(a.skills),
+          a.locations.greyfenMarshWalkway,
+          a.enemies.mireboundSentinel,
+          a.items.ironShortSword,
+          a.items.woodcuttersAxe,
+          a.items.huntingBowV2,
+          a.items.reinforcedRoundShield,
+          a.items.ironHelmet,
+          a.items.leatherBracers,
+          a.items.ironOre,
+          a.items.animalHide,
+          a.items.marshHerbs
+        ],
+        sentinelLookup: a.byName('Mirebound Sentinel'),
+        sentinelPath: a.enemies.mireboundSentinel
+      };
+    });
+    expect(assets.sentinelLookup).toBe(assets.sentinelPath);
+    for (const assetPath of assets.paths) {
+      expect(fs.existsSync(path.join(__dirname, '..', assetPath)), assetPath).toBe(true);
+    }
+  });
+
+  test('inn actions show the newly generated local service illustrations', async ({ page }) => {
+    await startFreshCharacter(page, 'ServiceArtQA');
+    await page.locator('.ash100-destination[data-ash-view="inn"]').click();
+    const innIcon = page.locator('#rest .ash099-asset-icon img');
+    const roadIcon = page.locator('#camp .ash099-asset-icon img');
+    const journalIcon = page.locator('#rumor .ash099-asset-icon img');
+    await expect(innIcon).toHaveAttribute('src', /service-inn\.webp/);
+    await expect(roadIcon).toHaveAttribute('src', /service-milestone\.webp/);
+    await expect(journalIcon).toHaveAttribute('src', /service-journal\.webp/);
+    await expect.poll(async () => page.locator('.ash099-asset-icon img').evaluateAll(imgs =>
+      imgs.length === 3 && imgs.every(img => img.complete && img.naturalWidth > 0)
+    )).toBe(true);
+  });
+
   test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenQA');
     await page.evaluate(() => {
@@ -350,368 +395,18 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('town destinations use the committed local service icon family', async ({ page }) => {
     await startFreshCharacter(page, 'TownIconQA');
     const iconCases = [
-      ['inn', 'service-inn.webp'],
-      ['trader', 'service-market.webp'],
-      ['smith', 'service-blacksmith.webp'],
-      ['work', 'service-job-board.webp'],
-      ['regions', 'service-gatehouse.webp']
+      { view: 'inn', path: /service-inn\\.webp$/ },
+      { view: 'trader', path: /service-market\\.webp$/ },
+      { view: 'smith', path: /service-blacksmith\\.webp$/ },
+      { view: 'work', path: /service-job-board\\.webp$/ },
+      { view: 'regions', path: /service-gatehouse\\.webp$/ }
     ];
-    for (const [view, filename] of iconCases) {
-      const icon = page.locator(`.ash100-destination[data-ash-view="${view}"] .ash099-icon-art img`);
-      await expect(icon).toHaveAttribute('src', new RegExp(`assets/generated/ui/icons/${filename.replace('.', '\\.')}const { test, expect } = require('@playwright/test');
-const fs = require('fs');
-const path = require('path');
-const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
-const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
-if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
-const version = versionMatch[1];
-
-// Each Playwright test runs in an isolated browser context, so clearing localStorage
-// here only resets that test's synthetic traveler—not a player's live browser save.
-async function openTitle(page) {
-  await page.goto('/');
-  await page.evaluate(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-  });
-  await page.reload();
-  // The game's ember/fog/CTA animations are decorative; disable them in test contexts
-  // so WebKit touch targets do not remain perpetually "unstable" during clicks.
-  await page.addStyleTag({ content: `
-    *, *::before, *::after {
-
-      animation: none !important;
-
-      transition: none !important;
-
-      scroll-behavior: auto !important;
-
-    }
-  ` });
-  await expect(page.locator('.v120-title')).toBeVisible();
-  await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
-}
-
-async function startFreshCharacter(page, name = 'QATraveler') {
-  await openTitle(page);
-  await page.getByRole('button', { name: /Begin Your Journey/i }).click();
-  await page.locator('#v094Name').fill(name);
-  await page.locator('#v094Next').click();
-  await page.locator('[data-gender="unspoken"]').click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-personality="kind"]').click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-origin]').first().click();
-  await page.locator('#v094Next').click();
-  await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-keepsake="Old Map"]').click();
-  await page.locator('#v094Next').click();
-  await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /Begin the Road/i }).click();
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
-  await expect(page.locator('.ash100-town')).toBeVisible();
-}
-
-test.describe(`LEGEND v${version} browser regression tests`, () => {
-  test('title and visible build version are consistent', async ({ page }) => {
-    await openTitle(page);
-    await expect.poll(() => page.title()).toContain(`v${version}`);
-    await expect(page.locator('.portal-footer')).toContainText(`v${version}`);
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
-  });
-
-  test('title emblem loads from the committed SVG artwork', async ({ page }) => {
-    await openTitle(page);
-    const emblem = page.locator('.portal100-emblem-wrap img');
-    await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /logo_legend_emblem_v2\.svg/);
-    await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-  });
-
-  test('game opens directly on the actual title menu without the redundant Ashmere Gate screen', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
-    await page.reload();
-    await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('.title-gate-card')).toHaveCount(0);
-    await expect(page.locator('#enterRealm')).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
-  });
-
-  test('title screen has a single cinematic brand and no duplicate traveler card', async ({ page }) => {
-    await openTitle(page);
-    await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'LEGEND', exact: true })).toBeVisible();
-    await expect(page.locator('.v120-title-hero h2')).toHaveText('The Unquiet Road');
-    await expect(page.locator('.portal100-traveler')).toHaveCount(0);
-    await expect(page.locator('#newPrimary')).toBeVisible();
-    await expect(page.locator('#new')).toHaveCount(0);
-  });
-
-  test('Ashmere hub avoids duplicate camp shortcuts and keeps destinations as the main focus', async ({ page }) => {
-    await startFreshCharacter(page, 'AshmereLayoutQA');
-    await expect(page.locator('.ash100-town')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
-    await expect(page.locator('.ash100-destination')).toHaveCount(7);
-    await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
-  });
-
-  test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
-    await startFreshCharacter(page, 'GreyfenQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=5;
-      rt.savePlayer(pl);
-      window.LegendAshmereV099.renderAshmere();
-    });
-    await expect(page.locator('.ash100-town')).toContainText('Greyfen');
-    await expect(page.locator('.ash100-destinations')).toContainText('Reedlight Inn');
-    await expect(page.locator('.ash100-destinations')).toContainText('Marsh Market');
-    await expect(page.getByRole('navigation', { name: 'Greyfen town navigation' })).toBeVisible();
-    await expect(page.locator('.ash100-bottom-panel')).toHaveCount(0);
-  });
-
-  test('A Dry Crossing exposes its tradeoffs and persists the safe-route reward once', async ({ page }) => {
-    await startFreshCharacter(page, 'DryCrossingQA');
-    const before=await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=5;
-      rt.savePlayer(pl);
-      window.LegendAshmereV099.renderAshmere();
-      return {gold:Number(pl.gold||0),herbs:Number(pl.inventory.roadHerb||0)};
-    });
-    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
-    await expect(page.getByRole('heading', { name: 'A Dry Crossing' })).toBeVisible();
-    await expect(page.locator('[data-crossing-choice="posts"]')).toContainText('35g and 1 Road Herb');
-    await expect(page.locator('[data-crossing-choice="reeds"]')).toContainText('65% chance');
-    await page.locator('[data-crossing-choice="posts"]').click();
-    await expect(page.getByRole('heading', { name: 'The marker is safe' })).toBeVisible();
-    const after=await page.evaluate(() => {
-      const pl=window.LegendRuntimeV080.loadPlayer();
-      return {gold:Number(pl.gold||0),herbs:Number(pl.inventory.roadHerb||0),complete:Boolean(pl.flags.greyfenDryCrossingComplete)};
-    });
-    expect(after.gold).toBe(before.gold+35);
-    expect(after.herbs).toBe(before.herbs+1);
-    expect(after.complete).toBe(true);
-    await page.locator('#ashBack').click();
-    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
-    await expect(page.locator('[data-crossing-choice]')).toHaveCount(0);
-    await expect(page.locator('.ash099-screen')).toContainText('cannot be claimed again');
-  });
-
-  test('Continue Journey returns to the saved playable region', async ({ page }) => {
-    await startFreshCharacter(page, 'RegionResumeQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      rt.savePlayer(pl);
-      window.LegendGameBootstrap.title();
-    });
-    await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('#continue')).toContainText('Return to Greyfen');
-    await page.locator('#continue').click();
-    await expect(page.locator('.ash100-town-greyfen')).toBeVisible();
-    const region=await page.evaluate(() => window.LegendRuntimeV080.loadPlayer().currentRegion);
-    expect(region).toBe('Greyfen');
-  });
-
-  test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
-    await startFreshCharacter(page, 'GreyfenWorkQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=5;
-      rt.savePlayer(pl);
-      window.LegendAshmereV099.renderAshmere();
-    });
-    await page.locator('.ash100-destination[data-ash-view="work"]').click();
-    await expect(page.locator('#ashBack')).toHaveText('Back to Greyfen');
-    await expect(page.locator('[data-job-open="peat"]')).toContainText('Dry Peat Bricks');
-    await expect(page.locator('[data-job-open="salvage"]')).toContainText('Sort a Salvage Basket');
-    await expect(page.locator('[data-job-open="markers"]')).toContainText('Reset Flood Markers');
-    await expect(page.locator('[data-job-open="wood"]')).toHaveCount(0);
-    await page.locator('[data-job-open="peat"]').click();
-    await expect(page.locator('.ash099-job-meta')).toContainText('Dry Peat Brick');
-    await expect(page.locator('.ash099-job-mode-sequence')).toBeVisible();
-  });
-
-  test('Greyfen uses its own local scene and keeper dialogue', async ({ page }) => {
-    await startFreshCharacter(page, 'GreyfenKeepersQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=5;
-      rt.savePlayer(pl);
-      window.LegendAshmereV099.renderAshmere();
-    });
-    await expect(page.locator('.ash100-town-greyfen .ash100-hero img')).toHaveAttribute('src', /greyfen-town\.webp/);
-    await page.locator('.ash100-destination[data-ash-view="people"]').click();
-    await expect(page.locator('.ash099-head')).toContainText(/People of Greyfen/i);
-    await expect(page.locator('.ash099-npc-grid')).toContainText(/Boundary Archivist/i);
-    await page.locator('.ash099-npc-card[data-ash-view="mara"]').click();
-    await expect(page.locator('.ash099-head')).toContainText(/Boundary Archivist/i);
-    await expect(page.locator('.ash099-screen')).toContainText(/drowned records/i);
-  });
-
-  test('Greyfen route board avoids starting the Ashmere Old Road expedition', async ({ page }) => {
-    await startFreshCharacter(page, 'GreyfenRoutesQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.currentRegion='Greyfen';
-      pl.discoveredRegions=['Ashmere','Greyfen'];
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=5;
-      rt.savePlayer(pl);
-      window.LegendAshmereV099.renderAshmere();
-    });
-    await page.getByRole('navigation', { name: 'Greyfen town navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await expect(page.locator('.ash099-head')).toContainText(/Lowland Crossings/i);
-    await expect(page.locator('[data-ash-view="road"]')).toHaveCount(0);
-    await expect(page.locator('[data-ash-view="regions"]')).toBeVisible();
-  });
-
-  test('blank traveler name shows inline validation without leaving creation', async ({ page }) => {
-    await openTitle(page);
-    await page.getByRole('button', { name: /Begin Your Journey/i }).click();
-    await page.locator('#v094Next').click();
-    await expect(page.locator('#v094NameError')).toHaveText('Please enter a traveler name.');
-    await expect(page.getByRole('heading', { name: 'Who reaches Ashmere?' })).toBeVisible();
-    await expect(page.locator('#v094Name')).toHaveAttribute('aria-invalid', 'true');
-  });
-
-  test('new traveler reaches Ashmere', async ({ page }) => {
-    await startFreshCharacter(page, 'AshmereQA');
-    await expect(page.locator('.ash100-town')).toContainText('Ashmere');
-    await expect(page.locator('.ash100-town')).toContainText('AshmereQA');
-    await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
-  });
-
-  test('Routes opens route board instead of starting an expedition', async ({ page }) => {
-    await startFreshCharacter(page, 'RoutesQA');
-    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await expect(page.getByRole('heading', { name: 'Routes & Expeditions' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /The Old Road/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Road Network/i })).toBeVisible();
-    await expect(page.locator('.ash100-town')).toHaveCount(0);
-  });
-
-  test('Road Network opens regional map and stays on map', async ({ page }) => {
-    await startFreshCharacter(page, 'MapQA');
-    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /Road Network/i }).click();
-    await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
-    await expect(page.getByText('Greyfen', { exact: true })).toBeVisible();
-    await expect(page.getByText('Ironpass', { exact: true })).toBeVisible();
-    await expect(page.locator('.ash100-town')).toHaveCount(0);
-  });
-
-  test('regional unlocks enforce Greyfen before Ironpass even with surplus tokens', async ({ page }) => {
-    await startFreshCharacter(page, 'RegionOrderQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.inventory=pl.inventory||{};
-      pl.inventory.roadToken=50;
-      rt.savePlayer(pl);
-      window.LegendRegionsV100.render();
-    });
-    await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
-    const greyfen=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Greyfen', exact: true }) });
-    const ironpass=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Ironpass', exact: true }) });
-    await expect(greyfen.locator('[data-unlock="Greyfen"]')).toBeVisible();
-    await expect(ironpass).toContainText('Requires Greyfen first');
-    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
-    let state=await page.evaluate(() => {
-      window.LegendRegionsV100.unlock('Ironpass');
-      const pl=window.LegendRuntimeV080.loadPlayer();
-      return {currentRegion:pl.currentRegion,known:pl.discoveredRegions,tokens:pl.inventory.roadToken};
-    });
-    expect(state.currentRegion).toBe('Ashmere');
-    expect(state.known).not.toContain('Ironpass');
-    expect(state.tokens).toBe(50);
-
-    await page.locator('[data-unlock="Greyfen"]').click();
-    await expect(ironpass).toContainText('Complete A Dry Crossing first');
-    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
-    state=await page.evaluate(() => {
-      window.LegendRegionsV100.unlock('Ironpass');
-      const pl=window.LegendRuntimeV080.loadPlayer();
-      return {currentRegion:pl.currentRegion,known:pl.discoveredRegions,tokens:pl.inventory.roadToken};
-    });
-    expect(state.currentRegion).toBe('Greyfen');
-    expect(state.known).toContain('Greyfen');
-    expect(state.known).not.toContain('Ironpass');
-    expect(state.tokens).toBe(45);
-
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV080;
-      const pl=rt.loadPlayer();
-      pl.flags=pl.flags||{};
-      pl.flags.greyfenDryCrossingComplete=true;
-      rt.savePlayer(pl);
-      window.LegendRegionsV100.render();
-    });
-    await expect(ironpass).toContainText('In development');
-    await expect(ironpass.locator('[data-unlock="Ironpass"]')).toHaveCount(0);
-  });
-
-  test('Profile opens account screen without falling back to town', async ({ page }) => {
-    await startFreshCharacter(page, 'ProfileQA');
-    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Profile/i }).click();
-    await expect(page.getByText(/LEGEND ACCOUNT/i)).toBeVisible();
-    await expect(page.getByText(/ASHMERE ACCOUNT/i)).toBeVisible();
-    await expect(page.locator('.ash100-town')).toHaveCount(0);
-  });
-
-  test('desktop viewport has no horizontal overflow at title and town', async ({ page }) => {
-    await openTitle(page);
-    let overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
-    expect(overflow).toBe(false);
-    await startFreshCharacter(page, 'DesktopQA');
-    overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
-    expect(overflow).toBe(false);
-  });
-
-  test('Ashmere Town Square keeps direct conversations with local NPCs accessible', async ({ page }) => {
-    await startFreshCharacter(page, 'PeopleQA');
-    await expect(page.locator('.ash100-destinations')).toContainText('Town Square');
-    await page.locator('.ash100-destinations .ash100-destination[data-ash-view="people"]').click();
-    await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
-    const oricCard = page.locator('.ash099-npc-card[data-ash-view="oric"] img');
-    await expect(oricCard).toBeVisible();
-    await expect(oricCard).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
-    await expect.poll(() => oricCard.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    await page.locator('[data-ash-view="oric"]').click();
-    await expect(page.getByRole('heading', { name: 'Captain Oric' })).toBeVisible();
-    const oricDialoguePortrait = page.locator('.ash099-head img');
-    await expect(oricDialoguePortrait).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
-    await expect.poll(() => oricDialoguePortrait.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-  });
-
-));
+    for (const item of iconCases) {
+      const icon = page.locator('.ash100-destination[data-ash-view="' + item.view + '"] .ash099-icon-art img');
+      await expect(icon).toHaveAttribute('src', item.path);
       await expect.poll(() => icon.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     }
   });
-
   test('town job awards gold, favor, and progression XP', async ({ page }) => {
     await startFreshCharacter(page, 'JobQA');
     await page.evaluate(() => {
