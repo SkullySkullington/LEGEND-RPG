@@ -180,27 +180,30 @@ If a test fails, retain failure details and distinguish app bugs from environmen
 
 ## Source release v0.20.22 — first expedition story progression (verification pending)
 
-Source changes on \`main\`:
-- New \`docs/LEGEND_MYSTERY_AND_STORY_ARC.md\` proposes a coherent interpretation of the Bell/lantern/route-marker mystery, a first-game reveal ladder, route stories, NPC arcs, and implementation acceptance criteria. This is proposed direction, not locked canon.
-- \`docs/LEGEND_WORLD_BIBLE.md\` and \`docs/ASHMERE_STORY_SPINE.md\` now link to that blueprint.
+Source changes on `main`:
+- New `docs/LEGEND_MYSTERY_AND_STORY_ARC.md` proposes a coherent interpretation of the Bell/lantern/route-marker mystery, a first-game reveal ladder, route stories, NPC arcs, and implementation acceptance criteria. This is proposed direction, not locked canon.
+- `docs/LEGEND_WORLD_BIBLE.md` and `docs/ASHMERE_STORY_SPINE.md` now link to that blueprint.
 - The first secured Old Road expedition records its first route and discovered route clue in save flags and updates The Bell That Rang Once quest-log line.
 - Ashmere NPC dialogue now reacts to the first route report. Talking to Mara moves the journal objective to the bell-marked seal at Blackroot Bend; inspecting the seal records a memory and advances the objective back to Mara, then toward comparing Greyfen boundary marks.
-- \`tests/legend-smoke.spec.js\` adds regression tests for the High Ridge and Reed Cut first-return branches and Blackroot Bend clue progression.
-- Version labels are bumped to \`v0.20.22\`.
+- `tests/legend-smoke.spec.js` adds regression tests for the High Ridge and Reed Cut first-return branches and Blackroot Bend clue progression.
+- Version labels are bumped to `v0.20.22`.
 
-**Verification status:** The files and test cases are committed on main, but the Playwright suite and live GitHub Pages deployment have not yet been verified for this release. Do not describe the new story callbacks as live-tested until that verification is complete.
+**Verification status (2026-10-15):** Live GitHub Pages returned title/footer v0.20.22 and passed one fresh-save High Ridge five-stage journey through return to Ashmere, with no console messages or errors during the inspected flow and reload. This validates the deployment, source parsing, and generic route flow only. The specific new Mara/dialogue/journal/Blackroot callback test and the local Playwright suite have not run to completion; do not describe the new story callback chain as fully verified until those checks pass.
 
 Relevant commits:
-- \`5facef122e405895488fef2b64332f76898fad3f\`: proposed mystery/story arc blueprint.
-- \`276a9f8256671da6afd55120c59f77b67125fe95\`: world bible companion link.
-- \`6b51591b3f058d60f58c965dd6be6ceb3b7aebe0\`: story spine companion link.
-- \`bbbc7bb21914224952afe378f8ec234dca21fc2c\`: route-aware NPC callbacks.
-- \`dacf01f721d3c732798c982494d392dcc760eb85\`: first expedition story flags and quest updates.
-- \`36151c8d69e71e38a405b9bb11f595410eb2e01d\`: normalized story flags.
-- \`1d5c7e57133859f2397fe90c6ed5bfa29e4c8b41\`: story regression tests.
+- `5facef122e405895488fef2b64332f76898fad3f`: proposed mystery/story arc blueprint.
+- `276a9f8256671da6afd55120c59f77b67125fe95`: world bible companion link.
+- `6b51591b3f058d60f58c965dd6be6ceb3b7aebe0`: story spine companion link.
+- `bbbc7bb21914224952afe378f8ec234dca21fc2c`: route-aware NPC callbacks.
+- `dacf01f721d3c732798c982494d392dcc760eb85`: first expedition story flags and quest updates.
+- `36151c8d69e71e38a405b9bb11f595410eb2e01d`: normalized story flags.
+- `1d5c7e57133859f2397fe90c6ed5bfa29e4c8b41`: story regression tests.
+- `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: align the browser title assertion with v0.20.22.
+- `9147ef932e1d505a7f6601c5df7d32e77326f5b3`, `ebc48cedfa23f265d0e219412308704b70ed6ed3`, `50928025084e1e0bfc4de72a945cd8e2b11fc5b0`, `2b9cc3d46cd3b9974b2d86e86cad1d7f05f2d2dd`, and `de72b27eeaa63f3912ed86d3188f1db13e8f73ae`: HTML, runtime data/version, bootstrap, and package version bumps.
+- `c2cfa85330f7954a1d3780874b1a2f79369b6252`, `d40b6fee18e9094704967678904a24ac1a000b0c`, `8e6834b7403c2c49021124834a9ae2f2873d62b0`, and `054b1f18fd39ccdb9e4a9994b21b01b14c92cc38`: README, changelog, handoff, and test release updates.
 
 Next:
-1. Run \`npm run test:e2e\` locally and fix any regressions before treating this release as verified.
+1. Run `npm run test:e2e` locally and fix any regressions before treating this release as verified.
 2. Verify the first Ridge and Reed return paths in a fresh save, including reload persistence and the Blackroot clue step.
-3. Confirm GitHub Pages is serving \`v0.20.22\` before reporting the changes as live.
+3. Confirm GitHub Pages is serving `v0.20.22` before reporting the changes as live.
 4. Continue only after this slice is stable: design the Moved Cairn side chain and Greyfen archive follow-up using existing quest flags and route discovery patterns.
