@@ -61,24 +61,29 @@ test('Old Road discovery hotspot reveals and resolves a point of interest', asyn
       buttonBubble: 0, documentBubble: 0, windowBubble: 0
     };
     const isHotspot = event => Boolean(event.target?.closest?.('.exp100-hotspot-find'));
-    for (const type of ['pointerdown','pointerup','mousedown','mouseup','click']) {
+    for (const type of ['pointerdown','pointerup','pointercancel','mousedown','mouseup','click']) {
+      const record = (event, phase) => {
+        window.__roadDiscoveryQa.events.push({
+          type, phase, trusted:event.isTrusted,
+          targetTag:event.target?.tagName || null,
+          targetId:event.target?.id || '',
+          targetClass:typeof event.target?.className==='string'?event.target.className:'',
+          onHotspot:isHotspot(event),
+          clientX:event.clientX,clientY:event.clientY,
+          defaultPrevented:event.defaultPrevented
+        });
+      };
       window.addEventListener(type, event => {
-        if (isHotspot(event)) {
-          window.__roadDiscoveryQa.events.push({ type, phase:'window-capture', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
-          if (type === 'click') window.__roadDiscoveryQa.windowCapture += 1;
-        }
+        record(event,'window-capture');
+        if (isHotspot(event) && type === 'click') window.__roadDiscoveryQa.windowCapture += 1;
       }, true);
       document.addEventListener(type, event => {
-        if (isHotspot(event)) {
-          window.__roadDiscoveryQa.events.push({ type, phase:'document-capture', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
-          if (type === 'click') window.__roadDiscoveryQa.documentCapture += 1;
-        }
+        record(event,'document-capture');
+        if (isHotspot(event) && type === 'click') window.__roadDiscoveryQa.documentCapture += 1;
       }, true);
       btn?.addEventListener(type, event => {
-        if (isHotspot(event)) {
-          window.__roadDiscoveryQa.events.push({ type, phase:'button-bubble', trusted:event.isTrusted, target:event.target?.outerHTML?.slice(0,120) });
-          if (type === 'click') window.__roadDiscoveryQa.buttonBubble += 1;
-        }
+        record(event,'button-bubble');
+        if (isHotspot(event) && type === 'click') window.__roadDiscoveryQa.buttonBubble += 1;
       });
     }
     btn?.addEventListener('click', event => { if (isHotspot(event)) window.__roadDiscoveryQa.buttonCapture += 1; }, true);
