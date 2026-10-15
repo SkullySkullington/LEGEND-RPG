@@ -219,5 +219,12 @@ Source changes on `main`:
 - `tests/legend-smoke.spec.js` adds an end-to-end test for accepting, choosing, reporting, and observing the callback.
 - Version labels moved to `v0.20.23`.
 
-**Verification status:** Source and test changes are committed; the full Playwright suite has not been run locally. Live route-story verification is pending. Do not call this release fully verified until the accepted-contract path, report turn-in, later cairn description, and desktop/mobile behavior are checked.
+**Verification status (2026-10-15):** Source and test changes are committed. The new live route-story QA attempt was blocked by `ERR_TUNNEL_CONNECTION_FAILED` in two fresh isolated browser sessions; the page never loaded and no game save was changed. This is not evidence of an app failure, but it also does not verify the quest. The full Playwright suite has not been run locally. Do not call this release fully verified until the accepted-contract path, report turn-in, later cairn description, and desktop/mobile behavior are checked.
 
+
+Relevant v0.20.23 commits:
+- `e93bf272ee3af836677d484c6c3b2c4330f4bae5`: persistent Moved Cairn decision panel and route callback.
+- `3a9cfbf861ac59218d006e7a1766aaf5569c3fcd`: side contract, turn-in reward, and Oric dialogue callback.
+- `62b39516b1b1c7b73914981b6c448928f942c974`: align title-version assertion to v0.20.23.
+- `c661fc3e6e64e028fb055a93eb91f61fc5ea8cee`: HTML title and asset cache-busting.
+- `19b0ee0f94c6f23b86e236396499889dec03b3c8`: package version; `ceaac84e4b142986b7881e9f6ef5ede2a33e768e`: README; `1bf94b473d062ae280a89a7aeb9dcb894396eac3`: changelog; `c9ccd3b1214afa5169321504f25bf583e9287384`: handoff; `19fd065b885814b5c6cd6d78fb6f869c6bb3c9f2`, `8484b4b68c58ade92ee148e029ebcb07ce1e5e6e`, `b871068ceed8eb9348ff248b29312575a5a758df`: lore/documentation updates.
