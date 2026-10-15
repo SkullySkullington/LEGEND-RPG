@@ -180,6 +180,10 @@ Keep these visible for intentional decisions rather than silently guessing:
 
 Until those decisions are made, create local stories that enrich the world while preserving uncertainty.
 
+## 10A. Supporting narrative plans
+
+The [First-Game Story Arc](FIRST_GAME_STORY_ARC.md) and [Mystery Architecture](MYSTERY_ARCHITECTURE.md) are proposals for pacing the first game's local story and the longer-running mystery. They distinguish established game elements from working interpretations and intentionally unresolved decisions. They do not replace this bible or establish the ultimate answer to the Bell, dead lantern, cold-blue light, or the traveler's past.
+
 ## 11. The canon test
 
 New LEGEND content belongs if it could only happen in this world: practical medieval life meets a restrained, repeating mystery; choices matter; clues have provenance; places remember through people and objects; and the road tempts travelers to trade safety for answers.

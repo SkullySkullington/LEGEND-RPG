@@ -3,6 +3,16 @@
 **Status:** Internal strategy draft; adapt as the project grows.  
 **Principle:** Build one compelling, coherent world first, then expand into other formats from a stable canon.
 
+## Working narrative documents
+
+The current planning set separates levels of certainty:
+- [World & Story Bible](LEGEND_WORLD_BIBLE.md) — established setting details and open canon decisions.
+- [First-Game Story Arc](FIRST_GAME_STORY_ARC.md) — a proposed local narrative arc, pending approval.
+- [Mystery Architecture](MYSTERY_ARCHITECTURE.md) — clue pacing and alternative explanation families, explicitly not selected as canon.
+- [Opening Experience Redesign](OPENING_EXPERIENCE_REDESIGN.md) — first-impression design brief, not implementation status.
+
+Keep these documents aligned, but do not treat proposals as approved lore. The project's current owner makes canon decisions.
+
 ## 1. The long-term vision
 
 LEGEND should be more than a single RPG release. The franchise can eventually support connected games, character-led stories, an identifiable soundtrack and sound library, illustrated world material, and carefully chosen companion experiences. Every format should deepen the same identity rather than dilute it.
