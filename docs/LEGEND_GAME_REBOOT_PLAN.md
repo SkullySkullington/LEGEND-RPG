@@ -4,7 +4,7 @@
 **Current public build:** v0.20.28, browser-based, desktop-first with mobile compatibility  
 **Purpose:** Replace incremental screen polishing with a coherent design for a dark-fantasy RPG that has animated exploration, magic, trainable skills, active turn-based combat, a cinematic opening, and room to grow across a shared world.
 
-**Related documents:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Roadmap](ROADMAP.md), [Art Direction](ART-DIRECTION.md).
+**Related documents:** [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [First-Session Story Spine](ASHMERE_STORY_SPINE.md), [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Roadmap](ROADMAP.md), [Art Direction](ART-DIRECTION.md).
 
 ---
 
@@ -84,6 +84,20 @@ The healer, now known in forbidden accounts as **the Hollow Saint**, has persist
 The danger is that an echo can sound like a person without being that person. Sustaining the ritual drains living vitality and weakens the separation between life and death. What begins as a desperate act of mercy becomes a vast refusal to accept loss, and eventually a threat to the living world.
 
 The villain should be frightening because it offers something people genuinely want—not because every event is secretly its plan. The Hollow Saint may exploit the Afterwake, but floods still happen, nobles still abuse power, creatures still hunt, and people still harm each other for independent reasons.
+
+### The monster invasion: the visible crisis
+
+The Last Mercy and the Afterwake are the leading candidate for the deeper supernatural danger, but the player's first understanding of the crisis should be physical and immediate: monster attacks are increasing, trade routes are unsafe, settlements need defenders, and dangerous creatures are moving out of territories that used to contain them.
+
+- **Goblins** raid farms, workshops, and supply caravans. Some are opportunists; others have been collecting specific relics, minerals, or objects from old sites.
+- **Orcish clans** gather under competing banners. One faction may be trying to exploit the upheaval, another may believe it is fulfilling an old obligation, and another may be fighting to keep an altered territory from spreading. Their motives should not be identical.
+- **Ogres** emerge from mountain passes and become siege-level threats. Some are driven out by changes deep underground; others remain territorial monsters with no special connection to the main plot.
+- **The Changed** are animals, monsters, plants, or people altered by exposure to Afterwake conditions. Their mutations should show regional patterns and readable rules, not random “evil magic.”
+- **Independent threats**—bandits, predators, rival rulers, old feuds, and ordinary dungeon dangers—remain part of the world and need not be explained by the Hollow Saint.
+
+The relationship between invasion and awakening should unfold in stages. Early quests establish attacks and defend people. Mid-game clues show that some monster groups are moving toward or away from particular sites, reacting to magical signs, or seeking specific objects. Later regional stories reveal that the Afterwake is changing the balance of the world and that the Last Mercy may be involved. Only late in the game should the player understand how much of the crisis is caused, exploited, or merely accelerated by the central threat.
+
+**Do not make every monster a controlled minion.** The invasion becomes more believable when factions have competing goals, different levels of knowledge, and the ability to make their own decisions. Some monsters may be victims of the awakening; others may be its servants or opportunists; many should remain ordinary dangers.
 
 ### The world has other powers and conflicts
 
