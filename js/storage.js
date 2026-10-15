@@ -55,6 +55,8 @@ window.LegendStorage = (() => {
       firstRoadReturnRoute:p.flags.firstRoadReturnRoute||'',
       firstRoadReturnDiscovery:p.flags.firstRoadReturnDiscovery||'',
       firstRoadReturnMaraBriefed:!!p.flags.firstRoadReturnMaraBriefed,
+      greyfenBoundaryCompared:!!p.flags.greyfenBoundaryCompared,
+      greyfenArchiveRead:!!p.flags.greyfenArchiveRead,
       firstRoadComplete:!!p.flags.firstRoadComplete,
       talkedToMara:!!p.flags.talkedToMara,
       talkedToSella:!!p.flags.talkedToSella,
