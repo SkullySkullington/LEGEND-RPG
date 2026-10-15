@@ -688,11 +688,15 @@
           scoutEngaged: false,
           scoutDefeated: false,
           expeditionComplete: false,
+          brennSpoken: false,
+          questAccepted: false,
+          questReported: false,
           objects: [
             { id: 'cache', label: 'Abandoned Supply Cache', shortLabel: 'Supply Cache', nx: .33, ny: .65, glyph: '▣', color: 0xd7b46f },
             { id: 'shrine', label: 'Veil-touched Waystone', shortLabel: 'Waystone', nx: .51, ny: .49, glyph: '✧', color: 0x9bc9bf },
             { id: 'tracks', label: 'Fresh Warband Tracks', shortLabel: 'Warband Tracks', nx: .61, ny: .72, glyph: '⌁', color: 0xc3b28b },
-            { id: 'scout', label: 'Goblin Scout', shortLabel: 'Goblin Scout', nx: .72, ny: .61, glyph: '!', color: 0xd27b69 }
+            { id: 'scout', label: 'Goblin Scout', shortLabel: 'Goblin Scout', nx: .72, ny: .61, glyph: '!', color: 0xd27b69 },
+            { id: 'brenn', label: 'Brenn · Roadwarden', shortLabel: 'Roadwarden Brenn', nx: .19, ny: .53, glyph: '⚑', color: 0xb4c5a2 }
           ]
         };
       }
@@ -756,6 +760,7 @@
       if (id === 'shrine') return state.shrineInspected;
       if (id === 'tracks') return state.tracksInspected;
       if (id === 'scout') return state.scoutDefeated;
+      if (id === 'brenn') return state.brennSpoken;
       return false;
     }
 
@@ -815,7 +820,11 @@
       if (!state || currentMode !== 'exploration') return;
       $('#exploreObjective').textContent = state.scoutDefeated
         ? 'Objective: Return to Ashmere with evidence of an organized warband.'
-        : 'Objective: Find the goblin scout. Supply and waystone discoveries are optional.';
+        : !state.questAccepted
+          ? 'Objective: Find Roadwarden Brenn and receive your field commission.'
+          : !(state.shrineInspected && state.tracksInspected)
+            ? 'Objective: Inspect the waystone and record the warband tracks.'
+            : 'Objective: Confront the goblin scout and recover proof.';
       $('#exploreResources').textContent = state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic' : ' Tonics') + '  ·  ' + state.xp + ' XP';
       $('#exploreStamina').style.width = this.exploreStamina + '%';
       $('#exploreStaminaText').textContent = 'STAMINA ' + Math.round(this.exploreStamina) + '%';
@@ -827,6 +836,7 @@
             ? 'Evidence: Fresh tracks suggest an organized patrol.'
             : 'No magical evidence collected yet.';
       $('#returnAshmereButton').disabled = !state.scoutDefeated;
+      if (state.scoutDefeated && !state.questReported) $('#returnAshmereButton').textContent = 'Report to Ashmere';
       const target = this.nearestExplorationObject(98);
       const title = $('#exploreTargetTitle');
       const prompt = $('#explorePromptText');
@@ -840,7 +850,9 @@
         button.textContent = 'Interact (E)';
       } else {
         title.textContent = target.label;
-        prompt.textContent = target.id === 'scout'
+        prompt.textContent = target.id === 'brenn'
+          ? 'A roadwarden watches the tree line and marks passing carts. Speak with Brenn for a field assignment.'
+          : target.id === 'scout'
           ? 'The scout keeps looking over its shoulder. Press E when you are ready to confront it.'
           : target.id === 'cache'
             ? 'A supply cart was abandoned in a hurry. Search it for anything useful.'
@@ -879,7 +891,17 @@
         state.warbandEvidence = true;
         this.sfx('confirm', .5);
         toast('Tracks recorded · +7 XP · Warband evidence');
+      } else if (target.id === 'brenn') {
+        state.brennSpoken = true;
+        state.questAccepted = true;
+        $('#exploreClue').textContent = 'Brenn’s commission: inspect the waystone, record the tracks, and bring back proof of the warband.';
+        toast('Brenn: “Bring me proof the raids are organized. The road is not safe by accident.”');
+        this.sfx('confirm', .5);
       } else if (target.id === 'scout') {
+        if (!state.questAccepted) {
+          toast('The scout is too dangerous to pursue without a commission. Find Roadwarden Brenn first.');
+          return;
+        }
         state.scoutEngaged = true;
         this.sfx('confirm', .7);
         showMode('combat');
@@ -891,12 +913,19 @@
 
     showDebrief() {
       this.showBackdrop('ash');
+      if (this.explorationState?.scoutDefeated) {
+        this.explorationState.questReported = true;
+        this.explorationState.expeditionComplete = true;
+      }
       const state = this.explorationState || { bells: 0, xp: 0, potions: 0, cacheFound: false, shrineInspected: false, scoutDefeated: false };
       $('#debriefSummary').textContent = state.scoutDefeated
+        ? 'Brenn studies the charcoal mark, then folds the report shut. “That is enough to warn the gate. It is not enough to know who commands them.” Your first commission is complete.'
+        : state.scoutDefeated
         ? 'The scout carried a charcoal warband mark—not proof of the force behind the attacks, but the first sign that these raids may be coordinated. Ashmere needs to know.'
         : 'You return to Ashmere before the expedition is complete. The road will still be there when you are ready.';
       $('#debriefRewards').textContent = '+' + state.xp + ' XP  ·  ' + state.bells + ' Bells  ·  ' + state.potions + (state.potions === 1 ? ' Tonic recovered' : ' Tonics recovered');
       const findings = [];
+      if (state.brennSpoken) findings.push('Brenn’s road commission accepted');
       if (state.cacheFound) findings.push('Roadside supplies recovered');
       if (state.shrineInspected) findings.push('Waystone disturbance recorded');
       if (state.tracksInspected) findings.push('Warband tracks recorded');
