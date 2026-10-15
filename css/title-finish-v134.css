@@ -1,0 +1,26 @@
+
+/* v0.20.34 — title-screen finishing pass */
+.title-v100 .v120-title-backdrop{animation:legendBackdropDrift 34s ease-in-out infinite alternate;will-change:transform}
+.title-v100 .title-atmosphere{pointer-events:none}
+.title-v100 .title-embers i{filter:drop-shadow(0 0 5px rgba(244,177,75,.6))}
+.title-v100 .v120-legend-logo{filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));transition:filter .4s ease,transform .4s ease}
+.title-v100 .v120-title-hero:hover .v120-legend-logo{filter:drop-shadow(0 10px 26px rgba(240,207,131,.12));transform:translateY(-1px)}
+.title-v100 .v120-title-actions{position:relative;z-index:2}
+.title-v100 .v120-title-actions .v120-secondary{flex:1}
+.title-v100 .v120-title-actions .v120-secondary[aria-pressed="true"]{border-color:rgba(240,207,131,.8)!important}
+.title-v100 .v120-title-footer{gap:12px;flex-wrap:wrap}
+.legend-credits-overlay{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(2,5,4,.78);backdrop-filter:blur(9px);animation:legendCreditsFade .2s ease both}
+.legend-credits-panel{position:relative;width:min(560px,100%);max-height:min(80vh,680px);overflow:auto;padding:clamp(24px,5vw,42px);color:#f3edda;background:linear-gradient(145deg,rgba(26,31,24,.99),rgba(7,11,8,.99));border:1px solid rgba(240,207,131,.56);box-shadow:0 30px 100px rgba(0,0,0,.65),inset 0 0 0 4px rgba(240,207,131,.035);text-align:center}
+.legend-credits-panel:before{content:"";position:absolute;inset:7px;border:1px solid rgba(240,207,131,.16);pointer-events:none}
+.legend-credits-kicker{font-size:.7rem;letter-spacing:.24em;color:#e7c77f}
+.legend-credits-panel h2{margin:12px 0 4px;font-size:clamp(2rem,7vw,3.3rem);letter-spacing:.06em}
+.legend-credits-panel h3{margin:0 0 24px;font-size:.8rem;font-weight:500;letter-spacing:.18em;color:#d8c59c}
+.legend-credits-rule{height:1px;margin:20px auto;max-width:280px;background:linear-gradient(90deg,transparent,rgba(240,207,131,.7),transparent)}
+.legend-credits-panel p{line-height:1.7;color:#d5d0c0}
+.legend-credits-panel .legend-credits-close{position:relative;margin-top:14px;min-height:44px;padding:11px 25px;color:#20190d;background:linear-gradient(#f4d994,#b98739);border:1px solid #ffe6a5;font-weight:700;cursor:pointer;transition:transform .18s ease,filter .18s ease}
+.legend-credits-panel .legend-credits-close:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.legend-credits-panel .legend-credits-close:focus-visible{outline:2px solid #fff0bd;outline-offset:4px}
+@keyframes legendBackdropDrift{from{transform:scale(1.035) translate3d(-.25%,0,0)}to{transform:scale(1.075) translate3d(.3%,-.25%,0)}}
+@keyframes legendCreditsFade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.title-v100 .v120-title-backdrop{animation:none!important}.legend-credits-overlay{animation:none!important}}
+@media(max-width:680px){.legend-credits-panel{padding:26px 22px}.title-v100 .v120-title-footer{justify-content:center;text-align:center}}
