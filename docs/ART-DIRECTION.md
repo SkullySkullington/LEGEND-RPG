@@ -1,4 +1,4 @@
-# LEGEND: Roads of Ashmere — Art Direction
+# LEGEND: The Unquiet Road — Art Direction
 
 ## North star
 
@@ -47,7 +47,7 @@ Art should support the game's exploration-first loop. Images are scene-setting a
 
 Use this as the shared prefix for environment art:
 
-> Original dark-fantasy storybook concept art for LEGEND: Roads of Ashmere, grounded medieval materials, weathered stone and timber, charcoal and moss-green palette with parchment and tarnished-gold accents, restrained supernatural mystery, atmospheric mist, painterly texture, clear focal point, strong depth layers, readable silhouette, composed for a mobile-first RPG scene, no text, no lettering, no watermark, no logo.
+> Original dark-fantasy storybook concept art for LEGEND: The Unquiet Road, grounded medieval materials, weathered stone and timber, charcoal and moss-green palette with parchment and tarnished-gold accents, restrained supernatural mystery, atmospheric mist, painterly texture, clear focal point, strong depth layers, readable silhouette, composed for a mobile-first RPG scene, no text, no lettering, no watermark, no logo.
 
 For character and enemy portraits, append the subject, distinctive silhouette, equipment, emotional read, and a consistent background treatment. For item icons, replace the environment language with “single centered object, clean silhouette, restrained painterly detail, transparent background.”
 
