@@ -12,10 +12,10 @@
   const itemIcon = key => {
     const items=A().items||{};
     const aliases={
-      food:'food',ration:'rationBundle',rationBundle:'rationBundle',potion:'potion',roadPoultice:'potion',blackrootTonic:'potion',
-      roadToken:'roadToken',bellFragment:'bellFragment',camp:'camp',campSupply:'camp',roadHerb:'roadHerb',huntersCharm:'bellFragment',wispLanternWick:'camp',
-      woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',shortSword:'shortSword',bow:'bow',huntingBow:'bow',shield:'shield',
-      none:'shield',clothArmor:'shield',chainArmor:'shield',bronzeArmor:'shield',ironArmor:'shield',woodScrap:'camp',peatBrick:'camp',clothScrap:'camp',wolfFang:'shortSword',tornHide:'shield',ore:'shield',wispAsh:'bellFragment',oil:'camp',goblinTrinket:'roadToken',blackrootThorn:'roadHerb',tradeBundle:'camp'
+      food:'food',ration:'rationBundle',rationBundle:'rationBundle',potion:'potion',roadPoultice:'potion',blackrootTonic:'blackrootTonicIngredients',
+      roadToken:'roadToken',bellFragment:'bellFragmentCraft',camp:'camp',campSupply:'camp',roadHerb:'roadHerbBundle',huntersCharm:'huntersCharm',wispLanternWick:'lampOil',
+      reinforcedBuckle:'reinforcedBuckle',woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',shortSword:'shortSword',bow:'bow',huntingBow:'bow',shield:'shield',
+      none:'shield',clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon',woodScrap:'armorRepairKit',peatBrick:'camp',clothScrap:'armorRepairKit',wolfFang:'huntersCharm',tornHide:'tornHide',ore:'ironOreChunk',wispAsh:'bellFragmentCraft',oil:'lampOil',goblinTrinket:'tradeBundle',blackrootThorn:'blackrootTonicIngredients',tradeBundle:'tradeBundle
     };
     return items[aliases[key]||key]||items.pelt||'';
   };
@@ -46,6 +46,16 @@
   const icon = (k, alt='') => {
     const symbol = {"people":"people","inn":"inn","trader":"trader","smith":"smith","road":"road","sheet":"sheet","brenn":"ledger","archive":"archive","mara":"quill","oric":"captain","work":"work","craft":"craft","profile":"profile","quest":"quest","route":"route","regions":"regions","settings":"settings","gate":"gate","world":"world","notice":"notice","cloud":"cloud","account":"profile","feedback":"quest","delete":"quest","text":"ledger","bold":"sheet","contrast":"settings","motion":"road","space":"regions","font":"sheet","lock":"captain","slot":"regions","continue":"road","new":"work"}[k] || 'quest';
     return `<span class="ash099-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><use href="assets/ui/icons/legend-ui-icons-v1.svg#icon-${symbol}"></use></svg></span>`;
+  };
+  const regionShopArt = key => {
+    const path=A().ui?.regionShops?.[key];
+    return path ? '<span class="ash099-icon ash099-asset-icon ash099-region-shop-icon" aria-hidden="true"><img src="'+esc(path)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"></span>' : '';
+  };
+  const armorArt = id => {
+    const items=A().items||{};
+    const keys={clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon'};
+    const path=items[keys[id]||id]||items.shield||items.camp||'';
+    return path;
   };
   const serviceArt = (key, fallback='') => {
     const path=A().ui?.serviceIcons?.[key];
@@ -80,6 +90,7 @@
   function canAfford(pl, cost){ return Number(pl.gold || 0) >= Number(cost || 0); }
   function canCraft(pl, needs){ return needs.every(([k,v]) => owned(pl,k) >= Number(v || 0)); }
   function needsText(pl, needs){ return needs.map(([k,v]) => `${v} ${itemName(k)} (${owned(pl,k)})`).join(', '); }
+  function needsMarkup(pl, needs){ return needs.map(([k,v])=>{const art=itemIcon(k);return '<span class="ash099-craft-ingredient">'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<span>'+Number(v)+' '+esc(itemName(k))+' <small>('+owned(pl,k)+')</small></span></span>';}).join(''); }
   function note(msg){ const n = document.getElementById('ashNote'); if(n){ n.style.display='block'; n.textContent=msg; } }
 
   function goal(pl){
@@ -121,7 +132,11 @@
     const townName=isGreyfen?'Greyfen':'Ashmere';
     const tokenCount=Number(pl.inventory?.roadToken||0);
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
-    const townCard=(view,title,desc,cta,ic,featured=false)=>`<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${icon(ic)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
+    const townCard=(view,title,desc,cta,ic,featured=false)=>{
+      const shopKey=isGreyfen?({inn:'greyfenApothecary',trader:'greyfenMarket',smith:'greyfenForge',work:'greyfenFerryman'}[view]):({inn:'ashmereInn',trader:'ashmereTrader',smith:'ashmereForge',work:'ashmereWorkbench'}[view]);
+      const shopIcon=shopKey?regionShopArt(shopKey):'';
+      return `<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${shopIcon||icon(ic)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
+    };
     const destinations=isGreyfen?[
       townCard('inn','Reedlight Inn','Rest, recover, and hear what the lowland travelers whisper.','Rest & prepare','inn',g.view==='inn'),
       townCard('trader','Marsh Market','Trade road loot for rations, medicine, and useful supplies.','Trade','trader',false),
@@ -750,7 +765,7 @@ function renderTrader(tab='buy'){
       ['wispLanternWick','Wisp Lantern Wick',[['bellFragment',1],['oil',1]],'A crafted lantern ward that softens the opening pressure of your next expedition.'],
       ['tradeBundle','Trade Bundle',[['goblinTrinket',2],['tornHide',1],['woodScrap',1]],'Sellable bundle worth more than raw scraps.']
     ];
-    const cards=recipes.map(([id,name,needs,desc])=>`<button class="ash099-btn ash099-card" data-craft="${id}" data-needs="${needs.map(n=>n.join(':')).join(',')}" ${canCraft(pl,needs)?'':'disabled'}>${icon('craft')}<strong>${name}</strong><small>${desc}<br>Needs ${needsText(pl,needs)}.</small><em>${canCraft(pl,needs)?'Craft':'Missing'}</em></button>`).join('');
+    const cards=recipes.map(([id,name,needs,desc])=>{const art=itemIcon(id);return `<button class="ash099-btn ash099-card ash099-craft-card" data-craft="${id}" data-needs="${needs.map(n=>n.join(':')).join(',')}" ${canCraft(pl,needs)?'':'disabled'}>${art?'<img class="ash099-craft-output" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':icon('craft')}<strong>${name}</strong><small>${desc}</small><span class="ash099-craft-needs"><b>Needs</b>${needsMarkup(pl,needs)}</span><em>${canCraft(pl,needs)?'Craft':'Missing'}</em></button>`;}).join('');
     screen(head('Crafting',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Marsh Workbench':'Crafting Bench','Road drops should matter. Convert herbs, fangs, hides, ash, and scraps into useful items or better sellables.',locationInterior('forge'),'craft'),`<div class="ash099-market-summary"><strong>Bench Stock</strong><span>Use road drops here before selling raw loot.</span><button class="ash099-btn" id="openTrader">Open Trading Post</button></div><div class="ash099-cards">${cards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-craft]').forEach(b=>b.onclick=()=>craftItem(b.dataset.craft,b.dataset.needs));
     const openTrader=document.getElementById('openTrader');
@@ -763,7 +778,7 @@ function renderTrader(tab='buy'){
     const weapons=(D().weapons||[]).filter(w=>w.id!=='hand'),armors=(D().armors||[]).filter(a=>a.id!=='none');
     const equippedWeapon=weapons.find(w=>w.id===pl.weapon),equippedArmor=armors.find(a=>a.id===pl.armor);
     const portrait=A().classes?.[pl.className]||'';
-    const loadoutItem=(name,detail,art,kind)=>'<div class="ash099-loadout-slot">'+(kind==='weapon'?weaponArtSvg(p()?.weapon):(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':icon('sheet')))+'<span><small>'+(kind==='weapon'?'WEAPON':'ARMOR')+'</small><strong>'+esc(name)+'</strong><em>'+esc(detail)+'</em></span></div>';
+    const loadoutItem=(name,detail,art,kind)=>'<div class="ash099-loadout-slot">'+(kind==='weapon'?weaponArtSvg(p()?.weapon):(armorArt(p()?.armor)?'<img src="'+esc(armorArt(p()?.armor))+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':icon('sheet')))+'<span><small>'+(kind==='weapon'?'WEAPON':'ARMOR')+'</small><strong>'+esc(name)+'</strong><em>'+esc(detail)+'</em></span></div>';
     const list=tab==='weapon'?weapons:armors;
     screen(head('Workshop',String(pl.currentRegion||'Ashmere')==='Greyfen'?'Causeway Smithy':'The Blacksmith','A good weapon is chosen. Good armor is earned. Equip what you own, or spend gold to improve your odds.',locationInterior('forge'),'smith'),
       '<section class="ash099-forge-console">'+
@@ -808,7 +823,7 @@ function renderTrader(tab='buy'){
   }
   function gearCard(x,kind){
     const pl=p(),ownedMap=kind==='weapon'?pl.ownedWeapons:pl.ownedArmor;
-    const assets=A().items||{},art=kind==='weapon'?'':(assets.shield||assets.camp);
+    const assets=A().items||{},art=kind==='weapon'?'':armorArt(x.id);
     const isOwned=Number(ownedMap?.[x.id]||0)>0,level=Number(pl.level||1),required=Number(x.level||1);
     const equipped=(kind==='weapon'?pl.weapon:pl.armor)===x.id,locked=level<required,canBuy=canAfford(pl,x.cost);
     const label=equipped?'Equipped':isOwned?'Equip owned':locked?'Unlock at Lv. '+required:canBuy?'Buy & equip':'Need '+gold(x.cost);
