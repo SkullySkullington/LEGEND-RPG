@@ -64,7 +64,7 @@ function scene(stage=0,interactive=true){
  const point=pointOfInterest(stage),stageClass='exp100-stage-'+stageNum;
  const poiDone=!!s.poiUsed?.[point.key];
  const hotspots=interactive&&!poiDone
-  ? '<div class="exp100-hotspots" aria-label="Discover the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>Look closer</span></button></div>'
+  ? '<div class="exp100-hotspots" aria-label="Discover the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" aria-controls="exp100-discovery-panel" aria-expanded="false" onclick="window.LegendRoadControllerV100&&window.LegendRoadControllerV100.revealPointOfInterest(this)" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>Look closer</span></button></div>'
   : '<div class="exp100-hotspots" aria-hidden="true"></div>';
  return '<div class="exp100-scene exp100-scene-live '+stageClass+'" data-stage="'+stageNum+'"><img src="'+esc(path)+'" alt="'+esc(stageNum===2?'A roadside camp beside the Old Road':'The Old Road winding through misty woodland')+'" onerror="if(this.dataset.fallbackApplied){this.style.display=\'none\'}else{this.dataset.fallbackApplied=\'1\';this.src=\''+esc(fallback)+'\'}"><div class="exp100-scene-shade"></div>'+hotspots+'<span class="exp100-scene-label">THE OLD ROAD <i>•</i> '+esc(areaForStage(stage).name.toUpperCase())+'</span><button class="exp100-sound" id="exp100-sound" type="button" aria-label="Toggle sound effects">Sound: '+(soundOn()?'On':'Off')+'</button></div>';
 }
@@ -119,9 +119,11 @@ function handleHotspotAction(btn){
   const anchor=wrap.querySelector('.exp100-route-choice, .exp100-poi-done')||wrap.querySelector('.exp100-head');
   if(!markup||!anchor)return;
   anchor.insertAdjacentHTML('afterend',markup);
+  btn?.setAttribute?.('aria-expanded','true');
   const leave=wrap.querySelector('#poiLeave');
   if(leave)leave.addEventListener('click',()=>{
    visibleDiscoveryStage=null;
+   btn?.setAttribute?.('aria-expanded','false');
    leave.closest('.exp100-discovery-beat')?.remove();
   });
   const inspect=wrap.querySelector('#poiInspect');
@@ -184,7 +186,7 @@ function pointOfInterestPanel(pl,s,stage){
  const point=pointOfInterest(stage);
  if(s.poiUsed&&s.poiUsed[point.key])return '';
  if(visibleDiscoveryStage!==Number(stage))return '';
- return '<section class="exp100-poi exp100-discovery-beat"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>YOU NOTICE SOMETHING · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button><button class="exp100-poi-dismiss" id="poiLeave">Leave it</button></div></section>';
+ return '<section id="exp100-discovery-panel" class="exp100-poi exp100-discovery-beat"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>YOU NOTICE SOMETHING · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button><button class="exp100-poi-dismiss" id="poiLeave">Leave it</button></div></section>';
 }
 function routeChoicePanel(s,stage){
  if(stage!==0)return '';
@@ -463,5 +465,5 @@ function outcome(title,text,kicker,skill,modifier){
   ret();
 });
 }
-window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition};
+window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition,revealPointOfInterest:handleHotspotAction};
 })();
