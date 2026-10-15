@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.21 — Ashmere, Greyfen, and the Old Road polish pass** unifies the title/menu, streamlines Ashmere's hub, adds a region-aware Greyfen town hub, and integrates the first locally stored Runway art pack: 25 environment, portrait, and icon assets plus nine sliced inventory icons.
+**v0.20.22 — First expedition story progression** preserves the first Old Road route and its discovered clue, gives Ashmere’s characters route-aware follow-up dialogue, and advances The Bell That Rang Once from the first return to the Blackroot Bend seal. The expanded mystery and first-game arc remain documented as proposals, not locked canon.
 
 ## Development Roadmap
 
@@ -16,7 +16,7 @@ The prioritized active plan, acceptance criteria, and compatibility guardrails a
 
 The shared visual style, image-family specifications, prompt template, and web/mobile integration checklist live in [docs/ART-DIRECTION.md](docs/ART-DIRECTION.md). This keeps generated art consistent across Ashmere, the Old Road, class portraits, enemies, and item icons.
 
-**World and franchise foundation:** [docs/LEGEND_WORLD_BIBLE.md](docs/LEGEND_WORLD_BIBLE.md) separates established canon from open mysteries, while [docs/FRANCHISE_STRATEGY.md](docs/FRANCHISE_STRATEGY.md) lays out the longer-term IP path across games, stories, art, and audio. The upcoming first-impression overhaul is captured in [docs/OPENING_EXPERIENCE_REDESIGN.md](docs/OPENING_EXPERIENCE_REDESIGN.md), covering an alive title scene, roleplay-led character creation, and the first arrival in Ashmere. The [first-session story spine](docs/ASHMERE_STORY_SPINE.md) connects established scenes and mechanics into a coherent early journey while keeping proposed revelations separate from canon.
+**World and franchise foundation:** [docs/LEGEND_WORLD_BIBLE.md](docs/LEGEND_WORLD_BIBLE.md) separates established canon from open mysteries, while [docs/FRANCHISE_STRATEGY.md](docs/FRANCHISE_STRATEGY.md) lays out the longer-term IP path across games, stories, art, and audio. The upcoming first-impression overhaul is captured in [docs/OPENING_EXPERIENCE_REDESIGN.md](docs/OPENING_EXPERIENCE_REDESIGN.md), covering an alive title scene, roleplay-led character creation, and the first arrival in Ashmere. The [first-session story spine](docs/ASHMERE_STORY_SPINE.md) connects established scenes and mechanics into a coherent early journey while keeping proposed revelations separate from canon. The new [mystery and story arc blueprint](docs/LEGEND_MYSTERY_AND_STORY_ARC.md) maps the longer first-game reveal ladder, route quests, and production order.
 
 ## Play Now
 
