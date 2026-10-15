@@ -190,7 +190,7 @@ The first game, under the recommended working subtitle **LEGEND: The Unquiet Roa
 - **Greyfen — authority:** a crossing is marked open without a valid closure order, causing a local danger and exposing the difference between a record and an accountable decision.
 - **Ironpass — dependency:** central standards genuinely protect travelers but can also make a settlement's survival depend on one corridor and one authority.
 - **Blackwood — memory:** independent oral and family histories preserve names and paths missing from official records.
-- **The Ruined March — erasure:** the Surveyor attempts its first broad alignment; the player interrupts the immediate catastrophe but does not cure every loss or destroy the Surveyor's will.
+- **The Ruined March — erasure:** the Surveyor attempts the **First Accounting**, its first broad alignment in the present story; the player interrupts the immediate catastrophe but does not cure every loss or destroy the Surveyor's will.
 
 The first game's climax should stop a concrete operation and leave visible consequences. Some routes reopen; some people remain missing; communities disagree about how to repair the network; authorities must answer for what they did. Do not end with a lore reveal that makes the player's local victories irrelevant.
 
