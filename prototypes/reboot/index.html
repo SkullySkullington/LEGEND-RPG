@@ -80,6 +80,20 @@
     .rune-choice:hover { border-color: var(--mint); }
     .rune-choice small { display:block; color: var(--muted); margin-top:4px; font-weight:400; letter-spacing:0; text-transform:none; }
     .training-result { min-height:22px; margin:12px 0 0 !important; color:var(--gold) !important; font-size:14px; }
+    .explore-dock { position:absolute; left:3%; right:3%; bottom:3%; display:flex; align-items:stretch; gap:12px; }
+    .explore-copy { flex:1; min-width:0; padding:15px 18px; background:var(--panel); border:1px solid var(--line); backdrop-filter:blur(10px); }
+    .explore-copy strong { display:block; color:var(--gold); font:700 10px system-ui,sans-serif; letter-spacing:.16em; text-transform:uppercase; }
+    .explore-copy h2 { font-size:clamp(20px,2vw,27px); font-weight:500; margin:7px 0 5px; }
+    .explore-copy p { color:#e3e1d6; font-size:14px; line-height:1.45; margin:0; max-width:680px; }
+    .explore-controls { display:flex; flex-direction:column; justify-content:stretch; gap:8px; min-width:190px; }
+    .explore-controls button { flex:1; min-height:48px; }
+    .explore-status { max-width:300px; text-align:right; line-height:1.65; }
+    .explore-status span { color:#d8cda9; font-size:10px; letter-spacing:.05em; }
+    .debrief-card { position:absolute; left:10%; right:10%; top:50%; transform:translateY(-50%); max-width:820px; margin:0 auto; padding:clamp(20px,4vw,48px); background:rgba(5,9,8,.9); border:1px solid var(--line); box-shadow:0 25px 80px rgba(0,0,0,.5); backdrop-filter:blur(12px); }
+    .debrief-card h2 { margin:9px 0 14px; font-size:clamp(28px,4vw,48px); font-weight:500; }
+    .debrief-card p { color:#d4d5cb; font-size:16px; line-height:1.6; }
+    .debrief-rewards { padding:12px 0; color:var(--gold) !important; font:700 12px system-ui,sans-serif; letter-spacing:.07em; }
+    .debrief-findings { font-size:12px !important; color:var(--mint) !important; }
     .toast { position:absolute; left:50%; top:25%; transform:translate(-50%,-10px); z-index:18; padding:12px 18px; color:#e8e6d8; background:rgba(5,8,8,.92); border:1px solid var(--line); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; font:700 12px system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
     .toast.show { opacity:1; transform:translate(-50%,0); }
     .prototype-note { max-width: 1500px; padding: 12px 18px; margin: 0 auto; color: #929d93; font: 11px/1.55 system-ui,sans-serif; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
@@ -107,6 +121,15 @@
       .action { min-height: 50px; font-size: 9px; }
       .training-panel { bottom: 3%; left:3%; right:3%; padding: 13px; }
       .training-panel p { font-size: 13px; }
+      .explore-dock { left:3%; right:3%; bottom:3%; flex-direction:column; gap:7px; }
+      .explore-copy { padding:11px 12px; }
+      .explore-copy h2 { font-size:20px; margin:5px 0; }
+      .explore-copy p { font-size:12px; }
+      .explore-controls { min-width:0; flex-direction:row; }
+      .explore-controls button { min-height:44px; padding:9px 8px; font-size:9px; }
+      .explore-status { max-width:180px; font-size:9px; }
+      .debrief-card { left:4%; right:4%; max-height:84%; overflow:auto; padding:17px; }
+      .debrief-card p { font-size:14px; }
       .rune-choice { min-width: calc(50% - 10px); }
       .disclaimer { right: 10px; bottom: 8px; font-size: 8px; }
       .prototype-note { padding: 8px 10px; }
@@ -167,6 +190,7 @@
           <div class="battle-narration">
             <strong id="battleHeading">A road-goblin blocks the pass</strong>
             <p id="battleLog" aria-live="polite">It watches your hands. It has not committed to an attack yet.</p>
+            <button class="primary" id="battleContinue" type="button" hidden>Return to the road</button>
           </div>
           <div class="battle-actions">
             <button class="action" data-battle="attack" type="button">Strike<span>Reliable damage</span></button>
@@ -174,6 +198,39 @@
             <button class="action" data-battle="spell" type="button">Ember Bolt<span>Focus: 10</span></button>
             <button class="action" data-battle="retreat" type="button">Retreat<span>Leave encounter</span></button>
           </div>
+        </div>
+      </section>
+      <section class="mode" id="exploration-panel">
+        <div class="game-info">
+          <div><strong>Old Road · South Fork</strong><br><span id="exploreObjective">Find the goblin scout.</span></div>
+          <div class="explore-status">
+            <b id="exploreResources">0 Bells · 0 Tonics · 0 XP</b><br>
+            <span id="exploreClue">No magical evidence collected yet.</span>
+          </div>
+        </div>
+        <div class="explore-dock">
+          <div class="explore-copy">
+            <strong id="exploreTargetTitle">Beyond the safe mile</strong>
+            <h2>Something moved ahead.</h2>
+            <p id="explorePromptText" aria-live="polite">Move with WASD or the arrow keys. Approach a marker and press E to interact.</p>
+          </div>
+          <div class="explore-controls">
+            <button class="primary" id="interactButton" type="button" disabled>Interact (E)</button>
+            <button class="secondary" id="returnAshmereButton" type="button" disabled>Return to Ashmere</button>
+          </div>
+        </div>
+      </section>
+      <section class="mode" id="debrief-panel">
+        <div class="debrief-card">
+          <div class="eyebrow">Expedition report · Ashmere</div>
+          <h2>Back from the frontier</h2>
+          <p id="debriefSummary">The road has yielded new evidence.</p>
+          <p class="debrief-rewards" id="debriefRewards">0 XP · 0 Bells · 0 Tonics recovered</p>
+          <p class="debrief-findings" id="debriefFindings">No discoveries recorded on this trip.</p>
+          <div class="menu-row">
+            <button class="primary" id="debriefBackButton" type="button">Return to title</button>
+          </div>
+          <span class="disclaimer">Experimental expedition · no production save was changed</span>
         </div>
       </section>
       <section class="mode" id="training-panel">
@@ -204,6 +261,6 @@
     <span>Keyboard: Esc returns to title · 1 Strike · 2 Guard · 3 Ember Bolt · 4 Retreat</span>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/phaser@4.1.0/dist/phaser.min.js"></script>
-  <script src="./prototype.js"></script>
+  <script src="./prototype.js?v=0.1.0-first-expedition"></script>
 </body>
 </html>
