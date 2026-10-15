@@ -49,6 +49,7 @@ jobs:
           node --check js/systems/ashmere-controller-v099.js
           node --check js/systems/road-controller-v100.js
           node --check prototypes/reboot/prototype.js
+          node --check prototypes/reboot/production-data.js
           node --check tests/reboot-prototype.spec.js
           node --check tests/legend-smoke.spec.js
           node --check tests/mobile-smoke.spec.js
