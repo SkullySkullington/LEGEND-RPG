@@ -1,12 +1,12 @@
-# LEGEND: Roads of Ashmere
+# LEGEND: The Unquiet Road
 
-**LEGEND: Roads of Ashmere** is a dark medieval fantasy HTML5 RPG built around a persistent traveler, a living town, and expeditions into the Old Road.
+**LEGEND: The Unquiet Road** is a dark medieval fantasy HTML5 RPG built around a persistent traveler, a living town, and expeditions into the Old Road.
 
 The project is now in its **full RPG development phase**. The old recovery/remake phase is historical context, not the current identity.
 
 ## Current Build
 
-**v0.20.27 — Desktop-first polish & Captain Oric portrait.** Builds on the v0.20.26 Greyfen evidence-filing beat. This technical pass replaces Oric’s handcrafted SVG stand-in with the existing Runway portrait as a committed local asset, makes desktop the primary design and QA target, and streamlines Playwright to run the full regression suite on desktop Chrome plus focused mobile compatibility checks.
+**v0.20.28 — The Unquiet Road title & story reframe.** Applies a broader working subtitle and corrects the series architecture so all planned regions belong to the first game's shared geography and recur in future titles. It deepens the proposed dark-fantasy mythology while retaining desktop-first development and mobile compatibility. Browser verification of this update is pending.
 
 ## Development Roadmap
 
@@ -16,7 +16,7 @@ The prioritized active plan, acceptance criteria, and compatibility guardrails a
 
 The shared visual style, image-family specifications, prompt template, and web/mobile integration checklist live in [docs/ART-DIRECTION.md](docs/ART-DIRECTION.md). This keeps generated art consistent across Ashmere, the Old Road, class portraits, enemies, and item icons.
 
-**World and franchise foundation:** [docs/LEGEND_WORLD_BIBLE.md](docs/LEGEND_WORLD_BIBLE.md) separates established canon from open mysteries, while [docs/FRANCHISE_STRATEGY.md](docs/FRANCHISE_STRATEGY.md) lays out the longer-term IP path across games, stories, art, and audio. The upcoming first-impression overhaul is captured in [docs/OPENING_EXPERIENCE_REDESIGN.md](docs/OPENING_EXPERIENCE_REDESIGN.md), covering an alive title scene, roleplay-led character creation, and the first arrival in Ashmere. The [first-session story spine](docs/ASHMERE_STORY_SPINE.md) connects established scenes and mechanics into a coherent early journey while keeping proposed revelations separate from canon. The [mystery and story arc blueprint](docs/LEGEND_MYSTERY_AND_STORY_ARC.md) maps the first game's reveal ladder and route quests. The proposed [series myth arc](docs/LEGEND_SERIES_MYTH_ARC.md) introduces a franchise-wide antagonist and a staged reveal plan across future games. The expanded [deep canon foundation](docs/LEGEND_DEEP_CANON_FOUNDATION.md) develops the antagonist's origin, bounded supernatural rules, regional escalation, and continuity principles. The [character compendium](docs/LEGEND_CHARACTER_COMPENDIUM.md) adds proposed character arcs and relationships, while the [culture and history atlas](docs/LEGEND_CULTURE_AND_HISTORY_ATLAS.md) deepens the regions, customs, folklore, and historical eras. These additions are proposals, not locked canon.
+**World and franchise foundation:** [docs/LEGEND_WORLD_BIBLE.md](docs/LEGEND_WORLD_BIBLE.md) separates established canon from open mysteries, while [docs/FRANCHISE_STRATEGY.md](docs/FRANCHISE_STRATEGY.md) lays out the longer-term IP path across games, stories, art, and audio. The upcoming first-impression overhaul is captured in [docs/OPENING_EXPERIENCE_REDESIGN.md](docs/OPENING_EXPERIENCE_REDESIGN.md), covering an alive title scene, roleplay-led character creation, and the first arrival in Ashmere. The [first-session story spine](docs/ASHMERE_STORY_SPINE.md) connects established scenes and mechanics into a coherent early journey while keeping proposed revelations separate from canon. The [mystery and story arc blueprint](docs/LEGEND_MYSTERY_AND_STORY_ARC.md) maps the first game's reveal ladder and route quests. The proposed [series myth arc](docs/LEGEND_SERIES_MYTH_ARC.md) introduces a franchise-wide antagonist and a staged reveal plan across future games. The expanded [deep canon foundation](docs/LEGEND_DEEP_CANON_FOUNDATION.md) develops the antagonist's origin, bounded supernatural rules, regional escalation, and continuity principles. The [character compendium](docs/LEGEND_CHARACTER_COMPENDIUM.md) adds proposed character arcs and relationships, while the [culture and history atlas](docs/LEGEND_CULTURE_AND_HISTORY_ATLAS.md) deepens the regions, customs, folklore, and historical eras. The [Series & Title Reframe](docs/LEGEND_SERIES_CONTINUITY_REFRAME.md) corrects the title and recurring-region architecture and proposes a darker Hollow Mile mythology. These lore additions are proposals, not locked canon.
 
 ## Play Now
 
@@ -168,7 +168,7 @@ No build pipeline is required for the live web game.
 
 Original concept and Windows Batch version created by **Keegan Lewis VanOrder**.
 
-Developed as **LEGEND: Roads of Ashmere**, a dark fantasy RPG focused on travelers, towns, roads, encounters, and progression.
+Developed as **LEGEND: The Unquiet Road**, a dark fantasy RPG focused on travelers, towns, roads, encounters, and progression.
 
 ## License
 
