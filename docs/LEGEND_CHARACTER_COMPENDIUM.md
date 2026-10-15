@@ -10,6 +10,13 @@ New biographies below are proposals, not established lore. Before implementing a
 
 ---
 
+## CURRENT DIRECTION UPDATE — CHARACTERS IN A FANTASY WAR
+
+The current primary story direction is [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). Keep established characters and their existing jobs intact, but let the widening monster threat and return of magic challenge them in different ways: protection, supplies, evidence, survival, care, local loyalties, and disagreements over what to do. Characters must not exist only to explain the central mystery.
+
+Aren Vey, Ivara, the Pale Surveyor, and characters tied specifically to the former route-network mythology remain legacy proposals, not approved ancient canon. Do not build new mandatory plot dependencies around them unless the project owner explicitly re-approves that material. New regional characters should introduce local expertise, faction motives, magical practice, or independent personal stories—not just more exposition about one hidden villain.
+
+
 ## 1. The emotional shape of the ensemble
 
 The first game's main cast already covers four necessary ways of responding to the unknown:
