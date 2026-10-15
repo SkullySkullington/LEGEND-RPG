@@ -1,3 +1,12 @@
+## v0.20.25 — The Reedwatch Field Note
+- Following Mara’s Greyfen Archive comparison, the Reedwatch Shelter locker becomes a contextual discovery on a later Old Road expedition.
+- The player can recover a rain-blurred field note dated two days after Greyfen logged the flood’s retreat; the sketch already shows the newer cut toward the reed bed.
+- Returning the note to Mara advances the investigation to Old Brenn. His ledger dialogue reveals overwritten crossing destinations without resolving who altered the records, then directs the player toward an earlier weekly route return.
+- The story flags and quest objective are stored through the existing save and journal systems. Regression coverage has been added for finding the note, reporting it to Mara, and advancing Brenn’s lead.
+- Full Playwright and live story-path verification are pending. The latest live browser attempt was blocked before page load by \`ERR_TUNNEL_CONNECTION_FAILED\`; no game failure has been confirmed.
+
+---
+
 ## v0.20.24 — A Mark Beneath the Mark
 - Extended the Bell quest from the Blackroot seal to the existing Greyfen Boundary Stone. Once Blackroot evidence is known, the Greyfen discovery presents a matching bell-mark beneath a newer cut pointed toward the reed bed.
 - Inspecting the Greyfen mark records a persistent memory and advances the quest log to Mara’s Boundary Archive.
