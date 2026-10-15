@@ -60,6 +60,12 @@
     const weapons = D().weapons || [];
     const armors = D().armors || [];
     const names = D().itemNames || {};
+    const quest = window.LegendRebootPrototype?.getExplorationState?.();
+    const questStatus = !quest ? 'No expedition underway. Begin the journey to receive your first field commission.'
+      : quest.scoutDefeated ? 'Complete · Return to Ashmere and report the charcoal warband mark.'
+      : !quest.questAccepted ? 'Available · Find Roadwarden Brenn on the Old Road.'
+      : !(quest.shrineInspected && quest.tracksInspected) ? 'In progress · Inspect the waystone and record the warband tracks.'
+      : 'Ready · Confront the goblin scout and recover proof.';
     const inventory = Object.entries(state.items).filter(([,count]) => count > 0).map(([id,count]) => `<div class="inv-card"><strong>${names[id] || id}</strong><p>Quantity: ${count}</p></div>`).join('') || '<p class="inv-muted">Your pack is empty.</p>';
     const weaponCards = weapons.map(item => {
       const owned = state.ownedWeapons.includes(item.id);
@@ -73,7 +79,7 @@
     }).join('');
     panel.innerHTML = `
       <div class="inv-top"><div><div class="eyebrow">Character · Pack · Loadout</div><h2>Inventory & Equipment</h2><div class="inv-muted">Prototype-only inventory using LEGEND's current weapon, armor, item and class data.</div></div><div><div class="inv-balance">${state.bells} Bells</div><button class="inv-close" id="closeInventory">Close pack ✕</button></div></div>
-      <h3>Equipped</h3><div class="inv-grid"><div class="inv-card"><strong>Weapon · ${weapon().name}</strong><p>Damage ${weapon().min}–${weapon().max}<br>${weapon().passive || 'No weapon trait'}</p></div><div class="inv-card"><strong>Armor · ${armor().name}</strong><p>Defense ${armor().defense} · reduces incoming damage</p></div></div>
+      <h3>Journal · First commission</h3><div class="inv-card"><strong>The Unquiet Road</strong><p>${questStatus}</p><p>Waystone: ${quest?.shrineInspected ? "recorded" : "not inspected"} · Tracks: ${quest?.tracksInspected ? "recorded" : "not recorded"} · Roadwarden: ${quest?.questAccepted ? "commission accepted" : "not yet met"}</p></div>\n      <h3>Equipped</h3><div class="inv-grid"><div class="inv-card"><strong>Weapon · ${weapon().name}</strong><p>Damage ${weapon().min}–${weapon().max}<br>${weapon().passive || 'No weapon trait'}</p></div><div class="inv-card"><strong>Armor · ${armor().name}</strong><p>Defense ${armor().defense} · reduces incoming damage</p></div></div>
       <h3>Weapons · Buy and equip</h3><div class="inv-grid">${weaponCards}</div>
       <h3>Armor · Buy and equip</h3><div class="inv-grid">${armorCards}</div>
       <h3>Pack</h3><div class="inv-grid">${inventory}</div>
