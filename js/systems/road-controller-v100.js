@@ -200,6 +200,12 @@ function pointOfInterest(stage){
   {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The boundary stone is scored with route marks. A few fresh scratches point beyond the reeds.',action:'Record the route marks',icon:'⚑',short:'Boundary',x:78,y:48}
  ];
  const index=clamp(Number(stage||0),0,5);
+ if(index===4){
+  const pl=p();
+  if(pl?.flags?.greyfenArchiveRead&&!pl?.flags?.greyfenFieldNoteFound){
+   return {key:'reedwatch-locker',name:'A Dated Field Note',kind:'Route Record',text:'Inside the swollen locker, beneath a wrap of oilcloth, you find a rain-blurred field note. Its date falls two days after Greyfen logged the flood’s retreat, and the sketch already shows the newer cut pointing toward the reed bed. The signature has run to ink.',action:'Recover the field note',icon:'▣',short:'Field note',x:25,y:52};
+  }
+ }
  if(index===5){
   const pl=p();
   if(pl?.flags?.bellRoadSearched){
@@ -281,6 +287,7 @@ function inspectPointOfInterest(){
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
  s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
+ let foundGreyfenFieldNote=false;
  if(point.key==='blackroot-mark'){
   pl.flags=pl.flags||{};
   pl.flags.bellRoadSearched=true;
@@ -297,6 +304,14 @@ function inspectPointOfInterest(){
   const memory='At the Greyfen Approach, the boundary stone carries the bell-mark seen at Blackroot Bend beneath a newer cut angled toward the reed bed. The mark proves a change in the stone, not who made it.';
   if(!pl.memories.includes(memory))pl.memories.push(memory);
   setBellQuestObjective(pl,'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.');
+ }else if(point.key==='reedwatch-locker'&&pl.flags?.greyfenArchiveRead&&!pl.flags?.greyfenFieldNoteFound){
+  foundGreyfenFieldNote=true;
+  pl.flags=pl.flags||{};
+  pl.flags.greyfenFieldNoteFound=true;
+  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+  const memory='At Reedwatch Shelter, you found a field note dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut angled toward the reed bed; the signature is unreadable.';
+  if(!pl.memories.includes(memory))pl.memories.push(memory);
+  setBellQuestObjective(pl,'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.');
  }
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
@@ -315,7 +330,12 @@ function inspectPointOfInterest(){
  else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
  else if(stage===2){inv(pl,'food',1);inv(pl,'roadHerb',1);note='You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';}
  else if(stage===3){s.pressure=clamp(s.pressure-8,0,100);inv(pl,'bellFragment',1);note='The seal’s pattern matches an old Ashmere mark. You take a Bell Fragment and learn a safer way around the roots. +1 Bell Fragment; Road Pressure falls by 8.';}
- else if(stage===4){inv(pl,'clothScrap',1);inv(pl,'roadHerb',1);note='The locker gives way. Inside are clean cloth strips and a bundle of preserved herbs. +1 Cloth Scrap, +1 Road Herb.';}
+ else if(stage===4){
+  inv(pl,'clothScrap',1);inv(pl,'roadHerb',1);
+  note=foundGreyfenFieldNote
+   ?'You copy the date and sketch before wrapping the field note for Mara. The newer cut is already drawn two days after Greyfen logged the flood’s retreat. +1 Cloth Scrap, +1 Road Herb.'
+   :'The locker gives way. Inside are clean cloth strips and a bundle of preserved herbs. +1 Cloth Scrap, +1 Road Herb.';
+ }
  else if(stage===5&&point.key==='greyfen-marker'&&pl.flags?.greyfenBoundaryCompared){
   pl.gold=Number(pl.gold||0)+10;s.pressure=clamp(s.pressure-5,0,100);pl.flags=pl.flags||{};pl.flags.greyfenRouteRecorded=true;
   note='The Greyfen boundary mark matches the older bell-mark at Blackroot, but a newer cut turns toward the reed bed. The stone shows that someone altered the marker; it does not say who. +10 gold; Road Pressure falls by 5.';
