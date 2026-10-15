@@ -1,7 +1,7 @@
 # LEGEND — Game Reboot & Playable Foundation Plan
 
 **Status:** Proposed reboot plan; production engine migration not yet approved or applied  
-**Current source build:** v0.20.30, browser-based, desktop-first with mobile compatibility. The production title currently presents **LEGEND: The Awakening**; live deployment verification is pending.  
+**Current source build:** v0.20.31, browser-based, desktop-first with mobile compatibility. The production title currently presents **LEGEND: The Awakening**; live deployment verification is pending.  
 **Purpose:** Replace incremental screen polishing with a coherent design for a dark-fantasy RPG that has animated exploration, magic, trainable skills, active turn-based combat, a cinematic opening, and room to grow across a shared world.
 
 **Related documents:** [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [First-Session Story Spine](ASHMERE_STORY_SPINE.md), [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Roadmap](ROADMAP.md), [Art Direction](ART-DIRECTION.md).
