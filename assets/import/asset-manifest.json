@@ -1,0 +1,146 @@
+{
+  "batch": "crafting-armor-ashmere-greyfen-2026-10-15",
+  "assets": [
+    {
+      "name": "Crafting bench ingredient and output icon atlas",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/9fd091d7-abf4-450a-9c91-4bccf9692c30/642620f4-47d4-43f4-a71b-a2ee7439f827/Create_a_clean_3_by_3_sprite_atlas_for_the_grounded_medieval.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNTliOTlhZTk1ZjdhZDcyNCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjE4NDA0MX0.WxshA3TsT4XRuSkvkCIvvW3BHmXdA0B-JLxVO4OrfvY",
+      "target": "assets/generated/items/crafting-icon-atlas.webp",
+      "grid": {
+        "rows": 3,
+        "cols": 3,
+        "targets": [
+          {
+            "name": "roadHerbBundle",
+            "target": "assets/generated/items/materials/road-herb-bundle.webp"
+          },
+          {
+            "name": "blackrootTonicIngredients",
+            "target": "assets/generated/items/materials/blackroot-tonic-ingredients.webp"
+          },
+          {
+            "name": "huntersCharm",
+            "target": "assets/generated/items/materials/hunters-charm.webp"
+          },
+          {
+            "name": "ironOreChunk",
+            "target": "assets/generated/items/materials/iron-ore-chunk.webp"
+          },
+          {
+            "name": "tornHide",
+            "target": "assets/generated/items/materials/torn-hide.webp"
+          },
+          {
+            "name": "reinforcedBuckle",
+            "target": "assets/generated/items/materials/reinforced-buckle.webp"
+          },
+          {
+            "name": "bellFragmentCraft",
+            "target": "assets/generated/items/materials/bell-fragment.webp"
+          },
+          {
+            "name": "lampOil",
+            "target": "assets/generated/items/materials/lamp-oil.webp"
+          },
+          {
+            "name": "tradeBundle",
+            "target": "assets/generated/items/materials/trade-bundle.webp"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Blacksmith armor icon atlas",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/2bb0c81b-caa1-4cb8-8155-dd4baf39f0d9/9d328437-9914-4b7a-aa95-ce4eee298d9d/Create_a_clean_3_by_3_sprite_atlas_of_nine_distinct_armor_ic.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNjI5ZjE2YjRmYmFmZTRkMyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIyODQwNH0.cuVIVzx8mZY8TTbMt_x_22Nb2SRRlJwKl2WjcxZBCyA",
+      "target": "assets/generated/items/armor-icon-atlas.webp",
+      "grid": {
+        "rows": 3,
+        "cols": 3,
+        "targets": [
+          {
+            "name": "clothArmor",
+            "target": "assets/generated/items/armor/cloth-armor.webp"
+          },
+          {
+            "name": "leatherReinforcedArmor",
+            "target": "assets/generated/items/armor/leather-reinforced-armor.webp"
+          },
+          {
+            "name": "chainArmor",
+            "target": "assets/generated/items/armor/chain-armor.webp"
+          },
+          {
+            "name": "bronzeArmor",
+            "target": "assets/generated/items/armor/bronze-armor.webp"
+          },
+          {
+            "name": "ironArmor",
+            "target": "assets/generated/items/armor/iron-armor.webp"
+          },
+          {
+            "name": "kettleHelmet",
+            "target": "assets/generated/items/armor/kettle-helmet.webp"
+          },
+          {
+            "name": "leatherBracersArmor",
+            "target": "assets/generated/items/armor/leather-bracers.webp"
+          },
+          {
+            "name": "armorShield",
+            "target": "assets/generated/items/armor/round-shield.webp"
+          },
+          {
+            "name": "armorRepairKit",
+            "target": "assets/generated/items/armor/armor-repair-kit.webp"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ashmere and Greyfen shop icon atlas",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/535bb9da-cbbe-40d3-8c45-438326320e01/020455ad-6c1f-4418-bf71-03b8707ad9b6/Create_a_precise_3_by_3_sprite_atlas_of_nine_distinct_mediev.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMjhiN2I0ZTlkNTYxZmIxNCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjI0NDg0MX0.-Jdzo2_2jLQR-Wu9kWrVa-Ew70J3YhNBLN13ZLZ1Rbg",
+      "target": "assets/generated/ui/region-shop-icon-atlas.webp",
+      "grid": {
+        "rows": 3,
+        "cols": 3,
+        "targets": [
+          {
+            "name": "ashmereTrader",
+            "target": "assets/generated/ui/region-shops/ashmere-trader.webp"
+          },
+          {
+            "name": "ashmereForge",
+            "target": "assets/generated/ui/region-shops/ashmere-forge.webp"
+          },
+          {
+            "name": "ashmereWorkbench",
+            "target": "assets/generated/ui/region-shops/ashmere-workbench.webp"
+          },
+          {
+            "name": "ashmereInn",
+            "target": "assets/generated/ui/region-shops/ashmere-inn.webp"
+          },
+          {
+            "name": "greyfenMarket",
+            "target": "assets/generated/ui/region-shops/greyfen-market.webp"
+          },
+          {
+            "name": "greyfenForge",
+            "target": "assets/generated/ui/region-shops/greyfen-forge.webp"
+          },
+          {
+            "name": "greyfenWorkbench",
+            "target": "assets/generated/ui/region-shops/greyfen-workbench.webp"
+          },
+          {
+            "name": "greyfenFerryman",
+            "target": "assets/generated/ui/region-shops/greyfen-ferryman.webp"
+          },
+          {
+            "name": "greyfenApothecary",
+            "target": "assets/generated/ui/region-shops/greyfen-apothecary.webp"
+          }
+        ]
+      }
+    }
+  ]
+}
