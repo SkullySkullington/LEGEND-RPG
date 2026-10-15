@@ -50,3 +50,24 @@
 .v094-class-grid .v094-choice-prompt{font-size:.61rem;padding-top:8px}
 @media(max-width:700px){.v094-class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v094-class-grid .v094-choice{padding:8px}}
 @media(prefers-reduced-motion:reduce){.v094-class-grid .v094-choice{transition:none}}
+
+
+/* Touch-input stability: keep hover styling from moving a tapped creation choice. */
+@media (hover: none), (pointer: coarse) {
+  .v094-choice:hover:not([aria-pressed="true"]),
+  .v094-choice-scene .v094-choice:hover:not([aria-pressed="true"]),
+  .v094-choice[aria-pressed="true"],
+  .v094-choice-scene .v094-choice[aria-pressed="true"],
+  .v094-btn:hover {
+    transform: none !important;
+  }
+  .v094-choice-scene .v094-choice:hover:not([aria-pressed="true"]) {
+    transition: none !important;
+  }
+  .v094-choice:active,
+  .v094-choice-scene .v094-choice:active,
+  .v094-btn:active {
+    transform: none !important;
+    filter: brightness(1.04);
+  }
+}
