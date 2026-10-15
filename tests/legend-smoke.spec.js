@@ -65,13 +65,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
     const emblem = page.locator('.portal100-emblem-wrap img');
-    await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\\.webp/);
+    await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\.webp/);
     await expect.poll(() => backdrop.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     const logo = page.locator('.v120-legend-logo');
     await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /awakening-sigil\\.svg/);
+    await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
     await expect(logo).toBeVisible();
-    await expect(logo).toHaveAttribute('src', /logo_legend_awakening_wordmark\\.svg/);
+    await expect(logo).toHaveAttribute('src', /logo_legend_awakening_wordmark\.svg/);
     await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
