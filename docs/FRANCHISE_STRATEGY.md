@@ -27,7 +27,7 @@ The first game remains the anchor. A broad IP needs a strong, understandable ent
 ### The flagship line: games
 The main game series carries the central playable journey and major canon revelations. Each game needs its own local conflict, a complete emotional arc, meaningful progression, and a larger question that naturally points forward. Do not make a sequel feel like an oversized content update, or require an external book to understand its plot.
 
-**Current flagship:** *LEGEND: Roads of Ashmere* — Ashmere, the Old Road, the first route choice, the Bell mystery, and the initial move toward Greyfen.
+**Current flagship:** *LEGEND: The Unquiet Road* (recommended working subtitle) — one continuous first game intended to span Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. The regions are not separate game installments; future titles should revisit them as events change their people, policies, and physical routes.
 
 ### Companion stories: short fiction and illustrated pieces
 Use short stories, character vignettes, journal entries, illustrated route reports, or a limited web-serial to explore people and places that the game cannot fully cover. These should:
@@ -102,7 +102,7 @@ For every new region, define before implementation:
 - New materials and enemies with clear uses and behaviors.
 - How the region connects to existing mysteries without repeating the prior region’s story.
 
-Do not start Ironpass, Blackwood, or the Ruined March simply because the map lists them. Each should earn its place.
+Do not treat Ironpass, Blackwood, or the Ruined March as future-game-only locations. They belong to the intended first game's geography, but should enter production only when each region's full loop, narrative identity, assets, and tests are ready.
 
 ### Phase 4 — Test the transmedia identity
 **Goal:** Learn what parts of the setting work outside the game without expanding the production burden.
@@ -156,14 +156,14 @@ This packet keeps future work consistent and makes collaboration easier.
 This order keeps the IP ambition connected to a game people can actually play and remember.
 
 
-## 8. Proposed connected saga: The Pale Surveyor
+## 8. Shared geography, continuing series
 
-The companion [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md) is a proposed franchise-level antagonist and reveal plan. It builds around an enemy who seeks to eliminate uncertainty by forcing roads, records, and communities to agree with one master map. That premise ties the Bell, route markers, contradictory ledgers, and later regional conflicts into a single saga while preserving distinct local stories.
+The recommended working subtitle for the first game is **LEGEND: The Unquiet Road**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are the intended shared geography of that first game, not six separate installments. Current implementation and intended narrative scope are different: Ashmere and Greyfen have foundations in source; the remaining hubs and stories must be built and verified before they are playable.
 
-The proposed escalation uses the planned regions as narrative opportunities:
-- **Ashmere and Greyfen:** prove that route markers and records have been deliberately altered; resolve a local crisis without naming the full enemy.
-- **Ironpass:** discover the institutional and economic costs of standardizing every route, and encounter the title of the Pale Surveyor.
-- **Blackwood:** uncover the original road network's protective purpose and the creator's choice to turn it coercive.
-- **The Ruined March:** confront the master network and decide how to preserve connection without giving one map authority over every community.
+The [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) corrects the story architecture and expands the proposed darkness around the Pale Surveyor and the Hollow Mile. This deeper lore is a proposal and should not be stated as settled public canon until approved.
 
-These beats are not fixed release commitments. They should guide foreshadowing and continuity while the first game remains the production priority. The central idea can be approved or revised before names, timelines, and faction details become canon.
+Future mainline games should be organized around the consequences of the previous story, a new conflict, character changes, and the passage of time—not around a one-region-per-game release plan. Revisit the places players know: Ashmere's records and public obligations; Greyfen's crossings and flood practices; Ironpass's inspection law and labor disputes; Blackwood's competing histories; and the Ruined March's claims and denied access.
+
+Future subtitles are not yet fixed. They should name a major conflict or thematic turn, not simply the region the player visits. A sequel can move across several familiar regions in a single story. The geography is the persistent world; time, consequences, relationships, and the changing form of the threat drive the series.
+
+The first game's proposed climax stops a major correction but does not end every effect of the network. Later installments can explore the Unreturned, the history of Aren Vey and Ivara, institutional complicity, and the cost of trying to restore what has been lost. Do not repeat the same villain plan unchanged: each return should reveal a deeper cost, produce a new dilemma, and change how the world responds.
