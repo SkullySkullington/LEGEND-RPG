@@ -287,7 +287,17 @@ function inspectPointOfInterest(){
  }
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
- else if(stage===1&&s.routeChoice==='ridge'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);note='You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';}
+ else if(stage===1&&s.routeChoice==='ridge'){
+  inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);
+  const cairnOutcome=pl.flags?.highRidgeCairnOutcome||pl.flags?.sideContracts?.movedCairn?.decision;
+  note=cairnOutcome==='restore'
+   ?'You check the cairn you reset and compare its fresh scrape with the older groove. A Road Herb remains tucked behind the stones. +1 Road Herb; Road Pressure falls by 3.'
+   :cairnOutcome==='record'
+    ?'Your notes preserve both positions; the chalk still matches the groove beneath the shifted stone. You recover a Road Herb. +1 Road Herb; Road Pressure falls by 3.'
+    :cairnOutcome==='warn'
+     ?'The warning cloth still marks the shifted cairn. You check the track without moving the stone and recover a Road Herb. +1 Road Herb; Road Pressure falls by 3.'
+     :'You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';
+ }
  else if(stage===1&&s.routeChoice==='reeds'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure+4,0,100);note='You recover the torn herb pouch, but the tracks circle closer as you leave. +1 Road Herb; Road Pressure rises by 4.';}
  else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
  else if(stage===2){inv(pl,'food',1);inv(pl,'roadHerb',1);note='You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';}
