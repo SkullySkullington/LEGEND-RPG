@@ -47,6 +47,10 @@
     .subtitle { margin: 16px 0 0; font-size: clamp(17px, 2.3vw, 30px); color: #e0d1aa; letter-spacing: .14em; text-transform: uppercase; }
     .tagline { max-width: 450px; margin: 21px 0 0; color: #e0e1d8; font-size: clamp(15px, 1.45vw, 20px); line-height: 1.65; }
     .menu-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .class-picker { margin-top: 20px; max-width: 460px; padding: 14px 16px; border: 1px solid var(--line); background: rgba(7,11,10,.78); }
+    .class-picker label { display: block; color: var(--gold); font: 700 10px system-ui,sans-serif; text-transform: uppercase; letter-spacing: .15em; margin-bottom: 8px; }
+    .class-picker select { width: 100%; padding: 10px 12px; color: var(--ink); background: #101715; border: 1px solid var(--line); }
+    .class-summary { margin: 9px 0 0; color: #d0d3c8; font: 12px/1.55 system-ui,sans-serif; }
     .primary, .secondary { border: 1px solid var(--line); min-height: 46px; padding: 12px 18px; background: rgba(7,11,10,.83); text-transform: uppercase; letter-spacing: .14em; font: 700 11px system-ui, sans-serif; transition: border-color .18s, background .18s, transform .18s; }
     .primary { background: linear-gradient(180deg, #e5cc91, #a9834c); border-color: #f0dba8; color: #151512; box-shadow: 0 5px 20px rgba(0,0,0,.22); }
     .primary:hover { background: #f1dba9; transform: translateY(-2px); }
@@ -162,6 +166,7 @@
           <h1>LEGEND</h1>
           <p class="subtitle">The Unquiet Road</p>
           <p class="tagline">Old magic stirs beneath a wounded world. The dead do not always stay dead—and every miracle asks a price.</p>
+          <div class="class-picker"><label for="classChoice">Choose your calling</label><select id="classChoice"><option>Adventurer</option><option>Warrior</option><option>Ranger</option><option>Mage</option><option>Thief</option><option>Skiller</option></select><p id="classSummary" class="class-summary">Loading character attributes…</p></div>
           <div class="menu-row">
             <button class="primary" id="beginButton" type="button">Begin Journey</button>
             <button class="secondary" id="combatButton" type="button">Combat Preview</button>
@@ -265,7 +270,11 @@
     <span>This is an isolated experiment. It does not change production saves or game state.</span>
     <span>Keyboard: Esc returns to title · 1 Strike · 2 Guard · 3 Ember Bolt · 4 Retreat</span>
   </div>
+  <script src="../../js/data.js"></script>
+  <script src="../../js/systems/assets-v090.js"></script>
+  <script src="../../js/content/roads/old-road-v087.js"></script>
+  <script src="./production-data.js?v=0.1.0-production-bridge"></script>
   <script src="https://cdn.jsdelivr.net/npm/phaser@4.1.0/dist/phaser.min.js"></script>
-  <script src="./prototype.js?v=0.1.0-first-expedition"></script>
+  <script src="./prototype.js?v=0.2.0-production-data"></script>
 </body>
 </html>
