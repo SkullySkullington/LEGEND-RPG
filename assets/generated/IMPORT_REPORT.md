@@ -27,3 +27,11 @@ Successful exports: 25/25
 - `assets/generated/enemies/road-goblin.webp`
 - `assets/generated/enemies/lantern-wisp.webp`
 - `assets/generated/items/item-icon-sheet.webp`
+
+## Follow-up Runway export — Captain Oric
+
+- Runway task: `3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb`
+- Source PNG validation: 1792×2400, 5,870,268 bytes, valid PNG signature.
+- Production file: `assets/generated/npcs/captain-oric.webp` (262,938 bytes).
+- Runtime should reference the committed local WebP, not the expiring signed Runway preview URL.
+- Asset conversion and commit succeeded; in-game desktop/mobile visual verification is still pending.
