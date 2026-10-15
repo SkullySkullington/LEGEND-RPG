@@ -22,7 +22,7 @@ jobs:
 
       - name: Download and validate the existing Runway portrait
         env:
-          ORIC_RUNWAY_URL: 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb/d33dff39-fd66-4545-8df7-956d3ec9f2fa/A_single_portrait_illustration_of_Captain_Oric__an_original_.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzIzNmM0YTZlMzY0ZTAyZCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjI0NzU5MH0.FYkrVKkOBl3n0BcoNg1BM7a_5Hrx6EmmReLaBq9EboI'
+          ORIC_RUNWAY_URL: 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb/d33dff39-fd66-4545-8df7-956d3ec9f2fa/A_single_portrait_illustration_of_Captain_Oric__an_original_.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzIzNmM0YTZlMzY0ZTAyZCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjI0NzU5MH0.FYkrVKkOBl3n0BcoNg1BM7a_5Hrx6EmmReLaBqE9boI'
         run: |
           set -euo pipefail
           curl --fail --location --retry 2 --max-time 90 "$ORIC_RUNWAY_URL" -o /tmp/captain-oric-source.png
