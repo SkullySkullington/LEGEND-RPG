@@ -231,3 +231,17 @@ Relevant v0.20.23 commits:
 - `68ebc0109046bb70feaa74637e3c7dedf3eeb02a`: test saved decision and journal memory across a reload.
 - `c661fc3e6e64e028fb055a93eb91f61fc5ea8cee`: HTML title and asset cache-busting.
 - `19b0ee0f94c6f23b86e236396499889dec03b3c8`: package version; `ceaac84e4b142986b7881e9f6ef5ede2a33e768e`: README; `1bf94b473d062ae280a89a7aeb9dcb894396eac3`: changelog; `c9ccd3b1214afa5169321504f25bf583e9287384`: handoff; `19fd065b885814b5c6cd6d78fb6f869c6bb3c9f2`, `8484b4b68c58ade92ee148e029ebcb07ce1e5e6e`, `b871068ceed8eb9348ff248b29312575a5a758df`: lore/documentation updates.
+
+
+## Source release v0.20.24 — A Mark Beneath the Mark (verification pending)
+
+Source changes on \`main\`:
+- The existing Greyfen Boundary Stone discovery now reacts to the saved Blackroot seal clue. Inspecting it records a memory that distinguishes the repeated older bell-mark from a newer cut angled toward the reed bed.
+- The Bell That Rang Once journal objective advances to taking the matching mark to Mara in Greyfen’s Boundary Archive.
+- Mara’s Greyfen dialogue compares the two surfaces, records the comparison in the memory list, and advances the objective to finding a dated record or physical evidence for when the newer cut was made.
+- \`storage.js\` normalizes the two new story flags; no new currency, quest engine, or separate regional system was added.
+- \`tests/legend-smoke.spec.js\` adds regression coverage for the evidence and archive response; the Moved Cairn test now checks persistence across a reload.
+- Version labels and route-controller cache-busting move to \`v0.20.24\`.
+
+**Verification status (2026-10-15):** Source and tests are committed, but the Playwright suite has not run locally. The latest live browser attempt was blocked by \`ERR_TUNNEL_CONNECTION_FAILED\` before the page loaded; therefore neither the Moved Cairn path nor the Greyfen archive callback is verified in the deployed game. Do not interpret the tunnel error as an application failure or as a pass. Confirm the page version, run the targeted quest tests, and check desktop/mobile layout when a browser session is available.
+
