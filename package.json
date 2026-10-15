@@ -1,6 +1,6 @@
 {
   "name": "legend-roads-of-ashmere",
-  "version": "0.20.31",
+  "version": "0.20.32",
   "private": true,
   "description": "Playwright end-to-end tests for LEGEND: The Awakening.",
   "scripts": {
