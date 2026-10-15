@@ -163,6 +163,7 @@
     training: () => showMode('training'),
     exploration: () => showMode('exploration'),
     interact: () => { if (scene) scene.interactNearby(); },
+    getExplorationState: () => scene?.explorationState || null,
     returnToAshmere: () => showMode('debrief'),
     begin: startCinematic
   };
