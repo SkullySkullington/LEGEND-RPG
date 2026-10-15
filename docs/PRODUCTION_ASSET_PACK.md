@@ -109,3 +109,12 @@ Imported and registered three consistent icon atlases for the two current region
 The Crafting Bench now shows a distinct output illustration for every recipe and ingredient thumbnails beside the required materials. The Blacksmith's armor list and equipped armor slot select item-specific art instead of reusing the same shield for every armor. Ashmere destination cards now use their own inn, trader, forge, and workbench illustrations; Greyfen uses its marsh market, causeway smithy, and ferryman imagery, with the existing town icon retained for the inn. The Greyfen workbench art is shown on the crafting screen.
 
 The atlas import workflow completed successfully and generated the individual WebP crops. Automated Playwright checks were triggered by the integration commits; full visual sign-off still depends on those checks completing and a desktop/mobile review.
+
+
+## Workshop interaction polish — v0.20.33
+
+- Crafting now confirms the exact item created and the ingredients consumed, with a compact status treatment that respects reduced-motion settings.
+- Ingredient quantities remain visible beside their illustrations; recipes with insufficient stock remain disabled.
+- Blacksmith cards compare candidate weapon maximum damage or armor defense against the currently equipped item.
+- The equipped armor illustration is consistent between the workshop loadout and Traveler profile.
+- Added Playwright coverage for locally served generated artwork and the workshop crafting/equipment interaction flow in `tests/workshop-art.spec.js`.
