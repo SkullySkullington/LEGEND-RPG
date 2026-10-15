@@ -2,7 +2,7 @@
 
 **Status:** Proposed worldbuilding expansion; not locked canon  
 **Purpose:** Give each region a distinct history, civic life, set of customs, folklore, practical knowledge, and relationship to the road network. Make the world feel older and larger than the central mystery.  
-**Companions:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md).
+**Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md).
 
 > **Worldbuilding rule:** People do not live inside a plot. They live inside weather, work, debt, family, belief, memory, and place. The series mystery matters because it can disturb those things—not because every road, custom, and creature was secretly invented by the villain.
 
@@ -720,3 +720,8 @@ The player does not need to know the complete history to enjoy an errand. The pu
 The long-term aim is a world in which players can recognize Ashmere from how its people welcome travelers, Greyfen from how its residents talk about water, Ironpass from how it measures risk, Blackwood from how it preserves paths, and the Ruined March from the cost of making a claim. The Pale Surveyor's ideology should become more frightening because it threatens those distinct lives—not because every place turns out to have been designed for the same villain.
 
 **The world's governing principle:** Routes connect places, but customs tell us what those places value. A shared world should preserve both connection and difference.
+
+
+## 22. Recurring geography across titles
+
+All planned regions described in this atlas are intended to belong to the first LEGEND game's shared geography. They are not a release plan. Ashmere, Greyfen, Ironpass, Blackwood, and the Ruined March should return in future titles with visible changes to their routes, institutions, customs, relationships, and memory of earlier events. See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the corrected story architecture and proposed Hollow Mile mythology.
