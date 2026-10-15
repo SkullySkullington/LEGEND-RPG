@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.24 — Route stories and Greyfen evidence** adds the persistent Moved Cairn quest and advances the Bell mystery from the Blackroot seal to Greyfen’s boundary stone and Mara’s archive. The evidence establishes that a marker was altered, but leaves its author and motive unresolved. The broader hidden-truth hypothesis remains proposed, not locked canon.
+**v0.20.25 — The Reedwatch field note** continues the Bell mystery through the Greyfen Boundary Archive, a dated note found at Reedwatch Shelter, and overwritten crossing records in Brenn’s ledger. The chain establishes that the route marker was altered after the flood record, but leaves the author and motive unresolved. The broader hidden-truth hypothesis remains proposed, not locked canon.
 
 ## Development Roadmap
 
