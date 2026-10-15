@@ -6,9 +6,16 @@
 
 > **Design rule:** The team should know more than the player, but every reveal must be supported by clues already present in the world. This document proposes a workable answer; it does not silently change established canon.
 
+## CURRENT DIRECTION OVERRIDE — THE INVASION IS THE FRONT DOOR
+
+This blueprint must now be reconciled with [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). The player's first-game experience should read as a fantasy adventure: immediate monster threats, expeditions, dangerous sites, factions, and regional problems, with returning magic and a larger awakening revealed behind those events. The Bell/Old Road investigation remains a useful early evidence chain, but the older map-centered explanation is no longer the default answer to the franchise mystery. Preserve implemented clues exactly as clues; do not make them prove an awakening, antagonist, or cosmology that they do not currently establish.
+
+**Status update:** Existing quest beats and implemented facts remain reference material. Any explanation centered on the Pale Surveyor, Hollow Mile, or a route network altering reality is a legacy alternative proposal and is not approved as the primary saga. The monster invasion's cause, the awakening's nature, and the factions' relationship to it remain open.
+
+
 ## 1. The story promise
 
-A traveler arrives at Ashmere with a gap in their memory on the same night an impossible bell is said to have rung. What begins as an unsettling arrival becomes a practical investigation into missing travelers, unreliable route records, and communities whose livelihoods depend on knowing which paths can be trusted.
+The traveler arrives in Ashmere as a frontier community faces growing danger. The first playable arc should start with a concrete human problem—an alarm, a monster threat, a missing supply run, or an unsafe expedition—then lead into the existing bell and route-evidence chain. The local investigation introduces the possibility that some events are connected to a wider upheaval, but does not displace the larger fantasy adventure.
 
 The emotional center is not “the chosen hero discovers a cosmic destiny.” It is:
 
@@ -22,7 +29,7 @@ The main story should always have a near-term human problem, even when the clue 
 
 ## 2. Proposed hidden truth for the writing team
 
-### Working hypothesis: the Bell is an alarm, not a summons
+### Legacy working hypothesis: the Bell is an alarm, not a summons
 
 In an earlier age, road keepers maintained a network of route markers, lantern posts, cairns, boundary stones, and bells. These were practical infrastructure: they recorded junctions, warned travelers when a passage was unsafe, and helped distant settlements keep route knowledge consistent.
 
@@ -273,7 +280,7 @@ This trail narrows the timing of the alteration but does not identify its author
 This closes the first evidence-filed chapter while keeping authorship unresolved. The next playable chain should look for the missing closure order rather than repeat the same “someone changed the marker” discovery in another location.
 
 
-## 11. Connection to the proposed series-wide antagonist
+## 11. Legacy connection to the former proposed series-wide antagonist
 
 The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) offers a franchise-wide explanation that can contain the current Bell hypothesis: an ancient route network was built to help places agree on safe connections, then a former roadkeeper began forcing the world to conform to one master map.
 
