@@ -27,11 +27,13 @@ The game should feel like a living fantasy world first and an unfolding mystery 
 
 The kingdoms have enjoyed generations of relative peace. Monsters retreated into deep places and remote wilderness; many people consider the old monster wars to be folklore. Then attacks intensify. Goblins raid farms and trade routes. Orcish clans gather under unfamiliar banners. Ogres emerge from mountain passes. Beasts change in disturbing ways. Initially, the attacks look unrelated.
 
-Evidence slowly reveals that some monster groups are behaving unnaturally: abandoning easy plunder, collecting specific relics or minerals, converging on old sites, or avoiding places where a strange magical influence has appeared. Some enemies may be following orders; others may be reacting to a force that they do not understand.
+Evidence slowly reveals that some monster groups are behaving unnaturally: abandoning easy plunder, collecting specific relics or minerals, converging on old sites, or avoiding places where a strange magical influence has appeared. Some enemies may be following orders; others may be reacting to a force that they do not understand. Some factions are exploiting the chaos; others are fighting for territory or survival for reasons unrelated to the central threat.
 
-At the same time, old magic returns. Ruins respond to living people, sealed chambers become active, animals and plants mutate, forgotten techniques become usable, and people rediscover dangerous forms of sorcery. Someone or something may be awakening beneath the world.
+At the same time, old magic returns. In the existing [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md), magic touches a boundary called **the Veil**, and dangerous disturbances around that boundary are called the **Afterwake**. The **Last Mercy** ritual and the figure called the **Hollow Saint** are the strongest current candidate for the deeper historical cause: a failed attempt to preserve the dead created echoes that imitate people and weakened the boundary between life and death. Treat this as the leading proposal to reconcile—not fully locked canon—until the story arc, regional clues, and production scope are approved together.
 
-**Keep open:** whether the awakening is an ancient entity, a failed civilization-scale experiment, a damaged magical prison, a living force, or another explanation. Do not lock the final answer before the clue ladder, regional stories, and game scope are reconciled.
+The monster invasion can be a symptom of the Afterwake without reducing every monster to a servant of the Hollow Saint. Some creatures may be fleeing altered territories, some may be drawn to relics or magical sites, some may have been changed or manipulated, and others may simply be taking advantage of weakened defenses. The player should discover these distinctions through encounters and regional stories.
+
+**Keep open:** the exact origin and limits of the Afterwake, the degree of the Hollow Saint's agency, which factions understand the threat, and whether the Last Mercy ritual can be ended, repaired, or transformed. Do not lock every answer before the clue ladder and playable scope are reconciled.
 
 ## 4. The first game's dramatic shape
 
@@ -78,13 +80,11 @@ Undead, trolls, beasts, spirits, cult-bound creatures, and other classic fantasy
 
 Magic is a rediscovered force with observable costs and limitations. It should affect exploration, crafting, combat, quests, and regional ecology—not exist only as dialogue about mysterious events.
 
-Working skill traditions:
+Current candidate magic cosmology and disciplines are defined in the [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md): the Veil, Strain as a cost of powerful magic, and the Five Arts—Ember, Tide, Root, Gale, and Veil. These should be treated as the leading system proposal rather than silently replaced by a second incompatible cosmology.
 
-- **Arcana:** learned spellcraft, runes, elemental forces, enchantments, magical tools, and controlled experimentation. Potential training activities: rune puzzles, pattern matching, inscription, enchanting minigames.
-- **Wildcraft:** plants, beasts, healing, poisons, natural reagents, and interactions with altered ecosystems. Potential training activities: ingredient identification, tracking, gathering, brewing, creature observation.
-- **Forbidden Arts:** dangerous practices involving souls, life, shadow, memory, or the boundary between living and dead. These are a proposed high-risk discipline, not a locked cosmological fact. Training should involve meaningful choices and consequences, not a free power upgrade.
+The earlier categories **Arcana**, **Wildcraft**, and **Forbidden Arts** can still be useful as broad training paths, professions, or social traditions layered over the Five Arts. For example, Arcana could teach structured spellcraft across multiple Arts; Wildcraft could focus on living systems and reagents; Forbidden Arts could describe dangerous practices involving souls, memory, or the boundary between life and death. This mapping is a design option, not yet a locked system.
 
-Other martial, survival, gathering, crafting, and social skills can be trained through short, relevant minigames. The minigame should express the skill being learned and reward practice, not feel like an unrelated arcade interruption.
+Training should happen through short, relevant minigames and practice loops: rune patterning, elemental control, ingredient identification, tracking, gathering, brewing, wards, or spirit-contact choices. These activities should express the skill being learned and its risks, not feel like unrelated arcade interruptions. Powerful magic should have legible limits and costs; it should not be a free power upgrade.
 
 ## 7. The role of established lore and mechanics
 
