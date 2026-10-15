@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.28 — The Unquiet Road title & story reframe.** Applies a broader working subtitle and corrects the series architecture so all planned regions belong to the first game's shared geography and recur in future titles. It deepens the proposed dark-fantasy mythology while retaining desktop-first development and mobile compatibility. Browser verification of this update is pending.
+**v0.20.35 — Production title screen finish.** The main game now uses the committed Ashmere road panorama and full Awakening wordmark in a cinematic, landscape-led layout, removes duplicate title text, and prioritizes the background art while preserving the existing traveler, settings, profile, and credits flows. Focused browser regression assertions now target the actual production assets.
 
 ## Development Roadmap
 
