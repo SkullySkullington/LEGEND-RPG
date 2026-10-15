@@ -37,7 +37,6 @@ const BATTLE_AUDIO = {
  victory:'assets/audio/battle/battle_victory.wav'
 };
 let battleMusic=null;
-let hotspotDelegationBound=false;
 let visibleDiscoveryStage=null;
 function playBattleFx(kind){
  if(!soundOn())return;
@@ -110,10 +109,24 @@ function handleHotspotAction(btn){
  const action=btn?.dataset?.hotspot;
  if(action==='poi'){
   const pl=p();if(!pl)return;
-  const s=ensure(pl);
-  // The discovery panel is transient view state; do not persist it with the traveler.
-  visibleDiscoveryStage=Number(s.stage||0);
-  return renderExpedition();
+  const s=ensure(pl),stage=Number(s.stage||0),wrap=root()?.querySelector('.exp100-wrap');
+  // Revealing a clue is a local scene action, not a full expedition rerender.
+  // The scene shell intentionally preserves its existing image node between renders;
+  // inserting the panel beside the current scene avoids the preserved-DOM redraw path.
+  visibleDiscoveryStage=stage;
+  if(!wrap||wrap.querySelector('.exp100-discovery-beat'))return;
+  const markup=pointOfInterestPanel(pl,s,stage);
+  const anchor=wrap.querySelector('.exp100-route-choice, .exp100-poi-done')||wrap.querySelector('.exp100-head');
+  if(!markup||!anchor)return;
+  anchor.insertAdjacentHTML('afterend',markup);
+  const leave=wrap.querySelector('#poiLeave');
+  if(leave)leave.addEventListener('click',()=>{
+   visibleDiscoveryStage=null;
+   leave.closest('.exp100-discovery-beat')?.remove();
+  });
+  const inspect=wrap.querySelector('#poiInspect');
+  if(inspect)inspect.addEventListener('click',inspectPointOfInterest);
+  return;
  }
  visibleDiscoveryStage=null;
  if(action==='search')return resolveChoice('search');
@@ -121,17 +134,17 @@ function handleHotspotAction(btn){
  if(action==='finish')return finish();
 }
 function bindHotspotDelegation(){
- if(hotspotDelegationBound)return;
- hotspotDelegationBound=true;
- // Capture at document level so scene redraws or root-level delegation cannot drop the click.
- // Queue the state change until the click has finished propagating through the original button.
- document.addEventListener('click',event=>{
-  const path=typeof event.composedPath==='function'?event.composedPath():[];
-  const btn=path.find(node=>node&&typeof node.matches==='function'&&node.matches('.exp100-hotspot'))
-   ||event.target?.closest?.('.exp100-hotspot');
-  if(!btn)return;
-  queueMicrotask(()=>handleHotspotAction(btn));
- },true);
+ // Bind directly to the fresh hotspot nodes after each shell update. The discovery
+ // action inserts its panel in place and does not replace the button during the click.
+ document.querySelectorAll('.exp100-hotspot').forEach(btn=>{
+  if(btn.dataset.roadHotspotBound==='1')return;
+  btn.dataset.roadHotspotBound='1';
+  btn.addEventListener('click',event=>{
+   event.preventDefault();
+   event.stopPropagation();
+   handleHotspotAction(btn);
+  });
+ });
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
@@ -216,7 +229,7 @@ function renderExpedition(note=''){
   const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
   shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
   bindHotspotDelegation();
-  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;save(pl);renderExpedition();});
+  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;save(pl);document.querySelector('.exp100-discovery-beat')?.remove();});
   document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
   document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));
   document.getElementById('routeReeds')?.addEventListener('click',()=>chooseRoadRoute('reeds'));
