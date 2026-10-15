@@ -1,3 +1,11 @@
+## v0.20.29 — Town and service icon integration
+- Add a cohesive, locally committed icon family for the inn, market, forge, journal, map, work board, traveler, route milestone, and regional gate.
+- Wire service icons into the existing Ashmere/Greyfen navigation while preserving the existing SVG fallback for unrelated actions.
+- Add regression coverage for local image paths and successful icon decoding.
+- **Verification:** source integration is prepared; automated browser tests and deployed desktop/mobile review remain pending.
+
+---
+
 ## 2026-10-15 — Narrative direction: Monster Wars & the Awakening
 - Added `docs/LEGEND_FANTASY_RPG_DIRECTION.md` as the current preferred reference for a fantasy RPG centered on monster incursions, returning magic, regional conflicts, and an unknown awakening; aligned `docs/LEGEND_GAME_REBOOT_PLAN.md` so the monster invasion connects to the candidate Veil / Five Arts / Last Mercy / Afterwake mythology.
 - Reconciled the existing world bible, first-session spine, mystery/story arc, series mythology, deep canon, continuity reframe, culture atlas, character compendium, and franchise strategy with the new direction.
