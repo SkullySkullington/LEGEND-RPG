@@ -88,10 +88,13 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#combat-panel')).toHaveClass(/active/);
     await expect(page.locator('#battleHeading')).toContainText('Goblin scout');
 
-    // The tutorial scout is balanced to fall to three successful Ember Bolts.
-    await page.locator('[data-battle="spell"]').click();
-    await page.locator('[data-battle="spell"]').click();
-    await page.locator('[data-battle="spell"]').click();
+    // Wait for each enemy turn so the test exercises the intended combat rhythm.
+    const spell = page.locator('[data-battle="spell"]');
+    await spell.click();
+    await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
+    await spell.click();
+    await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
+    await spell.click();
     await expect(page.locator('#battleContinue')).toBeVisible({ timeout: 6000 });
     await page.locator('#battleContinue').click();
     await expect(page.locator('#exploration-panel')).toHaveClass(/active/);
