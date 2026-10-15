@@ -218,6 +218,7 @@
 
     create() {
       this.ready = true;
+      scene = this;
       this.showBackdrop('title');
       this.scale.on('resize', () => this.resizeCurrentScene());
       this.soundscape();
@@ -589,13 +590,7 @@
   });
 
   game.events.once('ready', () => {
-    scene = game.scene.getScene('RebootScene');
+    if (!scene) scene = game.scene.getScene('RebootScene');
     updateBars();
-    if (!scene.ready) {
-      scene.events.once('create', () => { scene = game.scene.getScene('RebootScene'); });
-    }
-  });
-  game.events.on('ready', () => {
-    scene = game.scene.getScene('RebootScene');
   });
 })();
