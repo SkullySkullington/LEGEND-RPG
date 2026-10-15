@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { version } = require('../package.json');
 
 // Each Playwright test runs in an isolated browser context, so clearing localStorage
 // here only resets that test's synthetic traveler—not a player's live browser save.
@@ -47,12 +48,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test.describe('LEGEND v0.20.26 browser regression tests', () => {
+test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(/LEGEND: Roads of Ashmere v0\.20\.26/);
-    await expect(page.locator('.portal-footer')).toContainText('v0.20.26');
-    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe('v0.20.26');
+    await expect(page).toHaveTitle(`LEGEND: Roads of Ashmere v${version}`);
+    await expect(page.locator('.portal-footer')).toContainText(`v${version}`);
+    await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
   });
 
   test('title emblem loads from the committed SVG artwork', async ({ page }) => {
@@ -330,10 +331,15 @@ test.describe('LEGEND v0.20.26 browser regression tests', () => {
     await expect(page.locator('.ash100-destinations')).toContainText('Town Square');
     await page.locator('.ash100-destinations .ash100-destination[data-ash-view="people"]').click();
     await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Captain Oric/i })).toBeVisible();
+    const oricCard = page.locator('.ash099-npc-card[data-ash-view="oric"] img');
+    await expect(oricCard).toBeVisible();
+    await expect(oricCard).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricCard.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await page.locator('[data-ash-view="oric"]').click();
     await expect(page.getByRole('heading', { name: 'Captain Oric' })).toBeVisible();
-    await expect.poll(() => page.locator('.ash099-head img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    const oricDialoguePortrait = page.locator('.ash099-head img');
+    await expect(oricDialoguePortrait).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricDialoguePortrait.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
 
   test('town job awards gold, favor, and progression XP', async ({ page }) => {

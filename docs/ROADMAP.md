@@ -54,7 +54,7 @@ The title screen and new-traveler journey are planned for a deliberate redesign 
 - [x] Implement the one-time “A Dry Crossing” contract with a guaranteed safer path, a disclosed 65% shortcut chance, explicit reward/health outcomes, saved completion state, and a regression test.
 - [x] Gate the roadmap in order: Greyfen → complete A Dry Crossing → Ironpass. Ironpass, Blackwood, and The Ruined March remain visible as in-development regions without unlock/travel actions until their hubs exist.
 - [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, local work contracts, regional unlock order, and avoiding the Ashmere-only expedition from Greyfen.
-- [ ] Review all screens at desktop and 390px mobile widths; verify scene crops, icon centering, contrast, file size, and fallback behavior.
+- [ ] Review all screens at desktop widths first; verify scene crops, icon centering, contrast, file size, and fallback behavior, then smoke-check critical layouts at 390px mobile width.
 - [ ] Generate a dedicated, cohesive town/service UI icon atlas (inn, market, forge, journal, map, work board, traveler, route). Current buttons use committed local item/portrait images instead of inline SVGs, but several are interim semantic matches until a dedicated icon family is available.
 - Keep UI labels as HTML, never baked into the art.
 - See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
@@ -79,14 +79,14 @@ The title screen and new-traveler journey are planned for a deliberate redesign 
 
 ### 5. Stabilize and validate
 
-- Run the Playwright smoke suite and investigate failures before release.
+- Run the full regression suite on Desktop Chrome and focused touch-critical smoke tests on Mobile Safari and Mobile Chrome. Use the full browser matrix for deliberate cross-browser sweeps; investigate failures before release.
 - Verify the visible version, page title, data version, and cache-busting references agree.
-- Playtest the full first-session loop in desktop and mobile viewports.
+- Playtest the full first-session loop on desktop first, then confirm the critical creation, town, road, and combat flows at mobile width.
 - Preserve existing save keys and avoid account/cloud-save changes unless explicitly prioritized.
 
 ## Guardrails
 
-- Mobile-first at 360–430px; large tap targets and no horizontal page overflow.
+- Desktop-first visual design (target 1440×900); retain responsive 360–430px mobile support, touch-safe controls, and no horizontal page overflow.
 - Prefer incremental changes in the current controllers over replacing the main game bootstrap.
 - Keep the existing region system working; traveler saves may be reset or migrated if needed during early development.
 - No account/Supabase work is in scope for this pass.

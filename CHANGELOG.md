@@ -1,3 +1,12 @@
+## v0.20.27 — Desktop-first polish & Captain Oric portrait
+- Replace Captain Oric’s handcrafted shape-based SVG portrait with the existing Runway-generated portrait, committed locally and used in both the People card and dialogue screen.
+- Add regression checks so both Oric views assert the stable local asset path and successful image decoding.
+- Shift UI development and visual QA to desktop first (target 1440×900) while retaining mobile compatibility smoke coverage at 390px.
+- Streamline Playwright: full regression on Desktop Chrome by default, focused compatibility tests on Mobile Safari/Chrome, and an opt-in full four-project matrix.
+- Skip Markdown-only workflow triggers and cancel superseded runs to keep the automation queue manageable. Deployment/browser verification remains pending until the real asset is committed and checks complete.
+
+---
+
 ## v0.20.26 — The Earlier Weekly Return
 - After Brenn identifies rewritten Greyfen crossing entries, the Wayfarer’s Camp discovery can reveal an earlier weekly return marked “CLOSED pending inspection,” then overwritten as “OPEN” without initials.
 - Recovering the return creates a journal memory and directs the player to Old Brenn in Greyfen.

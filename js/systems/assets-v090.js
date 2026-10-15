@@ -38,7 +38,7 @@
     npcs: {
       mara: 'assets/npcs/ashmere/npc_mara_portrait_v1.jpg',
       brenn: 'assets/npcs/ashmere/npc_brenn_portrait_v1.jpg',
-      oric: 'assets/npcs/ashmere/npc_oric_portrait_v2.svg',
+      oric: 'assets/generated/npcs/captain-oric.webp',
       innkeeper: 'assets/npcs/vendors/npc_innkeeper_portrait_v1.jpg',
       blacksmith: 'assets/npcs/vendors/npc_blacksmith_portrait_v1.jpg',
       trader: 'assets/npcs/vendors/npc_trader_portrait_v1.jpg'

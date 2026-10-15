@@ -13,6 +13,13 @@ Last updated: 2026-10-15. Read this file before changing code, and update it whe
 - Production art must be watermark-free. OpenArt previews are reference-only unless watermark-free production output/use is confirmed.
 - Preserve working systems and save behavior. Inspect current source before editing; make small, targeted changes; add regression tests; never claim a test or live fix passed without evidence.
 
+## Platform and verification focus
+- **Desktop-first development:** use desktop browsers as the primary design and QA target, starting at 1440×900. Prioritize readable hierarchy, useful screen-space, mouse/keyboard affordances, and a polished desktop game feel.
+- **Mobile remains supported:** keep responsive, touch-safe core loops at 360–430px, but treat mobile as compatibility and critical-path QA rather than the primary design constraint.
+- **Default Playwright run:** full regression on Desktop Chrome, plus character-creation, town, road-discovery, and combat smoke flows on Mobile Safari and Mobile Chrome. Manual workflow dispatch can opt into the complete four-project matrix.
+- **Avoid CI pileups:** skip documentation-only commits and cancel superseded runs for the same branch/PR.
+- **Longer-term packaging:** keep the browser game as the source of truth until the first slice is stable and enjoyable. Then decide between desktop-app packaging and an engine port based on actual platform requirements; do not migrate engines during stabilization.
+
 ## Current game overview
 Working RPG core includes title/character creation, Ashmere hub and NPC dialogue, Work Board jobs, trading/equipment/crafting, five-stage Old Road expeditions, meaningful exploration choices/discoveries, resting/field crafting, turn-based combat with class abilities/cooldowns, rewards, XP/leveling, and regional travel. Previous live playtesting found no horizontal overflow at 390×844 and no expedition event text/art overlap in checked scenes.
 
@@ -297,3 +304,11 @@ Relevant v0.20.26 commits:
 - `5d60a4c9b3e6f6bc3c7c0a021799397ecdb760e6`: adjust Mara’s filing dialogue to match the saved callback.
 - `570d768dc85beae8b59053b1d4a645df7114d9d7`: Ashmere controller cache refresh.
 - `91fef40d28bea3cfb9ea3afa2576a0341a4e1057`, `718a086116b596c2d1928a5277730597109e6361`, `a7aadd062ffe67b5159580e8395e532fcb5adc6c`, `74d718c01936fbcc12610536044ad1e83995f968`, and `fb9028bf8d49a02a43ba139cd68a383889f96b5e`: HTML, data, runtime, bootstrap, and package version.
+
+
+## v0.20.27 — Runway Captain Oric portrait & desktop-first verification
+- Use Runway task `3cf44cbd-3a72-4e18-8873-ecb2a2c2c5cb` for Captain Oric’s production portrait. The stable runtime path is `assets/generated/npcs/captain-oric.webp`; do not point runtime code to the expiring signed Runway URL.
+- Manifest and Ashmere NPC helper use the local manifest path in both the People card and Oric dialogue; Playwright asserts the source and successful image decode in both views.
+- Playwright defaults to Desktop Chrome full regression and four critical mobile compatibility checks on Mobile Safari/Mobile Chrome. Set `FULL_BROWSER_MATRIX=1` locally or select the full-matrix input on manual GitHub Actions dispatch for the four-project sweep.
+- GitHub Actions ignores Markdown-only pushes/PRs and cancels superseded checks by branch/PR to reduce the queue from documentation-only edits.
+- **Verification boundary:** do not consider the portrait integrated until `assets/generated/npcs/captain-oric.webp` exists in the feature branch, the PR contains the real binary, and People card/dialogue image tests pass. Finish with desktop visual review first and a 390px mobile crop/overflow check.
