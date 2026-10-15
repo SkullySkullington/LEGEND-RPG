@@ -235,13 +235,24 @@ Relevant v0.20.23 commits:
 
 ## Source release v0.20.24 — A Mark Beneath the Mark (verification pending)
 
-Source changes on \`main\`:
+Source changes on `main`:
 - The existing Greyfen Boundary Stone discovery now reacts to the saved Blackroot seal clue. Inspecting it records a memory that distinguishes the repeated older bell-mark from a newer cut angled toward the reed bed.
 - The Bell That Rang Once journal objective advances to taking the matching mark to Mara in Greyfen’s Boundary Archive.
 - Mara’s Greyfen dialogue compares the two surfaces, records the comparison in the memory list, and advances the objective to finding a dated record or physical evidence for when the newer cut was made.
-- \`storage.js\` normalizes the two new story flags; no new currency, quest engine, or separate regional system was added.
-- \`tests/legend-smoke.spec.js\` adds regression coverage for the evidence and archive response; the Moved Cairn test now checks persistence across a reload.
-- Version labels and route-controller cache-busting move to \`v0.20.24\`.
+- `storage.js` normalizes the two new story flags; no new currency, quest engine, or separate regional system was added.
+- `tests/legend-smoke.spec.js` adds regression coverage for the evidence and archive response; the Moved Cairn test now checks persistence across a reload.
+- Version labels and route-controller cache-busting move to `v0.20.24`.
 
-**Verification status (2026-10-15):** Source and tests are committed, but the Playwright suite has not run locally. The latest live browser attempt was blocked by \`ERR_TUNNEL_CONNECTION_FAILED\` before the page loaded; therefore neither the Moved Cairn path nor the Greyfen archive callback is verified in the deployed game. Do not interpret the tunnel error as an application failure or as a pass. Confirm the page version, run the targeted quest tests, and check desktop/mobile layout when a browser session is available.
+**Verification status (2026-10-15):** Source and tests are committed, but the Playwright suite has not run locally. The latest browser attempt, made while checking the preceding source release, was blocked by `ERR_TUNNEL_CONNECTION_FAILED` before the page loaded. The v0.20.24 UI and quest callbacks therefore remain unverified in the deployed game. Do not interpret the tunnel error as an application failure or as a pass. Confirm the page version, run the targeted quest tests, and check desktop/mobile layout when a browser session is available.
 
+
+Relevant v0.20.24 commits:
+- `9e36bfbaabdf7ec4f43a94a5c63ac96cda993967`: Greyfen boundary marker uses Blackroot evidence and advances the main quest.
+- `6a4c639cfd678feaa69649dec3237866431265c9`: Greyfen Boundary Archive dialogue and memory callback.
+- `524f30fdc89b28fcccefc8c65c3cc4692ed30882`: normalize persistent Greyfen story flags.
+- `0986791bf9feeb950c200b74e96fdbb7131bef16`: regression test for Blackroot-to-Greyfen evidence.
+- `da7fbb115dbee78549c16229eb1ea1f80bb8eb1e`: prevent Ashmere dialogue from regressing an advanced Greyfen objective.
+- `bc4e3488d48c59d1218a5b81108f5b0e40a78439`: test objective persistence across the Ashmere dialogue callback.
+- `6d90394944b0644eb277bf8b9c76073244127278`: refresh the Ashmere controller cache key.
+- `c2faf02fbbc6d01ffd9a39612453a138753bec96`, `c9d3ad69170dd7c1acfeb44f59529c9b120221b7`, `9061861670b83226e1e560b63ea805882b4b51b2`, `20f2a5ff3668a8947e177c9de6ac6a12cb3905b4`, and `ca24725c00940dc5e295603dd67848a33b44ef00`: HTML, data, runtime version, bootstrap, and package version changes.
+- `bc578d232c9cacd2fac49025d39ba0bd2eeefe99`, `2360b270e3dd3c2a6878c60b0cb1ff5b45e6dab5`, `b0774129f717ad773f29fdbf774c0bd4078b1abf`, `81a5fdd22d05c54774695f18253fec24c79fd9d0`, `11ddc39506b785c6cec5e7136aebd6a658dea250`, `2ca87f0c224bfb78b63b46657a67ce8f358654f7`, and `fd74c51582346fdc41fe00e8dd4dc4914d217eac`: tests, release docs, and story/world documentation.
