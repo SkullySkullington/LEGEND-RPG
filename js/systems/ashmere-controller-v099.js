@@ -351,9 +351,9 @@ function renderDryCrossing(){
       ];
     }else if(greyfen&&id==='mara'&&pl.flags?.greyfenWeeklyReturnReported){
       n.lines=[
-        'The earlier weekly return says the lower crossing was closed pending inspection. The later “OPEN” correction has no initials.',
-        'I want the field note, the crossing ledger, and this return stored side by side. Their dates tell us the sequence, even if they do not identify the writer.',
-        'Bring the return to the Boundary Archive record desk. I will preserve the contradiction before anyone tries to tidy it away.'
+        'The field note, the crossing ledger, and the earlier weekly return are now preserved together. Each record tells a different part of the same route history.',
+        'The lower crossing was officially closed pending inspection, then marked open without initials. We have evidence of an alteration, not the name of the person who made it.',
+        'The missing closure order is our next lead. Until it is found, no honest record lets us say who authorized the change.'
       ];
     }else if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound){
       n.lines=[
