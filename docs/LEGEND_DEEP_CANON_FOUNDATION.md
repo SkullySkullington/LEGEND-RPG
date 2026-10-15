@@ -1,7 +1,7 @@
 # LEGEND — Deep Canon Foundation
 
-**Status:** Proposed series canon; not locked  
-**Purpose:** Deepen the Pale Surveyor arc into a durable story architecture that can support multiple games, protagonists, side stories, and later adaptations without contradicting the first game.  
+**Status:** Archived proposal; superseded as the default mythology by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
+**Purpose:** Preserve the earlier Pale Surveyor / Hollow Mile concepts for reference only. The current proposed cosmology and gameplay foundation live in [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 **Use with:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
 
 > **The central truth:** A road is more than a line on a map. It is a relationship maintained by the ground, the people who travel it, the signs they trust, and the records they leave behind. LEGEND's great evil begins when someone decides that a relationship is too dangerous to remain uncertain—and takes the power to dictate what everyone else must call true.
