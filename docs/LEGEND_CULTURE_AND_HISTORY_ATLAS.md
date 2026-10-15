@@ -10,6 +10,13 @@ This atlas is an internal reference for writers and designers. Names, institutio
 
 ---
 
+## CURRENT DIRECTION UPDATE — CULTURES BEYOND THE CENTRAL MYSTERY
+
+Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the current main-story foundation. This atlas remains useful for distinct regional life, customs, economies, folklore, and local conflicts, but its proposed eras and route-network cosmology are not locked canon. The invasion and return of magic should affect each region differently without making every custom, creature, institution, or historical event a secret part of the same road-based conspiracy.
+
+The Four Witnesses, Long Severance, Office of Measure, and related route traditions may survive as a local craft, belief, or disputed historical interpretation if they serve a region. Do not treat them as a universal religion or the true origin of all magic unless separately approved. Give each region monster-specific pressures, magical consequences, independent conflicts, and people whose lives are larger than the main plot.
+
+
 ## 1. The realm is connected, not unified
 
 The lands of LEGEND are not one kingdom with one law, one church, one language, or one accepted history. They are a patchwork of towns, working settlements, mountain charters, old family claims, market agreements, and roads whose usefulness often matters more than the distant authority that claims them.
