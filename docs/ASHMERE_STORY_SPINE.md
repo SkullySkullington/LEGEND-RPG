@@ -1,8 +1,8 @@
-# LEGEND: Roads of Ashmere — First-Session Story Spine
+# LEGEND: The Unquiet Road — First-Session Story Spine
 
 **Status:** Narrative design draft. Existing game facts are marked *implemented*; new connective scenes and future payoffs are *proposed* until approved.  
 **Purpose:** Turn the first 30–60 minutes into a memorable RPG journey with a clear emotional arc, not a checklist of unrelated features.  
-**Companions:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Ashmere Vertical Slice GDD](ASHMERE_VERTICAL_SLICE_GDD.md), [Opening Experience Redesign](OPENING_EXPERIENCE_REDESIGN.md).
+**Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Ashmere Vertical Slice GDD](ASHMERE_VERTICAL_SLICE_GDD.md), [Opening Experience Redesign](OPENING_EXPERIENCE_REDESIGN.md).
 
 ## 1. What the first session must deliver
 
