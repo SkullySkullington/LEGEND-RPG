@@ -210,3 +210,12 @@ Keep the story source close to the systems it drives:
 - [ ] Greyfen introduces a different livelihood, route problem, and visual language.
 - [ ] All proposed connective scenes are kept out of canon until approved.
 - [ ] The central Bell/lantern mystery remains unresolved by design, not because its later story has been forgotten.
+
+
+## 9. Expanded mystery and first-game arc
+
+Use the companion [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md) for the proposed underlying truth, reveal ladder, side-quest network, route callbacks, character arcs, and implementation contract.
+
+The most important design constraint is that the writing team should know what the clues are building toward while the player receives answers gradually. The current proposal treats the Bell as an old route-warning signal, not a summons to a chosen protagonist; this is a working hypothesis, not locked lore. It preserves the traveler's flexible origin, makes High Ridge and Reed Cut tell different parts of the story, and gives Greyfen a local route conflict that grows from flooding, livelihoods, and records.
+
+**Implementation order:** First strengthen the first return from the Old Road with route-specific NPC responses and a useful journal update. Then add one small route-side quest and a consequential Greyfen follow-up. Build a larger new route only after early clues, objective flags, rewards, save behavior, and regression tests are specified. Do not expand quest quantity before the first evidence chain pays off.
