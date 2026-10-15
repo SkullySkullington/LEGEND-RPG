@@ -94,3 +94,18 @@ The latest generated-art intake is now imported into stable local WebP files by 
 The stable runtime manifest in `js/systems/assets-v090.js` exposes these paths; the Greyfen marsh scene is registered separately from the Greyfen town hub. The Inn action cards now use the new Inn, milestone, and journal illustrations. The new enemy portrait is searchable through the existing name-to-art mapping and is available for a Mirebound Sentinel encounter.
 
 **Verification still required:** visually inspect the full atlas grids and individual crops, especially how their charcoal backgrounds read against UI panels; check at 1440×900 and 390px; verify image failure fallbacks and run the Playwright smoke suite. Registration and automated import are complete, but that does not constitute full visual sign-off or mean every skills icon is already used by a playable skills screen.
+
+
+## Follow-up generation — v0.20.32: crafting, armor, Ashmere and Greyfen shops
+
+Imported and registered three consistent icon atlases for the two current regions only.
+
+| Category | Stable paths |
+|---|---|
+| Crafting bench | `assets/generated/items/crafting-icon-atlas.webp` and individual crops under `assets/generated/items/materials/` |
+| Blacksmith armor | `assets/generated/items/armor-icon-atlas.webp` and individual crops under `assets/generated/items/armor/` |
+| Ashmere/Greyfen shop identities | `assets/generated/ui/region-shop-icon-atlas.webp` and individual crops under `assets/generated/ui/region-shops/` |
+
+The Crafting Bench now shows a distinct output illustration for every recipe and ingredient thumbnails beside the required materials. The Blacksmith's armor list and equipped armor slot select item-specific art instead of reusing the same shield for every armor. Ashmere destination cards now use their own inn, trader, forge, and workbench illustrations; Greyfen uses its marsh market, causeway smithy, and ferryman imagery, with the existing town icon retained for the inn. The Greyfen workbench art is shown on the crafting screen.
+
+The atlas import workflow completed successfully and generated the individual WebP crops. Automated Playwright checks were triggered by the integration commits; full visual sign-off still depends on those checks completing and a desktop/mobile review.
