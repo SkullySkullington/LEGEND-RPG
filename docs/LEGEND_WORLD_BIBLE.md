@@ -1,7 +1,7 @@
 # LEGEND — World & Story Bible
 
 **Document status:** Working canon reference, version 1.0  
-**Scope:** The shared world of LEGEND, beginning with *LEGEND: Roads of Ashmere*  
+**Scope:** The shared world of LEGEND, beginning with *LEGEND: The Unquiet Road* (recommended working subtitle)  
 **Purpose:** Give future games, stories, art, audio, and adaptations one consistent foundation.
 
 This is an internal production document, not an in-world encyclopedia. It records what the current game and design documents establish, distinguishes open mysteries from facts, and gives future additions a continuity check.
@@ -71,7 +71,7 @@ Its first planned identity includes Reedgate landing, the Silted Cup, Float Mark
 The signature contract **A Dry Crossing** is established in the design: follow old posts for a safer, slower approach, or attempt a riskier reed-bed shortcut. The route marker and the changed route are story hooks, not just rewards.
 
 ### Further regions
-**Current plan:** The broad progression order is Greyfen, then Ironpass, Blackwood, and the Ruined March. These later regions are not fully established story locations yet. Keep their identities distinct when developed; do not fill the map with near-identical towns before the first regions are coherent.
+**Intended first-game geography:** Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are all regions and locations intended to be explored in the first LEGEND game. They are not separate game installments. Ashmere and Greyfen have the current implementation foundations; Ironpass, Blackwood, and the Ruined March remain in-development and must not be described as playable until their hubs, stories, and tests exist. Future titles will revisit these same locations as the world changes, rather than treating each region as a separate sequel.
 
 ## 5. The central mystery: bells, lanterns, and the road
 
@@ -224,7 +224,7 @@ Brenn compares this return with the rewritten ledger; Mara then files the Blackr
 
 ## 17. Series-wide antagonist proposal
 
-The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) proposes one antagonist whose goal is to make the world conform to a single authoritative map. Under this interpretation, the old route network began as a protective system; the Surveyor's decision to force agreement turned it into a means of suppressing contradictory routes, records, and eventually communities.
+The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) and [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) propose an antagonist whose goal is to make the world conform to one account, even when doing so causes people and routes to disappear into the Hollow Mile. Under this interpretation, the old route network began as a protective system; the Surveyor's decision to force agreement turned it into a means of suppressing contradictory routes, records, and eventually communities.
 
 **Status:** Proposed franchise direction, not locked canon. The Pale Surveyor, the Long Severance, and the Office of Measure must not be stated as established lore until approved. The proposal is designed to build on—rather than replace—the current Bell/Old Road hypothesis: the Bell acts as a warning, while the repeated marks, newer cuts, altered ledgers, and missing closure order are early evidence of a larger pattern.
 
@@ -243,3 +243,10 @@ The companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) expands t
 The [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md) deepens the established Mara Vell, Old Brenn, Captain Oric, and Sella Marr while proposing new supporting characters and personal quest arcs across Ashmere, Greyfen, and future regions. The [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md) expands the regions' histories, civic customs, livelihoods, folk beliefs, seasonal practices, and public institutions.
 
 **Status:** Both companions are proposed expansions, not locked canon. New names, biographies, institutions, customs, and historical details should be checked against current source dialogue and assets before implementation. Keep at least half of local story conflicts independent of the Pale Surveyor, and do not make a character's full life secretly revolve around the Bell mystery.
+
+
+## 20. The title and recurring geography
+
+**Recommended working subtitle:** *LEGEND: The Unquiet Road*. This replaces the location-specific working title *Roads of Ashmere* in the visible title treatment so the first game is not framed as an Ashmere-only adventure. The intended first game spans every planned region; future releases are organized around new conflicts and consequences, and revisit the same geography.
+
+See [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) for the corrected first-game act structure and proposed dark-fantasy expansion, including the Hollow Mile. That proposal remains unapproved lore; the title and geography correction does not make its supernatural explanation established canon.
