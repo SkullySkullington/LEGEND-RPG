@@ -343,7 +343,19 @@ function renderDryCrossing(){
       oric:{name:'Captain Oric',role:'Causeway Watch',art:npc('oric'),text:'Oric watches the raised paths between Greyfen and the drowned lowlands. He marks every stretch that can vanish after heavy rain.',lines:['Stay on the old stone where you can. Reeds hide holes deep enough to swallow a cart.','If something keeps pace with you in the water, do not turn your lantern toward it.','Rest before the causeway narrows. There is nowhere to stand once the flood reaches the markers.']}
     };
     const n=(greyfen?fenMap:ashMap)[id]||(greyfen?fenMap:ashMap).mara;
-    if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound){
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenEvidenceFiled){
+      n.lines=[
+        'The field note, the crossing ledger, and the earlier weekly return are now preserved together. Each record tells a different part of the same route history.',
+        'The lower crossing was officially closed pending inspection, then marked open without initials. We have evidence of an alteration, not the name of the person who made it.',
+        'The missing closure order is our next lead. Until it is found, no honest record lets us say who authorized the change.'
+      ];
+    }else if(greyfen&&id==='mara'&&pl.flags?.greyfenWeeklyReturnReported){
+      n.lines=[
+        'The earlier weekly return says the lower crossing was closed pending inspection. The later “OPEN” correction has no initials.',
+        'I want the field note, the crossing ledger, and this return stored side by side. Their dates tell us the sequence, even if they do not identify the writer.',
+        'Bring the return to the Boundary Archive record desk. I will preserve the contradiction before anyone tries to tidy it away.'
+      ];
+    }else if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound){
       n.lines=[
         'The field note is dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut pointing into the reed bed.',
         'The date means the cut was present after the flood was recorded; the water alone does not account for it. The signature is lost, so the writer remains unknown.',
@@ -437,7 +449,19 @@ function renderDryCrossing(){
         ];
       }
     }
-    if(greyfen&&id==='brenn'&&pl.flags?.greyfenFieldNoteReported){
+    if(greyfen&&id==='brenn'&&pl.flags?.greyfenWeeklyReturnFound&&!pl.flags.greyfenWeeklyReturnReported){
+      n.lines=[
+        'This is an earlier return than the entries I showed you. The lower crossing is clearly marked CLOSED pending inspection; the later OPEN correction is written in a different ink and carries no initials.',
+        'That gives us an order of events, but not an author. I will compare it against the crossing ledger and leave the discrepancy open.',
+        'Take both versions to Mara. A record should preserve a contradiction until evidence resolves it.'
+      ];
+    }else if(greyfen&&id==='brenn'&&pl.flags?.greyfenWeeklyReturnReported){
+      n.lines=[
+        'The weekly return predates the overwritten ledger entries. The closure was recorded first; the unsigned OPEN correction came later.',
+        'We cannot accuse a person from handwriting alone. Mara has the copies, and we still need the missing closure order.',
+        'Until that order turns up, the lower crossing stays marked uncertain in my ledger.'
+      ];
+    }else if(greyfen&&id==='brenn'&&pl.flags?.greyfenFieldNoteReported){
       n.lines=[
         'I have two crossings entered within days of the flood’s retreat. Both destinations were overwritten in a later hand, and neither entry carries the usual closure order.',
         'That does not tell us who changed the route. It does tell us the newer cut and the redirected deliveries belong in the same investigation.',
@@ -457,6 +481,20 @@ function renderDryCrossing(){
         :pl.flags.highRidgeCairnOutcome==='warn'
          ?['The warning strip is still doing a job. I have logged the shifted cairn as unsafe until we can survey it properly.','A warning is not a repair, but it gives the next traveler a chance to stop before the ground fails.']
          :['You recorded both alignments and left the stone untouched. Good. A route mark should be evidence, not an order no one can question.','I have copied both positions into the ledger. If someone moved it, we need the reason—not a cleaner story.'];
+    }
+    if(greyfen&&id==='brenn'&&pl.flags?.greyfenWeeklyReturnFound&&!pl.flags.greyfenWeeklyReturnReported){
+      pl.flags.greyfenWeeklyReturnReported=true;
+      pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+      const memory='Old Brenn compared the earlier weekly route return with the overwritten Greyfen ledger: the lower crossing was closed pending inspection before a later, unsigned correction marked it open.';
+      if(!pl.memories.includes(memory))pl.memories.push(memory);
+      setBellQuestObjective(pl,'Ask Mara to preserve the field note, overwritten ledger, and weekly return together in the Boundary Archive.');
+    }
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenWeeklyReturnReported&&!pl.flags.greyfenEvidenceFiled){
+      pl.flags.greyfenEvidenceFiled=true;
+      pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+      const memory='Mara filed the Blackroot seal, Greyfen boundary comparison, Reedwatch field note, and weekly route return together. The route alteration is documented, but its author and the missing closure order remain unknown.';
+      if(!pl.memories.includes(memory))pl.memories.push(memory);
+      setBellQuestObjective(pl,'Find the missing closure order that authorized the later change to the lower crossing.');
     }
     if(greyfen&&id==='mara'&&pl.flags?.greyfenFieldNoteFound&&!pl.flags.greyfenFieldNoteReported){
       pl.flags.greyfenFieldNoteReported=true;
@@ -480,9 +518,15 @@ function renderDryCrossing(){
         pl.flags.firstRoadReturnMaraBriefed=true;
       }
       if(pl.flags.firstRoadReturnSeen){
-        const objective=pl.flags.greyfenLedgerCompared
-          ? 'Find the earlier weekly route return that accompanied the overwritten Greyfen ledger.'
-          : pl.flags.greyfenFieldNoteReported
+        const objective=pl.flags.greyfenEvidenceFiled
+          ? 'Find the missing closure order that authorized the later change to the lower crossing.'
+          : pl.flags.greyfenWeeklyReturnReported
+            ? 'Ask Mara to preserve the field note, overwritten ledger, and weekly return together in the Boundary Archive.'
+            : pl.flags.greyfenWeeklyReturnFound
+              ? 'Bring the earlier weekly route return to Old Brenn in Greyfen’s Bellkeeper’s Ledger.'
+              : pl.flags.greyfenLedgerCompared
+                ? 'Find the earlier weekly route return that accompanied the overwritten Greyfen ledger.'
+                : pl.flags.greyfenFieldNoteReported
             ? 'Ask Old Brenn to compare the dated field note with Greyfen’s crossing ledger.'
             : pl.flags.greyfenFieldNoteFound
               ? 'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.'
