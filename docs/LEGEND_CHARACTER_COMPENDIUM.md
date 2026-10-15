@@ -338,7 +338,7 @@ Greyfen must have its own politics, livelihood, humor, and disagreements. These 
 
 These characters should be introduced only when their regions are developed. Mentioning them in road rumors or records is fine; implementing them as finished personalities before the region has an identity is not.
 
-### Maelin Rusk — Office of Measure Route Auditor (Ironpass)
+### Maelin Rusk — Proposed Ironpass Inspector / Route Auditor
 
 **Public role:** Inspects official routes, compares reports, and certifies which mountain roads should be open to freight.
 
@@ -549,7 +549,7 @@ A character's appearance is canon-bearing. A random generated emblem, scar, badg
 
 **Second priority — Greyfen's community:** Establish Yara, Kelda, and one of Rennick, Sivra, or Orla through the Dry Crossing and the everyday life surrounding it. The other characters can appear later as contracts and local relationships justify them.
 
-**Third priority — institutional opposition:** Introduce Maelin in Ironpass as a credible professional with a position worth hearing, not a villain wearing an obvious badge.
+**Third priority — institutional opposition:** If Maelin is retained, introduce them in Ironpass as a credible inspector or route auditor with a position worth hearing, not as a representative of an assumed canon institution.
 
 **Fourth priority — the old histories:** Let Eda, Len, and Sava arrive when their regions and stories are playable. Their ideas should be demonstrated through decisions rather than used as advance exposition.
 
@@ -557,8 +557,8 @@ Before any profile becomes final canon:
 - Check names against the current source and every existing asset.
 - Audit the character's current dialogue and flags.
 - Define first appearance, want, limitation, relationship, and one personal arc.
-- Make sure the arc can end without solving the Pale Surveyor mystery.
+- Make sure the arc can end without solving the central awakening or any one antagonist's mystery.
 - Plan any persistent callbacks and save-state requirements.
 - Add a character only when the game has a meaningful scene or function for them.
 
-**The test:** Remove the Bell mystery from the outline. If the character still has a desire, a conflict, and a reason to show up tomorrow, they belong in the world.
+**The test:** Remove the central mystery from the outline. If the character still has a desire, a conflict, and a reason to show up tomorrow, they belong in the world.
