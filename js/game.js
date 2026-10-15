@@ -1,4 +1,4 @@
-// LEGEND: The Unquiet Road v0.20.28 - Cinematic title and game bootstrap
+// LEGEND: The Awakening v0.20.30 - Monster Wars title and game bootstrap
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -17,7 +17,7 @@
   function loadSettings(){ return S().loadSettings ? S().loadSettings() : { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false }; }
   function applySettings(){ if(S().applySettings) S().applySettings(); }
   function profile(){ return window.LegendAccountV09x?.getProfile?.() || null; }
-  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.28'); }
+  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.30'); }
 
   function playUi(kind){
     const src = AUDIO[kind];
@@ -211,7 +211,7 @@
         <header class="portal100-header">
           <div class="portal100-brand">
             <div class="portal100-emblem-wrap"><img src="${esc(window.LegendAssetsV090?.logo?.emblem || 'assets/ui/logos/logo_legend_emblem_v2.svg')}" alt="LEGEND lantern-road emblem" onerror="this.style.display='none'"></div>
-            <div><span>THE UNQUIET ROAD</span><p>A world shaped by the road.</p></div>
+            <div><span>MONSTER WARS · THE AWAKENING</span><p>A world where magic stirs and old borders break.</p></div>
           </div>
           <div class="portal100-header-actions">
             <button id="account" type="button">Profile</button>
@@ -220,11 +220,11 @@
         </header>
         <main class="v120-title-main">
           <section class="v120-title-hero">
-            <div class="portal100-kicker">A WEATHERED STORYBOOK RPG</div>
+            <div class="portal100-kicker">A DARK FANTASY RPG</div>
             <h1>LEGEND</h1>
-            <h2>The Unquiet <em>Road</em></h2>
-            <p>Ashmere is a refuge of tired lamps and hard bargains. Beyond its gate, the road has begun returning things no one remembers losing.</p>
-            <div class="v120-divider"><span></span><b>THE ROAD REMEMBERS</b><span></span></div>
+            <h2>THE <em>AWAKENING</em></h2>
+            <p>Monsters gather beyond the borders. Ancient magic stirs beneath the land. Begin in Ashmere, then carve your place in a world on the edge of war.</p>
+            <div class="v120-divider"><span></span><b>THE WORLD IS WAKING</b><span></span></div>
             <div class="v120-traveler-line">
               <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '✦'}</span>
               <div><small>${player ? 'CURRENT TRAVELER' : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
@@ -235,7 +235,7 @@
             </div>
           </section>
         </main>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE UNQUIET ROAD</span><span>${esc(buildVersion())} · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE AWAKENING</span><span>${esc(buildVersion())} · ASHMERE · GREYFEN · THE WIDER REALM</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
