@@ -133,7 +133,7 @@
     const tokenCount=Number(pl.inventory?.roadToken||0);
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
     const townCard=(view,title,desc,cta,ic,featured=false)=>{
-      const shopKey=isGreyfen?({trader:'greyfenMarket',smith:'greyfenForge',work:'greyfenFerryman'}[view]):({inn:'ashmereInn',trader:'ashmereTrader',smith:'ashmereForge',work:'ashmereWorkbench'}[view]);
+      const shopKey=isGreyfen?({trader:'greyfenMarket',smith:'greyfenForge'}[view]):({inn:'ashmereInn',trader:'ashmereTrader',smith:'ashmereForge'}[view]);
       const shopIcon=shopKey?regionShopArt(shopKey):'';
       return `<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${shopIcon||icon(ic)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
     };
