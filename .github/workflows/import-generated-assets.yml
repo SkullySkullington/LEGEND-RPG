@@ -79,6 +79,34 @@ jobs:
               size_kb = round(target.stat().st_size / 1024)
               report.append(f"- {name}: `{target.as_posix()}` — {width}×{height}, {size_kb} KiB")
               print(report[-1])
+              grid = asset.get("grid")
+              if grid:
+                  rows = int(grid.get("rows", 0))
+                  cols = int(grid.get("cols", 0))
+                  cells = grid.get("targets", [])
+                  if rows < 1 or cols < 1 or len(cells) != rows * cols:
+                      raise SystemExit(f"Grid for {name} must define exactly rows × cols targets.")
+                  with Image.open(io.BytesIO(raw)) as atlas:
+                      atlas.thumbnail((2048, 2048), Image.Resampling.LANCZOS)
+                      atlas_width, atlas_height = atlas.size
+                      for index, cell in enumerate(cells):
+                          cell_name = str(cell.get("name", "")).strip()
+                          cell_target = Path(str(cell.get("target", "")))
+                          if not cell_name or cell_target.suffix.lower() != ".webp" or not str(cell_target).startswith("assets/generated/") or ".." in cell_target.parts:
+                              raise SystemExit(f"Invalid generated icon target in grid for {name}: {cell_target}")
+                          row, col = divmod(index, cols)
+                          cell_left = round(col * atlas_width / cols)
+                          cell_right = round((col + 1) * atlas_width / cols)
+                          cell_top = round(row * atlas_height / rows)
+                          cell_bottom = round((row + 1) * atlas_height / rows)
+                          inset = round(min(cell_right - cell_left, cell_bottom - cell_top) * 0.035)
+                          crop = atlas.crop((cell_left + inset, cell_top + inset, cell_right - inset, cell_bottom - inset))
+                          crop.thumbnail((512, 512), Image.Resampling.LANCZOS)
+                          crop_has_alpha = crop.mode in ("RGBA", "LA") or "transparency" in crop.info
+                          crop.convert("RGBA" if crop_has_alpha else "RGB").save(cell_target, "WEBP", quality=86, method=6, exact=True)
+                          cell_size_kb = round(cell_target.stat().st_size / 1024)
+                          report.append(f"- {name} / {cell_name}: `{cell_target.as_posix()}` — {crop.width}×{crop.height}, {cell_size_kb} KiB")
+                          print(report[-1])
           report_path = Path("assets/generated/IMPORT_REPORT.md")
           previous = report_path.read_text(encoding="utf-8") if report_path.exists() else "# Generated art import report\n"
           previous += "\n\n## Imported batch: " + str(manifest.get("batch", "unnamed")) + "\n\n" + "\n".join(report) + "\n"
