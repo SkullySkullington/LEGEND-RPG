@@ -156,14 +156,12 @@ This packet keeps future work consistent and makes collaboration easier.
 This order keeps the IP ambition connected to a game people can actually play and remember.
 
 
-## 8. Shared geography, continuing series
+## 8. Shared geography, gameplay reboot, continuing series
 
-The recommended working subtitle for the first game is **LEGEND: The Unquiet Road**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are the intended shared geography of that first game, not six separate installments. Current implementation and intended narrative scope are different: Ashmere and Greyfen have foundations in source; the remaining hubs and stories must be built and verified before they are playable.
+The current working title is **LEGEND: The Unquiet Road**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are shared geography; they are not individual game installments. Future titles can revisit these places after their inhabitants, routes, governments, and memories have changed.
 
-The [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md) corrects the story architecture and expands the proposed darkness around the Pale Surveyor and the Hollow Mile. This deeper lore is a proposal and should not be stated as settled public canon until approved.
+The new [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) is the primary proposal for how LEGEND should feel and function: browser-first 2D runtime, animated exploration and title/cinematic presentation, skill mini-games, real magic progression, and active turn-based combat. The separate [Phaser reboot prototype](../prototypes/reboot/) is a proof of concept, not a production migration. Evaluate Phaser before choosing a broader engine change; do not rewrite the full production game before one playable slice proves the direction.
 
-Future mainline games should be organized around the consequences of the previous story, a new conflict, character changes, and the passage of time—not around a one-region-per-game release plan. Revisit the places players know: Ashmere's records and public obligations; Greyfen's crossings and flood practices; Ironpass's inspection law and labor disputes; Blackwood's competing histories; and the Ruined March's claims and denied access.
+The Veil, Five Arts, Last Mercy, Afterwake, and Hollow Saint are proposed new lore. They replace the earlier Pale Surveyor / Hollow Mile concept as the default direction, but remain unapproved pending a deliberate canon pass. The older mythology files are retained for reference, not as current facts.
 
-Future subtitles are not yet fixed. They should name a major conflict or thematic turn, not simply the region the player visits. A sequel can move across several familiar regions in a single story. The geography is the persistent world; time, consequences, relationships, and the changing form of the threat drive the series.
-
-The first game's proposed climax stops a major correction but does not end every effect of the network. Later installments can explore the Unreturned, the history of Aren Vey and Ivara, institutional complicity, and the cost of trying to restore what has been lost. Do not repeat the same villain plan unchanged: each return should reveal a deeper cost, produce a new dilemma, and change how the world responds.
+Future game titles should be organized around story conflicts and consequences rather than a one-region-per-game plan. Build new regions as expansions of the shared geography, and allow existing towns to change across releases. Do not promise a region is playable until its art, traversal, interactions, story, progression, and tests exist.
