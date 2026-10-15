@@ -207,3 +207,17 @@ Next:
 2. Verify the first Ridge and Reed return paths in a fresh save, including reload persistence and the Blackroot clue step.
 3. Confirm GitHub Pages is serving `v0.20.22` before reporting the changes as live.
 4. Continue only after this slice is stable: design the Moved Cairn side chain and Greyfen archive follow-up using existing quest flags and route discovery patterns.
+
+
+## Source release v0.20.23 — The Moved Cairn (verification pending)
+
+Source changes on \`main\`:
+- Added the one-time Side Stories contract \`movedCairn\`, posted by Captain Oric and paid in gold, XP, and one Road Herb.
+- When the accepted contract's player investigates the High Ridge's Ridgeway Cairn, three disclosed options are available: restore the older alignment, record both positions, or mark the hazard and step back.
+- The selected outcome is stored inside the existing persistent side-contract flag. It adds a memory, can be reported for a reward, changes Oric's later dialogue, and changes the cairn's description on future expeditions.
+- No new subsystem or currency was added; current route choices, POI discovery, Side Stories board, save flags, and memory list are reused.
+- \`tests/legend-smoke.spec.js\` adds an end-to-end test for accepting, choosing, reporting, and observing the callback.
+- Version labels moved to \`v0.20.23\`.
+
+**Verification status:** Source and test changes are committed; the full Playwright suite has not been run locally. Live route-story verification is pending. Do not call this release fully verified until the accepted-contract path, report turn-in, later cairn description, and desktop/mobile behavior are checked.
+
