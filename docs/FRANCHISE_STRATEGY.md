@@ -3,6 +3,13 @@
 **Status:** Internal strategy draft; adapt as the project grows.  
 **Principle:** Build one compelling, coherent world first, then expand into other formats from a stable canon.
 
+## CURRENT CREATIVE DIRECTION — MONSTER WARS & THE AWAKENING
+
+The current preferred creative foundation is [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). LEGEND should be recognizable as a fantasy RPG with monsters, dungeons, factions, dangerous expeditions, skill training, crafting, magic, regional adventures, and an escalating supernatural conflict. The central mystery supports this adventure; it must not replace it.
+
+The older Pale Surveyor / Hollow Mile proposal is no longer the primary franchise engine. It remains a legacy concept that can be mined selectively for local folklore or a bounded secondary mystery, but must not become the explanation for every region or monster. Build expansions around new conflicts, factions, magic, and consequences in the shared world—not merely around new pieces of the old road mystery.
+
+
 ## 1. The long-term vision
 
 LEGEND should be more than a single RPG release. The franchise can eventually support connected games, character-led stories, an identifiable soundtrack and sound library, illustrated world material, and carefully chosen companion experiences. Every format should deepen the same identity rather than dilute it.
@@ -15,10 +22,10 @@ The first game remains the anchor. A broad IP needs a strong, understandable ent
 
 ## 2. The pillars that must stay consistent
 
-1. **Distinctive setting:** Weathered dark fantasy, lived-in towns, roads with history, and restrained uncanny elements.
+1. **Distinctive setting:** Weathered dark fantasy, lived-in towns, monster incursions, dangerous wilderness, ancient ruins, returning magic, and a deeper supernatural threat.
 2. **Player agency:** Clear choices, visible risks, outcomes that matter later.
 3. **Human scale:** Personal needs, labor, relationships, local customs, and practical consequences sit beside the larger mystery.
-4. **Recurring symbols with evolving meaning:** Bells, lanterns, route marks, maps, ledgers, waterlines, and tracks can connect stories across regions and formats.
+4. **Recurring symbols with evolving meaning:** Monster banners, magical scars, relics, bells, lanterns, route marks, ledgers, and regional customs can connect stories without forcing every plot into one mystery.
 5. **A world that supports multiple protagonists:** The setting and its conflicts are bigger than any one traveler; new games can follow other people without invalidating the first story.
 6. **Canon discipline:** Shared facts remain consistent, while mysteries may stay open until their payoff is planned.
 
