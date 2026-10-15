@@ -83,7 +83,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'LEGEND', exact: true })).toBeVisible();
-    await expect(page.locator('.title-gate-subtitle')).toHaveText('The Unquiet Road');
+    await expect(page.locator('.v120-title-hero h2')).toHaveText('The Unquiet Road');
     await expect(page.locator('.portal100-traveler')).toHaveCount(0);
     await expect(page.locator('#newPrimary')).toBeVisible();
     await expect(page.locator('#new')).toHaveCount(0);
