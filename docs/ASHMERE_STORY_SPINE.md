@@ -240,3 +240,10 @@ This creates a concrete sequence—Blackroot observation, second-site comparison
 The current source sequence continues from Mara's Greyfen archive comparison to a contextual discovery at Reedwatch Shelter. The dated note shows the changed route mark was already drawn two days after Greyfen logged the flood's retreat. The player reports the note to Mara, then brings the question to Old Brenn, whose ledger contains two overwritten crossing destinations.
 
 Brenn's next lead is an earlier weekly route return. This creates a concrete sequence of evidence—stone, dated sketch, rewritten ledger, earlier field record—without revealing the person responsible prematurely. The chain is in source v0.20.25; the full browser path remains unverified.
+
+
+## 13. Evidence chapter close: The Earlier Weekly Return
+
+After Brenn records the overwritten destinations, the Old Road's Wayfarer's Camp can reveal an earlier weekly route return. Its lower-crossing line says “CLOSED pending inspection,” then a later hand changes it to “OPEN” without initials.
+
+The player brings this return to Brenn, who compares it with his ledger and directs the player to Mara. Mara preserves the conflicting records together and leaves a clear remaining question: the missing closure order. The chapter establishes chronology and evidence of alteration, not the responsible person's identity.
