@@ -229,3 +229,10 @@ The companion [Series Myth Arc: The Pale Surveyor](LEGEND_SERIES_MYTH_ARC.md) pr
 **Status:** Proposed franchise direction, not locked canon. The Pale Surveyor, the Long Severance, and the Office of Measure must not be stated as established lore until approved. The proposal is designed to build on—rather than replace—the current Bell/Old Road hypothesis: the Bell acts as a warning, while the repeated marks, newer cuts, altered ledgers, and missing closure order are early evidence of a larger pattern.
 
 Use the series arc to coordinate future reveals. Keep local conflicts and ordinary human choices independent unless evidence links them; the Surveyor must not become the explanation for every monster, flood, crime, or hardship.
+
+
+## 18. Deep canon foundation
+
+The companion [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md) expands the proposed Pale Surveyor arc into a shared framework for the road network's rules, the original historical failure, the modern institution, the long-range game structure, and continuity across player choices.
+
+**Status:** Proposed, not locked canon. It introduces additional working names and events—including Aren Vey, Ivara, the Seven-Wagon Dispatch, and the Four Witnesses—that must not be presented as established facts until deliberately approved. Its most important design constraint is that the network influences routes and access through linked anchors and human compliance; it is not a limitless power that explains every supernatural event.
