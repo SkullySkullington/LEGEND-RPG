@@ -233,3 +233,10 @@ This is the first implementation of a route choice that leaves a remembered cons
 After the player records the Blackroot seal, the Greyfen Boundary Stone becomes a contextual discovery on the final Old Road approach. It records the matching older mark and its newer cut, then directs the player to Mara’s Boundary Archive. Mara compares the layers and asks for evidence that dates the alteration.
 
 This creates a concrete sequence—Blackroot observation, second-site comparison, archive interpretation, dated-evidence lead—without claiming that the player knows who made the cut. The source and regression test are committed in v0.20.24; verification remains pending.
+
+
+## 12. Main-story continuation: the Reedwatch field note
+
+The current source sequence continues from Mara's Greyfen archive comparison to a contextual discovery at Reedwatch Shelter. The dated note shows the changed route mark was already drawn two days after Greyfen logged the flood's retreat. The player reports the note to Mara, then brings the question to Old Brenn, whose ledger contains two overwritten crossing destinations.
+
+Brenn's next lead is an earlier weekly route return. This creates a concrete sequence of evidence—stone, dated sketch, rewritten ledger, earlier field record—without revealing the person responsible prematurely. The chain is in source v0.20.25; the full browser path remains unverified.
