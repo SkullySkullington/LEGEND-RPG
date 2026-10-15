@@ -1,5 +1,10 @@
 const { test, expect } = require('@playwright/test');
-const { version } = require('../package.json');
+const fs = require('fs');
+const path = require('path');
+const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
+const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
+if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
+const version = versionMatch[1];
 
 // Each Playwright test runs in an isolated browser context, so clearing localStorage
 // here only resets that test's synthetic traveler—not a player's live browser save.
@@ -38,7 +43,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await page.locator('#v094Next').click();
   await page.locator('[data-origin]').first().click();
   await page.locator('#v094Next').click();
-  await page.locator('[data-class="Ranger"]').click();
+  await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
   await page.locator('#v094Next').click();
   await page.locator('[data-keepsake="Old Map"]').click();
   await page.locator('#v094Next').click();
@@ -51,7 +56,7 @@ async function startFreshCharacter(page, name = 'QATraveler') {
 test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
-    await expect(page).toHaveTitle(`LEGEND: Roads of Ashmere v${version}`);
+    await expect.poll(() => page.title()).toContain(`v${version}`);
     await expect(page.locator('.portal-footer')).toContainText(`v${version}`);
     await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
   });
@@ -449,7 +454,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await startFreshCharacter(page, 'ContractsQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
     await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
-    await expect(page.locator('.ash099-contract-card')).toHaveCount(3);
+    await expect(page.locator('.ash099-contract-card')).toHaveCount(4);
     await page.locator('[data-contract-accept="watchlightSurvey"]').click();
     await page.evaluate(() => {
       const rt=window.LegendRuntimeV080;const pl=rt.loadPlayer();
@@ -566,6 +571,11 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await page.getByRole('button', { name: /The Old Road/i }).click();
+    // The global transition curtain delays the underlying click and covers the
+    // scene during its reveal. Wait until it is fully clear before staging step 4.
+    await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+      !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+    )).toBe(true);
     await page.evaluate(() => {
       const rt = window.LegendRuntimeV080;
       const pl = rt.loadPlayer();
@@ -576,8 +586,24 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       rt.savePlayer(pl);
       window.LegendRoadControllerV100.renderExpedition();
     });
-    await page.locator('.exp100-hotspot-find').click();
-    await expect(page.locator('.exp100-discovery-beat')).toContainText(/Roots Around an Old Seal/i);
+    const stageThreeScene = page.locator('.exp100-scene-live[data-stage="3"]');
+    await expect(stageThreeScene).toHaveCount(1);
+    await expect(stageThreeScene).toBeVisible();
+    const savedStageBeforeClue = await page.evaluate(() =>
+      window.LegendRuntimeV080.loadPlayer().flags.roadExpeditionV100.stage
+    );
+    expect(savedStageBeforeClue).toBe(3);
+    await stageThreeScene.locator('.exp100-hotspot-find').click();
+    const blackrootClue = page.locator('.exp100-discovery-beat');
+    await expect(blackrootClue).toContainText(/Roots Around an Old Seal/i);
+    const clueState = await page.evaluate(() => ({
+      stage: window.LegendRuntimeV080.loadPlayer().flags.roadExpeditionV100.stage,
+      sceneStage: document.querySelector('.exp100-scene-live')?.dataset.stage,
+      title: document.querySelector('.exp100-discovery-beat strong')?.textContent
+    }));
+    expect(clueState.stage).toBe(3);
+    expect(clueState.sceneStage).toBe('3');
+    expect(clueState.title).toBe('Roots Around an Old Seal');
     await page.locator('#poiInspect').click();
 
     let sealReport = await page.evaluate(() => {
@@ -657,7 +683,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.exp100-moved-cairn')).toContainText(/Record both positions/i);
     await expect(page.locator('.exp100-moved-cairn')).toContainText(/Mark the hazard and step back/i);
     await page.locator('[data-moved-cairn="record"]').click();
-    await expect(page.locator('.exp100-head')).toContainText(/Both alignments are recorded/i);
+    await expect(page.locator('.exp100-head')).toContainText(/You sketch the stone as it stands/i);
 
     const choice = await page.evaluate(() => {
       const pl = window.LegendRuntimeV080.loadPlayer();

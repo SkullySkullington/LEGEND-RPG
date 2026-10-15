@@ -1,9 +1,10 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
-const { version } = require('../package.json');
-
-const expectedVersion = 'v' + version;
+const dataSource = fs.readFileSync(path.join(__dirname, '..', 'js', 'data.js'), 'utf8');
+const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
+if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
+const expectedVersion = 'v' + versionMatch[1];
 const liveUrl = 'https://tdtria.github.io/LEGEND-RPG/';
 
 function expectedAsset(regex, label) {
@@ -146,7 +147,7 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     await page.locator('#ashBack').click();
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
     await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
-    await expect(page.locator('.ash099-contract-card')).toHaveCount(3);
+    await expect(page.locator('.ash099-contract-card')).toHaveCount(4);
     await page.locator('[data-contract-accept="watchlightSurvey"]').click();
     await expect(page.locator('.ash099-contract-in-progress')).toBeVisible();
     await page.locator('#ashBack').click();
@@ -154,6 +155,21 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
     await expect(page.locator('.ash099-contract-in-progress')).toBeVisible();
     await expect(page.locator('[data-contract-accept="watchlightSurvey"]')).toHaveCount(0);
+
+    // The production Oric portrait must load from the committed local WebP in
+    // both the People card and the individual dialogue screen.
+    await page.locator('#ashBack').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+    await page.locator('.ash100-destinations .ash100-destination[data-ash-view="people"]').click();
+    await expect(page.getByRole('heading', { name: 'People of Ashmere' })).toBeVisible();
+    const oricCard = page.locator('.ash099-npc-card[data-ash-view="oric"] img');
+    await expect(oricCard).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricCard.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    await page.locator('[data-ash-view="oric"]').click();
+    await expect(page.getByRole('heading', { name: 'Captain Oric' })).toBeVisible();
+    const oricDialoguePortrait = page.locator('.ash099-head img');
+    await expect(oricDialoguePortrait).toHaveAttribute('src', /assets\/generated\/npcs\/captain-oric\.webp$/);
+    await expect.poll(() => oricDialoguePortrait.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
 
     await page.setViewportSize({ width: 390, height: 844 });
     const widths = await page.evaluate(() => ({

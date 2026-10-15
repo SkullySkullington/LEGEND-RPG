@@ -17,6 +17,7 @@
   function loadSettings(){ return S().loadSettings ? S().loadSettings() : { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false }; }
   function applySettings(){ if(S().applySettings) S().applySettings(); }
   function profile(){ return window.LegendAccountV09x?.getProfile?.() || null; }
+  function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.28'); }
 
   function playUi(kind){
     const src = AUDIO[kind];
@@ -140,7 +141,7 @@
   }
 
   function portalFooter(){
-    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> v0.20.26</p></footer>`;
+    return `<footer class="portal-footer"><p><strong>Ashmere Services:</strong> Traveler Registry • Account Rewards • Cloud Lodging • Companions Later</p><p><strong>Build:</strong> ${esc(buildVersion())}</p></footer>`;
   }
 
   function titleGate(){
@@ -234,7 +235,7 @@
             </div>
           </section>
         </main>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE UNQUIET ROAD</span><span>v0.20.28 · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE UNQUIET ROAD</span><span>${esc(buildVersion())} · ASHMERE · GREYFEN · THE OLD ROAD</span></footer>
       </div>`;
     startAmbience();
     bindTitleAudio();
@@ -290,7 +291,7 @@
       ['spacious','Spacious Layout','Adds breathing room for touch and mobile play.','space'],
       ['readableFont','Readable Font','Uses a simpler font treatment for long reading sessions.','font']
     ];
-    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND v0.20.26</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
+    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND ${esc(buildVersion())}</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
     document.getElementById('saveSettings').onclick = () => {
       const next = {...current};
       document.querySelectorAll('[data-setting]').forEach(input => next[input.dataset.setting] = input.checked);
