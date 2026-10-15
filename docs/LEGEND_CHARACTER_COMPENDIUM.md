@@ -2,7 +2,7 @@
 
 **Status:** Expanded character proposals; not locked canon  
 **Purpose:** Make the world feel inhabited beyond the main mystery, give recurring characters personal lives and durable relationships, and provide a stable reference for future dialogue, quests, portraits, and sequels.  
-**Companions:** [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md).
+**Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md).
 
 > **Character principle:** A person should want something even if the player never finds the Bell Fragment. The central mystery may interrupt their life, expose a contradiction, or force a hard choice—but it should not be the secret explanation for their entire personality.
 
