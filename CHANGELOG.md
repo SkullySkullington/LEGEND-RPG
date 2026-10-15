@@ -1,5 +1,5 @@
 ## 2026-10-15 — Narrative direction: Monster Wars & the Awakening
-- Added `docs/LEGEND_FANTASY_RPG_DIRECTION.md` as the current preferred reference for a fantasy RPG centered on monster incursions, returning magic, regional conflicts, and an unknown awakening.
+- Added `docs/LEGEND_FANTASY_RPG_DIRECTION.md` as the current preferred reference for a fantasy RPG centered on monster incursions, returning magic, regional conflicts, and an unknown awakening; aligned `docs/LEGEND_GAME_REBOOT_PLAN.md` so the monster invasion connects to the candidate Veil / Five Arts / Last Mercy / Afterwake mythology.
 - Reconciled the existing world bible, first-session spine, mystery/story arc, series mythology, deep canon, continuity reframe, culture atlas, character compendium, and franchise strategy with the new direction.
 - Preserved existing Ashmere characters, regions, mechanics, and the implemented bell/route evidence chain as continuity; the evidence remains a local investigation and does not automatically prove the larger awakening.
 - Demoted the Pale Surveyor, Hollow Mile, and related route-network cosmology from primary franchise mythology to legacy proposals/optional secondary lore pending review.
