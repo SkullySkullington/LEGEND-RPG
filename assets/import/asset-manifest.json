@@ -1,15 +1,52 @@
 {
-  "batch": "2026-10-15-core-npc-portraits",
+  "batch": "2026-10-15-town-service-icon-atlas",
   "assets": [
     {
-      "name": "Mara Vell — Archive Keeper portrait",
-      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-lite-image/images/0ad9e6c7-49af-49cb-ba3b-5b27316e60e5/0f1912d3-f518-43ad-b561-b6a6d97422dc/A_single_standalone_character_portrait_for_a_dark_medieval_f.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNmM2N2ZmNDVmNDk3MDgxMSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIzMDA4NX0.QA9WzuhgRDeeT0UuNZsskohLZ_jgb9BkCe9SXci6R_c",
-      "target": "assets/generated/npcs/mara-vell.webp"
-    },
-    {
-      "name": "Old Brenn — Ledger Keeper portrait",
-      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-lite-image/images/2bce44bd-62dd-43c8-8b72-a5d7253e188b/549ff83b-9835-4b7a-9d74-3f5680a4ea21/A_single_standalone_character_portrait_for_a_dark_medieval_f.jpg?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzdiZjY4MDM5NThlZmNlNSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIwODM4N30.hu6Mi2HJxwKjQL5PeCOuEDcZ89QDGeZelSHQbhVmKW4",
-      "target": "assets/generated/npcs/old-brenn.webp"
+      "name": "Town and service icon atlas",
+      "url": "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/e48d6c42-853c-4b7f-a217-6ca45e9ab4a7/ebcc39a0-7cdd-41c5-bfd8-4f67c4088293/A_clean_3_by_3_grid_sprite_sheet_for_an_original_medieval_da.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiY2YxMGJlMWY3ZWNmYmU1OCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjIwNDk1OX0.0UDHTXpx-gcT5AHOM0VDDUL3sCdigDiTViR9JqsemIw",
+      "target": "assets/generated/ui/town-service-icon-atlas.webp",
+      "grid": {
+        "rows": 3,
+        "cols": 3,
+        "targets": [
+          {
+            "name": "Inn",
+            "target": "assets/generated/ui/icons/inn.webp"
+          },
+          {
+            "name": "Market",
+            "target": "assets/generated/ui/icons/market.webp"
+          },
+          {
+            "name": "Forge",
+            "target": "assets/generated/ui/icons/forge.webp"
+          },
+          {
+            "name": "Journal",
+            "target": "assets/generated/ui/icons/journal.webp"
+          },
+          {
+            "name": "Road Map",
+            "target": "assets/generated/ui/icons/road-map.webp"
+          },
+          {
+            "name": "Work Board",
+            "target": "assets/generated/ui/icons/work-board.webp"
+          },
+          {
+            "name": "Traveler",
+            "target": "assets/generated/ui/icons/traveler.webp"
+          },
+          {
+            "name": "Forked Road",
+            "target": "assets/generated/ui/icons/forked-road.webp"
+          },
+          {
+            "name": "Regional Gate",
+            "target": "assets/generated/ui/icons/regional-gate.webp"
+          }
+        ]
+      }
     }
   ]
 }
