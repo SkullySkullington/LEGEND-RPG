@@ -17,8 +17,7 @@
   function initForClass() {
     const name = document.querySelector('#classChoice')?.value || 'Adventurer';
     if (state.initializedFor === name) return;
-    if (state.initializedFor) state.bells = Math.max(0, state.bells);
-    else state.bells = Number(D().classStats?.(name)?.gold || 100);
+    state.bells = Number(D().classStats?.(name)?.gold || 100);
     state.initializedFor = name;
     render();
   }
