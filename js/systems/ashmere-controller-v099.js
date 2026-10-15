@@ -343,6 +343,19 @@ function renderDryCrossing(){
       oric:{name:'Captain Oric',role:'Causeway Watch',art:npc('oric'),text:'Oric watches the raised paths between Greyfen and the drowned lowlands. He marks every stretch that can vanish after heavy rain.',lines:['Stay on the old stone where you can. Reeds hide holes deep enough to swallow a cart.','If something keeps pace with you in the water, do not turn your lantern toward it.','Rest before the causeway narrows. There is nowhere to stand once the flood reaches the markers.']}
     };
     const n=(greyfen?fenMap:ashMap)[id]||(greyfen?fenMap:ashMap).mara;
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenBoundaryCompared){
+      n.lines=[
+        'The Blackroot mark appears beneath the newer cut here. Water has worn the surface, but it did not make that clean, directional groove.',
+        'The later line turns toward the reed bed instead of the raised path. Someone may have been diverting travelers—or trying to hide the higher route. The stone alone cannot tell us which.',
+        'I will preserve both layers in the Boundary Archive. Next we need a dated record or physical sign that tells us when the newer cut was made.'
+      ];
+    }else if(greyfen&&id==='mara'&&pl.flags?.bellRoadSearched){
+      n.lines=[
+        'You have a Blackroot record now. Bring it to the boundary stone on the approach; I need a second mark before I compare the records.',
+        'Do not scrape the stone or try to improve the cut. Its surface is evidence exactly as it stands.',
+        'A second location may tell us whether the sign has been copied, altered, or only worn by the water.'
+      ];
+    }
     if(!greyfen&&pl.flags?.firstRoadReturnSeen){
       const route=pl.flags.firstRoadReturnRoute||'unknown';
       const discovery=pl.flags.firstRoadReturnDiscovery||'none';
@@ -412,6 +425,13 @@ function renderDryCrossing(){
         :pl.flags.highRidgeCairnOutcome==='warn'
          ?['The warning strip is still doing a job. I have logged the shifted cairn as unsafe until we can survey it properly.','A warning is not a repair, but it gives the next traveler a chance to stop before the ground fails.']
          :['You recorded both alignments and left the stone untouched. Good. A route mark should be evidence, not an order no one can question.','I have copied both positions into the ledger. If someone moved it, we need the reason—not a cleaner story.'];
+    }
+    if(greyfen&&id==='mara'&&pl.flags?.greyfenBoundaryCompared&&!pl.flags.greyfenArchiveRead){
+      pl.flags.greyfenArchiveRead=true;
+      pl.memories=Array.isArray(pl.memories)?pl.memories:[];
+      const memory='Mara compared the Blackroot seal record with the Greyfen boundary stone. The older bell-mark continues beneath a newer groove turned toward the reed bed; the evidence shows alteration, but not who ordered it.';
+      if(!pl.memories.includes(memory))pl.memories.push(memory);
+      setBellQuestObjective(pl,'Find a dated record or physical sign showing when the newer Greyfen cut was made.');
     }
     pl.flags=pl.flags||{}; pl.npcTalk=pl.npcTalk||{}; pl.npcTalk[id]=Number(pl.npcTalk[id]||0)+1;
     if(id==='mara'&&!greyfen){
