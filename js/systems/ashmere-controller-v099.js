@@ -1,7 +1,7 @@
 // LEGEND v0.9.x - Ashmere Town Hub Controller
 // Owns Ashmere directly: RPG town terminal, direct routes, no title reload for town returns.
 (() => {
-  const RT = () => window.LegendRuntimeV080 || {};
+  const RT = () => window.LegendRuntimeV120 || {};
   const A = () => window.LegendAssetsV090 || {};
   const D = () => window.LEGEND_DATA || {};
   const root = () => document.getElementById('root');
