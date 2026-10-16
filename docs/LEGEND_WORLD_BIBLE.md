@@ -1,7 +1,7 @@
 # LEGEND — World & Story Bible
 
-**Document status:** Working canon reference, version 1.1 — fantasy RPG direction reconciliation in progress  
-**Scope:** The shared world of LEGEND, beginning with *LEGEND: The Unquiet Road* (recommended working subtitle)  
+**Document status:** Working canon reference, version 1.2 — fantasy RPG direction and title identity update  
+**Scope:** The shared world of LEGEND, beginning with *LEGEND: The Awakening* (current product title)  
 **Purpose:** Give future games, stories, art, audio, and adaptations one consistent foundation.
 
 This is an internal production document, not an in-world encyclopedia. It records what the current game and design documents establish, distinguishes open mysteries from facts, and gives future additions a continuity check.
@@ -14,6 +14,10 @@ This direction supersedes the earlier road/map-centered mythology as the primary
 
 **Reconciliation rule:** preserve implemented facts and character identities; reframe clues only where their observed evidence supports it; demote or retire repetitive abstractions; keep the origin of the awakening and its relationship to the invasion open until the arcs have been reconciled. This is a narrative documentation change; it does not by itself change game code or imply that planned regions/systems are implemented.
 
+
+## CURRENT CANON UPDATE — THE TRAVELER (2026-10-16)
+
+**Locked but hidden:** The traveler is an echo left by the Last Mercy and does not know it; the Veil touched them before the Last Mercy could finish making them. This is production-side truth, not player-facing information until an owner-approved reveal plan exists. Until the owner approves a reveal plan, no NPC, journal text, menu, UI label, or opening scene may state or imply it. The traveler's unusual abilities, limitations, whose echo they are, and whether chosen origin is inherited memory or remains true are still open. This creates a flagged conflict with earlier guidance to keep the traveler's former life completely flexible; the owner will resolve that question.
 
 ## 1. The franchise promise
 
@@ -221,12 +225,12 @@ The finding is deliberately limited: it supports that the marker was altered, bu
 
 The v0.20.25 source adds the next main-story evidence beat after the player compares the Blackroot seal with the Greyfen boundary stone. On a later Old Road trip, the Reedwatch Shelter locker can yield a dated field note whose sketch already shows the newer cut two days after Greyfen logged the flood’s retreat. Mara confirms what the date supports—and what it cannot prove—then sends the player to Brenn's crossing ledger.
 
-Brenn reports that two destinations were overwritten in a later hand and points toward an earlier weekly route return. The current story therefore establishes a narrow timeline and a record discrepancy, but does not yet identify the writer or decision-maker. Treat this as current implemented source direction; full gameplay verification remains pending.
+Brenn reports that two destinations were overwritten in a later hand and points toward an earlier weekly route return. The current player-facing story establishes a narrow timeline and a record discrepancy but does not yet prove the Landing Warden's responsibility. Production canon locks her as the decision-maker under merchant pressure; her personal name remains open, and the player-facing reveal must be earned. Treat this as current source direction; full gameplay verification remains pending.
 
 
 ## 16. The Earlier Weekly Return
 
-The v0.20.26 source adds the earlier weekly route return to the Wayfarer's Camp discovery when Brenn's ledger discrepancy has been established. It records the lower crossing as **closed pending inspection**, then shows a later **open** correction with no initials. The wording distinguishes the record's contents from the unknown person who made the correction.
+The v0.20.26 source adds the earlier weekly route return to the Wayfarer's Camp discovery when Brenn's ledger discrepancy has been established. It records the lower crossing as **closed pending inspection**, then shows a later **open** correction with no initials. The wording distinguishes the record's contents from the person responsible in the player's current knowledge. Production canon identifies the Landing Warden as the decision-maker; the personal name and player-facing proof remain open.
 
 Brenn compares this return with the rewritten ledger; Mara then files the Blackroot, Greyfen boundary, Reedwatch, and weekly-return evidence together. The missing closure order becomes the next lead. Full integration and live-browser verification remain pending.
 
@@ -256,7 +260,7 @@ The [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md) deepens the establish
 
 ## 20. The title and recurring geography
 
-**Recommended working subtitle:** *LEGEND: The Unquiet Road*. This replaces the location-specific working title *Roads of Ashmere* in the visible title treatment so the first game is not framed as an Ashmere-only adventure. The intended first game spans every planned region; future releases are organized around new conflicts and consequences, and revisit the same geography.
+**Recommended working subtitle:** *LEGEND: The Awakening*. This replaces the location-specific working title *Roads of Ashmere* in the visible title treatment so the first game is not framed as an Ashmere-only adventure. The intended first game spans every planned region; future releases are organized around new conflicts and consequences, and revisit the same geography.
 
 See [Fantasy RPG Direction](LEGEND_FANTASY_RPG_DIRECTION.md) and [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) for the current Monster Wars & Awakening premise and proposed Veil / Afterwake mythology. The title and geography correction does not make any proposed supernatural explanation established canon.
 

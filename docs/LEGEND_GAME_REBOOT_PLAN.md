@@ -8,6 +8,10 @@
 
 ---
 
+## Current product identity — 2026-10-16
+
+The current title is **LEGEND: The Awakening**; “The Unquiet Road” is a retired working subtitle. The production title should look and behave like a classic fantasy RPG menu. The Phaser prototype remains a separate experiment and must not replace the live game or touch production saves until a deliberate playable-slice decision is made.
+
 ## 1. The honest diagnosis
 
 LEGEND has useful foundations already: the Ashmere and Greyfen locations, named NPCs, quests, an inventory and economy, crafting, player progression, route choices, enemy art, battle audio, regional gates, and saved traveler data. These are valuable design and content assets.

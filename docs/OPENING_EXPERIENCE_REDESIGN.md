@@ -1,8 +1,12 @@
 # LEGEND — Opening Experience Redesign Brief
 
-**Status:** Design brief / not yet implemented  
+**Status:** Active design brief / partially implemented; updated 2026-10-16  
 **Scope:** The title experience, new-traveler creation, the first arrival, and the handoff into Ashmere  
 **Priority:** High. This is the first public-facing experience of the LEGEND IP.
+
+## Current direction update — 2026-10-16
+
+The product title is **LEGEND: The Awakening**. “The Unquiet Road” is a retired working subtitle and should not be used as current branding. The production title screen is being shaped as a fantasy RPG main menu: panoramic local art, the Awakening wordmark, a framed dark-fantasy menu panel, one obvious Continue/Begin action, and quieter New Traveler, Profile, Settings, and Credits options. Keep the production game playable and separate from the isolated Phaser reboot experiment.
 
 ## North star
 
@@ -29,7 +33,7 @@ This is a design target, not the current behavior.
 
 ### Beat A — The title world
 
-The title screen is a place, not a static card over a backdrop.
+The title screen is an RPG main menu, not a landing-page hero: the world scene establishes place, the wordmark establishes identity, and a framed menu makes the player's next action unmistakable.
 
 **Visual direction**
 - A wide, atmospheric Ashmere/Old Road scene with foreground, middle-distance, and background layers.
@@ -124,7 +128,7 @@ Use a staged browser-friendly approach:
 6. **Persistence:** Save draft creation selections safely between steps; confirm before finalizing. Test old travelers, fresh travelers, reloads, and Back navigation.
 7. **Asset budget:** Deliver responsive WebP backgrounds, light PNG/SVG details where appropriate, local stable paths, and fallbacks. Keep image sizes and motion manageable on phones.
 8. **Audio:** Add a theme and small set of reusable UI/world cues, with user-gesture startup and settings integration.
-9. **Test hooks:** Add stable selectors and Playwright coverage for new traveler, Continue, resume, every creation step, back/forward persistence, effects on stats/items, reduced motion, keyboard focus, mobile overflow, and final arrival.
+9. **Manual review:** Check Continue/Begin, Profile/Settings access, every creation step, back/forward persistence, effects on stats/items, reduced motion, keyboard focus, mobile overflow, and final arrival in a browser.
 
 ## 5. Suggested build phases
 

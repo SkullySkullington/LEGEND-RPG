@@ -4,6 +4,10 @@
 **Purpose:** Establish the high-level fantasy RPG identity that now guides the world bible, story arcs, region plans, monster design, magic systems, and future expansions.  
 **Supersedes as the primary direction:** The earlier map/road-centered mythology in the Pale Surveyor, Hollow Mile, and route-network proposals. Those concepts are not deleted, but are demoted to optional/secondary lore unless deliberately reapproved.
 
+## Current title identity — 2026-10-16
+
+The product title is **LEGEND: The Awakening**. “The Unquiet Road” is retired as a visible subtitle; the Old Road remains a location and gameplay route, not the franchise's title. The title screen should immediately read as a fantasy RPG: the local Ashmere panorama, antique-gold Awakening wordmark, and a framed, readable menu for continuing or beginning a traveler.
+
 ## 1. The new franchise promise
 
 LEGEND is a dark fantasy RPG about a frontier world in which monster incursions are spreading, old magic is returning, and an ancient power may be stirring beneath the kingdoms. Goblin raids, orcish warbands, ogres driven from mountain territories, corrupted beasts, dangerous ruins, dungeons, rival factions, crafting, skill training, and regional exploration provide the tangible fantasy adventure. Behind the immediate conflicts is a mystery: why are monsters moving in coordinated ways, what are they seeking or fleeing, and what has begun to awaken?

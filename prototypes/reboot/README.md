@@ -1,4 +1,4 @@
-# LEGEND Reboot Prototype
+# LEGEND: The Awakening — Reboot Prototype
 
 **Status:** Experimental, isolated, and not production gameplay.
 
@@ -15,7 +15,7 @@ This prototype tests the direction proposed in [LEGEND Game Reboot Plan](../../d
 
 - It is deliberately separate from the production game.
 - It does not write to or migrate production saves.
-- The cinematic dialogue and Last Mercy / Veil references are experimental draft ideas, not canon.
+- The cinematic dialogue and Last Mercy / Veil references are experimental draft ideas, not approved canon.
 - This version uses existing project art/audio; no new production assets are generated here.
 - It loads the pinned Phaser 4.1.0 browser build from jsDelivr; a production migration should pin and vendor dependencies deliberately and review license/cache/deployment requirements first.
 - This prototype does not yet implement walking exploration, quests, party progression, or a production combat system. Those must be proven after feedback on the presentation and the core battle feel.

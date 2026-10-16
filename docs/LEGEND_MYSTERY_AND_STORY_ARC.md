@@ -1,4 +1,4 @@
-# LEGEND: The Unquiet Road — Mystery & Story Arc Blueprint
+# LEGEND: The Awakening — Mystery & Story Arc Blueprint
 
 **Status:** Quest-chain reference with a superseded myth-arc proposal; review against [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) before adding central-mystery content
 **Purpose:** Preserve the current Greyfen evidence chain and its implementation history while marking the Pale Surveyor/Hollow Mile interpretation as archived proposal. The reboot plan defines the new candidate magic system and central threat.
@@ -7,6 +7,8 @@
 > **Design rule:** The team should know more than the player, but every reveal must be supported by clues already present in the world. This document proposes a workable answer; it does not silently change established canon.
 
 ## CURRENT DIRECTION OVERRIDE — THE INVASION IS THE FRONT DOOR
+
+**Canon update — 2026-10-16:** The Landing Warden's responsibility and merchant-pressure motive are locked production truth (L2/L3), but the current player-facing clue chain does not yet prove them. Separately, L4 locks the traveler as an echo left by the Last Mercy, touched by the Veil before the ritual could finish making them. That fact is hidden: do not state or imply it in dialogue, journal text, title/menu copy, or other UI before the owner approves a reveal plan. The traveler's exact difference and the relationship between chosen origin and inherited memory remain open.
 
 This blueprint must now be reconciled with [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). The player's first-game experience should read as a fantasy adventure: immediate monster threats, expeditions, dangerous sites, factions, and regional problems, with returning magic and a larger awakening revealed behind those events. The Bell/Old Road investigation remains a useful early evidence chain, but the older map-centered explanation is no longer the default answer to the franchise mystery. Preserve implemented clues exactly as clues; do not make them prove an awakening, antagonist, or cosmology that they do not currently establish.
 
@@ -65,11 +67,11 @@ A sequence of route failures is making travel less reliable. Trade slows, people
 
 The player must decide what counts as proof when memory, testimony, and written records disagree. Their own missing time makes this more than an academic question, but it must not erase the freedom to define their origin.
 
-### The human antagonist — keep identity open until implementation
+### Greyfen crossing — locked responsible role, open name and player-facing reveal
 
-The first game benefits from a human decision-maker who is causing immediate harm without understanding the entire mystery. The strongest proposed motive is **desperation, not world domination**: a route-dependent trader, official, salvage broker, or local organizer has altered markers to restore commerce or divert goods away from a failing route. They believe they can control the risk. Evidence shows that they ignored warnings and let other people bear the danger.
+The owner-locked production truth is that Greyfen's **Landing Warden** reopened the lower crossing early after caravan merchants pressured her following the flood. She entered the OPEN correction unsigned because she intended to re-inspect within days and did not want her name on an order saying the crossing was safe. The newer cut toward the reed bed marks the risky shortcut she made official. She is a sympathetic wrong-doer, not a villain, and the player decides how to treat her.
 
-Do not name or canonize this character yet. First inspect the implemented NPC roster and choose a person whose role can support the reveal without rewriting their established function. The antagonist should be accountable for choices they made, but not secretly responsible for every strange event in the world's history.
+Her personal name remains open; **Yara Fen is a proposal, not approved canon**. The current player-facing evidence chain does not yet prove her responsibility, so the reveal must be earned by the missing closure order and subsequent evidence. Her existing “A Dry Crossing” contract discloses the reed-bed shortcut's risk openly; later dialogue must stay consistent with that contract or update the contract and its tests together.
 
 ### What the finale should resolve
 
@@ -270,14 +272,14 @@ The discovery establishes alteration, not authorship or motive. Keep those unkno
 
 **Source implementation added in v0.20.25; regression verification pending.** After the Greyfen Boundary Archive comparison, the Reedwatch Shelter locker can reveal a field note dated two days after the flood's retreat was logged. Returning to Mara records the timing, and Old Brenn then confirms that two Greyfen crossing destinations were rewritten in a later hand. The current journal objective points to an earlier weekly route return.
 
-This trail narrows the timing of the alteration but does not identify its author or motive. The next quest should locate the earlier route return and use it to establish which routes were officially closed, who signed the record, and what evidence is needed to distinguish a genuine closure order from a later alteration.
+This trail narrows the timing of the alteration but the current player-facing evidence does not yet prove authorship. Production canon identifies the Landing Warden as responsible and trade pressure as her motive; the next quest should locate the missing closure order and give the player evidence to connect the records to her decision.
 
 
 ## Implementation note — The Earlier Weekly Return
 
 **Source implementation added in v0.20.26; regression verification pending.** When Brenn's overwritten-ledger clue is known, Wayfarer's Camp can reveal an earlier weekly return marking the lower crossing closed pending inspection before an unsigned open correction. Recovering it advances to Brenn; his comparison advances to Mara, who files the evidence and leaves the missing closure order as the next lead.
 
-This closes the first evidence-filed chapter while keeping authorship unresolved. The next playable chain should look for the missing closure order rather than repeat the same “someone changed the marker” discovery in another location.
+This closes the first evidence-filed chapter with the player's knowledge still incomplete, although production canon identifies the Landing Warden as the responsible role. The next playable chain should recover the missing closure order and let the player decide how to respond, rather than repeat the same “someone changed the marker” discovery in another location.
 
 
 ## 11. Legacy connection to the former proposed series-wide antagonist

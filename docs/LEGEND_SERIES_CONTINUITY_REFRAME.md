@@ -1,6 +1,6 @@
 # LEGEND — Series & Title Reframe
 
-**Status:** Partly superseded proposal — subtitle/geography corrections remain useful; core mythology is superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
+**Status:** Partly superseded proposal — connected-geography guidance remains useful; the former subtitle recommendation is retired; core mythology is superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
 **Purpose:** Preserve the useful subtitle/shared-geography correction while pointing to the new reboot direction. The Pale Surveyor/Hollow Mile story below is archived proposal material, superseded by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 ## CURRENT DIRECTION UPDATE — KEEP THE GEOGRAPHY, CHANGE THE CENTRAL CONFLICT
 
@@ -19,23 +19,13 @@ Regions should not be assigned to installments. **Titles should be organized aro
 
 This is a story-architecture correction, not a claim that every planned region is playable in the current build. The present source has Ashmere and Greyfen foundations; Ironpass, Blackwood, and the Ruined March remain planned/in-development content. The intended first-game narrative scope includes them all, subject to implementation and quality gates.
 
-## 2. Subtitle recommendation: LEGEND — The Unquiet Road
+## 2. Current title decision — LEGEND: The Awakening
 
-The recommended working subtitle for the first game is:
+The official product title is **LEGEND: The Awakening**. The former “The Unquiet Road” subtitle was a temporary working-title decision and is now retired from current-facing branding.
 
-# LEGEND
-## The Unquiet Road
+The geographical correction in this document remains valid: Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are intended as connected places within the first game's broader story, not separate game installments. The Old Road is a location and practical travel route, not the title or the sole explanation for the world's central conflict.
 
-**Why it fits better than “Roads of Ashmere”:**
-- It identifies the game's main supernatural and thematic thread without making Ashmere sound like the whole world.
-- It allows the first game to cross every planned region while still feeling like one story.
-- It remains relevant when the same roads and towns return in later titles.
-- “Unquiet” carries dark-fantasy meaning: something unresolved remains beneath the ground, in memory, in ruins, and among the missing.
-- It does not reveal the awakening's cause, the Last Mercy, or the nature of the bell before the player earns those revelations.
-
-**Proposed title-screen line:** “Ashmere is a refuge of tired lamps and hard bargains. Beyond its gate, the road has begun returning things no one remembers losing.”
-
-This is a working title and tagline, not an immutable brand decision. Names of source files, save keys, and old development posts may retain the earlier working title for compatibility and historical clarity. The visible product title should use the new subtitle consistently.
+Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) and [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) for the current franchise direction. Keep existing gameplay evidence and characters as continuity; do not treat proposed cosmology as established canon.
 
 ## 3. Legacy dark-fantasy premise (secondary proposal)
 
@@ -83,7 +73,7 @@ Never introduce a new power just to solve a climax. Any major Hollow Mile effect
 
 ## 6. The first game: one continuous story through all planned regions
 
-The first game, **LEGEND: The Unquiet Road**, is intended to span Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. These are chapters in a single journey. Each location reveals a different human face of the same dark process, while its own local problems remain independent.
+The first game, **LEGEND: The Awakening**, is intended to span Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. These are chapters in a single journey. Each location reveals a different human face of the same dark process, while its own local problems remain independent.
 
 ### Act I — Ashmere: the wound comes home
 
@@ -189,7 +179,7 @@ When a later title cannot import save data, establish an explicitly documented r
 
 ## 10. Canon status
 
-The subtitle **The Unquiet Road** is the recommended working brand for the first game and is being used in the title UI and project references. The Pale Surveyor, Aren Vey, Ivara, the Hollow Mile, the Unreturned, the Seven-Wagon Dispatch, and the First Great Correction are proposals for the story team—not established in-world facts until approved.
+The former subtitle **The Unquiet Road** is retired from current-facing branding. The current product title is **LEGEND: The Awakening**. The Old Road remains a specific place and route, not the game's subtitle. The Pale Surveyor, Aren Vey, Ivara, the Hollow Mile, the Unreturned, the Seven-Wagon Dispatch, and the First Great Correction are proposals for the story team—not established in-world facts until approved.
 
 Do not make new dialogue claim the player knows these names or facts before the planned reveals. Do not claim the later regions are currently implemented merely because they belong to the intended first-game narrative.
 

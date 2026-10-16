@@ -1,4 +1,4 @@
-# LEGEND: The Unquiet Road — Art Direction
+# LEGEND: The Awakening — Art Direction
 
 ## North star
 
@@ -16,6 +16,14 @@ Art should support the game's exploration-first loop. Images are scene-setting a
 - Mood: mysterious and dangerous, but not relentlessly grim. Ashmere itself should feel safe and human; the Old Road should feel uncertain.
 - Composition: one clear focal point, uncluttered silhouette, foreground/midground/background separation, generous negative space where UI may overlay.
 - Consistency: use the same world palette, material language, lighting, and level of detail across all generated assets.
+
+## Title screen and RPG interface
+
+- **Brand:** Use LEGEND: The Awakening as the product title. “The Unquiet Road” is a retired working subtitle; do not add it beneath the wordmark or elsewhere in current UI.
+- **Title composition:** Start from the approved full-screen Ashmere panorama and antique-gold wordmark. Keep the scene visible and leave deliberate dark negative space behind a left-side menu.
+- **Menu language:** Aim for an established fantasy RPG: dark-stained timber/blackened iron, aged-gold edge work, restrained engraved details, compact symbols, clear vertical hierarchy, and one luminous primary action. Avoid dashboard cards or a SaaS/website hero look.
+- **UI rule:** Buttons, labels, version numbers, and status text remain accessible HTML/CSS. Never bake menu text into generated art.
+- **Interaction rule:** Keep Continue/Begin dominant; keep New Traveler, Profile, Settings, and Credits visible but quieter. Reduced-motion mode must neutralize animation.
 
 ## Avoid
 
@@ -47,7 +55,7 @@ Art should support the game's exploration-first loop. Images are scene-setting a
 
 Use this as the shared prefix for environment art:
 
-> Original dark-fantasy storybook concept art for LEGEND: The Unquiet Road, grounded medieval materials, weathered stone and timber, charcoal and moss-green palette with parchment and tarnished-gold accents, restrained supernatural mystery, atmospheric mist, painterly texture, clear focal point, strong depth layers, readable silhouette, composed for a mobile-first RPG scene, no text, no lettering, no watermark, no logo.
+> Original dark-fantasy storybook concept art for LEGEND: The Awakening, grounded medieval materials, weathered stone and timber, charcoal and moss-green palette with parchment and tarnished-gold accents, restrained supernatural mystery, atmospheric mist, painterly texture, clear focal point, strong depth layers, readable silhouette, composed for a mobile-first RPG scene, no text, no lettering, no watermark, no logo.
 
 For character and enemy portraits, append the subject, distinctive silhouette, equipment, emotional read, and a consistent background treatment. For item icons, replace the environment language with “single centered object, clean silhouette, restrained painterly detail, transparent background.”
 

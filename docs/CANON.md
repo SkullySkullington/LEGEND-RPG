@@ -25,7 +25,7 @@ Long ago a healer's ritual, the **Last Mercy**, tried to save the dead. It faile
 
 The crossing records were altered because of trade pressure: **someone with authority reopened the lower crossing early to protect money and routes, knowing it was still unsafe.** This is a human decision.
 
-- **Still open:** who did it; why the crossing was still unsafe; how the closure order went missing; what the player can do about it; whether the danger itself has a supernatural cause.
+- **Still open:** why the crossing was still unsafe; whether the Warden ever re-inspected; whether anyone was hurt; how the closure order went missing; what proof the player can recover; what happens when the player confronts, exposes, or protects her; whether the danger itself has a supernatural cause.
 
 ### L3 — The Landing Warden reopened the crossing (locked 2026-10-16)
 
@@ -62,7 +62,7 @@ These are facts players can already see. Changing one means updating the game, i
   3. The Reedwatch field note, dated two days after Greyfen logged the flood's retreat; its sketch already shows the newer cut.
   4. Brenn's ledger: two crossing entries rewritten in a later hand within days of the flood's retreat, with no closure order.
   5. An earlier weekly return: the lower crossing marked "CLOSED pending inspection," later marked OPEN in darker ink with no initials.
-  6. Mara's conclusion: this is evidence of alteration, not of who did it. The missing closure order is the next lead.
+  6. Mara's conclusion: the records establish that the crossing status was altered; the existing player-facing evidence does not yet identify the Landing Warden. The missing closure order is the next lead, and later scenes must connect it to the locked production truth without skipping the player's evidence and choices.
 - The Moved Cairn side story (three choices at the High Ridge cairn) exists, and the choice is saved.
 - "A Dry Crossing" in Greyfen offers a safer path or a reed-bed shortcut with a disclosed 65% chance. It is requested by "the Landing Warden," who is unnamed in the game. The name Yara Fen appears only in `docs/LEGEND_CHARACTER_COMPENDIUM.md` as a proposal.
 

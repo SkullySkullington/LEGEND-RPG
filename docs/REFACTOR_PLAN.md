@@ -1,17 +1,19 @@
 # LEGEND refactor plan
 Last updated: 2026-10-15
 
-## Current priority: finish the production title screen
-Do not start new gameplay features until the title screen's final art is committed locally, its controls are regression-tested, and the live page has been checked.
+## Current priority: establish the right title identity and RPG menu
 
-### Title completion checklist
-- [ ] Commit the approved cinematic castle-and-river background from the generated asset output to a stable repository path.
-- [ ] Commit the approved transparent gold LEGEND / THE AWAKENING wordmark.
-- [ ] Commit the compass sigil and reusable button-frame assets.
-- [ ] Wire only committed local assets into `js/systems/assets-v090.js` and the title view; do not use temporary signed URLs.
-- [ ] Keep New Traveler, Continue, Profile, Settings, and Credits behavior intact.
-- [ ] Verify image loading, desktop/mobile layout, keyboard focus, reduced-motion behavior, and title-to-game transitions.
-- [ ] Run the Playwright smoke tests and verify the deployed site.
+The current product title is **LEGEND: The Awakening**. “The Unquiet Road” is a retired working subtitle. The production title should use the approved local landscape and wordmark with a classic RPG-style framed menu, not a collection of website cards or a second splash overlay.
+
+### Current title pass
+- [x] Keep the approved local panorama, antique-gold wordmark, and compact awakening sigil.
+- [x] Give Continue/Begin one obvious primary action.
+- [x] Keep New Traveler, Profile, Settings, and Credits available as quieter menu choices.
+- [x] Keep labels in semantic HTML, retain keyboard focus and accessibility settings, and provide responsive/reduced-motion styles.
+- [ ] Visually inspect the branch at desktop and mobile widths.
+- [ ] Confirm the merged/deployed page when this branch is released.
+
+Do not block title/art direction on Playwright troubleshooting during this pass. Prefer direct source review and manual browser inspection for this visual change.
 
 ## Refactor phase: stability before features
 The refactor is an incremental extraction of the existing game, not a rewrite. Preserve current gameplay, save keys, and saved-player compatibility.
