@@ -14,6 +14,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
+- `js/systems/account-v09x.js`: profile/auth UI and account flow; Supabase cloud traveler-slot CRUD is being separated into a focused service. Local player persistence remains in `LegendStorage`.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
 - `js/storage.js` normalizes the player record, but its data shape is implicit rather than described by a stable save contract.
 
