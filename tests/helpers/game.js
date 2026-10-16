@@ -23,11 +23,11 @@ async function openTitle(page) {
 }
 
 // Mobile supplies its touch-aware interaction helper; desktop uses Playwright clicks.
-async function startFreshCharacter(page, name = 'QATraveler', interact = locator => locator.click()) {
+async function startFreshCharacter(page, name = 'QATraveler', interact = (_page, locator) => locator.click()) {
   await openTitle(page);
-  await interact(page.getByRole('button', { name: /Begin Your Journey/i }));
+  await interact(page, page.getByRole('button', { name: /Begin Your Journey/i }));
   await page.locator('#v094Name').fill(name);
-  await interact(page.locator('#v094Next'));
+  await interact(page, page.locator('#v094Next'));
   await interact(page.locator('[data-gender="unspoken"]'));
   await interact(page.locator('#v094Next'));
   await interact(page.locator('[data-personality="kind"]'));
