@@ -46,7 +46,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
 | `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; runtime return fallback | Creates and normalizes new player records, then marks the intro complete and enters the town. |
 | `js/systems/account-v09x.js` | Direct `LegendStorage` load/save, including returned traveler data | Profile/account flows depend on the existing player object and storage normalization behavior. |
-| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV080.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
+| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
 | `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
 
 | `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
@@ -60,7 +60,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | --- | --- |
 | Game data | `window.LEGEND_DATA` |
 | Player/settings storage | `window.LegendStorage` |
-| Legacy runtime bridge | `window.LegendRuntimeV080` |
+| Legacy runtime bridge | `window.LegendRuntimeV120` |
 | Progression helper | `window.LegendProgressionV100` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler creation | `window.LegendBeginningV094` |
