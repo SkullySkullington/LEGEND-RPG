@@ -8,14 +8,12 @@
   function saveSettings(settings){ if(S().saveSettings) S().saveSettings(settings); }
   function loadSettings(){ return S().loadSettings ? S().loadSettings() : { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false }; }
   function applySettings(){ if(S().applySettings) S().applySettings(); }
-  function profile(){ return window.LegendAccountV09x?.getProfile?.() || null; }
   function buildVersion(){ return String(window.LEGEND_DATA?.VERSION || 'v0.20.36'); }
 
   function titleScreenConfig(){
     return {
       root: root(),
       loadPlayer,
-      profile,
       buildVersion,
       applySettings,
       onContinue: continueGame,
