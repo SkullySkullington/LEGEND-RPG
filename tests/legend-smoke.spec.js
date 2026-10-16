@@ -1119,6 +1119,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(healed).toBe(Math.min(before.maxHp - before.hp, Math.max(1, Math.ceil(before.maxHp * 0.3))));
     expect(after.hp).toBe(expectedAfterAction <= 0 ? 1 : expectedAfterAction);
     expect(after.potions).toBe(0);
+    await expect(page.locator('#item')).toBeDisabled();
   });
 
   test('combat defeat ends the expedition, preserves the traveler, and awards no victory loot', async ({ page }) => {
