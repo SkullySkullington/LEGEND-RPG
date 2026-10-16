@@ -95,7 +95,8 @@ const workJobs = {
       if(result){result.style.display='block';result.textContent=grade+'! '+(context?context+' ':'')+'Earned '+pay+'g.'+bonus+' Local standing increased.'+xpNote;}
       if(strike){strike.disabled=true;strike.textContent='Job Complete';}
       document.querySelectorAll('[data-job-choice],[data-job-sequence],#jobStartSequence').forEach(b=>b.disabled=true);
-      setTimeout(()=>renderWorkBoard(),1800);
+      // Keep the reward summary visible until the player chooses to leave the activity.
+      // An auto-refresh here can erase the result before it is read or asserted by a smoke test.
     }
     if(strike)strike.onclick=()=>finish();
     if(choices){
