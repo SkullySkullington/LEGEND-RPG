@@ -64,6 +64,7 @@ jobs:
           node --check js/systems/town/ashmere-inn-v099.js
           node --check js/systems/town/ashmere-people-v099.js
           node --check js/systems/town/ashmere-contracts-v099.js
+          node --check js/systems/town/ashmere-assets-v099.js
           node --check js/systems/town/ashmere-view-v099.js
           node --check js/systems/town/ashmere-hub-v099.js
           node --check js/systems/ashmere-controller-v099.js
