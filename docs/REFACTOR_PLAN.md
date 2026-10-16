@@ -50,7 +50,8 @@ Pass shared dependencies through small context objects or explicit function argu
 ### 2. Consolidate road and combat ownership
 - [x] Extract the v100 combat implementation behind a focused module boundary.
 - [x] Confirm v100 is preferred in the Ashmere road-entry adapter; v087 is still a loaded fallback and an event-interception path, so defer removal until its live behavior is resolved.
-- [ ] Compare combat, rewards, experience, retreat/death handling, flags, and road-token behavior across v087 and v100 before considering any consolidation or retirement.
+- [x] Record key v087/v100 behavior conflicts from source: v087 uses `flags.roadV087`, its own `xpUntil` countdown and +22 max-HP level-up; v100 uses `flags.roadExpeditionV100`, `LegendProgressionV100.award`, +8 max HP per level, battle victory stats, and different Road Token reward timing.
+- [ ] Verify these differences against actual saved-player flows and manually smoke-test v100 before considering legacy retirement.
 - Make progression/reward decisions come from one clearly owned service where feasible.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
 
