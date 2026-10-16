@@ -1,7 +1,6 @@
 // LEGEND v0.20.36 - Active title screen presentation and menu interaction.
 // Rendering keeps the established CSS hooks; navigation/state are injected by the bootstrap.
 (() => {
-  const TITLE_GATE_KEY = 'legend-roads-of-ashmere-title-gate-v09x';
   const titleAudio = window.LegendTitleAudioV120 || Object.freeze({
     playUi: () => {},
     startAmbience: () => {},
@@ -9,37 +8,6 @@
   });
 
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-
-  function renderGate(config){
-    const root = () => config?.root || document.getElementById('root');
-    const applySettings = config?.applySettings || (() => {});
-    const title = () => render(config);
-    applySettings();
-    root().innerHTML = `
-      <div class="title-wrap title-gate-wrap title-gate-cinematic">
-        <div class="title-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="title-fog" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="title-gate-border" aria-hidden="true"></div>
-        <main class="title-gate-card">
-          <h1 class="game-title">LEGEND</h1>
-          <p class="title-gate-subtitle">The Awakening</p>
-          <p class="title-gate-kicker">✧ Ashmere Gate ✧</p>
-          <button class="title-gate-prompt" id="enterRealm" type="button">Press Any Key to Enter Ashmere</button>
-          <p class="title-gate-quote">The lantern gate opens for travelers, not heroes.</p>
-        </main>
-      </div>`;
-    const enter = document.getElementById('enterRealm');
-    const activate = () => {
-      document.removeEventListener('keydown', onKey);
-      try { sessionStorage.setItem(TITLE_GATE_KEY, 'opened'); } catch {}
-      titleAudio.startAmbience();
-      titleAudio.playUi('confirm');
-      title();
-    };
-    const onKey = e => { if(e.key !== 'Tab') activate(); };
-    document.addEventListener('keydown', onKey);
-    if(enter) enter.onclick = e => { e.stopPropagation(); activate(); };
-  }
 
   function titleTransition(message, action){
     titleAudio.playUi('confirm');
@@ -51,19 +19,6 @@
     notice.textContent = message;
     wrap.appendChild(notice);
     setTimeout(action, 340);
-  }
-
-  function openCredits(){
-    const overlay=document.createElement('div');
-    overlay.className='legend-credits-overlay';
-    overlay.innerHTML='<section class="legend-credits-panel" role="dialog" aria-modal="true" aria-labelledby="legendCreditsTitle"><div class="legend-credits-kicker">A WORLD IN THE MAKING</div><h2 id="legendCreditsTitle">LEGEND</h2><h3>THE AWAKENING</h3><div class="legend-credits-rule"></div><p>A dark-fantasy role-playing game about the roads we travel, the magic we awaken, and the places we choose to protect.</p><p><strong>World &amp; game:</strong> LEGEND RPG project</p><p><strong>Visual development:</strong> Original game art and AI-assisted asset production</p><p><strong>First light:</strong> Ashmere<br><strong>Beyond the lanterns:</strong> Greyfen and the wider realm</p><div class="legend-credits-rule"></div><p>Thank you for walking the road.</p><button class="legend-credits-close" type="button" data-credits-close>Return to the Title</button></section>';
-    const close=()=>{overlay.remove();document.removeEventListener('keydown',onKey);document.getElementById('credits')?.focus();};
-    const onKey=e=>{if(e.key==='Escape'){e.preventDefault();close();}};
-    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
-    overlay.querySelector('[data-credits-close]').addEventListener('click',close);
-    document.addEventListener('keydown',onKey);
-    document.body.appendChild(overlay);
-    overlay.querySelector('button').focus();
   }
 
   function render(config){
@@ -115,5 +70,17 @@
     document.getElementById('credits').onclick = credits;
   }
   
+  const titleExtras = window.LegendTitleExtrasV120?.create({
+    renderTitle: render,
+    getTitleAudio: () => titleAudio
+  });
+  function renderGate(config) {
+    if (typeof titleExtras?.renderGate === 'function') return titleExtras.renderGate(config);
+    return render(config);
+  }
+  function openCredits() {
+    if (typeof titleExtras?.openCredits === 'function') return titleExtras.openCredits();
+  }
+
   window.LegendTitleScreenV120 = Object.freeze({ render, renderGate, openCredits });
 })();
