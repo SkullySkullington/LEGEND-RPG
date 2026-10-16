@@ -46,7 +46,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
 - [x] Extract trader, buy/sell, crafting recipes, equipment browsing, and purchase/equip behavior into `js/systems/town/ashmere-commerce-v099.js`; keep current routes and inject persistence/presentation helpers.
 - [x] Extract inn rendering, rest/supply purchases, and rumors into `js/systems/town/ashmere-inn-v099.js`; preserve existing service costs and inject persistence/presentation helpers.
-- [x] Extract side-contract counters, acceptance/turn-in rewards, Greyfen crossing choices/retries, and existing evidence text into `js/systems/town/ashmere-contracts-v099.js`; preserve quest flags and inject player/save/progression/navigation helpers.
+- [x] Extract side-contract counters, acceptance/turn-in rewards, and existing evidence text into `js/systems/town/ashmere-contracts-v099.js`; preserve quest flags and inject player/save/progression/view helpers.
+- [x] Extract Greyfen Dry Crossing choices, retry costs, health toll, marker rewards, and completion handling into `js/systems/town/ashmere-crossing-v099.js`; preserve the existing completion and attempt flags.
 - [ ] Smoke-test traveler records, NPC evidence dialogue, side-contract acceptance/turn-in, Dry Crossing safe/risky routes, work board challenge modes/rewards, market/crafting/gear, inn services, and return navigation.
 - [x] Document the player/save shape, core flags, region IDs, item IDs, and current script load order before moving domain logic.
 
@@ -57,7 +58,8 @@ Keep `LegendAshmereV099` as a compatibility façade while moving responsibilitie
 3. trader, inventory transactions, crafting, smithing, and gear;
 4. people/NPC dialogue and town keeper interactions;
 5. inn and lodging services;
-6. side contracts and the Greyfen Dry Crossing.
+6. side contracts;
+7. the Greyfen Dry Crossing mini-contract.
 
 Still to review:
 1. the route dispatcher and route-board content; simplify the compatibility façade only after a caller inventory and focused flow coverage.
