@@ -54,6 +54,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-contracts-v099.js` | 84 lines | Side-contract definitions/counters, accept/turn-in rules, rewards, and journal updates | Own side-contract logic; player/save/progression/view dependencies are injected |
 | `js/systems/town/ashmere-crossing-v099.js` | 73 lines | Greyfen Dry Crossing choices, safe/risky outcomes, retry cost, health toll, and marker rewards | Own the mini-contract flow separately from side-contract progress; receive town state/save/screen callbacks |
 | `js/content/roads/road-poi-catalog-v100.js` | 69 lines | Contextual POI selection when route/evidence state changes which clue should appear | Own clue selection and narrative overrides; inject player/state/data readers |
+| `js/systems/road/road-decisions-v100.js` | 73 lines | Route-fork selection and moved-cairn decision mutations | Keep expedition branch/side-story state changes separate from discovery presentation and general POI rewards |
 | `js/systems/road/road-discovery-v100.js` | 154 lines | Contextual POI resolution, route choices, investigation state changes, evidence recording, and discovery rewards | Own stateful discovery actions; delegate panel markup to the focused discovery view and quest evidence to its service |
 | `js/systems/road/road-discovery-view-v100.js` | 45 lines | Clue reveal panel, opening route-fork panel, and moved-cairn choice markup | Own pure presentation for discovery choices; receive selected point data and current visibility state through arguments |
 | `js/systems/quests/bell-road-evidence-v120.js` | 50 lines | Bell storyline evidence flags, memories, and objective changes for Blackroot/Greyfen road records | Own quest-specific evidence mutation behind an injected Bell-objective updater |
@@ -130,6 +131,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Region travel | `window.LegendRegionsV100` |
 | Region unlock/travel rules | `window.LegendRegionServiceV100.create()` |
 | Road POI catalog | `window.LegendRoadPoiCatalogV100.create()` |
+| Road decision service | `window.LegendRoadDecisionsV100.create()` |
 | Old Road discovery view | `window.LegendRoadDiscoveryViewV100.create()` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
