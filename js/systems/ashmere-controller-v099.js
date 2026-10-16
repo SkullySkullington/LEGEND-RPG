@@ -855,26 +855,45 @@ function buyGear(id,kind){
   }
 
   function renderSheet(){
-    const pl=p(),assets=A(),items=assets.items||{},portrait=assets.classes?.[pl.className]||'';
-    const inventoryEntries=Object.entries(pl.inventory||{}).filter(([,v])=>Number(v)>0);
-    const inv=inventoryEntries.map(([k,v])=>{
-      const art=itemIcon(k);
-      return '<article class="ash099-inventory-item">'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'<span class="ash099-item-placeholder" aria-hidden="true">✦</span>')+'<div class="ash099-inventory-item-copy"><strong>'+esc(itemName(k))+'</strong><small>In your pack</small></div><b>×'+Number(v)+'</b></article>';
-    }).join('')||'<p class="ash099-inventory-empty">Your pack is light. The road may change that.</p>';
-    const xp=Number(pl.xp||0),nextXp=Number(pl.level||1)*100;
-    const weapon=(D().weapons||[]).find(w=>w.id===pl.weapon),armor=(D().armors||[]).find(a=>a.id===pl.armor);
-    const equipment=(label,name,detail,art)=>'<article class="ash099-profile-equipment"><span class="ash099-eyebrow">'+label+'</span>'+(art?'<img src="'+esc(art)+'" alt="" aria-hidden="true" onerror="this.onerror=null;this.style.display=\'none\'">':'')+'<strong>'+esc(name)+'</strong><small>'+esc(detail)+'</small></article>';
-    screen(head('Traveler',pl.username||'Traveler','Who you are, what you can endure, and what you carry beyond the lantern line.','','profile'),
-      '<section class="ash099-traveler-profile">'+
-        '<div class="ash099-traveler-profile-top">'+(portrait?'<img class="ash099-traveler-profile-portrait" src="'+esc(portrait)+'" alt="'+esc(pl.className||'Traveler')+'" onerror="this.onerror=null;this.style.display=\'none\'">':'')+
-          '<div class="ash099-traveler-profile-identity"><span class="ash099-eyebrow">YOUR TRAVELER</span><h2>'+esc(pl.className||'Wanderer')+'</h2><p>'+esc(pl.personalityLabel||'Traveler')+' · '+esc(pl.origin||'Unknown origin')+'</p><p class="ash099-flavor">'+esc(pl.keepsake||'A life not yet written')+'</p></div>'+
-          '<div class="ash099-traveler-profile-level"><span>LEVEL</span><strong>'+Number(pl.level||1)+'</strong><small>'+xp+' / '+nextXp+' XP</small><i><b style="width:'+Math.max(0,Math.min(100,Math.round(xp/Math.max(1,nextXp)*100)))+'%"></b></i></div></div>'+
-        '<div class="ash099-traveler-vitals"><div class="ash099-vital-hp"><span>HEALTH</span><strong>'+Number(pl.hp||0)+' <small>/ '+Number(pl.maxHp||0)+'</small></strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div><div><span>GOLD</span><strong>'+gold(pl.gold)+'</strong></div><div><span>ROAD TOKENS</span><strong>'+Number(pl.inventory?.roadToken||0)+' <small>/ 5</small></strong></div></div>'+
-        '<div class="ash099-profile-equipment-grid">'+equipment('IN HAND',weapon?.name||weaponName(pl.weapon),weapon?'Damage '+weapon.min+'–'+weapon.max:'Basic attack',items.shortSword)+equipment('WORN',armor?.name||armorName(pl.armor),armor?'Defense '+armor.defense:'No protection',armorArt(pl.armor))+'</div>'+
-        '<div class="ash099-traveler-detail-grid"><div><span>PRONOUNS</span><strong>'+esc(pl.pronouns||'they/them')+'</strong></div><div><span>HOME</span><strong>'+esc(pl.currentRegion||'Ashmere')+'</strong></div><div><span>TOWN WORK</span><strong>'+Number(pl.flags?.ashmereJobs||0)+' jobs</strong></div><div><span>ROAD PROOF</span><strong>'+Number(pl.inventory?.bellFragment||0)+' Bell Fragments</strong></div></div>'+
-      '</section><section class="ash099-traveler-inventory"><div class="ash099-traveler-inventory-head"><div><span class="ash099-eyebrow">WHAT YOU CARRY</span><h2>Your Pack</h2></div><span>'+inventoryEntries.reduce((sum,[,v])=>sum+Number(v),0)+' items</span></div><div class="ash099-inventory-grid">'+inv+'</div></section>');
+    const records = window.LegendAshmereRecordsV099;
+    if (records?.renderSheet) {
+      return records.renderSheet({
+        player: p(),
+        assets: A(),
+        data: D(),
+        esc,
+        itemIcon,
+        itemName,
+        weaponName,
+        armorName,
+        armorArt,
+        gold,
+        hpPct,
+        head,
+        screen
+      });
+    }
+    screen(head('Traveler', 'Traveler', 'The traveler records module did not load.', '', 'profile'),
+      '<p>Traveler records are unavailable. Return to town and refresh before trying again.</p>');
   }
-  function renderArchive(){const pl=p();screen(head('Records',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Boundary Archive':'Archive Hall',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'The bell keeper’s ledgers track the old boundary stones and drowned roads.':'Mara keeps records, maps, and town memory.',locationInterior('archive'),'archive'),`<div class="ash099-lines">${(pl.memories||[]).map(m=>`<p>${esc(m)}</p>`).join('')||'<p>No memories recorded yet. The road has not left enough ink on you.</p>'}</div>`);}
+
+  function renderArchive(){
+    const records = window.LegendAshmereRecordsV099;
+    if (records?.renderArchive) {
+      const pl = p();
+      return records.renderArchive({
+        player: pl,
+        currentRegion: pl?.currentRegion || 'Ashmere',
+        locationInterior,
+        esc,
+        head,
+        screen
+      });
+    }
+    screen(head('Records', 'Archive Hall', 'The archive module did not load.', '', 'archive'),
+      '<p>The journal is unavailable. Return to town and refresh before trying again.</p>');
+  }
+
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();if(window.LegendRoadControllerV087?.start)return window.LegendRoadControllerV087.start();screen(head('Town Gate','Old Road','The road controller did not load.',roadBg(),'road'),'<p>Try a hard refresh.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
   window.LegendAshmereV099={renderAshmere,route};
