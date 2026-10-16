@@ -19,6 +19,19 @@ const score=(pl,skill)=>{const c=window.LEGEND_DATA?.classes?.[pl.className]?.mo
 const weapon=pl=>(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===pl.weapon)||{name:'Hands',min:1,max:3}, armor=pl=>(window.LEGEND_DATA?.armors||[]).find(a=>a.id===pl.armor)||{name:'None',defense:0};
 const state=pl=>{pl.flags=pl.flags||{};pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:0,pressure:0,trips:0,events:0,finds:0,battles:0};return pl.flags.roadExpeditionV100};
 const ensure=pl=>{const s=state(pl);s.stage=clamp(Number(s.stage||0),0,5);s.pressure=clamp(Number(s.pressure||0),0,100);return s};
+const roadDiscovery=window.LegendRoadDiscoveryV100.create({
+ getPlayer:p,
+ savePlayer:save,
+ ensureState:ensure,
+ getRoadData:road,
+ addInventory:inv,
+ escapeHtml:esc,
+ clamp,
+ setBellQuestObjective,
+ renderExpedition,
+ tone
+});
+
 const hpPct=pl=>clamp(Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100),0,100);
 const roadAudio=()=>window.LegendRoadAudioV100||{};
 const soundOn=()=>roadAudio().soundOn?.()??true;
@@ -26,15 +39,13 @@ function tone(kind='tap'){return roadAudio().tone?.(kind);}
 function playBattleFx(kind){return roadAudio().playBattleFx?.(kind);}
 function startBattleMusic(){return roadAudio().startBattleMusic?.();}
 function stopBattleMusic(){return roadAudio().stopBattleMusic?.();}
-let visibleDiscoveryStage=null;
-
 const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 function scene(stage=0,interactive=true){
  const art=A().locations||{};
  const stageNum=clamp(Number(stage||0),0,5),pl=p(),s=pl?ensure(pl):{},route=s.routeChoice;
  const fallback=art.oldRoadScene||'assets/locations/roads/old_road_exploration_v1.svg';
  const path=stageNum===2?(art.roadCamp||art.oldRoad||fallback):stageNum===1&&route==='ridge'?(art.highRidge||art.oldRoad||fallback):stageNum===1&&route==='reeds'?(art.reedCut||art.oldRoad||fallback):(art.oldRoad||fallback);
- const point=pointOfInterest(stage),stageClass='exp100-stage-'+stageNum;
+ const point=roadDiscovery.pointOfInterest(stage),stageClass='exp100-stage-'+stageNum;
  const poiDone=!!s.poiUsed?.[point.key];
  const hotspots=interactive&&!poiDone
   ? '<div class="exp100-hotspots" aria-label="Discover the road"><button class="exp100-hotspot exp100-hotspot-find" data-hotspot="poi" style="--hx:'+point.x+'%;--hy:'+point.y+'%"><i>'+esc(point.icon)+'</i><span>Look closer</span></button></div>'
@@ -86,22 +97,22 @@ function handleHotspotAction(btn){
   // Revealing a clue is a local scene action, not a full expedition rerender.
   // The scene shell intentionally preserves its existing image node between renders;
   // inserting the panel beside the current scene avoids the preserved-DOM redraw path.
-  visibleDiscoveryStage=stage;
+  roadDiscovery.reveal(stage);
   if(!wrap||wrap.querySelector('.exp100-discovery-beat'))return;
-  const markup=pointOfInterestPanel(pl,s,stage);
+  const markup=roadDiscovery.pointOfInterestPanel(pl,s,stage);
   const anchor=wrap.querySelector('.exp100-route-choice, .exp100-poi-done')||wrap.querySelector('.exp100-head');
   if(!markup||!anchor)return;
   anchor.insertAdjacentHTML('afterend',markup);
   const leave=wrap.querySelector('#poiLeave');
   if(leave)leave.addEventListener('click',()=>{
-   visibleDiscoveryStage=null;
+   roadDiscovery.hide();
    leave.closest('.exp100-discovery-beat')?.remove();
   });
   const inspect=wrap.querySelector('#poiInspect');
-  if(inspect)inspect.addEventListener('click',inspectPointOfInterest);
+  if(inspect)inspect.addEventListener('click',roadDiscovery.inspectPointOfInterest);
   return;
  }
- visibleDiscoveryStage=null;
+ roadDiscovery.hide();
  if(action==='search')return resolveChoice('search');
  if(action==='move')return resolveChoice('push');
  if(action==='finish')return finish();
@@ -140,7 +151,7 @@ function bindHotspotDelegation(){
 }
 function header(pl,s,kicker,title,text){const stage=Math.min(5,Number(s.stage||0)),pressure=Number(s.pressure||0);return scene(stage,kicker!=='ROAD ENCOUNTER')+'<section class="exp100-head"><div class="exp100-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(text)+'</p><div class="exp100-bars"><div><span>Expedition</span><strong>'+stage+'/5</strong><i><b style="width:'+stage*20+'%"></b></i></div><div><span>Road Pressure</span><strong>'+pressure+'%</strong><i><b style="width:'+pressure+'%"></b></i></div><div><span>Health</span><strong>'+Number(pl.hp||0)+'/'+Number(pl.maxHp||0)+'</strong><i><b style="width:'+hpPct(pl)+'%"></b></i></div></div></section>'}
 function stats(pl){return '<section class="exp100-stats"><div><strong>'+Number(pl.inventory?.food||0)+'</strong><span>Rations</span></div><div><strong>'+Number(pl.inventory?.camp||0)+'</strong><span>Camp</span></div><div><strong>'+Number(pl.inventory?.roadToken||0)+'</strong><span>Tokens</span></div><div><strong>'+Number(pl.gold||0)+'g</strong><span>Gold</span></div></section>'}
-function start(){stopBattleMusic();visibleDiscoveryStage=null;const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
+function start(){stopBattleMusic();roadDiscovery.hide();const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
 function areaForStage(stage){
  const index=clamp(Number(stage||0),0,5),areas=road().scenes||[];
  const area={...(areas[index]||{name:'Old Road',type:'Road',text:'The road disappears into the mist.',icon:'↗'})};
@@ -148,172 +159,6 @@ function areaForStage(stage){
  if(index===2&&s.routeChoice==='ridge')area.text='The High Ridge drops into a sheltered clearing. Dry kindling and a line of pale stones make this a safer place to rest; the ridge markers continue beyond the firepit.';
  if(index===2&&s.routeChoice==='reeds')area.text='The Reed Cut spills into a sheltered clearing, but wet reeds cling to your boots and long tracks circle the firepit. The blue light is gone; something followed you out.';
  return area;
-}
-function pointOfInterest(stage){
- const points=road().pointsOfInterest||[],index=clamp(Number(stage||0),0,5);
- const point={...(points[index]||{key:'road-marker',name:'Roadside Marker',kind:'Trail Clue',text:'The road holds a faint sign of passage.',action:'Inspect the marker',icon:'⌖',short:'Marker',x:50,y:50})};
- if(index===2){
-  const pl=p();
-  if(pl?.flags?.greyfenLedgerCompared&&!pl?.flags?.greyfenWeeklyReturnFound){
-   return {key:'camp-firepit',name:'The Earlier Weekly Return',kind:'Route Record',text:'Beneath a warped plank beside the abandoned firepit, you find an oilskin packet. The weekly return predates the overwritten Greyfen entries: “Lower crossing — CLOSED pending inspection.” A second line, in darker ink, says “OPEN” but has no initials.',action:'Recover the weekly route return',icon:'▤',short:'Route return',x:28,y:57};
-  }
- }
- if(index===4){
-  const pl=p();
-  if(pl?.flags?.greyfenArchiveRead&&!pl?.flags?.greyfenFieldNoteFound){
-   return {key:'reedwatch-locker',name:'A Dated Field Note',kind:'Route Record',text:'Inside the swollen locker, beneath a wrap of oilcloth, you find a rain-blurred field note. Its date falls two days after Greyfen logged the flood’s retreat, and the sketch already shows the newer cut pointing toward the reed bed. The signature has run to ink.',action:'Recover the field note',icon:'▣',short:'Field note',x:25,y:52};
-  }
- }
- if(index===5){
-  const pl=p();
-  if(pl?.flags?.bellRoadSearched){
-   return {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The same bell-mark from Blackroot appears beneath a newer cut. That later groove points toward the reed bed, away from the raised line.',action:'Compare the marks with your Blackroot notes',icon:'⚑',short:'Boundary',x:78,y:48};
-  }
- }
- if(index===1){
-  const pl=p(),route=pl?ensure(pl).routeChoice:null;
-  if(route==='ridge'){
-   const prior=pl?.flags?.highRidgeCairnOutcome||pl?.flags?.sideContracts?.movedCairn?.decision;
-   const cairnText=prior==='restore'
-    ?'The cairn sits in the older groove you restored. A fresh scrape still shows where the stone was moved; the tracks now bend toward firmer ground.'
-    :prior==='record'
-     ?'Chalk marks preserve both positions of the shifted stone. Two sets of cart tracks pass without agreeing on the same line.'
-     :prior==='warn'
-      ?'A strip of cloth marks the shifted stone as unsafe. Travelers are keeping their distance, but the original alignment remains unresolved.'
-      :'A stack of old stones marks a dry line above the floodwater. One stone sits outside a weathered groove, and cart tracks turn toward the lower ground. Someone has tucked road herbs behind the cairn.';
-   const cairnAction=prior?'Examine the cairn and trail marks':'Collect the trail herbs';
-   return {key:'ridge-cairn',name:'The Ridgeway Cairn',kind:'Trail Clue',text:cairnText,action:cairnAction,icon:'⌖',short:'Cairn',x:76,y:48};
-  }
-  if(route==='reeds')return {key:'marsh-watcher-tracks',name:'Tracks Beneath the Blue Light',kind:'Danger Sign',text:'The blue glow has gone dark. Long, narrow tracks circle your own bootprints, and a torn herb pouch lies in the mud.',action:'Recover the dropped herbs',icon:'✧',short:'Tracks',x:76,y:48};
- }
- return point;
-}
-function pointOfInterestPanel(pl,s,stage){
- const point=pointOfInterest(stage);
- if(s.poiUsed&&s.poiUsed[point.key])return '';
- if(visibleDiscoveryStage!==Number(stage))return '';
- return '<section class="exp100-poi exp100-discovery-beat"><div class="exp100-poi-icon">'+esc(point.icon)+'</div><div class="exp100-poi-copy"><span>YOU NOTICE SOMETHING · '+esc(point.kind)+'</span><strong>'+esc(point.name)+'</strong><p>'+esc(point.text)+'</p><button class="exp100-poi-action" id="poiInspect">'+esc(point.action)+'</button><button class="exp100-poi-dismiss" id="poiLeave">Leave it</button></div></section>';
-}
-function routeChoicePanel(s,stage){
- if(stage!==0)return '';
- if(s.routeChoice){const chosen=s.routeChoice==='ridge'?'High Ridge':'Reed Cut';return '<section class="exp100-poi exp100-poi-done"><div class="exp100-poi-icon">↗</div><div class="exp100-poi-copy"><span>ROUTE DECISION · RECORDED</span><strong>'+chosen+'</strong><p>Your choice has shaped this expedition. The other track disappears into the mist behind you.</p></div></section>';}
- return '<section class="exp100-panel exp100-route-choice"><div class="exp100-kicker">THE ROAD FORKS</div><h2>Two ways through the lowlands</h2><p>The High Ridge looks longer but firm underfoot. The Reed Cut is shorter, though a cold blue glimmer moves between the reeds.</p><div class="exp100-choices"><button class="exp100-choice" id="routeRidge"><strong>Take the High Ridge</strong><span>Keep to firmer ground and avoid drawing attention.</span><em>Safer · Road Pressure −8</em></button><button class="exp100-choice" id="routeReeds"><strong>Risk the Reed Cut</strong><span>Follow the strange light and search for what it is guarding.</span><em>Riskier · Gain 1 Bell Fragment, Road Pressure +10</em></button></div></section>';
- }
-function movedCairnDecisionPanel(pl,s,stage){
- const contract=pl?.flags?.sideContracts?.movedCairn;
- if(stage!==1||s.routeChoice!=='ridge'||!contract||contract.complete||contract.decision||!s.poiUsed?.['ridge-cairn'])return '';
- return '<section class="exp100-panel exp100-moved-cairn"><div class="exp100-kicker">SIDE STORY · THE MOVED CAIRN</div><h2>One stone sits wrong</h2><p>The cairn looks ordinary until you notice the fresh split face set beyond an older groove. Cart tracks turn toward softer ground below. Oric asked you to report the danger, but the safest next step is yours to choose.</p><div class="exp100-choices"><button type="button" class="exp100-choice" data-moved-cairn="restore"><strong>Restore the older alignment</strong><span>Set the stone back into its weathered groove. The repair will be visible, but you cannot know why it was moved.</span><em>Act now · leave a fresh trace</em></button><button type="button" class="exp100-choice" data-moved-cairn="record"><strong>Record both positions</strong><span>Sketch the old groove and the current stone before leaving it untouched. Preserve the evidence for Mara and Oric.</span><em>Preserve evidence · leave the site unchanged</em></button><button type="button" class="exp100-choice" data-moved-cairn="warn"><strong>Mark the hazard and step back</strong><span>Warn the next travelers without shifting the stone. The route remains uncertain until someone can inspect it properly.</span><em>Prioritize caution · defer the repair</em></button></div></section>';
-}
-function chooseMovedCairnDecision(decision){
- const pl=p();if(!pl)return;
- const s=ensure(pl),contract=pl.flags?.sideContracts?.movedCairn;
- if(s.stage!==1||s.routeChoice!=='ridge'||!s.poiUsed?.['ridge-cairn']||!contract||contract.complete||contract.decision)return renderExpedition('The cairn report is no longer open on this stretch.');
- const outcomes={
-  restore:{
-   title:'The older groove takes the stone',
-   result:'You ease the stone back into the weathered groove. The face settles with a gritty scrape. It now points toward the higher line, but the fresh marks make it clear that someone moved it—and you still do not know why.',
-   memory:'On the Ridgeway, you restored the cairn stone to its older groove. The fresh scrape records your intervention; the reason for the original move remains unknown.'
-  },
-  record:{
-   title:'Both alignments are recorded',
-   result:'You sketch the stone as it stands, then copy the older groove beneath it. You leave the cairn untouched. Anyone who follows can compare the two positions instead of trusting a single clean-looking mark.',
-   memory:'At the Ridgeway Cairn, you recorded both the shifted stone and its older groove without moving it. The route evidence is preserved, but the safe alignment remains unsettled.'
-  },
-  warn:{
-   title:'A warning marks the stone',
-   result:'You tie a strip of cloth where the track narrows and leave the stone in place. The warning may keep a cart from taking the lower line, but it cannot tell travelers which mark to trust.',
-   memory:'At the Ridgeway Cairn, you marked the shifted stone as a hazard and left it untouched. Travelers are warned, but the route still needs a proper survey.'
-  }
- };
- const outcome=outcomes[decision];if(!outcome)return renderExpedition('That report choice is not available.');
- contract.decision=decision;
- contract.decisionStage=Number(s.stage||0);
- pl.flags=pl.flags||{};
- pl.memories=Array.isArray(pl.memories)?pl.memories:[];
- if(!pl.memories.includes(outcome.memory))pl.memories.push(outcome.memory);
- save(pl);
- renderExpedition(outcome.result);
-}
-function chooseRoadRoute(route){
- const pl=p();if(!pl)return;const s=ensure(pl);
- if(Number(s.stage)!==0||s.routeChoice)return renderExpedition('The fork has already been settled for this expedition.');
- if(route==='ridge'){s.routeChoice='ridge';s.pressure=clamp(s.pressure-8,0,100);save(pl);return renderExpedition('You choose the High Ridge. The ground firms beneath your boots, and the road feels a little less watchful. Road Pressure falls by 8.');}
- s.routeChoice='reeds';inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+10,0,100);save(pl);return renderExpedition('You slip into the Reed Cut and pluck a Bell Fragment from the mud beside the blue light. Something stirs deeper in the reeds. +1 Bell Fragment; Road Pressure rises by 10.');
-}
-function inspectPointOfInterest(){
- const pl=p();if(!pl)return;const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),point=pointOfInterest(stage);
- s.poiUsed=s.poiUsed||{};
- if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
- s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
- let foundGreyfenFieldNote=false,foundGreyfenWeeklyReturn=false;
- if(point.key==='blackroot-mark'){
-  pl.flags=pl.flags||{};
-  pl.flags.bellRoadSearched=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Blackroot Bend, black roots split a stone seal bearing the same bell-mark found near Ashmere. The mark repeats, but its purpose remains unclear.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  if(pl.flags.firstRoadReturnMaraBriefed){
-   setBellQuestObjective(pl,'Return to Mara with your observation of the bell-marked seal at Blackroot Bend.');
-  }
- }else if(point.key==='greyfen-marker'&&pl.flags?.bellRoadSearched&&!pl.flags?.greyfenBoundaryCompared){
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenBoundaryCompared=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At the Greyfen Approach, the boundary stone carries the bell-mark seen at Blackroot Bend beneath a newer cut angled toward the reed bed. The mark proves a change in the stone, not who made it.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.');
- }else if(point.key==='reedwatch-locker'&&pl.flags?.greyfenArchiveRead&&!pl.flags?.greyfenFieldNoteFound){
-  foundGreyfenFieldNote=true;
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenFieldNoteFound=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Reedwatch Shelter, you found a field note dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut angled toward the reed bed; the signature is unreadable.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.');
- }else if(point.key==='camp-firepit'&&pl.flags?.greyfenLedgerCompared&&!pl.flags?.greyfenWeeklyReturnFound){
-  foundGreyfenWeeklyReturn=true;
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenWeeklyReturnFound=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Wayfarer’s Camp, you found an earlier weekly route return: the lower crossing was marked CLOSED pending inspection, then overwritten as OPEN without initials. The record shows a changed instruction, not who changed it.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Bring the earlier weekly route return to Old Brenn in Greyfen’s Bellkeeper’s Ledger.');
- }
- let note='',reward='';
- if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
- else if(stage===1&&s.routeChoice==='ridge'){
-  inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure-3,0,100);
-  const cairnOutcome=pl.flags?.highRidgeCairnOutcome||pl.flags?.sideContracts?.movedCairn?.decision;
-  note=cairnOutcome==='restore'
-   ?'You check the cairn you reset and compare its fresh scrape with the older groove. A Road Herb remains tucked behind the stones. +1 Road Herb; Road Pressure falls by 3.'
-   :cairnOutcome==='record'
-    ?'Your notes preserve both positions; the chalk still matches the groove beneath the shifted stone. You recover a Road Herb. +1 Road Herb; Road Pressure falls by 3.'
-    :cairnOutcome==='warn'
-     ?'The warning cloth still marks the shifted cairn. You check the track without moving the stone and recover a Road Herb. +1 Road Herb; Road Pressure falls by 3.'
-     :'You collect the herbs tucked behind the Ridgeway Cairn and follow its dry trail marks. +1 Road Herb; Road Pressure falls by 3.';
- }
- else if(stage===1&&s.routeChoice==='reeds'){inv(pl,'roadHerb',1);s.pressure=clamp(s.pressure+4,0,100);note='You recover the torn herb pouch, but the tracks circle closer as you leave. +1 Road Herb; Road Pressure rises by 4.';}
- else if(stage===1){inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+2,0,100);note='The blue glow fades into a Bell Fragment in your palm. The ditch feels less quiet now. +1 Bell Fragment.';}
- else if(stage===2){
-  inv(pl,'food',1);inv(pl,'roadHerb',1);
-  note=foundGreyfenWeeklyReturn
-   ?'The oilskin return is damp but legible: the lower crossing was closed pending inspection, then changed to open in darker ink without initials. You wrap it separately for Brenn. +1 Ration, +1 Road Herb.'
-   :'You recover a sealed ration and a usable Road Herb from the cold ashes. +1 Ration, +1 Road Herb.';
- }
- else if(stage===3){s.pressure=clamp(s.pressure-8,0,100);inv(pl,'bellFragment',1);note='The seal’s pattern matches an old Ashmere mark. You take a Bell Fragment and learn a safer way around the roots. +1 Bell Fragment; Road Pressure falls by 8.';}
- else if(stage===4){
-  inv(pl,'clothScrap',1);inv(pl,'roadHerb',1);
-  note=foundGreyfenFieldNote
-   ?'You copy the date and sketch before wrapping the field note for Mara. The newer cut is already drawn two days after Greyfen logged the flood’s retreat. +1 Cloth Scrap, +1 Road Herb.'
-   :'The locker gives way. Inside are clean cloth strips and a bundle of preserved herbs. +1 Cloth Scrap, +1 Road Herb.';
- }
- else if(stage===5&&point.key==='greyfen-marker'&&pl.flags?.greyfenBoundaryCompared){
-  pl.gold=Number(pl.gold||0)+10;s.pressure=clamp(s.pressure-5,0,100);pl.flags=pl.flags||{};pl.flags.greyfenRouteRecorded=true;
-  note='The Greyfen boundary mark matches the older bell-mark at Blackroot, but a newer cut turns toward the reed bed. The stone shows that someone altered the marker; it does not say who. +10 gold; Road Pressure falls by 5.';
- }
- else {pl.gold=Number(pl.gold||0)+10;s.pressure=clamp(s.pressure-5,0,100);pl.flags=pl.flags||{};pl.flags.greyfenRouteRecorded=true;note='You copy the scratched route marks into your journal. The safer line is recorded, and you find 10 gold wedged behind the stone.';}
- pl.stats=pl.stats||{};pl.stats.pointsOfInterest=Number(pl.stats.pointsOfInterest||0)+1;save(pl);
- tone('success');renderExpedition(note);
 }
 function campActions(pl,s){
   const camp=Number(pl.inventory?.camp||0),food=Number(pl.inventory?.food||0),herb=Number(pl.inventory?.roadHerb||0),cloth=Number(pl.inventory?.clothScrap||0);
@@ -328,13 +173,13 @@ function renderExpedition(note=''){
     : '<button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Nothing left to search':'Search the roadside')+'</strong><span>'+(searchDone?'You have searched this stretch':'Look for something useful')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Continue toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
   const roadMood=s.pressure>=55?'A second set of footsteps keeps pace just beyond the lantern light.':s.pressure>=30?'The birds fall silent. Somewhere ahead, a branch snaps.':'The road bends into mist. Somewhere beyond it, a lantern flickers.';
   const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
-  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+routeChoicePanel(s,stage)+pointOfInterestPanel(pl,s,stage)+movedCairnDecisionPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
+  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+roadDiscovery.routeChoicePanel(s,stage)+roadDiscovery.pointOfInterestPanel(pl,s,stage)+roadDiscovery.movedCairnDecisionPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
   bindHotspotDelegation();
-  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;save(pl);document.querySelector('.exp100-discovery-beat')?.remove();});
-  document.getElementById('poiInspect')?.addEventListener('click',inspectPointOfInterest);
-  document.querySelectorAll('[data-moved-cairn]').forEach(button=>button.addEventListener('click',()=>chooseMovedCairnDecision(button.dataset.movedCairn)));
-  document.getElementById('routeRidge')?.addEventListener('click',()=>chooseRoadRoute('ridge'));
-  document.getElementById('routeReeds')?.addEventListener('click',()=>chooseRoadRoute('reeds'));
+  document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;roadDiscovery.hide();save(pl);document.querySelector('.exp100-discovery-beat')?.remove();});
+  document.getElementById('poiInspect')?.addEventListener('click',roadDiscovery.inspectPointOfInterest);
+  document.querySelectorAll('[data-moved-cairn]').forEach(button=>button.addEventListener('click',()=>roadDiscovery.chooseMovedCairnDecision(button.dataset.movedCairn)));
+  document.getElementById('routeRidge')?.addEventListener('click',()=>roadDiscovery.chooseRoadRoute('ridge'));
+  document.getElementById('routeReeds')?.addEventListener('click',()=>roadDiscovery.chooseRoadRoute('reeds'));
   document.getElementById('careful')?.addEventListener('click',()=>resolveChoice('careful'));
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
