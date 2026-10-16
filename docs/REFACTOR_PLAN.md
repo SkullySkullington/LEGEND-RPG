@@ -17,7 +17,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
 - `js/systems/account-v09x.js`: 5.1 KB / 114-line account facade for async auth/cloud orchestration and bootstrap callbacks; profile markup is in `js/systems/account/account-profile-view-v09x.js`, profile metadata persistence is in `js/systems/account/account-profile-store-v09x.js`, auth UI/service is in `js/systems/account/account-auth-v09x.js`, and cloud-slot CRUD is in `js/systems/account/cloud-traveler-slots-v09x.js`. Player saves remain owned by `LegendStorage`.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
-- `js/storage.js` now focuses on player normalization/save/load/delete and delegates `legend-settings-v1` to `js/storage/settings-storage-v120.js`; the facade preserves the existing settings API.
+- `js/storage.js` focuses on player save/load/delete and stable facade methods; `js/storage/player-normalizer-v120.js` owns player defaults and normalization, and `js/storage/settings-storage-v120.js` owns device-local accessibility settings.
 - Traveler identity/pronoun and personality-bonus options are in `js/systems/player/player-creation-options-v094.js`, separate from flow and view logic.
 
 ## Refactor phases
@@ -88,6 +88,7 @@ Pass shared dependencies through small context objects or explicit function argu
 
 ### 3. Establish state and persistence contracts
 - [x] Make `LegendStorage` the single owner for player-save and settings persistence.
+- [x] Extract player field/default normalization into `js/storage/player-normalizer-v120.js`; keep `LegendStorage.baseSkills()` and `LegendStorage.normalize()` as stable caller-facing methods.
 - [x] Retire imports from old `legend-recovered-build-v0*` keys; only the current active save key is supported.
 - [x] Remove the v087-specific `xpUntil`/`roadV087` progression state from new/normalized current saves.
 - Describe normalized player fields, region values, inventory item IDs, and flags. Add a save-fixture test or lightweight validation without altering stored data.
