@@ -26,7 +26,10 @@
     screen(head('Crafting',String(p()?.currentRegion||'Ashmere')==='Greyfen'?'Marsh Workbench':'Crafting Bench','Road drops should matter. Convert herbs, fangs, hides, ash, and scraps into useful items or better sellables.',locationInterior('forge'),'craft'),`<div class="ash099-market-summary">${regionShopArt(String(p()?.currentRegion||'Ashmere')==='Greyfen'?'greyfenWorkbench':'ashmereWorkbench')}<div class="ash099-bench-copy"><strong>Bench Stock</strong><span>Use road drops here before selling raw loot.</span></div><button class="ash099-btn" id="openTrader">Open Trading Post</button></div>${feedback?'<div class="ash099-craft-feedback" role="status"><span class="ash099-craft-feedback-mark" aria-hidden="true">✓</span><span>'+esc(feedback)+'</span></div>':''}<div class="ash099-cards">${cards}</div><div id="ashNote" class="ash099-note" style="display:none"></div>`);
     document.querySelectorAll('[data-craft]').forEach(b=>b.onclick=()=>craftItem(b.dataset.craft,b.dataset.needs));
     const openTrader=document.getElementById('openTrader');
-    if(openTrader) openTrader.onclick=renderTrader;
+    if(openTrader) openTrader.onclick=()=>{
+      if(typeof context.openTradingPost==='function')return context.openTradingPost();
+      note('Trading Post is unavailable.');
+    };
   }
   function craftItem(id,needsTextRaw){const pl=p();const needs=String(needsTextRaw||'').split(',').filter(Boolean).map(x=>{const [k,v]=x.split(':');return [k,Number(v||0)];});if(!canCraft(pl,needs))return note('Missing ingredients.');const recipeNames={roadPoultice:'Road Poultice',blackrootTonic:'Blackroot Tonic',huntersCharm:'Hunter\'s Charm',reinforcedBuckle:'Reinforced Buckle',wispLanternWick:'Wisp Lantern Wick',tradeBundle:'Trade Bundle'};needs.forEach(([k,v])=>pl.inventory[k]=Math.max(0,owned(pl,k)-v));pl.inventory[id]=Number(pl.inventory[id]||0)+1;save(pl);renderCrafting('Crafted '+(recipeNames[id]||itemName(id))+'. Ingredients used: '+needs.map(([k,v])=>v+' '+itemName(k)).join(', ')+'.');}
 
