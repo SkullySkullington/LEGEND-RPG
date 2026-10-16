@@ -1,4 +1,4 @@
-// LEGEND v0.10.0 - Old Road Expedition Controller
+// LEGEND v0.20.36 - Active Old Road Expedition Controller
 // Mobile-first expedition loop. Meaningful choices replace visible D20 gates.
 (() => {
 const RT=()=>window.LegendRuntimeV120||{}, ROADS=()=>window.LegendRoadsV100||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
