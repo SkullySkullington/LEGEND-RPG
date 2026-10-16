@@ -36,10 +36,10 @@ This is the working inventory of critical coverage, not a claim that every row i
 | Character creation | valid character reaches Ashmere; blank name rejected; choices persist | Existing journey coverage; broaden combinations |
 | Regional hubs | Ashmere/Greyfen identity, destinations, regional services and routes | Existing targeted coverage; verify genuine travel journey |
 | Road/expedition | route choice, event outcomes, discovery, return to town | Partial; add full start-to-return journey |
-| Combat | Attack, Guard, class move, enemy turn, health/resources, victory/defeat and rewards | Victory progression/reward now asserted; defeat and resource-use edge cases remain |
+| Combat | Attack, Guard, class move, enemy turn, health/resources, victory/defeat and rewards | Victory reward is asserted; draft PR #24 adds potion accounting and defeat/recovery checks (latest CI pending); class-technique cooldown edges remain |
 | Quests/contracts | accept, objectives, turn-in, rewards, duplicate turn-in prevention | One contract's turn-in and reload persistence verified; broaden contract types and duplicate-attempt checks |
 | Inventory/equipment | gain, consume, buy, sell, equip, unequip and resource accounting | Market buy/sell and weapon purchase/equip transactions asserted; consumables and unequip remain |
-| Crafting/workshops | valid and invalid recipes, materials consumed, outputs granted | Partial; cover success and insufficient-material cases |
+| Crafting/workshops | valid and invalid recipes, materials consumed, outputs granted | Draft PR #24 asserts exact Road Poultice ingredient/output accounting and disabled recipe when ingredients are insufficient (latest expanded CI pending); broader recipe/save coverage remains |
 | Saves/continue | reload, continue, region/quest/inventory state survives | Partial; cover broader persisted state |
 | Errors/assets | uncaught exceptions, failed first-party assets, missing registered assets | Partial; introduce shared error/asset assertions carefully |
 | Responsive/accessibility | overflow, reachable touch controls, dialog focus and keyboard close | Existing smoke checks; expand key gameplay screens |
