@@ -1034,6 +1034,90 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('[data-craft="wispLanternWick"]')).toBeVisible();
   });
 
+
+  test('winning a road battle changes progression and persists the victory reward', async ({ page }) => {
+    await startFreshCharacter(page, 'CombatOutcomeQA');
+    const before = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        gold: Number(pl.gold || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    // This is deterministic setup for the battle trigger; all combat actions
+    // below use the actual player-facing controls.
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.flags = pl.flags || {};
+      pl.flags.roadExpeditionV100 = {
+        ...(pl.flags.roadExpeditionV100 || {}),
+        stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
+      };
+      rt.savePlayer(pl);
+    });
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-combat')).toBeVisible();
+
+    // Strike until the real battle resolves; fail if the fight cannot complete
+    // within a bounded number of turns rather than hanging the suite.
+    for (let turn = 0; turn < 12 && await page.locator('.exp100-combat').isVisible().catch(() => false); turn++) {
+      await page.locator('#strike').click();
+    }
+    await expect(page.locator('.exp100-combat')).toHaveCount(0);
+    await expect(page.locator('.exp100-head')).toContainText(/defeated/i);
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    expect(after.victories).toBe(before.victories + 1);
+    expect(after.defeated).toBe(before.defeated + 1);
+    expect(Object.entries(after.inventory).some(([key, qty]) =>
+      Number(qty || 0) > Number(before.inventory[key] || 0) &&
+      !['roadToken', 'food', 'potion', 'camp'].includes(key)
+    )).toBe(true);
+  });
+
+
+  test('market purchases and sales update both currency and inventory', async ({ page }) => {
+    await startFreshCharacter(page, 'MarketTransactionQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.gold = 200;
+      pl.inventory = pl.inventory || {};
+      pl.inventory.roadHerb = 2;
+      rt.savePlayer(pl);
+    });
+    await page.locator('[data-ash-view="trader"]').click();
+    const beforeBuy = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { gold: Number(pl.gold || 0), food: Number(pl.inventory?.food || 0) };
+    });
+    await page.locator('[data-buy="food"]').click();
+    const afterBuy = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { gold: Number(pl.gold || 0), food: Number(pl.inventory?.food || 0) };
+    });
+    expect(afterBuy.gold).toBe(beforeBuy.gold - 60);
+    expect(afterBuy.food).toBe(beforeBuy.food + 1);
+
+    await page.locator('[data-market-tab="sell"]').click();
+    await page.locator('[data-sell="roadHerb"]').click();
+    const afterSell = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { gold: Number(pl.gold || 0), herbs: Number(pl.inventory?.roadHerb || 0) };
+    });
+    expect(afterSell.gold).toBe(afterBuy.gold + 10);
+    expect(afterSell.herbs).toBe(1);
+  });
+
   test('Secured expedition has a direct Return to Ashmere action', async ({ page }) => {
     await startFreshCharacter(page, 'ReturnFromRoadQA');
     await page.evaluate(() => {
