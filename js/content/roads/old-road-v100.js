@@ -1,8 +1,8 @@
 // LEGEND v0.20.36 - Active Old Road Content
 // Data-only road content for the new road controller.
 (() => {
-  window.LegendRoadsV100 = window.LegendRoadsV087 || {};
-  window.LegendRoadsV087.oldRoad = {
+  window.LegendRoadsV100 = window.LegendRoadsV100 || {};
+  window.LegendRoadsV100.oldRoad = {
     id: 'old-road',
     name: 'The Old Road',
     subtitle: 'Ashmere to the forgotten mile-markers',
