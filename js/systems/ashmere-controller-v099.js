@@ -8,60 +8,26 @@
   const esc = s => String(s == null ? '' : s).replace(/[&<>'"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[c]));
   const p = () => RT().loadPlayer?.() || null;
   const save = pl => RT().savePlayer?.(pl);
-  const img = (path, alt = '') => path ? `<img src="${esc(path)}" alt="${esc(alt)}" onerror="if(this.src.startsWith('https://')){this.onerror=null;this.src='assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg'}else{this.style.display='none'}">` : '';
-  const itemIcon = key => {
-    const items=A().items||{};
-    const aliases={
-      food:'food',ration:'rationBundle',rationBundle:'rationBundle',potion:'potion',roadPoultice:'potion',blackrootTonic:'blackrootTonicIngredients',
-      roadToken:'roadToken',bellFragment:'bellFragmentCraft',camp:'camp',campSupply:'camp',roadHerb:'roadHerbBundle',huntersCharm:'huntersCharm',wispLanternWick:'lampOil',
-      reinforcedBuckle:'reinforcedBuckle',woodenSword:'shortSword',stoneSword:'shortSword',bronzeSword:'shortSword',ironSword:'shortSword',steelSword:'shortSword',shortSword:'shortSword',bow:'bow',huntingBow:'bow',shield:'shield',
-      none:'shield',clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon',woodScrap:'armorRepairKit',peatBrick:'camp',clothScrap:'armorRepairKit',wolfFang:'huntersCharm',tornHide:'tornHide',ore:'ironOreChunk',wispAsh:'bellFragmentCraft',oil:'lampOil',goblinTrinket:'tradeBundle',blackrootThorn:'blackrootTonicIngredients',tradeBundle:'tradeBundle'
-    };
-    return items[aliases[key]||key]||items.pelt||'';
-  };
-  const itemName = k => D().itemNames?.[k] || ({
-    food:'Rations', potion:'Healing Potion', camp:'Camp Supplies', roadToken:'Road Token',
-    woodScrap:'Wood Scrap', clothScrap:'Cloth Scrap', roadHerb:'Road Herb', wolfFang:'Wolf Fang',
-    tornHide:'Torn Hide', ore:'Ore', wispAsh:'Wisp Ash', oil:'Lamp Oil', goblinTrinket:'Goblin Trinket',
-    blackrootThorn:'Blackroot Thorn', brokenBellShard:'Broken Bell Shard', roadPoultice:'Road Poultice',
-    blackrootTonic:'Blackroot Tonic', huntersCharm:'Hunter\'s Charm', reinforcedBuckle:'Reinforced Buckle',
-    wispLanternWick:'Wisp Lantern Wick', tradeBundle:'Trade Bundle'
-  }[k] || k);
-  const gold = n => `${Number(n || 0)}g`;
-  const bg = () => {
-    const pl=p(), locations=A().locations||{};
-    if(String(pl?.currentRegion||'Ashmere')==='Greyfen') return locations.greyfenMain || locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
-    return locations.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg';
-  };
-  const locationInterior = kind => {
-    const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen', locations=A().locations||{};
-    const key=greyfen?({inn:'greyfenInn',market:'greyfenMarket',forge:'greyfenForge',archive:'greyfenArchive'}[kind]):({inn:'ashmereInn',market:'ashmereMarket',forge:'ashmereForge',archive:'ashmereArchive'}[kind]);
-    return locations[key] || bg();
-  };
-  const roadBg = () => A().locations?.oldRoad || 'assets/locations/roads/location_old_road_main_v1.jpg';
-  const npc = id => A().npcs?.[id] || (id === 'oric' ? 'assets/generated/npcs/captain-oric.webp' : '');
-  const weaponName = id => (D().weapons || []).find(w => w.id === id)?.name || id || 'Hands';
-  const armorName = id => (D().armors || []).find(a => a.id === id)?.name || id || 'None';
-
-  const icon = (k, alt='') => {
-    const symbol = {"people":"people","inn":"inn","trader":"trader","smith":"smith","road":"road","sheet":"sheet","brenn":"ledger","archive":"archive","mara":"quill","oric":"captain","work":"work","craft":"craft","profile":"profile","quest":"quest","route":"route","regions":"regions","settings":"settings","gate":"gate","world":"world","notice":"notice","cloud":"cloud","account":"profile","feedback":"quest","delete":"quest","text":"ledger","bold":"sheet","contrast":"settings","motion":"road","space":"regions","font":"sheet","lock":"captain","slot":"regions","continue":"road","new":"work"}[k] || 'quest';
-    return `<span class="ash099-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><use href="assets/ui/icons/legend-ui-icons-v1.svg#icon-${symbol}"></use></svg></span>`;
-  };
-  const regionShopArt = key => {
-    const path=A().ui?.regionShops?.[key];
-    return path ? '<span class="ash099-icon ash099-asset-icon ash099-region-shop-icon" aria-hidden="true"><img src="'+esc(path)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"></span>' : '';
-  };
-  const armorArt = id => {
-    const items=A().items||{};
-    const keys={clothArmor:'clothArmorIcon',chainArmor:'chainArmorIcon',bronzeArmor:'bronzeArmorIcon',ironArmor:'ironArmorIcon',none:'shield'};
-    const path=items[keys[id]||id]||items.shield||items.camp||'';
-    return path;
-  };
-  const serviceArt = (key, fallback='') => {
-    const path=A().ui?.serviceIcons?.[key];
-    if(!path) return fallback;
-    return '<span class="ash099-icon ash099-asset-icon" aria-hidden="true"><img src="'+esc(path)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"></span>';
-  };
+  const townAssets = window.LegendAshmereAssetsV099?.create({
+    getAssets: A,
+    getData: D,
+    getPlayer: p,
+    escapeHtml: esc
+  }) || {};
+  const img = townAssets.imageMarkup || (() => '');
+  const itemIcon = townAssets.itemIcon || (() => '');
+  const itemName = townAssets.itemName || (key => D().itemNames?.[key] || key);
+  const gold = townAssets.gold || (amount => `${Number(amount || 0)}g`);
+  const bg = townAssets.background || (() => '');
+  const locationInterior = townAssets.locationInterior || (() => '');
+  const roadBg = townAssets.roadBackground || (() => '');
+  const npc = townAssets.npcArt || (() => '');
+  const weaponName = townAssets.weaponName || (id => id || 'Hands');
+  const armorName = townAssets.armorName || (id => id || 'None');
+  const icon = townAssets.icon || (() => '');
+  const regionShopArt = townAssets.regionShopArt || (() => '');
+  const armorArt = townAssets.armorArt || (() => '');
+  const serviceArt = townAssets.serviceArt || ((key, fallback = '') => fallback);
   const townView = window.LegendAshmereViewV099?.create({
     root,
     getPlayer: p,
