@@ -16,7 +16,7 @@
     }
     const firstRoadReturnDialogue = window.LegendAshmereFirstRoadReturnDialogueV099;
     if (typeof firstRoadReturnDialogue?.apply === 'function') {
-      firstRoadReturnDialogue.apply(pl, id, n);
+      firstRoadReturnDialogue.apply(pl, id, greyfen, n);
     } else if (!greyfen && pl.flags?.firstRoadReturnSeen) {
       n.lines = ['The first-road-return dialogue service did not load. Refresh before continuing.'];
     }
