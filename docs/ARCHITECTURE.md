@@ -48,7 +48,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-forge-v099.js` | 107 lines | Weapon/armor listings, weapon illustrations, equipment comparisons, purchase/equip rules | Own gear state changes; crafting-tab navigation goes through the dispatcher callbacks |
 | `js/systems/town/ashmere-people-v099.js` | 66 lines | Ashmere/Greyfen people directory and character-card rendering | Keep directory list and character route selection separate from dialogue/evidence behavior |
 | `js/systems/town/ashmere-npc-catalog-v099.js` | 98 lines | Baseline Ashmere/Greyfen character names, roles, descriptions, opening lines, and art keys | Keep baseline narrative copy independent of quest-state branches and DOM rendering |
-| `js/systems/town/ashmere-npc-story-v099.js` | 214 lines | Conditional NPC dialogue variants, Greyfen evidence progression, quest flags/memories/objectives, and talk counters | Own NPC-triggered story mutations and copy variants behind `apply(player, id, region, dialogue, objectiveUpdater)`; keep rendering and saving in the facade |
+| `js/systems/town/ashmere-greyfen-evidence-story-v099.js` | 104 lines | Greyfen boundary/archive dialogue, evidence-reporting flags, memories, and quest objective changes | Own the Greyfen evidence arc separately; accept current player/NPC/dialogue and objective updater, without persistence or rendering |\n| `js/systems/town/ashmere-npc-story-v099.js` | 135 lines | Ashmere first-road-return dialogue, Oric’s cairn follow-up, NPC talk counters, and Mara’s opening quest objective | Own general town NPC story progression while delegating the Greyfen evidence chain |
 | `js/systems/town/ashmere-npc-dialogue-v099.js` | 56 lines | NPC dialogue facade: baseline catalog lookup, story service call, save, screen rendering, and token-ledger action | Keep the public NPC route and presentation stable while delegating content and story effects |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
 | `js/systems/town/ashmere-contracts-v099.js` | 84 lines | Side-contract definitions/counters, accept/turn-in rules, rewards, and journal updates | Own side-contract logic; player/save/progression/view dependencies are injected |
@@ -120,7 +120,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Ashmere NPC text catalog | `window.LegendAshmereNpcCatalogV099.create().get(region, id)` |
-| Ashmere NPC story progression | `window.LegendAshmereNpcStoryV099.apply()` |
+| Greyfen evidence story | `window.LegendAshmereGreyfenEvidenceStoryV099.apply()` |\n| Ashmere NPC story progression | `window.LegendAshmereNpcStoryV099.apply()` |
 | Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
 | Ashmere commerce facade | `window.LegendAshmereCommerceV099.render(context, view, argument)` |
 | Ashmere Work Board catalog | `window.LegendAshmereJobCatalogV099.forRegion(regionId)` |
