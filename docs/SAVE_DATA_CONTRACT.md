@@ -8,7 +8,7 @@ This documents the active production data path. Per the current project directio
 | Data | Owner | Storage key / behavior |
 | --- | --- | --- |
 | Active player record | `js/storage.js` / `window.LegendStorage` | `legend-roads-of-ashmere-v09` from `LEGEND_DATA.SAVE_KEY` |
-| Settings | `LegendStorage` | `legend-settings-v1` |
+| Settings | `LegendSettingsStorageV120` via `LegendStorage` facade | `legend-settings-v1` |
 | Road audio preference | `js/systems/road/road-audio-v100.js` | `legend-road-sound` (`off` disables; other/missing values mean on) |
 | Pending return to town | `js/core/game-runtime-v120.js` | session key `legend-awakening-return-to-town-v1` |
 | Older optional title gate | `js/game.js` | session key `legend-roads-of-ashmere-title-gate-v09x` |
