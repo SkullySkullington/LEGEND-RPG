@@ -34,7 +34,10 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/player/player-record-v094.js` | Focused record builder | Starting identity, stats, inventory/equipment, quest log, memories, and storage normalization adapter | Keep player record assembly independent of UI rendering and pass catalogs/normalization explicitly |
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 151 | Job definitions, work board, timing/choice/sequence challenges, rewards and completion loop | Owns Work Board gameplay; player access, saving and progression are injected from town facade |
-| `js/systems/town/ashmere-commerce-v099.js` | 155 | Market transactions, crafting recipes, smithy gear listings, purchase/equip rules and related rendering | Cohesive commerce boundary; persistence, inventory helpers and town presentation are injected |
+| `js/systems/town/ashmere-commerce-v099.js` | 36 lines | Compatibility dispatcher for trader, crafting, and forge routes | Keep existing `LegendAshmereCommerceV099.render()` callers stable while services remain separate |
+| `js/systems/town/ashmere-market-v099.js` | 50 lines | Trading Post listings, buy/sell, and sell-all loot transactions | Own market stock/prices and inventory/gold changes through injected persistence helpers |
+| `js/systems/town/ashmere-crafting-v099.js` | 41 lines | Recipe list, ingredient display/checks, crafting transactions, and feedback | Own recipes and ingredient consumption; sibling navigation goes through the dispatcher callbacks |
+| `js/systems/town/ashmere-forge-v099.js` | 107 lines | Weapon/armor listings, weapon illustrations, equipment comparisons, purchase/equip rules | Own gear state changes; crafting-tab navigation goes through the dispatcher callbacks |
 | `js/systems/town/ashmere-people-v099.js` | 66 lines | Ashmere/Greyfen people directory and character-card rendering | Keep directory list and character route selection separate from dialogue/evidence behavior |
 | `js/systems/town/ashmere-npc-dialogue-v099.js` | 248 lines | NPC dialogue, Greyfen evidence investigation branches, quest flags/memories/objective updates, token-ledger shortcut | Own dialogue progression and evidence interactions with player/screen helpers injected |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
@@ -97,6 +100,10 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
+| Ashmere commerce facade | `window.LegendAshmereCommerceV099.render(context, view, argument)` |
+| Ashmere market | `window.LegendAshmereMarketV099.render(context, tab)` |
+| Ashmere crafting | `window.LegendAshmereCraftingV099.render(context, feedback)` |
+| Ashmere forge | `window.LegendAshmereForgeV099.render(context, tab)`
 | Greyfen Dry Crossing | `window.LegendAshmereCrossingV099.render()` |
 | Region travel | `window.LegendRegionsV100` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
