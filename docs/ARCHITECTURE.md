@@ -69,7 +69,8 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 | `js/systems/road/road-state-v100.js` | 49 lines | Canonical expedition flag initialization/clamping, player stat modifiers, item/equipment lookup, and inventory addition | Reuse this API for future road systems instead of duplicating saved-state rules; Bell objective mutation is centralized in `LegendQuestLogV120` |
 | `js/systems/road/road-view-v100.js` | 132 lines | Scene rendering, DOM-preserving shell updates, sound toggle, hotspot event delegation, and expedition header markup | Own presentation/input mechanics; injected callbacks route gameplay actions to their state owners |
 | `js/systems/road/road-actions-v100.js` | 96 lines | Travel/search resolution, pressure, skill checks, finds, and encounter selection | Own the effectful road action layer through injected save/state/render/combat services |
-| `js/systems/road/road-results-v100.js` | 68 lines | Expedition reward/XP/token settlement, first-return story report, and outcome screen | Own settlement/reward decisions through injected persistence, progression, view, and town-return adapters |
+| `js/systems/road/road-results-view-v100.js` | 28 lines | Expedition outcome frame, summary copy, and Return button binding | Own result presentation and forward return intent through an injected callback |
+| `js/systems/road/road-results-v100.js` | 80 lines | Expedition reward/XP/token settlement and first-return story report | Own settlement/reward decisions and pass the resulting state/text to the result view |
 | `js/systems/road/road-expedition-screen-v100.js` | 60 lines | Expedition stage panel assembly and camp/road control event binding | Own screen composition; inject domain decisions and state changes from actions/discovery/results modules |
 | `js/systems/road/road-combat-view-v100.js` | 81 lines | Battle layout, player/enemy status panels, command buttons, and combat UI event binding | Own battle presentation and forward commands to injected handlers; do not mutate combat state in the view |
 | `js/systems/road/road-combat-v100.js` | 162 lines | Enemy intent, class techniques, damage/turn rules, item use, retreat/defeat, and victory rewards | Own combat behavior and progression effects; delegate battle markup and button binding to the combat view |
@@ -147,6 +148,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Road decision service | `window.LegendRoadDecisionsV100.create()` |
 | Road POI outcomes | `window.LegendRoadPoiOutcomesV100.create()` |
 | Old Road discovery view | `window.LegendRoadDiscoveryViewV100.create()` |
+| Old Road result view | `window.LegendRoadResultsViewV100.create()` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 combat view | `window.LegendRoadCombatViewV100.create()` |
 | v100 road audio | `window.LegendRoadAudioV100` |
