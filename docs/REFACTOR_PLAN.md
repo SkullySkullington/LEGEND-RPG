@@ -10,7 +10,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ## Confirmed structural hot spots
 
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 26.7 KB / 398 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
-- `js/systems/road-controller-v100.js`: approximately 59 KB / 654 lines. It combines expedition scenes, road choices, points of interest, camping, quest decisions, combat, and audio effects.
+- `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 44.3 KB / 527 lines. It owns expedition scenes, road choices, points of interest, camping, quest decisions, and completion; combat/audio are extracted.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/runtime-v080.js` now delegates all player persistence to `LegendStorage`; it remains only as the return/navigation bridge while a future pass can modernize its name.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
@@ -24,8 +24,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Retire and delete the v087 road controller and make `LegendRoadControllerV100` the only road entry point; move road data to `LegendRoadsV100`.
 - [x] Extract v100 enemy intent, class techniques, fight rendering/actions, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the existing expedition controller entry point and inject state/audio/progression adapters.
 - [x] Extract road sound preference, UI tones, battle effects, and battle music into `js/systems/road/road-audio-v100.js`; preserve the existing `legend-road-sound` preference and delegate both expedition and combat controls to the same audio service.
-- [x] Document the current player/save shape, keys, legacy fallback, dynamic flags/stats, item/region IDs, and v087/v100 XP compatibility in `docs/SAVE_DATA_CONTRACT.md`.
-- [x] Inventory current production callers of `LegendRuntimeV080` and direct `LegendStorage` users: title/bootstrap, traveler creation, account/profile, Ashmere/region screens, both road controllers, and the v087 render interceptor.
+- [x] Document the current player/save shape, active key, dynamic flags/stats, item/region IDs, and v100 progression contract in `docs/SAVE_DATA_CONTRACT.md`.
+- [x] Inventory current production callers of `LegendRuntimeV080` and direct `LegendStorage` users: title/bootstrap, traveler creation, account/profile, Ashmere/region screens, and the active v100 road controller.
 - [x] Complete the current persistence ownership pass: `LegendStorage` is the sole owner of player save/load; `LegendRuntimeV080` delegates to it and retains return/navigation only.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
@@ -51,9 +51,9 @@ Pass shared dependencies through small context objects or explicit function argu
 
 ### 2. Consolidate road and combat ownership
 - [x] Extract the v100 combat implementation behind a focused module boundary.
-- [x] Confirm v100 is preferred in the Ashmere road-entry adapter; v087 is still a loaded fallback and an event-interception path, so defer removal until its live behavior is resolved.
+- [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
-- [ ] Verify these differences against actual saved-player flows and manually smoke-test v100 before considering legacy retirement.
+- [ ] Browser-smoke-test active v100 flows and confirm XP, level-up, token rewards, audio, and return-to-Ashmere.
 - Make progression/reward decisions come from one clearly owned service where feasible.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
 
