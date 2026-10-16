@@ -33,7 +33,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/player/player-creation-view-v094.js` | 133 lines | Name, choice, confirmation, and intro screen markup plus local DOM event binding | Own creation presentation; accept current selections and callbacks without reading/writing player saves |
 | `js/systems/player/player-record-v094.js` | Focused record builder | Starting identity, stats, inventory/equipment, quest log, memories, and storage normalization adapter | Keep player record assembly independent of UI rendering and pass catalogs/normalization explicitly |
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
-| `js/systems/town/ashmere-workboard-v099.js` | 151 | Job definitions, work board, timing/choice/sequence challenges, rewards and completion loop | Owns Work Board gameplay; player access, saving and progression are injected from town facade |
+| `js/systems/town/ashmere-workboard-v099.js` | 148 lines | Work Board rendering, timing/choice/sequence challenge lifecycle, event binding, and rewards | Own challenge execution and save/reward handling while taking job data from the catalog module |
+| `js/systems/town/ashmere-job-catalog-v099.js` | 28 lines | Ashmere and Greyfen job definitions, prompts, choice grades/feedback, reward values, sequence steps, and mode labels | Keep new jobs/region variants data-driven and separate from the challenge runner |
 | `js/systems/town/ashmere-commerce-v099.js` | 36 lines | Compatibility dispatcher for trader, crafting, and forge routes | Keep existing `LegendAshmereCommerceV099.render()` callers stable while services remain separate |
 | `js/systems/town/ashmere-market-v099.js` | 50 lines | Trading Post listings, buy/sell, and sell-all loot transactions | Own market stock/prices and inventory/gold changes through injected persistence helpers |
 | `js/systems/town/ashmere-crafting-v099.js` | 41 lines | Recipe list, ingredient display/checks, crafting transactions, and feedback | Own recipes and ingredient consumption; sibling navigation goes through the dispatcher callbacks |
@@ -101,6 +102,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere town | `window.LegendAshmereV099` |
 | Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
 | Ashmere commerce facade | `window.LegendAshmereCommerceV099.render(context, view, argument)` |
+| Ashmere Work Board catalog | `window.LegendAshmereJobCatalogV099.forRegion(regionId)` |
 | Ashmere market | `window.LegendAshmereMarketV099.render(context, tab)` |
 | Ashmere crafting | `window.LegendAshmereCraftingV099.render(context, feedback)` |
 | Ashmere forge | `window.LegendAshmereForgeV099.render(context, tab)`
