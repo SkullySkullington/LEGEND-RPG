@@ -21,8 +21,9 @@ The current `index.html` loads classic scripts in this order:
 11. `js/systems/beginning-v094.js`
 12. `js/systems/region-controller-v100.js`
 13. `js/systems/ashmere-controller-v099.js`
-14. `js/systems/road-controller-v100.js`
-15. `js/systems/scene-transitions-v120.js`
+14. `js/systems/road-audio-v100.js` — expedition sound effects and battle music adapter
+15. `js/systems/road-controller-v100.js` — expedition behavior using the audio adapter
+16. `js/systems/scene-transitions-v120.js`
 
 Do not reorder or remove scripts until references and runtime behavior have been verified. The presence of both road controller versions is a dependency-audit item, not proof that the older controller is safe to remove.
 
@@ -33,7 +34,8 @@ Do not reorder or remove scripts until references and runtime behavior have been
 - `js/core/runtime-v080.js`: runtime bridge, loading/saving players, and returning to Ashmere.
 - `js/systems/progression-v100.js`: XP awards, level thresholds, and HP gains on level-up.
 - `js/content/roads/old-road-v087.js`: road content including stages, checks, enemies, and finds.
-- `js/systems/road-controller-v100.js`: expedition flow and battle-related behavior; currently a large controller with inline rendering.
+- `js/systems/road-controller-v100.js`: expedition flow and battle-related behavior; currently a large controller with inline rendering. Audio delegates to `LegendRoadAudioV100` while the controller keeps its existing local call contract.
+- `js/systems/road-audio-v100.js`: extracted sound preference, UI tones, battle sound effects, and battle-music lifecycle.
 - `js/systems/ashmere-controller-v099.js`: town actions and inline rendering.
 - `js/systems/region-controller-v100.js`: region/town progression and travel behavior.
 - `js/game.js`: core game and scene behavior.
@@ -68,8 +70,9 @@ Do not reorder or remove scripts until references and runtime behavior have been
 - Add focused tests around each extracted path.
 
 ### Phase 4 — Rendering and audio
-- Move markup into shared render functions while preserving DOM contracts.
-- Centralize audio behind an adapter that retains existing toggles and playback behavior.
+- [x] Extract the Old Road audio behavior behind `LegendRoadAudioV100` while preserving the existing `legend-road-sound` preference and controller-facing calls.
+- [ ] Move markup into shared render functions while preserving DOM contracts.
+- [ ] Centralize remaining town/title audio behind adapters that retain existing toggles and playback behavior.
 
 ### Phase 5 — ES modules and cleanup
 - Move to named ES-module exports only after the app loading/build/deployment model is verified.
