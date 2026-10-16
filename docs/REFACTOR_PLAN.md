@@ -42,6 +42,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Ashmere/Greyfen home goal selection, destination cards, status, and footer navigation into `js/systems/town/ashmere-hub-v099.js`; keep `LegendAshmereV099.renderAshmere()` as the routed façade.
 - [x] Extract the Ashmere/Greyfen route-board cards and copy into `js/systems/town/ashmere-routes-v099.js`; keep route dispatch and public entry points in `LegendAshmereV099`.
+- [x] Extract town destination dispatch into `js/systems/town/ashmere-navigation-v099.js`; preserve `LegendAshmereV099.route()` and inject screen handlers through a route map.
 - [x] Extract the town shell, header/back controls, and UI audio bindings into `js/systems/town/ashmere-view-v099.js`; inject player, art, and route callbacks and preserve the existing markup/hooks.
 - [x] Split the Ashmere/Greyfen people directory from the NPC dialogue/evidence progression into `ashmere-people-v099.js` and `ashmere-npc-dialogue-v099.js`; retain the public people-module dispatcher and existing saved flags.
 - [x] Move town feature context assembly and feature-screen dispatch into `js/systems/town/ashmere-features-v099.js`; retain the existing `LegendAshmereV099.route()` contract.
@@ -65,7 +66,7 @@ Keep `LegendAshmereV099` as a compatibility façade while moving responsibilitie
 7. the Greyfen Dry Crossing mini-contract.
 
 Still to review:
-1. the route dispatcher and remaining shared helper surface; simplify the compatibility façade only after a caller inventory and focused flow coverage.
+1. the remaining shared helper surface and initialization hooks; simplify the compatibility façade only after a caller inventory and focused flow coverage.
 2. audit direct document/global event bindings in town services and keep navigation callbacks explicit.
 
 Pass shared dependencies through small context objects or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
