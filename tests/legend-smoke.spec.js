@@ -75,6 +75,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(indexSource).toContain('js/screens/title-screen-v120.js');
     expect(indexSource).toContain('js/content/roads/old-road-v100.js');
     expect(indexSource).toContain('js/systems/road-controller-v100.js');
+    expect(indexSource).toContain('js/systems/town/ashmere-hub-v099.js');
+    expect(indexSource.indexOf('js/systems/town/ashmere-hub-v099.js')).toBeLessThan(indexSource.indexOf('js/systems/ashmere-controller-v099.js'));
     expect(indexSource.indexOf('js/screens/title-screen-v120.js')).toBeLessThan(indexSource.indexOf('js/game.js'));
     expect(indexSource).not.toContain('js/core/runtime-v080.js');
     expect(indexSource).not.toContain('js/systems/road-controller-v087.js');
@@ -209,6 +211,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
   test('Ashmere hub avoids duplicate camp shortcuts and keeps destinations as the main focus', async ({ page }) => {
     await startFreshCharacter(page, 'AshmereLayoutQA');
+    expect(await page.evaluate(() => typeof window.LegendAshmereHubV099?.render)).toBe('function');
     await expect(page.locator('.ash100-town')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
     await expect(page.locator('.ash100-destination')).toHaveCount(7);
