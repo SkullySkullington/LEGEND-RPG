@@ -21,6 +21,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
 - `js/storage.js` focuses on player save/load/delete and stable facade methods; `js/storage/player-normalizer-v120.js` owns player defaults and normalization, and `js/storage/settings-storage-v120.js` owns device-local accessibility settings.
 - Traveler identity/pronoun and personality-bonus options are in `js/systems/player/player-creation-options-v094.js`, separate from flow and view logic.
+- `js/systems/player/player-creation-steps-v094.js` owns narrative step prompts and transforms class/origin/keepsake catalog records into choice data consumed by `LegendPlayerCreationViewV094`; `LegendBeginningV094` owns selection state and callback order.
 
 ## Refactor phases
 
@@ -38,6 +39,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract starting player record construction from the seven-step traveler-creation UI into `js/systems/player/player-record-v094.js`; preserve starting values and verify merged origin/keepsake inventory with a browser regression test.
 - [x] Extract traveler creation name/choice/confirmation/intro markup and DOM binding into `js/systems/player/player-creation-view-v094.js`; keep choice state, validation decisions, persistence, and navigation callbacks in `LegendBeginningV094`.
 - [x] Extract traveler gender/pronoun/personality options and starting personality bonuses into `js/systems/player/player-creation-options-v094.js`; keep choice state and flow in `LegendBeginningV094`.
+- [x] Extract the five selectable creation-step definitions and class/origin/keepsake choice-data mapping into `js/systems/player/player-creation-steps-v094.js`; preserve existing prompt copy and selection callback order.
 - [x] Separate device-local accessibility settings persistence into `js/storage/settings-storage-v120.js` while keeping `LegendStorage`'s public settings methods stable.
 - [x] Extract account/profile screen markup and DOM event binding into `js/systems/account/account-profile-view-v09x.js`; keep local profile persistence and async auth/cloud decisions in `LegendAccountV09x`.
 - [x] Extract the device-local account metadata key and profile snapshot/get/save/delete helpers into `js/systems/account/account-profile-store-v09x.js`; do not merge its key with the player-save key.
