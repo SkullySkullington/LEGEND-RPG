@@ -18,7 +18,6 @@ This is a working map of the production browser game. It is not a map of `protot
 | --- | ---: | --- | --- |
 | `js/systems/ashmere-controller-v099.js` | 398 | Town shell/routing and navigation façade; routes to focused town modules | Preserve its public façade and split/clarify remaining navigation and shared helpers |
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
-| `js/systems/road-controller-v087.js` | 31 very dense lines (~16 KB) | Legacy route, checks/finds, combat, rewards and XP | Trace current usage; do not remove until no active callers remain |
 | `js/core/runtime-v080.js` | 110 | Return-to-Ashmere bridge and fallback save code | Make storage ownership explicit; preserve legacy recovery and return behavior |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
 | `js/game.js` | 325 | Title screen, account/settings entry, credits and navigation | Keep it an entry/facade layer, not a dumping ground for feature systems |
@@ -34,12 +33,11 @@ This is a working map of the production browser game. It is not a map of `protot
 
 ## Road-controller overlap audit
 
-- `index.html` still loads both `js/systems/road-controller-v087.js` and `js/systems/road-controller-v100.js`.
-- The Ashmere `startRoad()` adapter prefers `LegendRoadControllerV100.start()` and falls back to `LegendRoadControllerV087.start()` if v100 is unavailable.
-- v087 also registers an `intercept()` callback with `LegendRuntimeV080.onRender()` (or a DOM-ready handler) that scans buttons for legacy labels and can replace their click handlers. This is an independent side effect to account for before removing the old script.
-- The v100 controller exports `start`, `renderHub`, and `renderExpedition`, and existing smoke-test source references v100 directly. No v087 removal or combat-balancing change is included in this refactor slice.
-- The two controllers are not behavior-equivalent: v087 stores state under `flags.roadV087`, keeps its own `xpUntil` countdown, and grants +22 max HP with a full heal on level-up. v100 stores state under `flags.roadExpeditionV100`, uses `LegendProgressionV100.award` (whose current level-up adds +8 max HP and heals +8), tracks `roadVictories`/`monstersDefeated`, and awards Road Tokens on different events. Treat these as gameplay compatibility differences, not duplicate code to delete blindly.
-- Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; sound preferences and effects are isolated in `js/systems/road/road-audio-v100.js`. The controller still owns expedition stage/pressure, encounter selection, road choices, and expedition completion.
+- `index.html` now loads only `js/content/roads/old-road-v100.js` and `js/systems/road-controller-v100.js` for road content and expedition flow.
+- `LegendRoadControllerV100` is the sole active road controller. The old v087 controller and its button-interception side effect have been removed from the production path and the source file is deleted.
+- Road content now exports `window.LegendRoadsV100`; the old `LegendRoadsV087` namespace is no longer used.
+- Active v100 state is `flags.roadExpeditionV100`, and XP/rewards come from `LegendProgressionV100.award` and the v100 expedition rules. The normalizer discards legacy `flags.roadV087`/`xpUntil` state rather than trying to translate it.
+- Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; sound preference and effects are isolated in `js/systems/road/road-audio-v100.js`.
 
 ## Runtime and storage call-site inventory
 
@@ -68,7 +66,6 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Region travel | `window.LegendRegionsV100` |
-| Legacy road path | `window.LegendRoadControllerV087` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
 | Account/profile | `window.LegendAccountV09x` |
@@ -78,10 +75,10 @@ These APIs are not necessarily ideal long-term boundaries; they are current comp
 
 ## Persistence contracts — do not casually rename
 
-The current, field-level compatibility map is maintained in `docs/SAVE_DATA_CONTRACT.md`. It captures current behavior and known gaps; it is not yet a strict schema validator.
+The current field-level contract is maintained in `docs/SAVE_DATA_CONTRACT.md`. Legacy-save import and the v087 controller are intentionally retired from the active path.
 
 - Active player save key: `legend-roads-of-ashmere-v09` (`LEGEND_DATA.SAVE_KEY`).
-- Historical player-save keys: `LEGEND_DATA.OLD_KEYS`, plus a separate legacy fallback list in `js/core/runtime-v080.js`.
+- Player persistence reads only `LEGEND_DATA.SAVE_KEY`; legacy recovered-build save keys are no longer imported.
 - Settings key: `legend-settings-v1`, owned by `js/storage.js`.
 - Road audio preference key: `legend-road-sound`, owned by `js/systems/road/road-audio-v100.js`.
 - Title-gate session key: `legend-roads-of-ashmere-title-gate-v09x`, used by the older optional title-gate flow.
