@@ -5,23 +5,6 @@ test.describe('LegendRoadStateV100 compatibility contract', () => {
     await page.goto('/');
   });
 
-  function stateService(page) {
-    return page.evaluate(() => {
-      const data = {
-        classes: { Warrior: { mod: { strength: 3 } } },
-        origins: { 'Lost Squire': { bonus: { strength: 1 } } },
-        keepsakes: { 'Rusty Charm': { bonus: { luck: 2 } } },
-        weapons: [{ id: 'ironSword', name: 'Iron Sword', min: 36, max: 82 }],
-        armors: [{ id: 'ironArmor', name: 'Iron Armor', defense: 68 }],
-        itemNames: { food: 'Food' }
-      };
-      return window.LegendRoadStateV100.create({
-        getData: () => data,
-        clamp: (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value))
-      });
-    });
-  }
-
   test('creates the existing expedition state shape and preserves its object identity', async ({ page }) => {
     const result = await page.evaluate(() => {
       const rules = window.LegendRoadStateV100.create({
