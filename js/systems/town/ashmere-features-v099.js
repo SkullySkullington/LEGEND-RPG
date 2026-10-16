@@ -41,8 +41,8 @@
     }
 
     function renderDryCrossing() {
-      const contracts = window.LegendAshmereContractsV099;
-      if (contracts?.render) return contracts.render(contractsContext(), 'crossing');
+      const crossing = window.LegendAshmereCrossingV099;
+      if (crossing?.render) return crossing.render(contractsContext());
       screen(head('Greyfen Contract', 'A Dry Crossing', 'The crossing module did not load.', locationInterior('archive'), 'route'),
         '<p>The crossing contract is unavailable. Return to town and refresh before trying again.</p>');
     }
