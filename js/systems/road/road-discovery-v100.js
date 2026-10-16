@@ -16,7 +16,9 @@
       getPointOfInterest,
       roadDecisions,
       renderExpedition,
-      tone
+      tone,
+      createPoiOutcomes,
+      createDiscoveryView
     } = context;
 
     if (typeof getPlayer !== 'function' || typeof savePlayer !== 'function' ||
@@ -33,7 +35,7 @@
     const esc = escapeHtml;
     const clamp = typeof clampValue === 'function' ? clampValue : (n, lo, hi) => Math.max(lo, Math.min(hi, n));
     let visibleDiscoveryStage = null;
-    const poiOutcomes = window.LegendRoadPoiOutcomesV100?.create({
+    const poiOutcomes = typeof createPoiOutcomes === 'function' ? createPoiOutcomes({
       getPlayer: p,
       savePlayer: save,
       ensureState: ensure,
@@ -44,8 +46,8 @@
       clearVisibleDiscovery: () => { visibleDiscoveryStage = null; },
       renderExpedition,
       tone
-    });
-    const discoveryView = window.LegendRoadDiscoveryViewV100?.create({ escapeHtml: esc, getPointOfInterest: pointOfInterest });
+    }) : null;
+    const discoveryView = typeof createDiscoveryView === 'function' ? createDiscoveryView({ escapeHtml: esc, getPointOfInterest: pointOfInterest }) : null;
 
 function pointOfInterest(stage){
  const contextual=typeof getPointOfInterest==='function'?getPointOfInterest(stage):null;
