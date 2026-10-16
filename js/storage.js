@@ -47,6 +47,9 @@ window.LegendStorage = (() => {
       routesDiscovered:p.stats.routesDiscovered || 0
     });
     p.flags = p.flags || {};
+    // Retired v087 road state and XP countdown are not part of the active v100 progression model.
+    delete p.flags.roadV087;
+    delete p.xpUntil;
     Object.assign(p.flags, {
       bellQuestStarted:!!p.flags.bellQuestStarted,
       bellRoadSearched:!!p.flags.bellRoadSearched,
@@ -108,11 +111,11 @@ window.LegendStorage = (() => {
 
   function savePlayer(player){ if(player) localStorage.setItem(D.SAVE_KEY, JSON.stringify(player)); }
   function loadPlayer(){
-    const raw = localStorage.getItem(D.SAVE_KEY) || D.OLD_KEYS.map(k => localStorage.getItem(k)).find(Boolean);
+    const raw = localStorage.getItem(D.SAVE_KEY);
     if(!raw) return null;
     try { return normalize(JSON.parse(raw)); } catch { return null; }
   }
-  function deleteSaves(){ [D.SAVE_KEY, ...D.OLD_KEYS].forEach(k => localStorage.removeItem(k)); }
+  function deleteSaves(){ localStorage.removeItem(D.SAVE_KEY); }
 
   function loadSettings(){
     try { return {...defaultSettings, ...(JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {})}; }
