@@ -9,6 +9,7 @@
       getPlayer, savePlayer, getAssets, getData, escapeHtml: esc, imageMarkup: img,
       background: bg, npcArt: npc, setBellQuestObjective, note, head, screen,
       locationInterior, renderTown, awardProgress, getProgressionStatus, gold, serviceArt, icon,
+      npcCatalog, npcStory, renderRegions,
       itemName, itemIcon, canAfford, owned, canCraft, needsMarkup,
       armorArt, weaponName, armorName, regionShopArt, hpPct
     } = context;
@@ -56,6 +57,9 @@
         imageMarkup: img,
         background: bg,
         npcArt: npc,
+        npcCatalog,
+        npcStory,
+        renderRegions,
         setBellQuestObjective,
         note,
         head,
