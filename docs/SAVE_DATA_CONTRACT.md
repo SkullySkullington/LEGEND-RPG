@@ -13,7 +13,7 @@ This documents the active production data path. Per the current project directio
 | Pending return to town | `js/core/runtime-v080.js` | session key `legend-v080-return-ashmere` |
 | Older optional title gate | `js/game.js` | session key `legend-roads-of-ashmere-title-gate-v09x` |
 
-`LegendStorage.loadPlayer()` reads only `LEGEND_DATA.SAVE_KEY`, parses that value, and calls `normalize()`. An absent or malformed active save returns `null`. Old `legend-recovered-build-v0*` keys are no longer imported. `LegendRuntimeV080` delegates player reads/writes to `LegendStorage` and no longer provides its own legacy key fallback.
+`LegendStorage.loadPlayer()` reads only `LEGEND_DATA.SAVE_KEY`, parses that value, and calls `normalize()`. An absent or malformed active save returns `null`. Old `legend-recovered-build-v0*` keys are no longer imported. `LegendRuntimeV120` delegates player reads/writes to `LegendStorage` and no longer provides its own legacy key fallback.
 
 ## Normalization behavior
 
@@ -58,7 +58,7 @@ The v087 road controller is retired from the active application. The v100 road c
 ## Refactor invariants
 
 1. Keep `LEGEND_DATA.SAVE_KEY`, settings/session keys, and the `legend-road-sound` preference unchanged during structural refactors.
-2. Keep `LegendStorage` as the sole player save/load/normalize owner; `LegendRuntimeV080` is a navigation/return facade only.
+2. Keep `LegendStorage` as the sole player save/load/normalize owner; `LegendRuntimeV120` is a navigation/return facade only.
 3. Preserve unknown fields and dynamically added keys when loading, normalizing, or saving.
 4. Do not rename flags, item IDs, region IDs, or equipment IDs without a dedicated migration plan.
 5. Before further changing normalization, add fixtures for the active save shape and verify new-game/continue/region travel/return-to-Ashmere behavior.
