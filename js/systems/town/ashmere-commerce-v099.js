@@ -108,7 +108,7 @@ function renderTrader(tab='buy'){
     }else{
       detail='<path d="M35 17 L37 38 M43 20 L42 42" stroke="'+v.dark+'" stroke-width="1.8" opacity=".55"/>';
     }
-    const name=((D().weapons||[])||[]).find(w=>w.id===id)?.name||'Weapon';
+    const name=(D().weapons||[]).find(w=>w.id===id)?.name||'Weapon';
     return '<span class="ash099-weapon-art ash099-weapon-art-'+esc(id)+'" role="img" aria-label="'+esc(name)+' illustration"><svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><path d="'+blade+'" fill="'+v.blade+'" stroke="'+v.dark+'" stroke-width="1.2"/><path d="M39 8 L40 49" fill="none" stroke="'+v.edge+'" stroke-width="1.5" opacity=".9"/>'+detail+'<path d="'+guard+'" fill="'+v.guard+'" stroke="'+v.dark+'" stroke-width="1.4"/><path d="M37 56 L43 56 L45 69 L40 73 L35 69 Z" fill="'+v.grip+'" stroke="'+v.dark+'" stroke-width="1.3"/><path d="M36 61 L43 61 M36 65 L44 65 M37 69 L42 69" stroke="'+v.edge+'" stroke-width="1.2" opacity=".7"/><circle cx="40" cy="74" r="3.5" fill="'+v.guard+'" stroke="'+v.dark+'" stroke-width="1.2"/></svg></span>';
   }
   function gearCard(x,kind){
