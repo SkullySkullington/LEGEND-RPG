@@ -62,19 +62,20 @@
     if(!path) return fallback;
     return '<span class="ash099-icon ash099-asset-icon" aria-hidden="true"><img src="'+esc(path)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"></span>';
   };
-  const AUDIO_CUE = { hover:'assets/audio/ui/ui_hover_soft.wav', confirm:'assets/audio/ui/ui_confirm_gate.wav' };
-  let lastHoverCue = 0;
-  function playUiCue(kind){ try { const audio = new Audio(AUDIO_CUE[kind]); audio.volume = kind==='hover' ? 0.10 : 0.18; audio.play().catch(()=>{}); } catch {} }
-  function bindUiAudio(){
-    const host=root(); if(!host)return;
-    host.querySelectorAll('button, a.btn, a.portal-secondary-btn').forEach(el=>{
-      if(el.dataset.legendAudioBound)return;
-      el.dataset.legendAudioBound='1';
-      el.addEventListener('pointerenter',()=>{const now=Date.now();if(now-lastHoverCue>110){lastHoverCue=now;playUiCue('hover');}});
-      el.addEventListener('click',()=>playUiCue('confirm'));
-    });
+  const townView = window.LegendAshmereViewV099?.create({
+    root,
+    getPlayer: p,
+    escapeHtml: esc,
+    imageMarkup: img,
+    icon,
+    renderTown: renderAshmere,
+    bindNavigation: bind
+  });
+  function shell(html){
+    if (townView?.shell) return townView.shell(html);
+    const host = root();
+    if (host) host.innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`;
   }
-  function shell(html){ root().innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`; bindUiAudio(); }
   function hpPct(pl){ return Math.max(0, Math.min(100, Math.round((Number(pl.hp || 0) / Math.max(1, Number(pl.maxHp || 1))) * 100))); }
   function owned(pl, k){ return Number(pl.inventory?.[k] || 0); }
 
@@ -135,9 +136,23 @@
     }
     return renderAshmere();
   }
-  function back(extra = ''){ const region=String(p()?.currentRegion||'Ashmere'); const label=region==='Greyfen'?'Back to Greyfen':'Back to Ashmere'; return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">${label}</button></div>`; }
-  function head(k,t,d,im='',fallbackIcon='quest'){ return `<div class="ash099-head ${im ? 'has-art' : 'no-art'}">${im ? img(im,t) : `<div class="ash099-head-icon">${icon(fallbackIcon)}</div>`}<div><div class="ash099-kicker">${esc(k)}</div><h1>${esc(t)}</h1><p>${esc(d)}</p></div></div>`; }
-  function screen(h,b,extra=''){ shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`); document.getElementById('ashBack').onclick = renderAshmere; bind(); }
+  function back(extra = ''){
+    if (townView?.back) return townView.back(extra);
+    const region=String(p()?.currentRegion||'Ashmere');
+    const label=region==='Greyfen'?'Back to Greyfen':'Back to Ashmere';
+    return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">${label}</button></div>`;
+  }
+  function head(k,t,d,im='',fallbackIcon='quest'){
+    if (townView?.head) return townView.head(k,t,d,im,fallbackIcon);
+    return `<div class="ash099-head ${im ? 'has-art' : 'no-art'}">${im ? img(im,t) : `<div class="ash099-head-icon">${icon(fallbackIcon)}</div>`}<div><div class="ash099-kicker">${esc(k)}</div><h1>${esc(t)}</h1><p>${esc(d)}</p></div></div>`;
+  }
+  function screen(h,b,extra=''){
+    if (townView?.screen) return townView.screen(h,b,extra);
+    shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`);
+    const backButton=document.getElementById('ashBack');
+    if(backButton)backButton.onclick=renderAshmere;
+    bind();
+  }
 
   function renderRoutes(){
     const greyfen=String(p()?.currentRegion||'Ashmere')==='Greyfen';
