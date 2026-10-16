@@ -5,12 +5,12 @@
 (() => {
  function create(context = {}) {
   const {getPlayer,savePlayer,ensureState,addInventory,clamp,setBellQuestObjective,
-    awardProgress,stopMusic,renderHeader,renderShell,escapeHtml,getRoot,returnToTown,returnToAshmere}=context;
+    awardProgress,stopMusic,renderHeader,renderShell,escapeHtml,returnToTown,returnToAshmere}=context;
   if(typeof getPlayer!=='function'||typeof savePlayer!=='function'||typeof ensureState!=='function'||
     typeof addInventory!=='function'||typeof clamp!=='function'||typeof setBellQuestObjective!=='function'||
     typeof awardProgress!=='function'||typeof stopMusic!=='function'||typeof renderHeader!=='function'||
-    typeof renderShell!=='function'||typeof escapeHtml!=='function'||typeof getRoot!=='function')return null;
-  const p=getPlayer,save=savePlayer,ensure=ensureState,inv=addInventory,esc=escapeHtml,ret=returnToAshmere,root=getRoot;
+    typeof renderShell!=='function'||typeof escapeHtml!=='function')return null;
+  const p=getPlayer,save=savePlayer,ensure=ensureState,inv=addInventory,esc=escapeHtml,ret=returnToAshmere;
   const header=renderHeader,shell=renderShell;
   const resultView=window.LegendRoadResultsViewV100?.create({
     renderHeader:header,
