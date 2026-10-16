@@ -8,7 +8,7 @@
     if (!context || typeof context.screen !== 'function' || !context.player) return;
     const {
       player: pl, assets, data, esc, itemIcon, itemName, weaponName, armorName,
-      armorArt, gold, hpPct, head, screen
+      armorArt, gold, hpPct, getProgressionStatus, head, screen
     } = context;
     const items = assets.items || {};
     const portrait = assets.classes?.[pl.className] || '';
@@ -22,9 +22,10 @@
         '<div class="ash099-inventory-item-copy"><strong>' + esc(itemName(key)) +
         '</strong><small>In your pack</small></div><b>×' + Number(value) + '</b></article>';
     }).join('') || '<p class="ash099-inventory-empty">Your pack is light. The road may change that.</p>';
-    const progression = window.LegendProgressionV100;
-    if (typeof progression?.status !== 'function') return;
-    const { level, xp, next, progressPercent } = progression.status(pl);
+    if (typeof getProgressionStatus !== 'function') return;
+    const status = getProgressionStatus(pl);
+    if (!status) return;
+    const { level, xp, next, progressPercent } = status;
     const weapon = (data.weapons || []).find(item => item.id === pl.weapon);
     const armor = (data.armors || []).find(item => item.id === pl.armor);
     const equipment = (label, name, detail, art) =>
