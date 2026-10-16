@@ -12,7 +12,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 26.7 KB / 398 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
 - `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 44.3 KB / 527 lines. It owns expedition scenes, road choices, points of interest, camping, quest decisions, and completion; combat/audio are extracted.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
-- `js/core/game-runtime-v120.js` now delegates all player persistence to `LegendStorage`; it remains only as the return/navigation bridge while a future pass can modernize its name.
+- `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
+- `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
 - `js/storage.js` normalizes the player record, but its data shape is implicit rather than described by a stable save contract.
 
@@ -27,6 +28,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Document the current player/save shape, active key, dynamic flags/stats, item/region IDs, and v100 progression contract in `docs/SAVE_DATA_CONTRACT.md`.
 - [x] Inventory current production callers of `LegendRuntimeV120` and direct `LegendStorage` users: title/bootstrap, traveler creation, account/profile, Ashmere/region screens, and the active v100 road controller.
 - [x] Complete the current persistence ownership pass: `LegendStorage` is the sole owner of player save/load; `LegendRuntimeV120` delegates to it and retains return/navigation only.
+- [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
 - [x] Extract trader, buy/sell, crafting recipes, equipment browsing, and purchase/equip behavior into `js/systems/town/ashmere-commerce-v099.js`; keep current routes and inject persistence/presentation helpers.
@@ -65,7 +67,8 @@ Pass shared dependencies through small context objects or explicit function argu
 - Avoid schema migration until a real compatibility bug is found and tested.
 
 ### 4. Reduce shared UI/runtime coupling
-- Create a small, explicit screen/navigation boundary used by the title, town, traveler creation, settings, and road screens.
+- [x] Introduce focused title and settings screen boundaries with navigation injected through `LegendGameBootstrap`.
+- Create a broader shared navigation contract only after town, traveler-creation, and road call sites have been fully mapped.
 - Replace broad document-wide event interception only when every affected caller is understood.
 - Keep scene-transition behavior and focus/keyboard interactions intact.
 - Extract shared safe HTML/formatting utilities only after the duplication and escaping rules are inventoried.
