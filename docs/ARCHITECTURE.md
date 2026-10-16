@@ -16,7 +16,7 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 502 | Town shell/routing, quest contracts, Greyfen crossing, plus routes to focused town modules | Preserve its public façade and split remaining responsibilities one at a time |
+| `js/systems/ashmere-controller-v099.js` | 411 | Town shell/routing and navigation façade; routes to focused town modules | Preserve its public façade and split/clarify remaining navigation and shared helpers |
 | `js/systems/road-controller-v100.js` | 654 | Expedition rendering, route and POI choices, camping, special quest decisions, encounters/combat, audio | Separate road flow from combat/rewards after caller and save-flag inventory |
 | `js/systems/road-controller-v087.js` | 31 very dense lines (~16 KB) | Legacy route, checks/finds, combat, rewards and XP | Trace current usage; do not remove until no active callers remain |
 | `js/core/runtime-v080.js` | 110 | Return-to-Ashmere bridge and fallback save code | Make storage ownership explicit; preserve legacy recovery and return behavior |
@@ -28,6 +28,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-commerce-v099.js` | 155 | Market transactions, crafting recipes, smithy gear listings, purchase/equip rules and related rendering | Cohesive commerce boundary; persistence, inventory helpers and town presentation are injected |
 | `js/systems/town/ashmere-people-v099.js` | 262 | Ashmere/Greyfen people lists, NPC dialogue, returning-traveler evidence text and token hand-in shortcut | Preserves dialogue, quest-flag branches, and journal updates with injected dependencies |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
+| `js/systems/town/ashmere-contracts-v099.js` | 137 | Side-contract definitions/counters, accept/turn-in handling, Greyfen Dry Crossing choices and rewards | Owns current contract/crossing logic; player/save/progression/navigation dependencies are injected |
 
 ## Critical runtime APIs
 
@@ -57,7 +58,7 @@ These APIs are not necessarily ideal long-term boundaries; they are current comp
 - Runtime return key: `legend-v080-return-ashmere`, owned by the runtime bridge.
 - The player record is JSON in local storage and is normalized in place by `LegendStorage`. Fields, nested flags, inventory IDs, region IDs, and old creation-version fields are consumed by multiple systems.
 
-The settings, records, workboard, commerce, people, and inn extractions do not change player-save schema, normalization, active/historical keys, or settings persistence. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module. These modules receive their required helpers through explicit context values.
+The settings, records, workboard, commerce, people, inn, and contracts/crossing extractions do not change player-save schema, normalization, active/historical keys, or settings persistence. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module; `renderSideContracts()` and `renderDryCrossing()` delegate to the contracts module. These modules receive their required helpers through explicit context values.
 
 ## Practical extraction strategy
 
