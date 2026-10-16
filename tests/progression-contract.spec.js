@@ -36,13 +36,13 @@ test.describe('LegendProgressionV100 compatibility contract', () => {
     expect(result.summary).toEqual({ gained: 300, levels: 2, level: 3, xp: 0, next: 300 });
   });
 
-  test('does not exceed max HP when a character levels up', async ({ page }) => {
+  test('increases both max HP and current HP by eight on level-up', async ({ page }) => {
     const result = await page.evaluate(() => {
       const player = { level: 1, xp: 99, hp: 100, maxHp: 100 };
       const summary = window.LegendProgressionV100.award(player, 1);
       return { player, summary };
     });
-    expect(result.player).toEqual({ level: 2, xp: 0, hp: 100, maxHp: 108 });
+    expect(result.player).toEqual({ level: 2, xp: 0, hp: 108, maxHp: 108 });
     expect(result.summary.levels).toBe(1);
   });
 
