@@ -136,6 +136,17 @@ The current field-level contract is maintained in `docs/SAVE_DATA_CONTRACT.md`. 
 
 The settings, records, workboard, commerce, people, inn, contracts/crossing, v100 combat, road-audio extractions, and removal of unused town helpers do not change player-save schema, normalization, active/historical player keys, or settings persistence. The existing `legend-road-sound` preference remains intact and is now owned by the road audio service. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module; `renderSideContracts()` and `renderDryCrossing()` delegate to the contracts module. These modules receive their required helpers through explicit context values.
 
+## Focused regression contracts
+
+The focused contract specs complement the larger journey tests:
+
+- `tests/progression-contract.spec.js` locks down XP thresholds, level-up HP changes, multiple level-ups, and invalid award inputs.
+- `tests/road-state-contract.spec.js` locks down the `roadExpeditionV100` state shape, stage/pressure normalization, additive bonuses, inventory changes, equipment lookups, and display fallbacks.
+- `tests/road-audio-contract.spec.js` locks down the existing sound preference, toggle semantics, battle asset paths/volumes, and music reuse behavior.
+- `.github/workflows/playwright.yml` should syntax-check every extracted road module and focused contract spec in addition to running `npm run test:e2e`.
+
+These are compatibility contracts, not a replacement for journey-level tests. When behavior changes intentionally, update the contract and the relevant player journey assertions together.
+
 ## Practical extraction strategy
 
 1. Maintain existing public `window.Legend...` facades until all call sites have migrated.
@@ -143,7 +154,7 @@ The settings, records, workboard, commerce, people, inn, contracts/crossing, v10
 3. Inventory v087/v100 road calls and saved flags before consolidating the road system. Treat reward/XP/combat differences as gameplay behavior, not just duplicate code.
 4. Keep `LegendStorage` as the only persistence owner; bridge code should request load/save through its API rather than invent another save path.
 5. Introduce a small shared navigation contract after the screen paths are mapped. Avoid a second competing router or another document-wide event interceptor.
-6. Run focused static checks and manually smoke-test every touched journey; Playwright debugging is out of scope for this pass.
+6. Run focused contract specs and the full Playwright suite, then manually smoke-test every touched journey. Keep live-deployment validation separate from PR-local results.
 
 ## Rules
 
