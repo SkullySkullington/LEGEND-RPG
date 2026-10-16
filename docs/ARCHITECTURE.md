@@ -11,6 +11,7 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
 - `js/storage.js` publishes `window.LegendStorage` and owns player save/load/delete, while preserving the stable `baseSkills()` and `normalize()` facade methods. The field defaults and normalizing rules live in `js/storage/player-normalizer-v120.js`; device-local settings persistence lives in `js/storage/settings-storage-v120.js`.
 - `js/screens/title-screen-view-v120.js` owns the main title menu markup and established CSS/accessibility hooks.
+- `js/screens/title-extras-v120.js` owns the optional gate transition and accessible credits dialog; `LegendTitleScreenV120` keeps wrapper methods for both screens.
 - `js/screens/title-screen-v120.js` owns title state preparation, transition feedback, optional gate screen and credits; navigation actions are injected.
 - `js/systems/title-audio-v120.js` owns title ambience, menu hover/focus cues, confirmation sounds, and first-interaction audio unlock.
 - `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
@@ -37,7 +38,8 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 | `js/storage.js` | 33 lines | Player save/load/delete plus stable `LegendStorage` facade methods | Keep persistence ownership and public API names stable |
 | `js/storage/player-normalizer-v120.js` | 122 lines | Player-record defaults, retired-field cleanup, and preservation of current unknown data | Own normalization rules separately from storage I/O and expose them through `LegendStorage.normalize()` |
 | `js/storage/settings-storage-v120.js` | 55 lines | `legend-settings-v1`, default accessibility options, and UI class application | Own device-local settings persistence separately from player-record normalization |
-| `js/screens/title-screen-v120.js` | 120 | Menu state preparation, transitions, gate flow, credits and action binding | Keep navigation callback ownership here; delegate main menu markup and audio to focused services |
+| `js/screens/title-screen-v120.js` | 87 | Active menu state preparation, transition notice, and action binding | Keep navigation callbacks here; delegate menu markup, audio, gate and credits to focused services |
+| `js/screens/title-extras-v120.js` | 64 | Optional title gate interaction and accessible credits dialog | Own auxiliary title screens; receive title-render and audio callbacks via `create()` |
 | `js/screens/title-screen-view-v120.js` | 67 | Main title menu markup, traveler line, menu buttons, and footer | Keep presentation/CSS hooks pure; receive already-prepared display state through `render()` |
 | `js/systems/title-audio-v120.js` | 55 | Title ambience, hover/focus cues, confirmation effects, audio unlock | Keep audio lifecycle outside menu markup behind a small service API |
 | `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
@@ -118,6 +120,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Bell road evidence | `window.LegendBellRoadEvidenceV120.create()` |
 | Title presentation | `window.LegendTitleScreenV120` |
 | Title menu view | `window.LegendTitleScreenViewV120.render()` |
+| Title extras | `window.LegendTitleExtrasV120.create()` |
 | Title audio | `window.LegendTitleAudioV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
