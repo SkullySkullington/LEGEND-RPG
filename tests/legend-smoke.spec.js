@@ -356,6 +356,77 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.ash099-screen')).toContainText('cannot be claimed again');
   });
 
+  test('Dry Crossing risky route penalizes a miss and allows a rewarded retry', async ({ page }) => {
+    await startFreshCharacter(page, 'RiskyCrossingQA');
+    const before = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const pl = rt.loadPlayer();
+      pl.currentRegion = 'Greyfen';
+      pl.discoveredRegions = ['Ashmere', 'Greyfen'];
+      pl.inventory = pl.inventory || {};
+      pl.inventory.roadToken = 5;
+      pl.inventory.roadHerb = 0;
+      pl.gold = 40;
+      pl.hp = 50;
+      rt.savePlayer(pl);
+      window.LegendAshmereV099.renderAshmere();
+      return {
+        hp: Number(pl.hp),
+        gold: Number(pl.gold),
+        herbs: Number(pl.inventory.roadHerb || 0)
+      };
+    });
+
+    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
+    await expect(page.getByRole('heading', { name: 'A Dry Crossing' })).toBeVisible();
+    await page.evaluate(() => { Math.random = () => 0.9; });
+    await page.locator('[data-crossing-choice="reeds"]').click();
+    await expect(page.getByRole('heading', { name: 'The reeds turn you back' })).toBeVisible();
+
+    const miss = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      return {
+        hp: Number(pl.hp),
+        gold: Number(pl.gold),
+        herbs: Number(pl.inventory.roadHerb || 0),
+        attempts: Number(pl.flags.greyfenCrossingAttempts || 0),
+        complete: Boolean(pl.flags.greyfenDryCrossingComplete),
+        memories: pl.memories || []
+      };
+    });
+    expect(miss.hp).toBe(before.hp - 5);
+    expect(miss.gold).toBe(before.gold);
+    expect(miss.herbs).toBe(before.herbs);
+    expect(miss.attempts).toBe(1);
+    expect(miss.complete).toBe(false);
+    expect(miss.memories.some(memory => /reed bed turned you back from Greyfen/i.test(memory))).toBe(true);
+    await expect(page.locator('.ash099-screen')).toContainText('You may try again');
+
+    await page.locator('#ashBack').click();
+    await page.locator('.ash100-destination[data-ash-view="crossing"]').click();
+    await page.evaluate(() => { Math.random = () => 0.1; });
+    await page.locator('[data-crossing-choice="reeds"]').click();
+    await expect(page.getByRole('heading', { name: 'The shortcut pays off' })).toBeVisible();
+
+    const success = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      return {
+        hp: Number(pl.hp),
+        gold: Number(pl.gold),
+        herbs: Number(pl.inventory.roadHerb || 0),
+        attempts: Number(pl.flags.greyfenCrossingAttempts || 0),
+        complete: Boolean(pl.flags.greyfenDryCrossingComplete),
+        memories: pl.memories || []
+      };
+    });
+    expect(success.hp).toBe(miss.hp);
+    expect(success.gold).toBe(before.gold + 65);
+    expect(success.herbs).toBe(before.herbs + 2);
+    expect(success.attempts).toBe(2);
+    expect(success.complete).toBe(true);
+    expect(success.memories.some(memory => /recovered Greyfen.*through the reed bed/i.test(memory))).toBe(true);
+  });
+
   test('Continue Journey returns to the saved playable region', async ({ page }) => {
     await startFreshCharacter(page, 'RegionResumeQA');
     await page.evaluate(() => {
