@@ -8,9 +8,10 @@ This is a working map of the production browser game. It is not a map of `protot
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
 - `js/storage.js` publishes `window.LegendStorage` and owns player normalization, save/load/delete, and settings persistence. See `docs/SAVE_DATA_CONTRACT.md` for the current field map, keys, normalization behavior, and compatibility guardrails.
-- `js/game.js` renders the title and owns entry/navigation adapters, settings entry, and credits. It publishes `window.LegendGameBootstrap`.
-- Feature systems are separate files but often have broad responsibilities and call each other via `window` APIs.
-- The current settings extraction on draft PR #17 adds `js/screens/settings-screen-v090.js`. It is a small boundary exercise only and is not deployed.
+- `js/screens/title-screen-v120.js` owns the active title menu, title ambience/UI cues, transition notice, optional gate screen, and credits dialog. Navigation actions are injected.
+- `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
+- `js/screens/settings-screen-v090.js` owns settings presentation and its control binding. Persistence remains in `js/storage.js`.
+- Feature systems use classic browser scripts and shared `window` namespaces; injection objects provide the dependencies between extracted screens.
 
 ## Confirmed hot spots
 
@@ -20,7 +21,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
-| `js/game.js` | 325 | Title screen, account/settings entry, credits and navigation | Keep it an entry/facade layer, not a dumping ground for feature systems |
+| `js/screens/title-screen-v120.js` | 168 | Active title menu markup, title audio, transition notice and credits | Keep presentation and local title interactions separate from navigation/player-state owners |
+| `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
 | `js/systems/beginning-v094.js` | 47 dense lines (~13 KB) | Multi-step traveler creation and creation-time player record construction | Later extract data construction/validation from step rendering without changing the flow
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 151 | Job definitions, work board, timing/choice/sequence challenges, rewards and completion loop | Owns Work Board gameplay; player access, saving and progression are injected from town facade |
@@ -62,6 +64,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Player/settings storage | `window.LegendStorage` |
 | Legacy runtime bridge | `window.LegendRuntimeV120` |
 | Progression helper | `window.LegendProgressionV100` |
+| Title presentation | `window.LegendTitleScreenV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere town | `window.LegendAshmereV099` |
