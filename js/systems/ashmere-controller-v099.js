@@ -79,25 +79,31 @@
     const host = root();
     if (host) host.innerHTML = '<main class="ash099 ash099-terminal"><div class="ash099-wrap"><section class="ash099-screen"><h1>Ashmere is unavailable</h1><p>The town hub did not load. Refresh before continuing.</p></section></div></main>';
   }
+  function feature(name, ...args){
+    const render = townFeatures?.[name];
+    if (typeof render === 'function') return render(...args);
+    screen(head('Town Systems', 'Town Screen Unavailable', 'The feature router did not load. Refresh before continuing.', bg(), 'notice'),
+      '<p>This town screen is unavailable. Return to the title and refresh before retrying.</p>');
+  }
   function bind(){ document.querySelectorAll('[data-ash-view]').forEach(b => b.onclick = () => route(b.dataset.ashView)); }
   function route(v){
     if(v === 'home') return renderAshmere();
-    if(v === 'people') return renderPeople();
-    if(v === 'mara' || v === 'brenn' || v === 'oric') return renderNPC(v);
-    if(v === 'inn') return renderInn();
-    if(v === 'trader') return renderTrader();
-    if(v === 'smith') return renderSmith();
-    if(v === 'work') return renderWorkBoard();
-    if(v === 'crossing') return renderDryCrossing();
-    if(v === 'craft') return renderCrafting();
-    if(v === 'sheet') return renderSheet();
-    if(v === 'archive') return renderArchive();
+    if(v === 'people') return feature('renderPeople');
+    if(v === 'mara' || v === 'brenn' || v === 'oric') return feature('renderNPC', v);
+    if(v === 'inn') return feature('renderInn');
+    if(v === 'trader') return feature('renderTrader');
+    if(v === 'smith') return feature('renderSmith');
+    if(v === 'work') return feature('renderWorkBoard');
+    if(v === 'crossing') return feature('renderDryCrossing');
+    if(v === 'craft') return feature('renderCrafting');
+    if(v === 'sheet') return feature('renderSheet');
+    if(v === 'archive') return feature('renderArchive');
     if(v === 'profile') {
       if(window.LegendAccountV09x?.renderAccount) return window.LegendAccountV09x.renderAccount();
       return renderAshmere();
     }
     if(v === 'routes') return renderRoutes();
-    if(v === 'quests') return renderSideContracts();
+    if(v === 'quests') return feature('renderSideContracts');
     if(v === 'road') return startRoad();
     if(v === 'regions') {
       if(window.LegendRegionsV100?.render) return window.LegendRegionsV100.render();
@@ -131,190 +137,37 @@
       </div>`);
   }
 
-  function contractsContext(){
-    return {
-      getPlayer: p,
-      savePlayer: save,
-      escapeHtml: esc,
-      itemName,
-      head,
-      screen,
-      locationInterior,
-      renderTown: renderAshmere,
-      awardProgress: (player, amount) => window.LegendProgressionV100?.award(player, amount)
-    };
-  }
-
-  function renderSideContracts(message=''){
-    const contracts = window.LegendAshmereContractsV099;
-    if (contracts?.render) return contracts.render(contractsContext(), 'contracts', message);
-    screen(head('Journal & Notices', 'Side Stories & Road Contracts', 'The contracts module did not load.', locationInterior('archive'), 'quest'),
-      '<p>Contracts are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderDryCrossing(){
-    const contracts = window.LegendAshmereContractsV099;
-    if (contracts?.render) return contracts.render(contractsContext(), 'crossing');
-    screen(head('Greyfen Contract', 'A Dry Crossing', 'The crossing module did not load.', locationInterior('archive'), 'route'),
-      '<p>The crossing contract is unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function peopleContext(){
-    return {
-      getPlayer: p,
-      savePlayer: save,
-      getAssets: A,
-      escapeHtml: esc,
-      imageMarkup: img,
-      background: bg,
-      npcArt: npc,
-      setBellQuestObjective,
-      note,
-      head,
-      screen
-    };
-  }
-
-  function renderPeople(){
-    const people = window.LegendAshmerePeopleV099;
-    if (people?.render) return people.render(peopleContext(), 'people');
-    screen(head('Town Square', 'People of Ashmere', 'The people module did not load.', bg(), 'people'),
-      '<p>Town characters are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderNPC(id){
-    const people = window.LegendAshmerePeopleV099;
-    if (people?.render) return people.render(peopleContext(), 'npc', id);
-    screen(head('Town Square', 'Town Character', 'The people module did not load.', bg(), 'people'),
-      '<p>Dialogue is unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderInn(){
-    const inn = window.LegendAshmereInnV099;
-    if (inn?.render) {
-      return inn.render({
-        getPlayer: p,
-        savePlayer: save,
-        locationInterior,
-        head,
-        screen,
-        escapeHtml: esc,
-        gold,
-        serviceArt,
-        icon,
-        note
-      });
-    }
-    screen(head('Inn & Lodging', 'The Inn', 'The inn module did not load.', locationInterior('inn'), 'inn'),
-      '<p>Inn services are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderWorkBoard(){
-    const workBoard = window.LegendAshmereWorkV099;
-    if (workBoard?.render) {
-      return workBoard.render({
-        getPlayer: p,
-        savePlayer: save,
-        screen,
-        head,
-        locationInterior,
-        esc,
-        gold,
-        itemName,
-        awardProgress: (player, amount) => window.LegendProgressionV100?.award(player, amount)
-      });
-    }
-    screen(head('Local Work', 'Work Board', 'The work board module did not load.', locationInterior('archive'), 'work'),
-      '<p>Local jobs are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function commerceContext(){
-    return {
-      getPlayer: p,
-      savePlayer: save,
-      getAssets: A,
-      getData: D,
-      itemIcon,
-      itemName,
-      gold,
-      locationInterior,
-      head,
-      screen,
-      esc,
-      icon,
-      canAfford,
-      owned,
-      note,
-      canCraft,
-      needsMarkup,
-      armorArt,
-      weaponName,
-      armorName,
-      regionShopArt
-    };
-  }
-
-  function renderTrader(tab='buy'){
-    const commerce = window.LegendAshmereCommerceV099;
-    if (commerce?.render) return commerce.render(commerceContext(), 'trader', tab);
-    screen(head('Market', 'Trading Post', 'The commerce module did not load.', locationInterior('market'), 'trader'),
-      '<p>Trading is unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderCrafting(feedback=''){
-    const commerce = window.LegendAshmereCommerceV099;
-    if (commerce?.render) return commerce.render(commerceContext(), 'crafting', feedback);
-    screen(head('Crafting', 'Crafting Bench', 'The crafting module did not load.', locationInterior('forge'), 'craft'),
-      '<p>Crafting is unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderSmith(tab='weapon'){
-    const commerce = window.LegendAshmereCommerceV099;
-    if (commerce?.render) return commerce.render(commerceContext(), 'smith', tab);
-    screen(head('Workshop', 'The Blacksmith', 'The equipment module did not load.', locationInterior('forge'), 'smith'),
-      '<p>Equipment services are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderSheet(){
-    const records = window.LegendAshmereRecordsV099;
-    if (records?.renderSheet) {
-      return records.renderSheet({
-        player: p(),
-        assets: A(),
-        data: D(),
-        esc,
-        itemIcon,
-        itemName,
-        weaponName,
-        armorName,
-        armorArt,
-        gold,
-        hpPct,
-        head,
-        screen
-      });
-    }
-    screen(head('Traveler', 'Traveler', 'The traveler records module did not load.', '', 'profile'),
-      '<p>Traveler records are unavailable. Return to town and refresh before trying again.</p>');
-  }
-
-  function renderArchive(){
-    const records = window.LegendAshmereRecordsV099;
-    if (records?.renderArchive) {
-      const pl = p();
-      return records.renderArchive({
-        player: pl,
-        currentRegion: pl?.currentRegion || 'Ashmere',
-        locationInterior,
-        esc,
-        head,
-        screen
-      });
-    }
-    screen(head('Records', 'Archive Hall', 'The archive module did not load.', '', 'archive'),
-      '<p>The journal is unavailable. Return to town and refresh before trying again.</p>');
-  }
-
+  const townFeatures = window.LegendAshmereFeaturesV099?.create({
+    getPlayer: p,
+    savePlayer: save,
+    getAssets: A,
+    getData: D,
+    escapeHtml: esc,
+    imageMarkup: img,
+    background: bg,
+    npcArt: npc,
+    setBellQuestObjective,
+    note,
+    head,
+    screen,
+    locationInterior,
+    renderTown: renderAshmere,
+    awardProgress: (player, amount) => window.LegendProgressionV100?.award(player, amount),
+    gold,
+    serviceArt,
+    icon,
+    itemName,
+    itemIcon,
+    canAfford,
+    owned,
+    canCraft,
+    needsMarkup,
+    armorArt,
+    weaponName,
+    armorName,
+    regionShopArt,
+    hpPct
+  }) || {};
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();screen(head('Town Gate','Old Road','The expedition system could not load.',roadBg(),'road'),'<p>Return to the title and refresh before trying again.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
   window.LegendAshmereV099={renderAshmere,route};
