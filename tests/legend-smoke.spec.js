@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
 const runtimeSource = fs.readFileSync(path.join(__dirname, '../js/core/game-runtime-v120.js'), 'utf8');
+const indexSource = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
 if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
 const version = versionMatch[1];
@@ -66,6 +67,16 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(runtimeSource).not.toContain('LegendTownControllerV080');
     expect(runtimeSource).not.toContain('legend-v080-return-ashmere');
     expect(runtimeSource).toContain('legend-awakening-return-to-town-v1');
+  });
+
+  test('active script graph excludes retired runtime and road assets', () => {
+    expect(indexSource).toContain('js/core/game-runtime-v120.js');
+    expect(indexSource).toContain('js/content/roads/old-road-v100.js');
+    expect(indexSource).toContain('js/systems/road-controller-v100.js');
+    expect(indexSource).not.toContain('js/core/runtime-v080.js');
+    expect(indexSource).not.toContain('js/systems/road-controller-v087.js');
+    expect(indexSource).not.toContain('js/content/roads/old-road-v087.js');
+    expect(indexSource).not.toContain('css/road-v087.css');
   });
 
   test('recovered-build saves are not imported by the current loader', async ({ page }) => {
