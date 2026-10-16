@@ -15,7 +15,7 @@
     const setBellQuestObjective = context.setBellQuestObjective;
     const head = context.head;
     const screen = context.screen;
-    const npcCatalog = window.LegendAshmereNpcCatalogV099?.create({ npcArt: npc });
+    const npcCatalog = context.npcCatalog;
 
   function renderNPC(id){
     const pl=p(); if(!pl)return;
@@ -29,7 +29,7 @@
           text: 'The dialogue catalog did not load. Refresh before continuing.',
           lines: ['Town dialogue is temporarily unavailable.']
         };
-    const story = window.LegendAshmereNpcStoryV099;
+    const story = context.npcStory;
     if (typeof story?.apply === 'function') {
       story.apply(pl, id, greyfen, n, setBellQuestObjective);
     } else {
@@ -41,8 +41,7 @@
     screen(head(n.role,n.name,n.text,n.art,id),'<div class="ash099-lines">'+n.lines.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>',extra);
     const turn=document.getElementById('turnTokens');
     if(turn) turn.onclick=()=>{
-      const regionLedger=window.LegendRegionsV100;
-      if(typeof regionLedger?.render==='function')return regionLedger.render();
+      if (typeof context.renderRegions === 'function') return context.renderRegions();
       return renderNPC('brenn');
     };
   }
