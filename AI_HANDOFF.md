@@ -52,7 +52,7 @@ Working RPG core includes title/character creation, Ashmere hub and NPC dialogue
 Important files:
 - `index.html`: page shell, stylesheet/script loading, cache-busting query strings.
 - `js/game.js`: bootstrap; `js/data.js`: game data; `js/storage.js`: persistence.
-- `js/core/runtime-v080.js`: current runtime bridge for return/navigation; player persistence is owned only by `LegendStorage`.
+- `js/core/game-runtime-v120.js`: current runtime bridge for return/navigation; player persistence is owned only by `LegendStorage`.
 - `js/systems/beginning-v094.js`: character creation/entry.
 - `js/systems/ashmere-controller-v099.js`: Ashmere/Greyfen hub, NPCs, jobs, market, Forge, crafting, profile/sheet routes.
 - `js/systems/road-controller-v100.js`: current Old Road expedition flow.
