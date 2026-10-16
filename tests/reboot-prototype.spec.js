@@ -12,7 +12,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page).toHaveTitle(/LEGEND: The Awakening — Reboot Prototype/);
     await expect(page.locator('#title-panel')).toBeVisible();
     await expect(page.locator('h1')).toHaveText('LEGEND');
-    await expect(page.locator('.subtitle')).toHaveText('The Unquiet Road');
+    await expect(page.locator('.subtitle')).toHaveText('The Awakening');
     await expect(page.locator('#beginButton')).toBeVisible();
     await expect(page.locator('#combatButton')).toBeVisible();
     await expect(page.locator('#runeButton')).toBeVisible();
