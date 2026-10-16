@@ -138,6 +138,9 @@ That means:
 - `js/systems/road-controller-v100.js` — current Old Road expedition layer
 - `js/content/roads/old-road-v100.js` — active Old Road content data
 - `js/systems/account-v09x.js` — account/profile/cloud-save UI
+- `docs/ARCHITECTURE.md` — current production module map and script-order contracts
+- `docs/SAVE_DATA_CONTRACT.md` — player fields, IDs, and persistence rules
+- `docs/ADDING_FEATURES.md` — where new features belong and how to wire them without growing the facades
 - `supabase/traveler-slots.sql` — cloud traveler slot schema
 - `playtest.html` — QA and manual playtest runner
 - `docs/LEGEND_GAME_REBOOT_PLAN.md` — reboot proposal for magic, skills, combat, cinematic presentation, engine choice, and acceptance criteria
