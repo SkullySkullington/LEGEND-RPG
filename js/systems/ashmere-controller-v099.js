@@ -131,6 +131,7 @@
     locationInterior,
     renderTown: renderAshmere,
     awardProgress: (player, amount) => window.LegendProgressionV100?.award(player, amount),
+    getProgressionStatus: player => window.LegendProgressionV100?.status(player),
     gold,
     serviceArt,
     icon,
