@@ -20,10 +20,11 @@ The current `index.html` loads classic scripts in this order:
 10. `js/systems/road-controller-v087.js` (legacy controller)
 11. `js/systems/beginning-v094.js`
 12. `js/systems/region-controller-v100.js`
-13. `js/systems/ashmere-controller-v099.js`
-14. `js/systems/road-audio-v100.js` — expedition sound effects and battle music adapter
-15. `js/systems/road-controller-v100.js` — expedition behavior using the audio adapter
-16. `js/systems/scene-transitions-v120.js`
+13. `js/systems/town-audio-v100.js` — Ashmere hover/confirm audio adapter
+14. `js/systems/ashmere-controller-v099.js` — town controller using the town audio adapter
+15. `js/systems/road-audio-v100.js` — expedition sound effects and battle music adapter
+16. `js/systems/road-controller-v100.js` — expedition behavior using the road audio adapter
+17. `js/systems/scene-transitions-v120.js`
 
 Do not reorder or remove scripts until references and runtime behavior have been verified. The presence of both road controller versions is a dependency-audit item, not proof that the older controller is safe to remove.
 
