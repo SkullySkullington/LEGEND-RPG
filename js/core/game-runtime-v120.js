@@ -42,11 +42,6 @@
       sessionStorage.removeItem(RETURN_KEY);
       return true;
     }
-    if(window.LegendTownControllerV080?.renderTown){
-      window.LegendTownControllerV080.renderTown('ashmere');
-      sessionStorage.removeItem(RETURN_KEY);
-      return true;
-    }
     return false;
   }
 
