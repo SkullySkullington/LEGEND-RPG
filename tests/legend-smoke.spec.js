@@ -1075,6 +1075,111 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   });
 
 
+  test('using a Healing Potion consumes one potion and applies the displayed recovery', async ({ page }) => {
+    await startFreshCharacter(page, 'PotionCombatQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.hp = Math.max(1, Math.floor(Number(pl.maxHp || 100) * 0.55));
+      pl.inventory = pl.inventory || {};
+      pl.inventory.potion = 1;
+      pl.flags = pl.flags || {};
+      pl.flags.roadExpeditionV100 = {
+        ...(pl.flags.roadExpeditionV100 || {}),
+        stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
+      };
+      rt.savePlayer(pl);
+    });
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-combat')).toBeVisible();
+
+    const before = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { hp: Number(pl.hp), maxHp: Number(pl.maxHp), potions: Number(pl.inventory?.potion || 0) };
+    });
+    expect(before.potions).toBe(1);
+    await expect(page.locator('#item')).toBeEnabled();
+    await page.locator('#item').click();
+
+    const log = await page.locator('.rpg-dialogue p').innerText();
+    const healedMatch = log.match(/recover (\d+) HP/);
+    const damageMatch = log.match(/hits you for (\d+) damage/);
+    expect(log).toContain('Healing Potion');
+    expect(healedMatch, 'Battle log must state the actual healing amount').not.toBeNull();
+    expect(damageMatch, 'Battle log must state the enemy counterattack amount').not.toBeNull();
+
+    const healed = Number(healedMatch[1]);
+    const incoming = Number(damageMatch[1]);
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { hp: Number(pl.hp), potions: Number(pl.inventory?.potion || 0) };
+    });
+    const expectedAfterAction = before.hp + healed - incoming;
+    expect(healed).toBe(Math.min(before.maxHp - before.hp, Math.max(1, Math.ceil(before.maxHp * 0.3))));
+    expect(after.hp).toBe(expectedAfterAction <= 0 ? 1 : expectedAfterAction);
+    expect(after.potions).toBe(0);
+  });
+
+  test('combat defeat ends the expedition, preserves the traveler, and awards no victory loot', async ({ page }) => {
+    await startFreshCharacter(page, 'CombatDefeatQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.hp = 1;
+      pl.flags = pl.flags || {};
+      pl.flags.roadExpeditionV100 = {
+        ...(pl.flags.roadExpeditionV100 || {}),
+        stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
+      };
+      rt.savePlayer(pl);
+    });
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-combat')).toBeVisible();
+
+    const before = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      const road = pl.flags?.roadExpeditionV100 || {};
+      return {
+        pressure: Number(road.pressure || 0),
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        gold: Number(pl.gold || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    await page.locator('#strike').click();
+    await expect(page.locator('.exp100-outcome')).toBeVisible();
+    await expect(page.locator('.exp100-outcome')).toContainText('Driven Back');
+    await expect(page.locator('.exp100-outcome')).toContainText('badly wounded');
+
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      const road = pl.flags?.roadExpeditionV100 || {};
+      return {
+        hp: Number(pl.hp),
+        pressure: Number(road.pressure || 0),
+        stage: Number(road.stage || 0),
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        gold: Number(pl.gold || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    expect(after.hp).toBe(1);
+    expect(after.stage).toBe(0);
+    expect(after.pressure).toBe(Math.min(100, before.pressure + 12));
+    expect(after.victories).toBe(before.victories);
+    expect(after.defeated).toBe(before.defeated);
+    expect(after.gold).toBe(before.gold);
+    expect(after.inventory).toEqual(before.inventory);
+
+    await page.locator('#outcomeReturn').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.LegendRuntimeV080.loadPlayer().hp)).toBe(1);
+  });
+
   test('winning a road battle changes progression and persists the victory reward', async ({ page }) => {
     await startFreshCharacter(page, 'CombatOutcomeQA');
     const before = await page.evaluate(() => {
