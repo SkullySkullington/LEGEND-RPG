@@ -41,7 +41,7 @@ This is the working inventory of critical coverage, not a claim that every row i
 | Inventory/equipment | gain, consume, buy, sell, equip, unequip and resource accounting | Market buy/sell and weapon purchase/equip transactions asserted; consumables and unequip remain |
 | Crafting/workshops | valid and invalid recipes, materials consumed, outputs granted | Exact Road Poultice ingredient/output accounting and insufficient-ingredient disabling passed in workflow #1343; broader recipe/save coverage remains |
 | Saves/continue | reload, continue, region/quest/inventory state survives | Existing continue/contract persistence coverage; draft PR #24 adds full page reload checks for loadout, inventory, journal and progression (expanded CI pending) |
-| Errors/assets | uncaught exceptions, failed first-party assets, missing registered assets | Partial; introduce shared error/asset assertions carefully |
+| Errors/assets | uncaught exceptions, failed first-party assets, missing registered assets | Draft PR #24 adds a shared uncaught-page-error assertion to all production smoke regressions (workflow #1399 pending); failed-request/asset monitoring remains partial |
 | Responsive/accessibility | overflow, reachable touch controls, dialog focus and keyboard close | Existing smoke checks; expand key gameplay screens |
 | Browser compatibility | critical journeys in Chromium, Firefox and WebKit | Default matrix is intentionally reduced; schedule/run full matrix |
 | Live deployment | published version/assets match expected release; core journeys work | Separate gated workflow; verify latest run status |
