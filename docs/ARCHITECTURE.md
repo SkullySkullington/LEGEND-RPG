@@ -17,7 +17,7 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | About 300 lines | Town route façade, context assembly, and navigation dispatch | Preserve public routes while reviewing remaining helpers and ownership |
+| `js/systems/ashmere-controller-v099.js` | 323 lines | Town route façade, feature-context assembly, and navigation dispatch | Preserve public routes while reducing remaining context boilerplate |
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
