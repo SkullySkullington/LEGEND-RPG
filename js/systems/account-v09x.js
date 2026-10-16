@@ -1,39 +1,14 @@
 // LEGEND: Roads of Ashmere v0.9.x - Account / Profile Screen
 (() => {
-  const PROFILE_KEY = 'legend-roads-of-ashmere-profile-v09x';
   const root = () => document.getElementById('root');
   const S = () => window.LegendStorage || {};
-  const esc = s => String(s == null ? '' : s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const esc = s => String(s == null ? '' : s).replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const local = () => S().loadPlayer?.() || null;
-
-  function getProfile(){
-    try { return JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); }
-    catch { return null; }
-  }
-
-  function saveProfile(profile){
-    localStorage.setItem(PROFILE_KEY, JSON.stringify({
-      ...profile,
-      version: 'v0.9.x',
-      updatedAt: new Date().toISOString()
-    }));
-  }
-
-  function deleteProfile(){ localStorage.removeItem(PROFILE_KEY); }
-
-  function snapshotTraveler(pl){
-    if(!pl) return null;
-    return {
-      username: pl.username || 'Unnamed Traveler',
-      className: pl.className || pl.class || 'Traveler',
-      town: pl.town || 'Ashmere',
-      day: pl.day || 1,
-      roadTokens: Number(pl.inventory?.roadToken || 0),
-      oldRoadClears: Number(pl.stats?.oldRoadClears || 0),
-      monstersDefeated: Number(pl.stats?.monstersDefeated || 0),
-      updatedAt: new Date().toISOString()
-    };
-  }
+  const profileStore = window.LegendAccountProfileStoreV09x?.create({ loadLocalPlayer: local });
+  const getProfile = profileStore?.getProfile || (() => null);
+  const saveProfile = profileStore?.saveProfile || (() => {});
+  const deleteProfile = profileStore?.deleteProfile || (() => {});
+  const snapshotTraveler = profileStore?.snapshotTraveler || (() => null);
 
   const cloudService=window.LegendAccountCloudV09x?.create({
     getClient:client,
