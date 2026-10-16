@@ -36,9 +36,9 @@ Greyfen's own authority, **the Landing Warden**, was squeezed by caravan merchan
 
 ### L4 — The traveler is an echo, but not an ordinary one (locked 2026-10-16)
 
-The traveler is an echo left by the Last Mercy and does not know it. The game does not say so early. Small signs build up (the bell that rang once, the dead lantern, people who recognize the traveler too well) and the truth lands late. Unlike ordinary echoes, the traveler is different: they have their own abilities or nature.
+The traveler is an echo left by the Last Mercy and does not know it. The game does not say so early. Small signs build up (the bell that rang once, the dead lantern, people who recognize the traveler too well) and the truth lands late. Unlike ordinary echoes, the traveler is different: **the Veil touched them before the Last Mercy could finish making them, and that contact is why they are the way they are.**
 
-- **Still open (owner says the "different" part is up for debate):** how exactly the traveler differs from ordinary echoes (abilities, limits, and why); whose echo the traveler is (a particular dead person, or something new); whether the player's chosen origin is the echo's inherited memory or stays true to the player; whether the game ever states it outright or leaves lasting doubt; what the late choice is and how it changes the ending; how the bell and the dead lantern fit.
+- **Still open:** what the Veil's touch actually did (abilities, limits, what the traveler can become); whose echo the traveler is (a particular dead person, or something new); whether the player's chosen origin is the echo's inherited memory or stays true to the player; whether the game ever states it outright or leaves lasting doubt; what the late choice is and how it changes the ending; how the bell and the dead lantern fit.
 - **Hidden knowledge:** until the owner approves a reveal plan, no NPC, journal text or UI should state or imply this, and nothing in the existing game should contradict it.
 - **Conflict flag:** `docs/ASHMERE_STORY_SPINE.md` says to keep the traveler's prior life flexible and not require every origin to be false. L4 may override that, depending on how the origin question is settled. The owner decides.
 
@@ -68,7 +68,7 @@ These are facts players can already see. Changing one means updating the game, i
 
 ## Open questions, in the order we will settle them
 
-1. How does the traveler differ from ordinary echoes: abilities, limits, and why? (Next up.)
+1. What did the Veil's touch do to the traveler: abilities, limits, and what can they become? (Next up. A combined draft was proposed on 2026-10-16 and awaits the owner's decision.)
 2. Is the player's chosen origin the echo's inherited memory, or does it stay true to the player? (See the conflict flag under L4.)
 3. The Hollow Saint: what does it want, how does it act, and when is it revealed?
 4. The late choice: when the traveler learns what they are, what can the player decide, and how does it shape the ending?
@@ -82,3 +82,4 @@ These are facts players can already see. Changing one means updating the game, i
 - 2026-10-16: File created. L1 and L2 locked by the owner in conversation with Claude.
 - 2026-10-16: L3 locked (the Landing Warden reopened the crossing). "Who ordered it" removed from the open questions.
 - 2026-10-16: L4 locked (the traveler is an echo, but not an ordinary one). "What is the traveler" removed from the open questions; its details added as new ones.
+- 2026-10-16: L4 amended by the owner: the traveler was touched by the Veil before the Last Mercy could finish, which is why they differ.
