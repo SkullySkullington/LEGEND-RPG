@@ -69,10 +69,10 @@
   function renderOrigin(){renderCreationStep('origin',{next:renderClass,back:renderPersonality,rerender:renderOrigin});}
   function renderClass(){renderCreationStep('class',{next:renderKeepsake,back:renderOrigin,rerender:renderClass});}
   function renderKeepsake(){renderCreationStep('keepsake',{next:renderConfirm,back:renderClass,rerender:renderKeepsake});}
-@@STEP_TO_REPLACE@@
-@@STEP_TO_REPLACE@@
-@@STEP_TO_REPLACE@@
-@@STEP_TO_REPLACE@@
+
+
+
+
   function renderConfirm(){
     const view=window.LegendPlayerCreationViewV094;
     if(typeof view?.renderConfirmation!=='function')return creationViewUnavailable();
