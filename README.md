@@ -136,7 +136,7 @@ That means:
 - `js/game.js` — current game bootstrap / portal flow
 - `js/systems/ashmere-controller-v099.js` — Ashmere town controller
 - `js/systems/road-controller-v100.js` — current Old Road expedition layer
-- `js/content/roads/old-road-v087.js` — Old Road content data
+- `js/content/roads/old-road-v100.js` — active Old Road content data
 - `js/systems/account-v09x.js` — account/profile/cloud-save UI
 - `supabase/traveler-slots.sql` — cloud traveler slot schema
 - `playtest.html` — QA and manual playtest runner
@@ -145,9 +145,7 @@ That means:
 
 ## Development Philosophy
 
-The repository contains historical and compatibility files from earlier development phases. Some legacy save keys and systems must remain so existing travelers can migrate safely.
-
-Those compatibility details are **not the current game identity**.
+Historical source files may remain as archive material, but the active application runs only the current v100 road controller and current save key. Legacy recovered-build saves and the v087 road state are not imported.
 
 For active development:
 
