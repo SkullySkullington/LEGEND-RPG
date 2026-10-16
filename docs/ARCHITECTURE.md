@@ -41,6 +41,21 @@ This is a working map of the production browser game. It is not a map of `protot
 - The two controllers are not behavior-equivalent: v087 stores state under `flags.roadV087`, keeps its own `xpUntil` countdown, and grants +22 max HP with a full heal on level-up. v100 stores state under `flags.roadExpeditionV100`, uses `LegendProgressionV100.award` (whose current level-up adds +8 max HP and heals +8), tracks `roadVictories`/`monstersDefeated`, and awards Road Tokens on different events. Treat these as gameplay compatibility differences, not duplicate code to delete blindly.
 - Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; sound preferences and effects are isolated in `js/systems/road/road-audio-v100.js`. The controller still owns expedition stage/pressure, encounter selection, road choices, and expedition completion.
 
+## Runtime and storage call-site inventory
+
+| Caller | Current dependency | Why the bridge must be preserved for now |
+| --- | --- | --- |
+| `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
+| `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; runtime return fallback | Creates and normalizes new player records, then marks the intro complete and enters the town. |
+| `js/systems/account-v09x.js` | Direct `LegendStorage` load/save, including returned traveler data | Profile/account flows depend on the existing player object and storage normalization behavior. |
+| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV080.loadPlayer/savePlayer/onRender` | Town screens read/write player state; the render hook restores the town shell when necessary. |
+| `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
+| `js/systems/road-controller-v087.js` | Runtime load/save/return and `onRender` | Owns legacy road state and installs a global render interceptor for old road button labels. |
+| `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
+| `js/core/runtime-v080.js` | Delegates to storage when available; hard-coded legacy fallback otherwise | Also owns pending-return session state, title continue-click fallback, mutation-observer hooks, and return-to-town recovery. |
+
+The static caller inventory is complete enough to guide the next review, but it is not yet proof that every fallback is unnecessary. In particular, `onRender()` installs a `MutationObserver` and calls pending-return logic; both road controllers can register it, and v087 changes click handlers when it recognizes legacy labels. Do not remove or make this hook one-shot until the title, traveler creation, town, expedition, combat, and return flows have been smoke-tested.
+
 ## Critical runtime APIs
 
 | Boundary | Current public API / role |
