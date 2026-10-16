@@ -45,7 +45,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-crafting-v099.js` | 41 lines | Recipe list, ingredient display/checks, crafting transactions, and feedback | Own recipes and ingredient consumption; sibling navigation goes through the dispatcher callbacks |
 | `js/systems/town/ashmere-forge-v099.js` | 107 lines | Weapon/armor listings, weapon illustrations, equipment comparisons, purchase/equip rules | Own gear state changes; crafting-tab navigation goes through the dispatcher callbacks |
 | `js/systems/town/ashmere-people-v099.js` | 66 lines | Ashmere/Greyfen people directory and character-card rendering | Keep directory list and character route selection separate from dialogue/evidence behavior |
-| `js/systems/town/ashmere-npc-dialogue-v099.js` | 248 lines | NPC dialogue, Greyfen evidence investigation branches, quest flags/memories/objective updates, token-ledger shortcut | Own dialogue progression and evidence interactions with player/screen helpers injected |
+| `js/systems/town/ashmere-npc-catalog-v099.js` | 98 lines | Baseline Ashmere/Greyfen character names, roles, descriptions, opening lines, and art keys | Keep baseline narrative copy independent of quest-state branches and DOM rendering |\n| `js/systems/town/ashmere-npc-dialogue-v099.js` | About 220 lines | State-driven dialogue variants, Greyfen evidence investigation flags/memories/objective updates, token-ledger shortcut, and screen rendering | Own story progression; request baseline copy from the NPC catalog and use injected persistence/view helpers |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
 | `js/systems/town/ashmere-contracts-v099.js` | 84 lines | Side-contract definitions/counters, accept/turn-in rules, rewards, and journal updates | Own side-contract logic; player/save/progression/view dependencies are injected |
 | `js/systems/town/ashmere-crossing-v099.js` | 73 lines | Greyfen Dry Crossing choices, safe/risky outcomes, retry cost, health toll, and marker rewards | Own the mini-contract flow separately from side-contract progress; receive town state/save/screen callbacks |
@@ -111,7 +111,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere shared view shell | `window.LegendAshmereViewV099.create()` |
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
-| Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
+| Ashmere NPC text catalog | `window.LegendAshmereNpcCatalogV099.create().get(region, id)` |\n| Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
 | Ashmere commerce facade | `window.LegendAshmereCommerceV099.render(context, view, argument)` |
 | Ashmere Work Board catalog | `window.LegendAshmereJobCatalogV099.forRegion(regionId)` |
 | Ashmere market | `window.LegendAshmereMarketV099.render(context, tab)` |
