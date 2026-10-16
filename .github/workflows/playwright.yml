@@ -55,6 +55,7 @@ jobs:
           node --check js/screens/title-screen-v120.js
           node --check js/game.js
           node --check js/content/roads/old-road-v100.js
+          node --check js/systems/player/player-record-v094.js
           node --check js/systems/beginning-v094.js
           node --check js/systems/region-controller-v100.js
           node --check js/systems/town/ashmere-records-v099.js
