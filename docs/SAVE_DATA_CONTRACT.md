@@ -53,7 +53,7 @@ This is a field map, not an exhaustive schema. Existing saves can contain fields
 
 ## XP and road-controller compatibility warning
 
-The v087 road controller is retired from the active application. The v100 road controller is the sole supported path and uses `flags.roadExpeditionV100` with `LegendProgressionV100.award()`. That helper advances from `xp` with a level-scaled threshold, increases max HP by 8, and heals by 8. Current road counters include `roadVictories`, `monstersDefeated`, and `oldRoadClears`. New travelers no longer receive `xpUntil`, and normalization discards `xpUntil` and `flags.roadV087` if those fields exist in a current-key record.
+The v087 road controller is retired from the active application. The v100 road controller is the sole supported path and uses `flags.roadExpeditionV100` with `LegendProgressionV100.award()`. That method owns the level-scaled XP threshold, level-up mutation, +8 max-HP increase, and +8 current-HP recovery per level. `LegendProgressionV100.status(player)` is the read-only source for current level, XP, next threshold, and profile-bar percentage; it does not mutate the player. Current road counters include `roadVictories`, `monstersDefeated`, and `oldRoadClears`. New travelers no longer receive `xpUntil`, and normalization discards `xpUntil` and `flags.roadV087` if those fields exist in a current-key record.
 
 ## Refactor invariants
 
