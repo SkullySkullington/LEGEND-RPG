@@ -38,7 +38,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-people-v099.js` | 66 lines | Ashmere/Greyfen people directory and character-card rendering | Keep directory list and character route selection separate from dialogue/evidence behavior |
 | `js/systems/town/ashmere-npc-dialogue-v099.js` | 248 lines | NPC dialogue, Greyfen evidence investigation branches, quest flags/memories/objective updates, token-ledger shortcut | Own dialogue progression and evidence interactions with player/screen helpers injected |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
-| `js/systems/town/ashmere-contracts-v099.js` | 137 | Side-contract definitions/counters, accept/turn-in handling, Greyfen Dry Crossing choices and rewards | Owns current contract/crossing logic; player/save/progression/navigation dependencies are injected |
+| `js/systems/town/ashmere-contracts-v099.js` | 84 lines | Side-contract definitions/counters, accept/turn-in rules, rewards, and journal updates | Own side-contract logic; player/save/progression/view dependencies are injected |
+| `js/systems/town/ashmere-crossing-v099.js` | 73 lines | Greyfen Dry Crossing choices, safe/risky outcomes, retry cost, health toll, and marker rewards | Own the mini-contract flow separately from side-contract progress; receive town state/save/screen callbacks |
 | `js/systems/road/road-discovery-v100.js` | 224 lines | Points of interest, route choices, evidence flags, moved-cairn decisions, discovery rewards, and journal updates | Own discovery/story consequences through injected state, save, and render adapters |
 | `js/systems/road/road-state-v100.js` | 49 lines | Canonical expedition flag initialization/clamping, player stat modifiers, item/equipment lookup, inventory addition, and Bell quest objective update | Reuse this API for future road systems instead of duplicating saved-state rules |
 | `js/systems/road/road-view-v100.js` | 132 lines | Scene rendering, DOM-preserving shell updates, sound toggle, hotspot event delegation, and expedition header markup | Own presentation/input mechanics; injected callbacks route gameplay actions to their state owners |
@@ -96,6 +97,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
+| Greyfen Dry Crossing | `window.LegendAshmereCrossingV099.render()` |
 | Region travel | `window.LegendRegionsV100` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
