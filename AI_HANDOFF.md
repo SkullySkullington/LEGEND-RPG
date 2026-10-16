@@ -46,16 +46,17 @@ Existing documents were updated with prominent direction notes: `docs/LEGEND_WOR
 - **Longer-term packaging:** keep the browser game as the source of truth until the first slice is stable and enjoyable. Then decide between desktop-app packaging and an engine port based on actual platform requirements; do not migrate engines during stabilization.
 
 ## Current game overview
+The active path does not import legacy recovered-build saves or v087 road state. New travelers use the v100 XP/progression system and the single active player-save key.
 Working RPG core includes title/character creation, Ashmere hub and NPC dialogue, Work Board jobs, trading/equipment/crafting, five-stage Old Road expeditions, meaningful exploration choices/discoveries, resting/field crafting, turn-based combat with class abilities/cooldowns, rewards, XP/leveling, and regional travel. Previous live playtesting found no horizontal overflow at 390×844 and no expedition event text/art overlap in checked scenes.
 
 Important files:
 - `index.html`: page shell, stylesheet/script loading, cache-busting query strings.
 - `js/game.js`: bootstrap; `js/data.js`: game data; `js/storage.js`: persistence.
-- `js/core/runtime-v080.js`: runtime bridge, save access, return-to-town handling.
+- `js/core/runtime-v080.js`: current runtime bridge for return/navigation; player persistence is owned only by `LegendStorage`.
 - `js/systems/beginning-v094.js`: character creation/entry.
 - `js/systems/ashmere-controller-v099.js`: Ashmere/Greyfen hub, NPCs, jobs, market, Forge, crafting, profile/sheet routes.
 - `js/systems/road-controller-v100.js`: current Old Road expedition flow.
-- `js/systems/road-controller-v087.js` and `js/content/roads/old-road-v087.js`: older/underlying road systems; inspect dependencies before edits.
+- `js/systems/road/road-combat-v100.js` and `js/systems/road/road-audio-v100.js`: current combat and audio modules. The v087 controller/data files are retired from the active project; road content is now `js/content/roads/old-road-v100.js`.
 - `js/systems/progression-v100.js`: XP and levels.
 - `js/systems/region-controller-v100.js`: regional unlocks/travel.
 - Relevant styles include `css/road-expedition-v100.css`, `css/ashmere-town-v100.css`, `css/ashmere-workshops-v100.css`, `css/title-cinematic-v120.css`.
