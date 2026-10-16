@@ -47,7 +47,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-contracts-v099.js` | 84 lines | Side-contract definitions/counters, accept/turn-in rules, rewards, and journal updates | Own side-contract logic; player/save/progression/view dependencies are injected |
 | `js/systems/town/ashmere-crossing-v099.js` | 73 lines | Greyfen Dry Crossing choices, safe/risky outcomes, retry cost, health toll, and marker rewards | Own the mini-contract flow separately from side-contract progress; receive town state/save/screen callbacks |
 | `js/systems/road/road-discovery-v100.js` | 224 lines | Points of interest, route choices, evidence flags, moved-cairn decisions, discovery rewards, and journal updates | Own discovery/story consequences through injected state, save, and render adapters |
-| `js/systems/road/road-state-v100.js` | 49 lines | Canonical expedition flag initialization/clamping, player stat modifiers, item/equipment lookup, inventory addition, and Bell quest objective update | Reuse this API for future road systems instead of duplicating saved-state rules |
+| `js/systems/road/road-state-v100.js` | 49 lines | Canonical expedition flag initialization/clamping, player stat modifiers, item/equipment lookup, and inventory addition | Reuse this API for future road systems instead of duplicating saved-state rules; Bell objective mutation is centralized in `LegendQuestLogV120` |
 | `js/systems/road/road-view-v100.js` | 132 lines | Scene rendering, DOM-preserving shell updates, sound toggle, hotspot event delegation, and expedition header markup | Own presentation/input mechanics; injected callbacks route gameplay actions to their state owners |
 | `js/systems/road/road-actions-v100.js` | 96 lines | Travel/search resolution, pressure, skill checks, finds, and encounter selection | Own the effectful road action layer through injected save/state/render/combat services |
 | `js/systems/road/road-results-v100.js` | 68 lines | Expedition reward/XP/token settlement, first-return story report, and outcome screen | Own settlement/reward decisions through injected persistence, progression, view, and town-return adapters |
@@ -92,6 +92,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Device-local settings store | `window.LegendSettingsStorageV120.create()` |
 | Legacy runtime bridge | `window.LegendRuntimeV120` |
 | Progression helper | `window.LegendProgressionV100` |
+| Quest-log mutation helpers | `window.LegendQuestLogV120` |
 | Title presentation | `window.LegendTitleScreenV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
