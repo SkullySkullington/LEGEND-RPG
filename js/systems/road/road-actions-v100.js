@@ -18,7 +18,8 @@
       itemName,
       skillLabel,
       renderExpedition,
-      combat
+      combat,
+      getAreaForStage
     } = context;
     if (typeof getPlayer !== 'function' || typeof savePlayer !== 'function' ||
         typeof ensureState !== 'function' || typeof getRoadData !== 'function' ||
@@ -26,9 +27,10 @@
         typeof pick !== 'function' || typeof randomInt !== 'function' ||
         typeof clampValue !== 'function' || typeof itemName !== 'function' ||
         typeof skillLabel !== 'function' || typeof renderExpedition !== 'function' ||
-        typeof combat !== 'function') return null;
+        typeof combat !== 'function' || typeof getAreaForStage !== 'function') return null;
     const p=getPlayer, save=savePlayer, ensure=ensureState, road=getRoadData;
     const score=getScore, inv=addInventory, rand=randomInt, clamp=clampValue;
+    const areaForStage=getAreaForStage;
 function resolveChoice(kind){
  const pl=p();if(!pl)return;const s=ensure(pl),stageBefore=s.stage,area=areaForStage(stageBefore);
  s.events=Number(s.events||0)+1;
