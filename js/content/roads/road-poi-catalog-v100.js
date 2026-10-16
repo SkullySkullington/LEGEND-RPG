@@ -1,6 +1,6 @@
 /* LEGEND v0.20.36 - contextual Old Road points-of-interest catalog.
  * Owns narrative point selection when route choice or player evidence changes which
- * clue should appear. Rendering and investigation rewards stay in road-discovery.
+ * clue should appear. Panels live in road-discovery-view; effects live in road-poi-outcomes.
  */
 (() => {
   function create(context = {}) {
