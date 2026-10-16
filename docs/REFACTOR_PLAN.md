@@ -90,7 +90,8 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Extract the Blackroot/Greyfen Bell evidence flag/memory/objective chain into `js/systems/quests/bell-road-evidence-v120.js`; the road discovery service now receives the quest evidence recorder through its context.
 - [x] Extract Old Road scene markup, DOM-preserving shell, sound toggle, hotspot delegation, and expedition header into `js/systems/road/road-view-v100.js`; keep gameplay mutations injected.
 - [x] Extract travel/search choices, pressure changes, skill checks, find rewards, and encounter selection into `js/systems/road/road-actions-v100.js`; keep rendering and combat behind injected callbacks.
-- [x] Extract expedition reward/XP/token settlement, first-return reporting, and outcome/return flow into `js/systems/road/road-results-v100.js`; preserve current progression and quest fields.
+- [x] Keep reward/XP/token settlement and first-return reporting in `js/systems/road/road-results-v100.js`; preserve current progression and quest fields.
+- [x] Extract outcome markup and Return-button binding into `js/systems/road/road-results-view-v100.js`; keep return policy injected from the road controller.
 - [x] Move expedition-stage panel composition and camp/search/travel input binding into `js/systems/road/road-expedition-screen-v100.js`; preserve public `renderExpedition()` as a facade delegate.
 - [x] Centralize v100 expedition state defaults, score/equipment rules, inventory increments, display labels, and Bell quest objective updates in `js/systems/road/road-state-v100.js`.
 - [x] Move reusable Old Road stage descriptions and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; retain route/state-dependent clue variants in the controller.
