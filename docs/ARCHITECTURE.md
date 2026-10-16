@@ -20,7 +20,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/ashmere-controller-v099.js` | 175 lines | Town route façade, shared feature contexts, and runtime initialization | Keep public routes stable and delegate home, route-board, and feature screens to focused modules |
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
-| `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |\n| `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
+| `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |
+| `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
 | `js/systems/road-controller-v100.js` | 139 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
@@ -60,7 +61,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | --- | --- | --- |
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
 | `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; `LegendPlayerRecordV094` builder; runtime return fallback | Collects traveler choices, saves the builder-created record, then marks the intro complete and enters the town. |
-| `js/systems/account-v09x.js` | 181 lines | Account/profile screen composition, local profile metadata, traveler summary, and cloud-slot orchestration | Keep as the public account facade; delegate auth and cloud APIs to focused services |
+| `js/systems/account-v09x.js` | 139 lines | Profile metadata, async auth/cloud orchestration, local profile writes, and bootstrap callbacks | Keep the public account API; delegate screen markup/binding, auth, and cloud-slot CRUD |
+| `js/systems/account/account-profile-view-v09x.js` | 120 lines | Profile screen markup and local DOM event binding for traveler and cloud slots | Own account/profile presentation; invoke injected callbacks for navigation, profile updates, and cloud-slot intent |
 | `js/systems/account/cloud-traveler-slots-v09x.js` | 88 lines | Supabase cloud traveler slot list/save/load/delete, readiness checks, and slot error handling | Own cloud-slot CRUD and keep the account UI from embedding remote persistence rules |
 | `js/systems/account/account-auth-v09x.js` | 189 lines | Supabase session/sign-in/sign-up/sign-out logic, auth panel markup, and auth form interactions | Own auth UI/service boundary, receive storage/profile and Supabase adapters through factory context |
 | `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
@@ -95,6 +97,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
 | Account/profile | `window.LegendAccountV09x` |
+| Account/profile view | `window.LegendAccountProfileViewV09x.create()` |
 | Scene transition click delegation | `window.__legendSceneTransitionsV120` and document-level handlers |
 
 These APIs are not necessarily ideal long-term boundaries; they are current compatibility points. Inspect the complete call graph before changing them.
