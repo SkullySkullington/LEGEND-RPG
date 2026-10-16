@@ -5,6 +5,19 @@ const { readGameVersion, openTitle, startFreshCharacter } = require('./helpers/g
 const version = readGameVersion();
 
 test.describe(`LEGEND v${version} browser regression tests`, () => {
+  const uncaughtErrors = new WeakMap();
+
+  test.beforeEach(async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    uncaughtErrors.set(page, errors);
+  });
+
+  test.afterEach(async ({ page }) => {
+    const errors = uncaughtErrors.get(page) || [];
+    expect(errors, 'Uncaught browser exceptions: ' + errors.join(' | ')).toEqual([]);
+  });
+
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect.poll(() => page.title()).toContain(`v${version}`);
