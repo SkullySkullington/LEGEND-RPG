@@ -3,8 +3,8 @@
  * the established first-return flags. Does not save, mutate flags, or render UI.
  */
 (() => {
-  function apply(player, id, dialogue) {
-    if (!player || !dialogue || !player.flags?.firstRoadReturnSeen) return false;
+  function apply(player, id, greyfen, dialogue) {
+    if (greyfen || !player || !dialogue || !player.flags?.firstRoadReturnSeen) return false;
     const pl = player;
     const n = dialogue;
     if(!greyfen&&pl.flags?.firstRoadReturnSeen){
