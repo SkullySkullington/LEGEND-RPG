@@ -27,6 +27,13 @@ The crossing records were altered because of trade pressure: **someone with auth
 
 - **Still open:** who did it; why the crossing was still unsafe; how the closure order went missing; what the player can do about it; whether the danger itself has a supernatural cause.
 
+### L3 — The Landing Warden reopened the crossing (locked 2026-10-16)
+
+Greyfen's own authority, **the Landing Warden**, was squeezed by caravan merchants after the flood and reopened the lower crossing early. The OPEN went in unsigned because she meant to re-inspect within days and did not want her name on an order saying the crossing was safe. The newer cut toward the reed bed marks the risky shortcut she made official. She is a sympathetic wrong-doer, not a villain, and how the player treats her is the player's choice.
+
+- **Still open:** whether she ever re-inspected; whether anyone was hurt; how the player finds proof and what happens when they confront her; what the game does with the player's choice; her name (the compendium proposes "Yara Fen," which is not approved).
+- **Consistency note:** in the existing "A Dry Crossing" contract the Landing Warden discloses the reed-bed shortcut's risk openly. Anything written for her must stay consistent with that contract, or update the contract and its test together.
+
 ## Approved direction (approved by the owner 2026-10-15, as recorded in `AI_HANDOFF.md`)
 
 - **Monster Wars & the Awakening:** a fantasy RPG about monster incursions, returning magic and regional conflict, with a deeper mystery behind it. Details: `docs/LEGEND_FANTASY_RPG_DIRECTION.md`.
@@ -53,14 +60,14 @@ These are facts players can already see. Changing one means updating the game, i
 
 ## Open questions, in the order we will settle them
 
-1. Who ordered the lower crossing reopened? (Next up.)
-2. Why was the crossing still unsafe: flood damage, or something else?
-3. What is the traveler? The game opens with an amnesiac traveler under a dead lantern, and the Last Mercy leaves echoes that imitate people. Are the two connected?
-4. The Hollow Saint: what does it want, how does it act, and when is it revealed?
-5. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
-6. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
-7. What crisis does the player solve by the end of the first game?
+1. What is the traveler? The game opens with an amnesiac traveler under a dead lantern, and the Last Mercy leaves echoes that imitate people. Are the two connected? (Next up.)
+2. The Hollow Saint: what does it want, how does it act, and when is it revealed?
+3. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
+4. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
+5. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
+6. What crisis does the player solve by the end of the first game?
 
 ## Change log
 
 - 2026-10-16: File created. L1 and L2 locked by the owner in conversation with Claude.
+- 2026-10-16: L3 locked (the Landing Warden reopened the crossing). "Who ordered it" removed from the open questions.
