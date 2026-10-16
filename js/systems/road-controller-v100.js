@@ -7,6 +7,7 @@ const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, clamp=(n,a,b)=>Math.max(a
 const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
 const roadRules=window.LegendRoadStateV100.create({getData:()=>window.LEGEND_DATA||{},clamp});
 const {addInventory:inv,setBellQuestObjective,ensure,score,weapon,armor,hpPercent:hpPct,itemName,skillLabel}=roadRules;
+const bellRoadEvidence=window.LegendBellRoadEvidenceV120?.create({setBellQuestObjective});
 
 
 
@@ -20,7 +21,7 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  addInventory:inv,
  escapeHtml:esc,
  clamp,
- setBellQuestObjective,
+ bellRoadEvidence,
  renderExpedition,
  tone
 });
