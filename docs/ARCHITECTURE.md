@@ -10,6 +10,7 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
 - `js/storage.js` publishes `window.LegendStorage` and owns player save/load/delete, while preserving the stable `baseSkills()` and `normalize()` facade methods. The field defaults and normalizing rules live in `js/storage/player-normalizer-v120.js`; device-local settings persistence lives in `js/storage/settings-storage-v120.js`.
+- `js/core/html-utils-v120.js` publishes `LegendHtmlV120.escapeHtml()` as the shared implementation for escaping text inserted into HTML. It is not an arbitrary-HTML sanitizer and does not validate URLs.
 - `js/screens/title-screen-view-v120.js` owns the main title menu markup and established CSS/accessibility hooks.
 - `js/screens/title-extras-v120.js` owns the optional gate transition and accessible credits dialog; `LegendTitleScreenV120` keeps wrapper methods for both screens.
 - `js/screens/title-screen-v120.js` owns title state preparation, transition feedback, optional gate screen and credits; navigation actions are injected.
@@ -38,6 +39,7 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 | `js/storage.js` | 33 lines | Player save/load/delete plus stable `LegendStorage` facade methods | Keep persistence ownership and public API names stable |
 | `js/storage/player-normalizer-v120.js` | 122 lines | Player-record defaults, retired-field cleanup, and preservation of current unknown data | Own normalization rules separately from storage I/O and expose them through `LegendStorage.normalize()` |
 | `js/storage/settings-storage-v120.js` | 55 lines | `legend-settings-v1`, default accessibility options, and UI class application | Own device-local settings persistence separately from player-record normalization |
+| `js/core/html-utils-v120.js` | 18 lines | Shared escaping for HTML text and quoted attribute values | Keep the character mapping in one place; use a separate validator for URL/sanitizer requirements |
 | `js/screens/title-screen-v120.js` | 87 | Active menu state preparation, transition notice, and action binding | Keep navigation callbacks here; delegate menu markup, audio, gate and credits to focused services |
 | `js/screens/title-extras-v120.js` | 64 | Optional title gate interaction and accessible credits dialog | Own auxiliary title screens; receive title-render and audio callbacks via `create()` |
 | `js/screens/title-screen-view-v120.js` | 67 | Main title menu markup, traveler line, menu buttons, and footer | Keep presentation/CSS hooks pure; receive already-prepared display state through `render()` |
