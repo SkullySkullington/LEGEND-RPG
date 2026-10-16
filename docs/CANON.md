@@ -50,6 +50,19 @@ The traveler is an echo left by the Last Mercy and does not know it. The game do
 - The first game spans Ashmere, the Old Road, Greyfen, Ironpass, Blackwood and the Ruined March. Only Ashmere, the Old Road and Greyfen exist in the game today.
 - The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey and Ivara are demoted legacy ideas. Do not build on them without the owner's re-approval.
 
+### Added by the owner 2026-10-16 (direction approved; details and conflicts still being settled)
+
+- **The Veil is the source of the trouble.** It creates echoes out of thin air. The force or magic that makes them has no name yet.
+- **The attackers are echoes.** The hostile creatures, including goblins and ogres, have been touched by the Veil and are far more aggressive than they were. The owner named goblins and ogres; orcs and others are to be confirmed.
+- **There was an old war, and an agreement ended it.** The monsters and the kingdoms had peace. The Veil's touch is what is breaking it.
+
+**Conflicts with earlier decisions, to be reconciled (the owner decides):**
+
+1. L1 says the Last Mercy left echoes that imitate the dead. The new direction says the Veil creates echoes out of thin air. *Proposed, not approved:* the Last Mercy wounded the Veil, and the wound now makes echoes on its own, at first imitating the dead and increasingly from nothing.
+2. The 2026-10-15 direction says not every monster is evil or connected to the awakening, and that independent threats stay. The new direction says the hostile monsters are echoes. L2 and L3 (the Landing Warden's unsafe reopening) are human wrongs and stay that way unless the owner says otherwise.
+3. The 2026-10-15 direction says the old monster wars faded into folklore after the monsters retreated. The new direction says the war ended in an agreement.
+4. The combined traveler draft proposed on 2026-10-16 was written before this and is on hold until the echo rules are settled.
+
 ## Established in the shipped game (v0.20.35)
 
 These are facts players can already see. Changing one means updating the game, its save flags and its tests.
@@ -68,14 +81,17 @@ These are facts players can already see. Changing one means updating the game, i
 
 ## Open questions, in the order we will settle them
 
-1. What did the Veil's touch do to the traveler: abilities, limits, and what can they become? (Next up. A combined draft was proposed on 2026-10-16 and awaits the owner's decision.)
-2. Is the player's chosen origin the echo's inherited memory, or does it stay true to the player? (See the conflict flag under L4.)
-3. The Hollow Saint: what does it want, how does it act, and when is it revealed?
-4. The late choice: when the traveler learns what they are, what can the player decide, and how does it shape the ending?
-5. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
-6. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
-7. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
-8. What crisis does the player solve by the end of the first game?
+1. What are the echo rules? Are the goblins and ogres the same living creatures changed by the Veil, or newly made copies, or both? Do bandits and other human wrongdoers stay ordinary people? (Next up.)
+2. What is the force that makes echoes called? (Name open.)
+3. The Hollow Saint: what is its role now that the Veil makes echoes on its own, what does it want, how does it act, and when is it revealed?
+4. The old war and the agreement: who fought, who agreed, what were the terms, where was it settled, and how does the Veil break it?
+5. What did the Veil's touch do to the traveler: abilities, limits, and what can they become? (A combined draft is on hold until the echo rules are settled.)
+6. Is the player's chosen origin the echo's inherited memory, or does it stay true to the player? (See the conflict flag under L4.)
+7. The late choice: when the traveler learns what they are, what can the player decide, and how does it shape the ending?
+8. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
+9. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
+10. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
+11. What crisis does the player solve by the end of the first game?
 
 ## Change log
 
@@ -83,3 +99,4 @@ These are facts players can already see. Changing one means updating the game, i
 - 2026-10-16: L3 locked (the Landing Warden reopened the crossing). "Who ordered it" removed from the open questions.
 - 2026-10-16: L4 locked (the traveler is an echo, but not an ordinary one). "What is the traveler" removed from the open questions; its details added as new ones.
 - 2026-10-16: L4 amended by the owner: the traveler was touched by the Veil before the Last Mercy could finish, which is why they differ.
+- 2026-10-16: Owner direction added: the Veil makes echoes, the hostile monsters are Veil-touched echoes, and an old war ended in an agreement the Veil is breaking. Recorded as approved direction (not locked), with four conflicts listed for the owner to reconcile. The traveler draft is on hold.
