@@ -124,6 +124,16 @@
     imageMarkup: img,
     background: bg,
     npcArt: npc,
+    npcCatalog: window.LegendAshmereNpcCatalogV099?.create({ npcArt: npc }),
+    npcStory: window.LegendAshmereNpcStoryV099?.create({
+      greyfenEvidenceStory: window.LegendAshmereGreyfenEvidenceStoryV099,
+      firstRoadReturnDialogue: window.LegendAshmereFirstRoadReturnDialogueV099
+    }),
+    renderRegions: () => {
+      const regions = window.LegendRegionsV100;
+      if (typeof regions?.render === 'function') return regions.render();
+      return renderAshmere();
+    },
     setBellQuestObjective,
     note,
     head,
