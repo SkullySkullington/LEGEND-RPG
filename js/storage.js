@@ -1,7 +1,7 @@
 window.LegendStorage = (() => {
   const D = window.LEGEND_DATA;
-  const SETTINGS_KEY = 'legend-settings-v1';
-  const defaultSettings = { largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false };
+  const settingsStorage = window.LegendSettingsStorageV120?.create();
+  const defaultSettings = Object.freeze({ largeText:false, boldText:false, highContrast:false, reducedMotion:false, simpleAscii:false, spacious:false, readableFont:false });
 
   function baseSkills(){
     return {
@@ -118,17 +118,14 @@ window.LegendStorage = (() => {
   function deleteSaves(){ localStorage.removeItem(D.SAVE_KEY); }
 
   function loadSettings(){
-    try { return {...defaultSettings, ...(JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {})}; }
-    catch { return {...defaultSettings}; }
+    return settingsStorage?.loadSettings?.() || { ...defaultSettings };
   }
-  function saveSettings(settings){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); applySettings(settings); }
-  function applySettings(settings = loadSettings()){
-    const map = {
-      largeText:'a11y-large-text', boldText:'a11y-bold-text', highContrast:'a11y-high-contrast',
-      reducedMotion:'a11y-reduced-motion', simpleAscii:'a11y-simple-ascii', spacious:'a11y-spacious', readableFont:'a11y-readable-font'
-    };
-    Object.values(map).forEach(c => document.body.classList.remove(c));
-    Object.entries(map).forEach(([key, cls]) => { if(settings[key]) document.body.classList.add(cls); });
+  function saveSettings(settings){
+    if (settingsStorage?.saveSettings) return settingsStorage.saveSettings(settings);
+    return false;
+  }
+  function applySettings(settings){
+    if (settingsStorage?.applySettings) return settingsStorage.applySettings(settings);
   }
 
   return { baseSkills, normalize, savePlayer, loadPlayer, deleteSaves, loadSettings, saveSettings, applySettings };
