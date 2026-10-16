@@ -5,6 +5,8 @@ This is a working map of the production browser game. It is not a map of `protot
 
 ## Entry point and module model
 
+The active code uses versioned classic scripts loaded in order by `index.html`; preserve script ordering and public globals while extracting responsibilities. CI derives its production syntax-check set from local script tags in `index.html` and automatically checks Playwright `*.spec.js` files under `tests/`.
+
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
 - `js/storage.js` publishes `window.LegendStorage` and owns player save/load/delete, while preserving the stable `baseSkills()` and `normalize()` facade methods. The field defaults and normalizing rules live in `js/storage/player-normalizer-v120.js`; device-local settings persistence lives in `js/storage/settings-storage-v120.js`.
