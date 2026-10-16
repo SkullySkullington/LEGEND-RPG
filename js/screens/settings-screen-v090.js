@@ -11,15 +11,7 @@
     font: 'M4 19l6-14h4l6 14M8 14h8'
   };
 
-  function escapeHtml(value) {
-    return String(value == null ? '' : value).replace(/[&<>'"]/g, character => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
-    }[character]));
-  }
+  const escapeHtml = window.LegendHtmlV120.escapeHtml;
 
   function render(config) {
     if (!config || !config.root || typeof config.loadSettings !== 'function' ||
