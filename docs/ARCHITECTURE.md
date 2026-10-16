@@ -17,7 +17,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
 | `js/systems/ashmere-controller-v099.js` | 411 | Town shell/routing and navigation façade; routes to focused town modules | Preserve its public façade and split/clarify remaining navigation and shared helpers |
-| `js/systems/road-controller-v100.js` | 654 | Expedition rendering, route and POI choices, camping, special quest decisions, encounters/combat, audio | Separate road flow from combat/rewards after caller and save-flag inventory |
+| `js/systems/road-controller-v100.js` | 561 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion and audio | Combat is delegated to `js/systems/road/road-combat-v100.js`; keep this file as expedition-flow owner |
 | `js/systems/road-controller-v087.js` | 31 very dense lines (~16 KB) | Legacy route, checks/finds, combat, rewards and XP | Trace current usage; do not remove until no active callers remain |
 | `js/core/runtime-v080.js` | 110 | Return-to-Ashmere bridge and fallback save code | Make storage ownership explicit; preserve legacy recovery and return behavior |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
@@ -29,6 +29,15 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-people-v099.js` | 262 | Ashmere/Greyfen people lists, NPC dialogue, returning-traveler evidence text and token hand-in shortcut | Preserves dialogue, quest-flag branches, and journal updates with injected dependencies |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
 | `js/systems/town/ashmere-contracts-v099.js` | 137 | Side-contract definitions/counters, accept/turn-in handling, Greyfen Dry Crossing choices and rewards | Owns current contract/crossing logic; player/save/progression/navigation dependencies are injected |
+| `js/systems/road/road-combat-v100.js` | 164 | v100 turn-based battle display, commands, enemy intents, player actions, victory rewards and progression | Combat module injected with save, expedition, progression, and audiovisual adapters |
+
+## Road-controller overlap audit
+
+- `index.html` still loads both `js/systems/road-controller-v087.js` and `js/systems/road-controller-v100.js`.
+- The Ashmere `startRoad()` adapter prefers `LegendRoadControllerV100.start()` and falls back to `LegendRoadControllerV087.start()` if v100 is unavailable.
+- v087 also registers an `intercept()` callback with `LegendRuntimeV080.onRender()` (or a DOM-ready handler) that scans buttons for legacy labels and can replace their click handlers. This is an independent side effect to account for before removing the old script.
+- The v100 controller exports `start`, `renderHub`, and `renderExpedition`, and existing smoke-test source references v100 directly. No v087 removal or combat-balancing change is included in this refactor slice.
+- Combat behavior is now isolated in `js/systems/road/road-combat-v100.js`. The controller still owns expedition stage/pressure, encounter selection, road choices, and expedition completion.
 
 ## Critical runtime APIs
 
@@ -58,7 +67,7 @@ These APIs are not necessarily ideal long-term boundaries; they are current comp
 - Runtime return key: `legend-v080-return-ashmere`, owned by the runtime bridge.
 - The player record is JSON in local storage and is normalized in place by `LegendStorage`. Fields, nested flags, inventory IDs, region IDs, and old creation-version fields are consumed by multiple systems.
 
-The settings, records, workboard, commerce, people, inn, and contracts/crossing extractions do not change player-save schema, normalization, active/historical keys, or settings persistence. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module; `renderSideContracts()` and `renderDryCrossing()` delegate to the contracts module. These modules receive their required helpers through explicit context values.
+The settings, records, workboard, commerce, people, inn, contracts/crossing, and v100 combat extractions do not change player-save schema, normalization, active/historical keys, or settings persistence. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module; `renderSideContracts()` and `renderDryCrossing()` delegate to the contracts module. These modules receive their required helpers through explicit context values.
 
 ## Practical extraction strategy
 
