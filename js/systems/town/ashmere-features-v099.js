@@ -109,7 +109,8 @@
           esc,
           gold,
           itemName,
-          awardProgress
+          awardProgress,
+          jobCatalog: window.LegendAshmereJobCatalogV099
         });
       }
       screen(head('Local Work', 'Work Board', 'The work board module did not load.', locationInterior('archive'), 'work'),
