@@ -17,10 +17,10 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 176 lines | Town route façade, route-board content, hub entry, and runtime initialization | Keep public routes stable and avoid adding feature-screen logic to the router |
+| `js/systems/ashmere-controller-v099.js` | 175 lines | Town route façade, shared feature contexts, and runtime initialization | Keep public routes stable and delegate home, route-board, and feature screens to focused modules |
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
-| `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
+| `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |\n| `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
 | `js/systems/road-controller-v100.js` | 139 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
