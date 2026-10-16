@@ -5,20 +5,12 @@ const RT=()=>window.LegendRuntimeV120||{}, ROADS=()=>window.LegendRoadsV100||{},
 const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])), p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl), ret=()=>RT().returnToAshmere?.();
 const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, clamp=(n,a,b)=>Math.max(a,Math.min(b,n)), pick=a=>a?.length?a[Math.floor(Math.random()*a.length)]:null;
 const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
-const inv=(pl,k,n)=>{pl.inventory=pl.inventory||{};pl.inventory[k]=Number(pl.inventory[k]||0)+n};
+const roadRules=window.LegendRoadStateV100.create({getData:()=>window.LEGEND_DATA||{},clamp});
+const {addInventory:inv,setBellQuestObjective,ensure,score,weapon,armor,hpPercent:hpPct,itemName,skillLabel}=roadRules;
 
-function setBellQuestObjective(pl,objective){
- pl.questLog=Array.isArray(pl.questLog)?pl.questLog:[];
- const prefix='The Bell That Rang Once:';
- const entry=prefix+' '+objective;
- const index=pl.questLog.findIndex(item=>String(item).startsWith(prefix));
- if(index>=0)pl.questLog[index]=entry;else pl.questLog.unshift(entry);
-}
-const itemName=k=>window.LEGEND_DATA?.itemNames?.[k]||({food:'Rations',camp:'Camp Supplies',roadToken:'Road Tokens',potion:'Healing Potions',fur:'Furs',bellFragment:'Bell Fragments',log:'Logs'}[k]||k);
-const score=(pl,skill)=>{const c=window.LEGEND_DATA?.classes?.[pl.className]?.mod||{},o=window.LEGEND_DATA?.origins?.[pl.origin]?.bonus||{},k=window.LEGEND_DATA?.keepsakes?.[pl.keepsake]?.bonus||{},a=pl.creationV094?.bonuses||pl.creationV090?.bonuses||{};return Number(c[skill]||0)+Number(o[skill]||0)+Number(k[skill]||0)+Number(a[skill]||0)};
-const weapon=pl=>(window.LEGEND_DATA?.weapons||[]).find(w=>w.id===pl.weapon)||{name:'Hands',min:1,max:3}, armor=pl=>(window.LEGEND_DATA?.armors||[]).find(a=>a.id===pl.armor)||{name:'None',defense:0};
-const state=pl=>{pl.flags=pl.flags||{};pl.flags.roadExpeditionV100=pl.flags.roadExpeditionV100||{stage:0,pressure:0,trips:0,events:0,finds:0,battles:0};return pl.flags.roadExpeditionV100};
-const ensure=pl=>{const s=state(pl);s.stage=clamp(Number(s.stage||0),0,5);s.pressure=clamp(Number(s.pressure||0),0,100);return s};
+
+
+
 let roadExpeditionScreen=null;
 const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  getPlayer:p,
@@ -33,14 +25,12 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  tone
 });
 
-const hpPct=pl=>clamp(Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100),0,100);
 const roadAudio=()=>window.LegendRoadAudioV100||{};
 const soundOn=()=>roadAudio().soundOn?.()??true;
 function tone(kind='tap'){return roadAudio().tone?.(kind);}
 function playBattleFx(kind){return roadAudio().playBattleFx?.(kind);}
 function startBattleMusic(){return roadAudio().startBattleMusic?.();}
 function stopBattleMusic(){return roadAudio().stopBattleMusic?.();}
-const skillLabel=k=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[k]||k).toUpperCase();
 
 const roadView=window.LegendRoadViewV100?.create({
  getRoot:root,getPlayer:p,getAssets:A,ensureState:ensure,roadDiscovery,escapeHtml:esc,clamp,
