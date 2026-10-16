@@ -1,6 +1,6 @@
-/* LEGEND v0.20.36 - Old Road discovery and route-clue system.
- * Owns points of interest, route choice, evidence discoveries, and story-specific
- * field decisions. Expedition state/save/render services are injected.
+/* LEGEND v0.20.36 - Old Road discovery facade.
+ * Owns discovery visibility/reveal lifecycle and preserves the public API.
+ * POI content, panel markup, branch decisions and inspection effects are injected services.
  */
 (() => {
   function create(context = {}) {
