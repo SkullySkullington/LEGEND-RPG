@@ -1,7 +1,7 @@
 // LEGEND v0.10.1 - Regional Travel Controller
 // Owns the world-map layer: Road Tokens unlock regions; gold pays for travel between them.
 (() => {
-  const RT=()=>window.LegendRuntimeV080||{}, D=()=>window.LEGEND_DATA||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
+  const RT=()=>window.LegendRuntimeV120||{}, D=()=>window.LEGEND_DATA||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
   const p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl);
   const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const gold=n=>Number(n||0).toLocaleString()+'g';
