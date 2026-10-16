@@ -2,7 +2,7 @@
 // Mobile-first expedition loop. Meaningful choices replace visible D20 gates.
 (() => {
 const RT=()=>window.LegendRuntimeV120||{}, ROADS=()=>window.LegendRoadsV100||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
-const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])), p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl), ret=()=>RT().returnToAshmere?.();
+const esc=window.LegendHtmlV120.escapeHtml, p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl), ret=()=>RT().returnToAshmere?.();
 const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, clamp=(n,a,b)=>Math.max(a,Math.min(b,n)), pick=a=>a?.length?a[Math.floor(Math.random()*a.length)]:null;
 const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
 const roadRules=window.LegendRoadStateV100.create({getData:()=>window.LEGEND_DATA||{},clamp});
