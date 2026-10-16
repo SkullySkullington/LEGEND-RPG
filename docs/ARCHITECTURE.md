@@ -119,7 +119,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Player/settings storage | `window.LegendStorage` |
 | Device-local settings store | `window.LegendSettingsStorageV120.create()` |
 | Legacy runtime bridge | `window.LegendRuntimeV120` |
-| Progression helper | `window.LegendProgressionV100` |
+| Progression helper | `window.LegendProgressionV100` (`award`, `status`) |
 | Quest-log mutation helpers | `window.LegendQuestLogV120` |
 | Bell road evidence | `window.LegendBellRoadEvidenceV120.create()` |
 | Title presentation | `window.LegendTitleScreenV120` |
