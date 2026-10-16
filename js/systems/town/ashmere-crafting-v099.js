@@ -1,4 +1,6 @@
-/* LEGEND Ashmere Crafting Bench.\n * Owns recipes, ingredient checks, and craft result feedback; inventory IDs stay unchanged.\n */
+/* LEGEND Ashmere Crafting Bench.
+ * Owns recipes, ingredient checks, and craft result feedback; inventory IDs stay unchanged.
+ */
 (() => {
   function render(context, argument = '') {
     if (!context || typeof context.getPlayer !== 'function' ||
