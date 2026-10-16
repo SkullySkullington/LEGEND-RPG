@@ -10,7 +10,7 @@
     const save = player => context.savePlayer(player);
     const {
       escapeHtml: esc, itemName, head, screen, locationInterior,
-      renderTown, awardProgress
+      renderTown: renderAshmere, awardProgress
     } = context;
 
   const sideContracts=[
