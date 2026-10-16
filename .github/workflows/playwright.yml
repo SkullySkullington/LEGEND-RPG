@@ -52,6 +52,7 @@ jobs:
           node --check js/systems/supabase-config-v09x.js
           node --check js/systems/account-v09x.js
           node --check js/screens/settings-screen-v090.js
+          node --check js/screens/title-screen-v120.js
           node --check js/game.js
           node --check js/content/roads/old-road-v100.js
           node --check js/systems/beginning-v094.js
@@ -69,6 +70,8 @@ jobs:
           node --check js/systems/scene-transitions-v120.js
           node --check tests/legend-smoke.spec.js
           node --check tests/mobile-smoke.spec.js
+          node --check tests/workshop-art.spec.js
+          node --check tests/reboot-prototype.spec.js
           node --check tests/live-deployment.spec.js
 
       - name: Run Playwright tests
