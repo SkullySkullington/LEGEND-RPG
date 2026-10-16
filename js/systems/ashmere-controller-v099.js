@@ -49,11 +49,11 @@
   function owned(pl, k){ return Number(pl.inventory?.[k] || 0); }
 
   function setBellQuestObjective(pl, objective){
-    pl.questLog=Array.isArray(pl.questLog)?pl.questLog:[];
-    const prefix='The Bell That Rang Once:';
-    const entry=prefix+' '+objective;
-    const index=pl.questLog.findIndex(item=>String(item).startsWith(prefix));
-    if(index>=0)pl.questLog[index]=entry;else pl.questLog.unshift(entry);
+    const questLog=window.LegendQuestLogV120;
+    if(typeof questLog?.setBellQuestObjective!=='function'){
+      throw new Error('LegendQuestLogV120 must load before Ashmere town features.');
+    }
+    return questLog.setBellQuestObjective(pl,objective);
   }
 
   function canAfford(pl, cost){ return Number(pl.gold || 0) >= Number(cost || 0); }
