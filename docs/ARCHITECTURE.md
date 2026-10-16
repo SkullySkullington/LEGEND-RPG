@@ -16,13 +16,14 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 883 | Town shell/routing, quest contracts, Greyfen crossing, people/NPCs, inn, work board/jobs, trader, inventory transactions, crafting, smithing/gear, character sheet, archive | Preserve its public façade and split one town responsibility at a time |
+| `js/systems/ashmere-controller-v099.js` | ~900 | Town shell/routing, quest contracts, Greyfen crossing, people/NPCs, inn, work board/jobs, trader, inventory transactions, crafting, smithing/gear, plus routes to records screens | Preserve its public façade and split one town responsibility at a time |
 | `js/systems/road-controller-v100.js` | 654 | Expedition rendering, route and POI choices, camping, special quest decisions, encounters/combat, audio | Separate road flow from combat/rewards after caller and save-flag inventory |
 | `js/systems/road-controller-v087.js` | 31 very dense lines (~16 KB) | Legacy route, checks/finds, combat, rewards and XP | Trace current usage; do not remove until no active callers remain |
 | `js/core/runtime-v080.js` | 110 | Return-to-Ashmere bridge and fallback save code | Make storage ownership explicit; preserve legacy recovery and return behavior |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
 | `js/game.js` | 325 | Title screen, account/settings entry, credits and navigation | Keep it an entry/facade layer, not a dumping ground for feature systems |
-| `js/systems/beginning-v094.js` | 47 dense lines (~13 KB) | Multi-step traveler creation and creation-time player record construction | Later extract data construction/validation from step rendering without changing the flow |
+| `js/systems/beginning-v094.js` | 47 dense lines (~13 KB) | Multi-step traveler creation and creation-time player record construction | Later extract data construction/validation from step rendering without changing the flow
+| `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | First extracted Ashmere view module; dependencies are passed in explicitly |
 
 ## Critical runtime APIs
 
@@ -52,7 +53,7 @@ These APIs are not necessarily ideal long-term boundaries; they are current comp
 - Runtime return key: `legend-v080-return-ashmere`, owned by the runtime bridge.
 - The player record is JSON in local storage and is normalized in place by `LegendStorage`. Fields, nested flags, inventory IDs, region IDs, and old creation-version fields are consumed by multiple systems.
 
-The first settings extraction does not change player-save data, normalization, active/historical keys, or settings persistence.
+The settings and Ashmere records extractions do not change player-save data, normalization, active/historical keys, or settings persistence. The Ashmere controller remains the public router; `renderSheet()` and `renderArchive()` delegate to the records module via explicit context values.
 
 ## Practical extraction strategy
 
