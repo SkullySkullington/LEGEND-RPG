@@ -8,9 +8,12 @@ const road=()=>ROADS().oldRoad||{stages:[],checks:[],finds:[],enemies:[]};
 const roadRules=window.LegendRoadStateV100.create({getData:()=>window.LEGEND_DATA||{},clamp});
 const {addInventory:inv,setBellQuestObjective,ensure,score,weapon,armor,hpPercent:hpPct,itemName,skillLabel}=roadRules;
 const bellRoadEvidence=window.LegendBellRoadEvidenceV120?.create({setBellQuestObjective});
-
-
-
+const roadPoiCatalog=window.LegendRoadPoiCatalogV100?.create({
+ getPlayer:p,
+ ensureState:ensure,
+ getRoadData:road,
+ clamp
+});
 
 let roadExpeditionScreen=null;
 const roadDiscovery=window.LegendRoadDiscoveryV100.create({
@@ -22,6 +25,7 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  escapeHtml:esc,
  clamp,
  bellRoadEvidence,
+ getPointOfInterest:roadPoiCatalog?.resolve,
  renderExpedition,
  tone
 });
