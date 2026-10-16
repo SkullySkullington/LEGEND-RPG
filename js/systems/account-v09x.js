@@ -2,7 +2,7 @@
 (() => {
   const root = () => document.getElementById('root');
   const S = () => window.LegendStorage || {};
-  const esc = s => String(s == null ? '' : s).replace(/[&<>'\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const esc = window.LegendHtmlV120.escapeHtml;
   const local = () => S().loadPlayer?.() || null;
   const profileStore = window.LegendAccountProfileStoreV09x?.create({ loadLocalPlayer: local });
   const getProfile = profileStore?.getProfile || (() => null);
