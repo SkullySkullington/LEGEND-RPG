@@ -32,7 +32,7 @@ The defaults are not a guarantee of strict runtime types for every field; some a
 
 ## Player record fields observed in traveler creation
 
-`js/systems/beginning-v094.js` creates new records with these fields:
+`js/systems/player/player-record-v094.js` builds new records from the choices collected by `js/systems/beginning-v094.js`. The builder hands the record to the existing `LegendStorage.normalize()` function; this table documents the resulting fields:
 
 | Group | Fields |
 | --- | --- |
