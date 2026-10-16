@@ -7,7 +7,7 @@
     const greyfen = String(regionId || 'Ashmere') === 'Greyfen';
     if (greyfen) {
       return [
-        { view: 'inn', title: 'Reedlight Inn', desc: 'Rest, recover, and hear what the lowland travelers whisper.', cta: 'Rest & prepare', iconKey: 'inn', shopKey: 'greyfenInn', featured: currentView === 'inn' },
+        { view: 'inn', title: 'Reedlight Inn', desc: 'Rest, recover, and hear what the lowland travelers whisper.', cta: 'Rest & prepare', iconKey: 'inn', featured: currentView === 'inn' },
         { view: 'trader', title: 'Marsh Market', desc: 'Trade road loot for rations, medicine, and useful supplies.', cta: 'Trade', iconKey: 'trader', shopKey: 'greyfenMarket', featured: false },
         { view: 'smith', title: 'Causeway Smithy', desc: 'Equip better gear and turn gathered materials into useful things.', cta: 'Gear & craft', iconKey: 'smith', shopKey: 'greyfenForge', featured: false },
         { view: 'people', title: 'Town Square', desc: 'Meet the keepers and travelers who know the drowned roads.', cta: 'Meet the town', iconKey: 'people', featured: currentView === 'people' },
