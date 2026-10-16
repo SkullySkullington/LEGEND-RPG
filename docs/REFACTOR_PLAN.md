@@ -15,7 +15,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
 - `js/systems/region-controller-v100.js` now owns unlock/travel mutations and delegates the regional ledger UI to `js/systems/region-view-v100.js`.
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
-- `js/systems/account-v09x.js`: account/profile screen composition and local profile metadata; Supabase auth UI/service is in `js/systems/account/account-auth-v09x.js`, and cloud traveler-slot CRUD is in `js/systems/account/cloud-traveler-slots-v09x.js`. Local player persistence remains in `LegendStorage`.
+- `js/systems/account-v09x.js`: 5.6 KB / 139-line account facade for profile metadata and auth/cloud orchestration; profile screen markup is in `js/systems/account/account-profile-view-v09x.js`, auth UI/service is in `js/systems/account/account-auth-v09x.js`, and cloud-slot CRUD is in `js/systems/account/cloud-traveler-slots-v09x.js`. Local player persistence remains in `LegendStorage`.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
 - `js/storage.js` normalizes the player record, but its data shape is implicit rather than described by a stable save contract.
 
@@ -32,6 +32,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Complete the current persistence ownership pass: `LegendStorage` is the sole owner of player save/load; `LegendRuntimeV120` delegates to it and retains return/navigation only.
 - [x] Extract starting player record construction from the seven-step traveler-creation UI into `js/systems/player/player-record-v094.js`; preserve starting values and verify merged origin/keepsake inventory with a browser regression test.
 - [x] Extract traveler creation name/choice/confirmation/intro markup and DOM binding into `js/systems/player/player-creation-view-v094.js`; keep choice state, validation decisions, persistence, and navigation callbacks in `LegendBeginningV094`.
+- [x] Extract account/profile screen markup and DOM event binding into `js/systems/account/account-profile-view-v09x.js`; keep local profile persistence and async auth/cloud decisions in `LegendAccountV09x`.
 - [x] Extract the regional ledger/map rendering and action binding into `js/systems/region-view-v100.js`; keep affordability/requirements checks, unlocking, fares, memory writes, and player saves in `LegendRegionsV100`.
 - [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
