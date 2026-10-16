@@ -1,4 +1,6 @@
-/* LEGEND Ashmere Trading Post.\n * Owns market listings and buy/sell transactions; item values and stock stay unchanged.\n */
+/* LEGEND Ashmere Trading Post.
+ * Owns market listings and buy/sell transactions; item values and stock stay unchanged.
+ */
 (() => {
   function render(context, argument = 'buy') {
     if (!context || typeof context.getPlayer !== 'function' ||
