@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.3 KB / 171 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, navigation map, shared screen shell, catalog/art helpers, job data, job execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.3 KB / 171 lines; the route façade, feature adapters, and initialization remain, while player records, town guidance, hub, routes, navigation, view shell, art/catalogs, job data/execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
 - `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
 - `js/systems/road/road-decisions-v100.js` now owns the initial route fork and the moved-cairn side-story choice mutations; discovery keeps an adapter for the existing road facade.
 - `js/systems/road/road-discovery-v100.js` is now the discovery facade; `road-discovery-view-v100.js` owns clue/route/cairn panel markup, `road-poi-catalog-v100.js` resolves contextual clue records, `road-decisions-v100.js` applies branch choices, and `road-poi-outcomes-v100.js` settles clue evidence/rewards.
@@ -45,6 +45,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Move title ambience, menu hover/focus cues, confirmation audio, and audio-unlock binding into `js/systems/title-audio-v120.js`; keep the title screen API focused on presentation and menu actions.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
+- [x] Extract region/quest/token-aware recommended-next-step rules into `js/systems/town/ashmere-guidance-v099.js`; keep the hub focused on route-card and destination presentation.
 - [x] Extract Ashmere/Greyfen home goal selection, destination cards, status, and footer navigation into `js/systems/town/ashmere-hub-v099.js`; keep `LegendAshmereV099.renderAshmere()` as the routed façade.
 - [x] Extract the Ashmere/Greyfen route-board cards and copy into `js/systems/town/ashmere-routes-v099.js`; keep route dispatch and public entry points in `LegendAshmereV099`.
 - [x] Extract town destination dispatch into `js/systems/town/ashmere-navigation-v099.js`; preserve `LegendAshmereV099.route()` and inject screen handlers through a route map.
