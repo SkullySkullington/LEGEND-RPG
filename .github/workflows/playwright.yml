@@ -56,6 +56,29 @@ jobs:
           node --check js/screens/settings-screen-v090.js
           node --check js/systems/title-audio-v120.js
           node --check js/screens/title-screen-v120.js
+          node --check js/storage/settings-storage-v120.js
+          node --check js/systems/account/cloud-traveler-slots-v09x.js
+          node --check js/systems/account/account-auth-view-v09x.js
+          node --check js/systems/account/account-auth-v09x.js
+          node --check js/systems/account/account-profile-store-v09x.js
+          node --check js/systems/account/account-profile-view-v09x.js
+          node --check js/systems/player/player-creation-options-v094.js
+          node --check js/systems/player/player-creation-view-v094.js
+          node --check js/systems/region-view-v100.js
+          node --check js/systems/town/ashmere-job-catalog-v099.js
+          node --check js/systems/town/ashmere-market-v099.js
+          node --check js/systems/town/ashmere-crafting-v099.js
+          node --check js/systems/town/ashmere-forge-v099.js
+          node --check js/systems/town/ashmere-npc-catalog-v099.js
+          node --check js/systems/town/ashmere-greyfen-evidence-story-v099.js
+          node --check js/systems/town/ashmere-npc-story-v099.js
+          node --check js/systems/town/ashmere-npc-dialogue-v099.js
+          node --check js/systems/town/ashmere-crossing-v099.js
+          node --check js/systems/town/ashmere-features-v099.js
+          node --check js/systems/town/ashmere-guidance-v099.js
+          node --check js/systems/town/ashmere-destination-catalog-v099.js
+          node --check js/systems/town/ashmere-routes-v099.js
+          node --check js/systems/road/road-discovery-view-v100.js
           node --check js/game.js
           node --check js/content/roads/old-road-v100.js
           node --check js/systems/player/player-record-v094.js
