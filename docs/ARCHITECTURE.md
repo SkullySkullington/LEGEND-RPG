@@ -64,7 +64,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/account/cloud-traveler-slots-v09x.js` | 88 lines | Supabase cloud traveler slot list/save/load/delete, readiness checks, and slot error handling | Own cloud-slot CRUD and keep the account UI from embedding remote persistence rules |
 | `js/systems/account/account-auth-v09x.js` | 189 lines | Supabase session/sign-in/sign-up/sign-out logic, auth panel markup, and auth form interactions | Own auth UI/service boundary, receive storage/profile and Supabase adapters through factory context |
 | `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
-| `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
+| `js/systems/region-controller-v100.js` | About 70 lines | Region unlock/travel rules, player persistence, progression messages, and view callbacks | Keep mutations and travel validation in the controller; delegate region ledger presentation |
+| `js/systems/region-view-v100.js` | 108 lines | Region cards, unlock/travel affordances, map layout, wallet display, and action binding | Own map presentation; take current player/region data and intent callbacks as injected dependencies |
 
 | `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
 | `js/core/game-runtime-v120.js` | Delegates player load/save to `LegendStorage` | Also owns pending-return session state, title continue-click fallback, mutation-observer hooks, and return-to-town recovery. |
@@ -83,6 +84,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
 | Traveler creation view | `window.LegendPlayerCreationViewV094` |
+| Region map view | `window.LegendRegionViewV100.create()` |
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |
 | Ashmere asset/catalog helpers | `window.LegendAshmereAssetsV099.create()` |
