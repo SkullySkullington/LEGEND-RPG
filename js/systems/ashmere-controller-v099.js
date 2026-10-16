@@ -325,7 +325,8 @@
       needsMarkup,
       armorArt,
       weaponName,
-      armorName
+      armorName,
+      regionShopArt
     };
   }
 
