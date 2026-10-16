@@ -175,6 +175,41 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(player.xpUntil).toBeUndefined();
   });
 
+  test('Ashmere asset helpers preserve item aliases and region-aware presentation', async ({ page }) => {
+    await openTitle(page);
+    const result = await page.evaluate(() => {
+      const assets = window.LegendAssetsV090 || {};
+      const data = window.LEGEND_DATA || {};
+      const helpers = window.LegendAshmereAssetsV099?.create({
+        getAssets: () => assets,
+        getData: () => data,
+        getPlayer: () => ({ currentRegion: 'Greyfen' }),
+        escapeHtml: value => String(value == null ? '' : value).replace(/[&<>'"]/g, character => ({
+          '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'
+        }[character]))
+      });
+      if (!helpers) return null;
+      return {
+        woodenSword: helpers.itemIcon('woodenSword'),
+        expectedSword: assets.items?.shortSword || assets.items?.pelt || '',
+        unknownItem: helpers.itemIcon('not-a-current-item'),
+        expectedFallback: assets.items?.pelt || '',
+        background: helpers.background(),
+        expectedGreyfenBackground: assets.locations?.greyfenMain || assets.locations?.ashmereMain || 'assets/locations/ashmere/location_ashmere_mainstreet_v1.jpg',
+        roadTokenName: helpers.itemName('roadToken'),
+        expectedRoadTokenName: data.itemNames?.roadToken || 'Road Token',
+        gold: helpers.gold(47)
+      };
+    });
+
+    expect(result).not.toBeNull();
+    expect(result.woodenSword).toBe(result.expectedSword);
+    expect(result.unknownItem).toBe(result.expectedFallback);
+    expect(result.background).toBe(result.expectedGreyfenBackground);
+    expect(result.roadTokenName).toBe(result.expectedRoadTokenName);
+    expect(result.gold).toBe('47g');
+  });
+
   test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
