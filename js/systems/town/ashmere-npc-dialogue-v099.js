@@ -232,7 +232,11 @@
     if(id==='brenn'&&Number(pl.inventory?.roadToken||0)>=3) extra='<button class="ash099-btn" id="turnTokens">Open the Regional Ledger</button>';
     screen(head(n.role,n.name,n.text,n.art,id),'<div class="ash099-lines">'+n.lines.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>',extra);
     const turn=document.getElementById('turnTokens');
-    if(turn) turn.onclick=()=>window.LegendRegionsV100?.render?.() || renderNPC('brenn');
+    if(turn) turn.onclick=()=>{
+      const regionLedger=window.LegendRegionsV100;
+      if(typeof regionLedger?.render==='function')return regionLedger.render();
+      return renderNPC('brenn');
+    };
   }
 
 
