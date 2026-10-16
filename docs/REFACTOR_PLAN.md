@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.8 KB / 175 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, shared screen shell, catalog/art helpers, job data, job execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.3 KB / 171 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, navigation map, shared screen shell, catalog/art helpers, job data, job execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
 - `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
@@ -38,6 +38,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract account/profile screen markup and DOM event binding into `js/systems/account/account-profile-view-v09x.js`; keep local profile persistence and async auth/cloud decisions in `LegendAccountV09x`.
 - [x] Extract the device-local account metadata key and profile snapshot/get/save/delete helpers into `js/systems/account/account-profile-store-v09x.js`; do not merge its key with the player-save key.
 - [x] Extract the regional ledger/map rendering and action binding into `js/systems/region-view-v100.js`; keep affordability/requirements checks, unlocking, fares, memory writes, and player saves in `LegendRegionsV100`.
+- [x] Extract region prerequisite checks, token unlocks, travel fares, region mutation, memories, and save orchestration into `js/systems/region-service-v100.js`; preserve `LegendRegionsV100.render/unlock/travel` as the stable entry points.
 - [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Ashmere/Greyfen home goal selection, destination cards, status, and footer navigation into `js/systems/town/ashmere-hub-v099.js`; keep `LegendAshmereV099.renderAshmere()` as the routed façade.
