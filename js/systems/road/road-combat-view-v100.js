@@ -13,7 +13,7 @@
       escapeHtml,
       clamp,
       renderShell,
-      soundOn,
+      soundOn: getSoundOn,
       onCommand,
       onRetreat,
       onToggleSound
@@ -28,11 +28,9 @@
     const hpPct = hpPercent;
     const esc = escapeHtml;
     const shell = renderShell;
-    const isSoundOn = typeof soundOn === 'function' ? soundOn : () => true;
-    const soundOn = isSoundOn;
+    const soundOn = typeof getSoundOn === 'function' ? getSoundOn : () => true;
 function render(pl, enemy, note = '', w, a, technique) {
  if (!pl) return;
- enemy.turn=Number(enemy.turn||0);enemy.intent=enemy.intent||enemyIntent(enemy);
  const intentText=enemy.snared?'Snared · its next blow is weakened':enemy.intent==='heavy'?'Heavy wind-up · GUARD or disrupt it':enemy.intent==='guardbreak'?'Guard-break · strike first or use ACT':'Quick strike · GUARD softens the hit';
  const foeIntentClass=enemy.snared?'snared':enemy.intent==='heavy'?'heavy':enemy.intent==='guardbreak'?'guardbreak':'attack';
  const foeIntentLabel=foeIntentClass==='heavy'?'HEAVY WIND-UP':foeIntentClass==='guardbreak'?'GUARD BREAK':foeIntentClass==='snared'?'SNARED':'OPPONENT';
