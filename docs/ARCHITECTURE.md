@@ -17,7 +17,8 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | About 357 lines | Town route façade, shared catalog/art helpers, context assembly, and navigation dispatch | Preserve public routes while reviewing remaining helpers and ownership |
+| `js/systems/ashmere-controller-v099.js` | About 300 lines | Town route façade, context assembly, and navigation dispatch | Preserve public routes while reviewing remaining helpers and ownership |
+| `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
@@ -72,6 +73,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Traveler record builder | `window.LegendPlayerRecordV094` |
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |
+| Ashmere asset/catalog helpers | `window.LegendAshmereAssetsV099.create()` |
 | Ashmere shared view shell | `window.LegendAshmereViewV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Region travel | `window.LegendRegionsV100` |
