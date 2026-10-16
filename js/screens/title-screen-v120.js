@@ -31,7 +31,10 @@
     } catch { titleAmbience = null; }
   }
 
-  function renderGate(config){\n    const applySettings = config?.applySettings || (() => {});\n    const title = () => render(config);
+  function renderGate(config){
+    const root = () => config?.root || document.getElementById('root');
+    const applySettings = config?.applySettings || (() => {});
+    const title = () => render(config);
     applySettings();
     root().innerHTML = `
       <div class="title-wrap title-gate-wrap title-gate-cinematic">
