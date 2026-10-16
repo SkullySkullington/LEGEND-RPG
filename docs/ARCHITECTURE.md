@@ -8,7 +8,8 @@ This is a working map of the production browser game. It is not a map of `protot
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
 - `js/storage.js` publishes `window.LegendStorage` and owns player save/load/delete, while preserving the stable `baseSkills()` and `normalize()` facade methods. The field defaults and normalizing rules live in `js/storage/player-normalizer-v120.js`; device-local settings persistence lives in `js/storage/settings-storage-v120.js`.
-- `js/screens/title-screen-v120.js` owns the active title menu, transition notice, optional gate screen, and credits dialog. Navigation actions are injected.
+- `js/screens/title-screen-view-v120.js` owns the main title menu markup and established CSS/accessibility hooks.
+- `js/screens/title-screen-v120.js` owns title state preparation, transition feedback, optional gate screen and credits; navigation actions are injected.
 - `js/systems/title-audio-v120.js` owns title ambience, menu hover/focus cues, confirmation sounds, and first-interaction audio unlock.
 - `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
 - `js/screens/settings-screen-v090.js` owns settings presentation and its control binding. Persistence remains in `js/storage.js`.
@@ -34,7 +35,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/storage.js` | 33 lines | Player save/load/delete plus stable `LegendStorage` facade methods | Keep persistence ownership and public API names stable |
 | `js/storage/player-normalizer-v120.js` | 122 lines | Player-record defaults, retired-field cleanup, and preservation of current unknown data | Own normalization rules separately from storage I/O and expose them through `LegendStorage.normalize()` |
 | `js/storage/settings-storage-v120.js` | 55 lines | `legend-settings-v1`, default accessibility options, and UI class application | Own device-local settings persistence separately from player-record normalization |
-| `js/screens/title-screen-v120.js` | 140 | Active title menu markup, transition notice, gate screen, and credits | Keep title presentation and menu actions separate from navigation/player-state owners |
+| `js/screens/title-screen-v120.js` | 120 | Menu state preparation, transitions, gate flow, credits and action binding | Keep navigation callback ownership here; delegate main menu markup and audio to focused services |
+| `js/screens/title-screen-view-v120.js` | 67 | Main title menu markup, traveler line, menu buttons, and footer | Keep presentation/CSS hooks pure; receive already-prepared display state through `render()` |
 | `js/systems/title-audio-v120.js` | 55 | Title ambience, hover/focus cues, confirmation effects, audio unlock | Keep audio lifecycle outside menu markup behind a small service API |
 | `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
 | `js/systems/beginning-v094.js` | Creation flow + choice state | Seven-step choice orchestration, validation, record-builder invocation, persistence, and intro transition | Keep progression of the creation flow here; delegate DOM rendering/binding and record construction |
@@ -111,6 +113,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Quest-log mutation helpers | `window.LegendQuestLogV120` |
 | Bell road evidence | `window.LegendBellRoadEvidenceV120.create()` |
 | Title presentation | `window.LegendTitleScreenV120` |
+| Title menu view | `window.LegendTitleScreenViewV120.render()` |
 | Title audio | `window.LegendTitleAudioV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
