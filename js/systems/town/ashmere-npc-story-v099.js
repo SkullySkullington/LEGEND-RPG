@@ -1,20 +1,19 @@
 /* LEGEND Ashmere/Greyfen NPC story progression.
  * Owns conditional dialogue variants and NPC-triggered quest state/memory updates.
- * It does not render screens or persist the player; those adapters remain in the
- * NPC dialogue facade so story rules can be changed without touching DOM wiring.
+ * Evidence and first-return story services are injected to avoid hidden dependencies.
  */
 (() => {
-  function apply(player, id, greyfen, dialogue, setBellQuestObjective) {
+  function create(context = {}) {
+    const { greyfenEvidenceStory, firstRoadReturnDialogue } = context;
+    function apply(player, id, greyfen, dialogue, setBellQuestObjective) {
     if (!player || !dialogue || typeof setBellQuestObjective !== 'function') return false;
     const pl = player;
     const n = dialogue;
-    const greyfenEvidenceStory = window.LegendAshmereGreyfenEvidenceStoryV099;
     if (typeof greyfenEvidenceStory?.apply === 'function') {
       greyfenEvidenceStory.apply(pl, id, greyfen, n, setBellQuestObjective);
     } else if (greyfen) {
       n.lines = ['The Greyfen evidence service did not load. Refresh before continuing.'];
     }
-    const firstRoadReturnDialogue = window.LegendAshmereFirstRoadReturnDialogueV099;
     if (typeof firstRoadReturnDialogue?.apply === 'function') {
       firstRoadReturnDialogue.apply(pl, id, greyfen, n);
     } else if (!greyfen && pl.flags?.firstRoadReturnSeen) {
@@ -61,5 +60,17 @@
     return true;
   }
 
-  window.LegendAshmereNpcStoryV099 = Object.freeze({ apply });
+    return Object.freeze({ apply });
+  }
+
+  // Stable compatibility method used by existing callers and story contract tests.
+  const compatibilityStory = create({
+    greyfenEvidenceStory: window.LegendAshmereGreyfenEvidenceStoryV099,
+    firstRoadReturnDialogue: window.LegendAshmereFirstRoadReturnDialogueV099
+  });
+
+  window.LegendAshmereNpcStoryV099 = Object.freeze({
+    create,
+    apply: compatibilityStory.apply
+  });
 })();
