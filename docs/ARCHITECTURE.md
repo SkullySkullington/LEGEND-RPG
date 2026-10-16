@@ -35,7 +35,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 151 | Job definitions, work board, timing/choice/sequence challenges, rewards and completion loop | Owns Work Board gameplay; player access, saving and progression are injected from town facade |
 | `js/systems/town/ashmere-commerce-v099.js` | 155 | Market transactions, crafting recipes, smithy gear listings, purchase/equip rules and related rendering | Cohesive commerce boundary; persistence, inventory helpers and town presentation are injected |
-| `js/systems/town/ashmere-people-v099.js` | 262 | Ashmere/Greyfen people lists, NPC dialogue, returning-traveler evidence text and token hand-in shortcut | Preserves dialogue, quest-flag branches, and journal updates with injected dependencies |
+| `js/systems/town/ashmere-people-v099.js` | 66 lines | Ashmere/Greyfen people directory and character-card rendering | Keep directory list and character route selection separate from dialogue/evidence behavior |
+| `js/systems/town/ashmere-npc-dialogue-v099.js` | 248 lines | NPC dialogue, Greyfen evidence investigation branches, quest flags/memories/objective updates, token-ledger shortcut | Own dialogue progression and evidence interactions with player/screen helpers injected |
 | `js/systems/town/ashmere-inn-v099.js` | 46 | Inn screen, rest/supply purchases, and region-sensitive rumors | Owns existing inn service interactions; persistence and view helpers are injected |
 | `js/systems/town/ashmere-contracts-v099.js` | 137 | Side-contract definitions/counters, accept/turn-in handling, Greyfen Dry Crossing choices and rewards | Owns current contract/crossing logic; player/save/progression/navigation dependencies are injected |
 | `js/systems/road/road-discovery-v100.js` | 224 lines | Points of interest, route choices, evidence flags, moved-cairn decisions, discovery rewards, and journal updates | Own discovery/story consequences through injected state, save, and render adapters |
@@ -94,6 +95,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere shared view shell | `window.LegendAshmereViewV099.create()` |
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
+| Ashmere NPC dialogue | `window.LegendAshmereNpcDialogueV099.render()` |
 | Region travel | `window.LegendRegionsV100` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
