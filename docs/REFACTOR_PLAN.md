@@ -76,6 +76,7 @@ Pass shared dependencies through small context objects or explicit function argu
 ### 2. Consolidate road and combat ownership
 - [x] Extract the v100 combat implementation behind a focused module boundary.
 - [x] Move route choice, POI interactions, evidence recording, and discovery rewards into `js/systems/road/road-discovery-v100.js`; retain the existing `LegendRoadControllerV100` entry point and injected state/save/render contracts.
+- [x] Extract the Blackroot/Greyfen Bell evidence flag/memory/objective chain into `js/systems/quests/bell-road-evidence-v120.js`; the road discovery service now receives the quest evidence recorder through its context.
 - [x] Extract Old Road scene markup, DOM-preserving shell, sound toggle, hotspot delegation, and expedition header into `js/systems/road/road-view-v100.js`; keep gameplay mutations injected.
 - [x] Extract travel/search choices, pressure changes, skill checks, find rewards, and encounter selection into `js/systems/road/road-actions-v100.js`; keep rendering and combat behind injected callbacks.
 - [x] Extract expedition reward/XP/token settlement, first-return reporting, and outcome/return flow into `js/systems/road/road-results-v100.js`; preserve current progression and quest fields.
