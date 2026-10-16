@@ -3,15 +3,7 @@
  * supplies the current state and callbacks; this module never writes player saves.
  */
 (() => {
-  function escapeHtml(value) {
-    return String(value == null ? '' : value).replace(/[&<>'"]/g, character => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
-    }[character]));
-  }
+  const escapeHtml = window.LegendHtmlV120.escapeHtml;
 
   function mount(root, markup) {
     if (!root) return;
