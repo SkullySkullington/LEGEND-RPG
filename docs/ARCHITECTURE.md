@@ -61,7 +61,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | --- | --- | --- |
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
 | `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; `LegendPlayerRecordV094` builder; runtime return fallback | Collects traveler choices, saves the builder-created record, then marks the intro complete and enters the town. |
-| `js/systems/account-v09x.js` | 139 lines | Profile metadata, async auth/cloud orchestration, local profile writes, and bootstrap callbacks | Keep the public account API; delegate screen markup/binding, auth, and cloud-slot CRUD |
+| `js/systems/account-v09x.js` | 114 lines | Account facade, async auth/cloud orchestration, and bootstrap callbacks | Keep the public account API; delegate screen markup/binding, auth, cloud-slot CRUD, and local profile metadata storage |
+| `js/systems/account/account-profile-store-v09x.js` | 52 lines | Device-local profile metadata key, get/save/delete, and traveler snapshot construction | Own only the profile metadata key; player save/load remains in `LegendStorage` |
 | `js/systems/account/account-profile-view-v09x.js` | 120 lines | Profile screen markup and local DOM event binding for traveler and cloud slots | Own account/profile presentation; invoke injected callbacks for navigation, profile updates, and cloud-slot intent |
 | `js/systems/account/cloud-traveler-slots-v09x.js` | 88 lines | Supabase cloud traveler slot list/save/load/delete, readiness checks, and slot error handling | Own cloud-slot CRUD and keep the account UI from embedding remote persistence rules |
 | `js/systems/account/account-auth-v09x.js` | 189 lines | Supabase session/sign-in/sign-up/sign-out logic, auth panel markup, and auth form interactions | Own auth UI/service boundary, receive storage/profile and Supabase adapters through factory context |
@@ -98,6 +99,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | v100 road audio | `window.LegendRoadAudioV100` |
 | Account/profile | `window.LegendAccountV09x` |
 | Account/profile view | `window.LegendAccountProfileViewV09x.create()` |
+| Account/profile store | `window.LegendAccountProfileStoreV09x.create()` |
 | Scene transition click delegation | `window.__legendSceneTransitionsV120` and document-level handlers |
 
 These APIs are not necessarily ideal long-term boundaries; they are current compatibility points. Inspect the complete call graph before changing them.
