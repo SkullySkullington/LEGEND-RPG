@@ -62,18 +62,7 @@
     if(!path) return fallback;
     return '<span class="ash099-icon ash099-asset-icon" aria-hidden="true"><img src="'+esc(path)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"></span>';
   };
-  const AUDIO_CUE = { hover:'assets/audio/ui/ui_hover_soft.wav', confirm:'assets/audio/ui/ui_confirm_gate.wav' };
-  let lastHoverCue = 0;
-  function playUiCue(kind){ try { const audio = new Audio(AUDIO_CUE[kind]); audio.volume = kind==='hover' ? 0.10 : 0.18; audio.play().catch(()=>{}); } catch {} }
-  function bindUiAudio(){
-    const host=root(); if(!host)return;
-    host.querySelectorAll('button, a.btn, a.portal-secondary-btn').forEach(el=>{
-      if(el.dataset.legendAudioBound)return;
-      el.dataset.legendAudioBound='1';
-      el.addEventListener('pointerenter',()=>{const now=Date.now();if(now-lastHoverCue>110){lastHoverCue=now;playUiCue('hover');}});
-      el.addEventListener('click',()=>playUiCue('confirm'));
-    });
-  }
+  function bindUiAudio(){ window.LegendTownAudioV100?.bindUiAudio?.(root()); }
   function shell(html){ root().innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`; bindUiAudio(); }
   function stat(label, value){ return `<div class="ash099-stat"><strong>${esc(value)}</strong><span>${esc(label)}</span></div>`; }
   function hpPct(pl){ return Math.max(0, Math.min(100, Math.round((Number(pl.hp || 0) / Math.max(1, Number(pl.maxHp || 1))) * 100))); }
