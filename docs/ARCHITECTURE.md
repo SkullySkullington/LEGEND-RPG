@@ -17,7 +17,8 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 398 | Town shell/routing and navigation façade; routes to focused town modules | Preserve its public façade and split/clarify remaining navigation and shared helpers |
+| `js/systems/ashmere-controller-v099.js` | About 350 lines | Town shell/shared helpers and navigation façade; routes to focused town modules | Preserve its public façade while reviewing shared shell/navigation ownership |
+| `js/systems/town/ashmere-hub-v099.js` | About 200 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
@@ -69,7 +70,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
 | Traveler creation | `window.LegendBeginningV094` |
-| Ashmere town | `window.LegendAshmereV099` |
+| Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |\n| Ashmere town | `window.LegendAshmereV099` |
 | Region travel | `window.LegendRegionsV100` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
