@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: approximately 94 KB / 883 lines. It owns the town shell and routing plus side contracts, Greyfen crossing, people/NPCs, inn, work board/jobs, trader/inventory transactions, crafting, smithing/gear, character sheet, and archive.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 60.6 KB / 706 lines; remaining concerns include town routing, contracts/crossing, people/NPCs, and inn/services. The records, jobs, and commerce responsibilities now have dedicated modules.
 - `js/systems/road-controller-v100.js`: approximately 59 KB / 654 lines. It combines expedition scenes, road choices, points of interest, camping, quest decisions, combat, and audio effects.
 - `js/systems/road-controller-v087.js`: still loaded alongside v100; contains a second road/combat implementation and its own XP logic. Its live references must be traced before retiring or consolidating it.
 - `js/core/runtime-v080.js` duplicates legacy save fallbacks as well as return-to-Ashmere behavior already adjacent to `LegendStorage`. Persistence ownership needs to be clarified before this bridge can be simplified.
@@ -24,18 +24,21 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [ ] Inventory all callers of `LegendAshmereV099`, `LegendRoadControllerV087`, `LegendRoadControllerV100`, `LegendRuntimeV080`, and `LegendStorage`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
-- [ ] Smoke-test the traveler sheet, journal entries, work board, timing/choice/sequence challenges, reward payout, and navigation back to the town hub.
+- [x] Extract trader, buy/sell, crafting recipes, equipment browsing, and purchase/equip behavior into `js/systems/town/ashmere-commerce-v099.js`; keep current routes and inject persistence/presentation helpers.
+- [ ] Smoke-test the traveler sheet, journal entries, work board challenge modes/rewards, market transactions, crafting, equipment purchases, and return navigation.
 - [ ] Document the player/save shape, core flags, region IDs, item IDs, and current script load order before moving domain logic.
 
 ### 1. Split the Ashmere monolith
-Keep `LegendAshmereV099` as a compatibility façade while moving responsibilities to narrow town modules. Candidate boundaries:
-1. side contracts and Greyfen crossing;
-2. people, NPC dialogue, inn, and services;
-3. work board and activity/jobs;
-4. trader, inventory transactions, crafting, smithing, and gear;
-5. character sheet and archive/records.
+Keep `LegendAshmereV099` as a compatibility façade while moving responsibilities to narrow town modules. The current branch has extracted:
+1. traveler sheet and archive/records;
+2. work board and activity/jobs;
+3. trader, inventory transactions, crafting, smithing, and gear.
 
-Extract one cohesive boundary per PR. Pass shared dependencies through a small context object or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
+Still to extract:
+1. side contracts and Greyfen crossing;
+2. people, NPC dialogue, inn, and remaining town services.
+
+Pass shared dependencies through small context objects or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
 
 ### 2. Consolidate road and combat ownership
 - Trace how the v087 road system is entered from current town code and which v100 flows are authoritative.
