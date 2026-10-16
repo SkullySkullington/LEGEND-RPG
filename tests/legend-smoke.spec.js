@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
+const runtimeSource = fs.readFileSync(path.join(__dirname, '../js/core/game-runtime-v120.js'), 'utf8');
 const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
 if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
 const version = versionMatch[1];
@@ -59,6 +60,55 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect.poll(() => page.title()).toContain(`v${version}`);
     await expect(page.locator('.portal-footer')).toContainText(`v${version}`);
     await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
+  });
+
+  test('active runtime does not retain the retired town controller or return key', () => {
+    expect(runtimeSource).not.toContain('LegendTownControllerV080');
+    expect(runtimeSource).not.toContain('legend-v080-return-ashmere');
+    expect(runtimeSource).toContain('legend-awakening-return-to-town-v1');
+  });
+
+  test('recovered-build saves are not imported by the current loader', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+      localStorage.setItem('legend-recovered-build-v06', JSON.stringify({
+        username: 'LegacyGhost',
+        className: 'Ranger',
+        gold: 9999
+      }));
+    });
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
+    await expect(page.locator('#continue')).toHaveCount(0);
+    expect(await page.evaluate(() => window.LegendRuntimeV120.loadPlayer())).toBeNull();
+  });
+
+  test('active save normalization removes retired road fields but preserves current unknown data', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+      localStorage.setItem(window.LEGEND_DATA.SAVE_KEY, JSON.stringify({
+        username: 'NormalizeQA',
+        className: 'Ranger',
+        inventory: { roadToken: 2, customLoot: 7 },
+        flags: { roadV087: { stage: 3 }, customFlag: true },
+        xpUntil: 123,
+        customState: { preserved: true }
+      }));
+    });
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    const player = await page.evaluate(() => window.LegendRuntimeV120.loadPlayer());
+    expect(player.username).toBe('NormalizeQA');
+    expect(player.xpUntil).toBeUndefined();
+    expect(player.flags.roadV087).toBeUndefined();
+    expect(player.flags.customFlag).toBe(true);
+    expect(player.inventory.customLoot).toBe(7);
+    expect(player.customState).toEqual({ preserved: true });
   });
 
   test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
