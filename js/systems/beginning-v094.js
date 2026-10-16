@@ -4,25 +4,18 @@
   const D=()=>window.LEGEND_DATA||{};
   const S=()=>window.LegendStorage||{};
   const state={name:'',gender:null,personality:null,origin:null,className:null,keepsake:null};
-  const genderOptions=[
-    {id:'woman',label:'Woman',pronouns:'she/her',text:'Ashmere reads you as a woman of the road. Flavor only.'},
-    {id:'man',label:'Man',pronouns:'he/him',text:'Ashmere reads you as a man of the road. Flavor only.'},
-    {id:'nonbinary',label:'Nonbinary',pronouns:'they/them',text:'Ashmere reads you as neither one thing nor another. Flavor only.'},
-    {id:'unspoken',label:'Keep It Unspoken',pronouns:'they/them',text:'Ashmere learns your name first. The rest can stay yours.'}
-  ];
-  const personalityOptions=[
-    {id:'kind',label:'Kind-Hearted',tag:'+1 luck',bonus:{luck:1},text:'You notice fear before weakness.'},
-    {id:'grim',label:'Grim Survivor',tag:'+1 survival',bonus:{survival:1},text:'You expect the worst and prepare for it.'},
-    {id:'bold',label:'Bold Wanderer',tag:'+1 strength',bonus:{strength:1},text:'You step forward before doubt gets a vote.'},
-    {id:'clever',label:'Clever Talker',tag:'+1 lore',bonus:{lore:1},text:'You listen for what people almost say.'},
-    {id:'quiet',label:'Quiet Watcher',tag:'+1 thieving',bonus:{thieving:1},text:'You survive by noticing what others miss.'}
-  ];
-  function gender(id){return genderOptions.find(x=>x.id===id)||genderOptions[3];}
-  function personality(id){return personalityOptions.find(x=>x.id===id)||personalityOptions[0];}
-  function startCreation(){state.name='';state.gender=null;state.personality=null;state.origin=null;state.className=null;state.keepsake=null;renderName();}
+  const creationOptions=window.LegendPlayerCreationOptionsV094;
+  const genderOptions=creationOptions?.genderOptions||[];
+  const personalityOptions=creationOptions?.personalityOptions||[];
+  function gender(id){return creationOptions?.gender?.(id)||genderOptions[3];}
+  function personality(id){return creationOptions?.personality?.(id)||personalityOptions[0];}
+  function startCreation(){
+    if(!genderOptions.length||!personalityOptions.length)return creationViewUnavailable();
+    state.name='';state.gender=null;state.personality=null;state.origin=null;state.className=null;state.keepsake=null;renderName();
+  }
   function creationViewUnavailable(){
     const root=ROOT();
-    if(root)root.innerHTML='<main class="v094-beginning"><div class="v094-beginning-shell"><section class="v094-beginning-card"><h1>Traveler creation is unavailable</h1><p>The creation view module did not load. Refresh before continuing.</p><button class="v094-btn primary" id="v094ViewBack" type="button">Back to Title</button></section></div></main>';
+    if(root)root.innerHTML='<main class="v094-beginning"><div class="v094-beginning-shell"><section class="v094-beginning-card"><h1>Traveler creation is unavailable</h1><p>A traveler-creation module did not load. Refresh before continuing.</p><button class="v094-btn primary" id="v094ViewBack" type="button">Back to Title</button></section></div></main>';
     root?.querySelector('#v094ViewBack')?.addEventListener('click',()=>window.LegendGameBootstrap?.title?.());
   }
   function renderName(){
