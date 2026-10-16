@@ -194,7 +194,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.v120-title')).toBeVisible();
     await page.reload();
     await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('#continue')).toBeVisible();
+    await expect(page.locator('#continue')).toContainText(/Return to Ashmere/i);
     await page.locator('#continue').click();
     await expect(page.locator('.ash100-town')).toBeVisible();
 
