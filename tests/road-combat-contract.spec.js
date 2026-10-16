@@ -68,7 +68,7 @@ test.describe('LegendRoadCombatV100 compatibility contract', () => {
     }, overrides);
   }
 
-  test('uses a healing potion, clamps healing to max HP, and still resolves the enemy turn', async ({ page }) => {
+  test('uses a healing potion and still resolves the enemy turn', async ({ page }) => {
     await startCombat(page, { player: { hp: 40, inventory: { potion: 1, roadPoultice: 1 } }, enemy: { damage: [3, 3] } });
     await page.locator('#item').click();
 
@@ -77,6 +77,21 @@ test.describe('LegendRoadCombatV100 compatibility contract', () => {
     expect(result.player.inventory.potion).toBe(0);
     expect(result.events.saves).toBe(1);
     await expect(page.locator('.rpg-dialogue')).toContainText('recover 30 HP');
+    await expect(page.locator('.rpg-dialogue')).toContainText('hits you for 1 damage');
+  });
+
+  test('caps potion healing at missing HP before the enemy counterattack', async ({ page }) => {
+    await startCombat(page, {
+      player: { hp: 90, maxHp: 100, inventory: { potion: 1, roadPoultice: 1 } },
+      enemy: { damage: [3, 3] },
+    });
+    await page.locator('#item').click();
+
+    const result = await page.evaluate(() => window.__combatContract);
+    expect(result.player.hp).toBe(99);
+    expect(result.player.inventory.potion).toBe(0);
+    expect(result.events.saves).toBe(1);
+    await expect(page.locator('.rpg-dialogue')).toContainText('recover 10 HP');
     await expect(page.locator('.rpg-dialogue')).toContainText('hits you for 1 damage');
   });
 
