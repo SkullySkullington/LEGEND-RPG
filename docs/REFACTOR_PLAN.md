@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 60.6 KB / 706 lines; remaining concerns include town routing, contracts/crossing, people/NPCs, and inn/services. The records, jobs, commerce, people/NPC, and inn responsibilities now have dedicated modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 28.7 KB / 411 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
 - `js/systems/road-controller-v100.js`: approximately 59 KB / 654 lines. It combines expedition scenes, road choices, points of interest, camping, quest decisions, combat, and audio effects.
 - `js/systems/road-controller-v087.js`: still loaded alongside v100; contains a second road/combat implementation and its own XP logic. Its live references must be traced before retiring or consolidating it.
 - `js/core/runtime-v080.js` duplicates legacy save fallbacks as well as return-to-Ashmere behavior already adjacent to `LegendStorage`. Persistence ownership needs to be clarified before this bridge can be simplified.
@@ -23,6 +23,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
 - [x] Begin the road-controller call-site audit: `LegendRoadControllerV100` is the preferred path from Ashmere; `LegendRoadControllerV087` is still loaded and remains a fallback, so it is not removed in this phase.
 - [x] Extract v100 enemy intent, class techniques, fight rendering/actions, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the existing expedition controller entry point and inject state/audio/progression adapters.
+- [x] Extract road sound preference, UI tones, battle effects, and battle music into `js/systems/road/road-audio-v100.js`; preserve the existing `legend-road-sound` preference and delegate both expedition and combat controls to the same audio service.
 - [ ] Complete the caller/side-effect audit for `LegendRuntimeV080` and `LegendStorage` before simplifying those bridges.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
@@ -36,10 +37,13 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 Keep `LegendAshmereV099` as a compatibility façade while moving responsibilities to narrow town modules. The current branch has extracted:
 1. traveler sheet and archive/records;
 2. work board and activity/jobs;
-3. trader, inventory transactions, crafting, smithing, and gear.
+3. trader, inventory transactions, crafting, smithing, and gear;
+4. people/NPC dialogue and town keeper interactions;
+5. inn and lodging services;
+6. side contracts and the Greyfen Dry Crossing.
 
-Still to extract:
-1. remaining town routes/services, then review and simplify the compatibility façade.
+Still to review:
+1. town shell and navigation helpers; then simplify the compatibility façade only after a caller inventory.
 
 Pass shared dependencies through small context objects or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
 
