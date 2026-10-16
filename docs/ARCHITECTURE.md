@@ -21,6 +21,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |
+| `js/systems/town/ashmere-navigation-v099.js` | 57 lines | Public town view ID to handler map for home, NPCs, feature screens, routes, road, profile, and regions | Add new town destinations in one map while preserving `LegendAshmereV099.route()` as the public façade |
 | `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
@@ -101,6 +102,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Region map view | `window.LegendRegionViewV100.create()` |
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |
+| Ashmere route map | `window.LegendAshmereNavigationV099.create()` |
 | Ashmere asset/catalog helpers | `window.LegendAshmereAssetsV099.create()` |
 | Ashmere shared view shell | `window.LegendAshmereViewV099.create()` |
 | Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
