@@ -82,6 +82,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
 - [ ] Browser-smoke-test active v100 flows and confirm XP, level-up, token rewards, audio, and return-to-Ashmere.
+- [x] Centralize Bell quest-log objective replacement in `js/systems/quest-log-v120.js`; both Ashmere and v100 road progression now use `LegendQuestLogV120` instead of maintaining parallel implementations.
 - Make progression/reward decisions come from one clearly owned service where feasible.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
 
