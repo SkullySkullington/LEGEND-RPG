@@ -17,10 +17,11 @@ This is a working map of the production browser game. It is not a map of `protot
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 323 lines | Town route façade, feature-context assembly, and navigation dispatch | Preserve public routes while reducing remaining context boilerplate |
+| `js/systems/ashmere-controller-v099.js` | 176 lines | Town route façade, route-board content, hub entry, and runtime initialization | Keep public routes stable and avoid adding feature-screen logic to the router |
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
+| `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
@@ -75,6 +76,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |
 | Ashmere asset/catalog helpers | `window.LegendAshmereAssetsV099.create()` |
 | Ashmere shared view shell | `window.LegendAshmereViewV099.create()` |
+| Ashmere feature adapter | `window.LegendAshmereFeaturesV099.create()` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Region travel | `window.LegendRegionsV100` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
