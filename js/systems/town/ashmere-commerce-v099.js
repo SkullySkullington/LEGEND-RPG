@@ -12,7 +12,7 @@
     const D = () => context.getData();
     const {
       itemIcon, itemName, gold, locationInterior, head, screen, esc, icon,
-      canAfford, owned, note, canCraft, needsMarkup, armorArt, weaponName, armorName
+      canAfford, owned, note, canCraft, needsMarkup, armorArt, weaponName, armorName, regionShopArt
     } = context;
 
 function renderTrader(tab='buy'){
