@@ -87,28 +87,7 @@
   }
   function bind(){ document.querySelectorAll('[data-ash-view]').forEach(b => b.onclick = () => route(b.dataset.ashView)); }
   function route(v){
-    if(v === 'home') return renderAshmere();
-    if(v === 'people') return feature('renderPeople');
-    if(v === 'mara' || v === 'brenn' || v === 'oric') return feature('renderNPC', v);
-    if(v === 'inn') return feature('renderInn');
-    if(v === 'trader') return feature('renderTrader');
-    if(v === 'smith') return feature('renderSmith');
-    if(v === 'work') return feature('renderWorkBoard');
-    if(v === 'crossing') return feature('renderDryCrossing');
-    if(v === 'craft') return feature('renderCrafting');
-    if(v === 'sheet') return feature('renderSheet');
-    if(v === 'archive') return feature('renderArchive');
-    if(v === 'profile') {
-      if(window.LegendAccountV09x?.renderAccount) return window.LegendAccountV09x.renderAccount();
-      return renderAshmere();
-    }
-    if(v === 'routes') return renderRoutes();
-    if(v === 'quests') return feature('renderSideContracts');
-    if(v === 'road') return startRoad();
-    if(v === 'regions') {
-      if(window.LegendRegionsV100?.render) return window.LegendRegionsV100.render();
-      return renderAshmere();
-    }
+    if (townNavigation?.route) return townNavigation.route(v);
     return renderAshmere();
   }
   function back(extra = ''){ return townView?.back?.(extra) || ''; }
@@ -167,6 +146,23 @@
     regionShopArt,
     hpPct
   }) || {};
+  const townNavigation = window.LegendAshmereNavigationV099?.create({
+    renderHome: renderAshmere,
+    renderFeature: feature,
+    renderNPC: id => feature('renderNPC', id),
+    renderRoutes,
+    renderRoad: startRoad,
+    renderRegions: () => {
+      const regions = window.LegendRegionsV100;
+      if (typeof regions?.render === 'function') return regions.render();
+      return renderAshmere();
+    },
+    renderProfile: () => {
+      const account = window.LegendAccountV09x;
+      if (typeof account?.renderAccount === 'function') return account.renderAccount();
+      return renderAshmere();
+    }
+  });
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();screen(head('Town Gate','Old Road','The expedition system could not load.',roadBg(),'road'),'<p>Return to the title and refresh before trying again.</p>');}
   function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
   window.LegendAshmereV099={renderAshmere,route};
