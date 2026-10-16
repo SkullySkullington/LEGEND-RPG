@@ -297,25 +297,23 @@
   }
 
   function settings(){
-    const current = loadSettings();
-    const rows = [
-      ['largeText','Large Text','Increases base UI text size for easier reading.','text'],
-      ['boldText','Bold Text','Adds stronger text weight across menus and panels.','bold'],
-      ['highContrast','High Contrast','Boosts contrast for darker rooms and bright text.','contrast'],
-      ['reducedMotion','Reduced Motion','Reduces animation and motion effects where supported.','motion'],
-      ['spacious','Spacious Layout','Adds breathing room for touch and mobile play.','space'],
-      ['readableFont','Readable Font','Uses a simpler font treatment for long reading sessions.','font']
-    ];
-    root().innerHTML = `<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><div class="settings09x-kicker">LEGEND ${esc(buildVersion())}</div><h1>Settings</h1><p>Adjust readability and comfort for this device. These options should feel like part of the game, not a browser form.</p></section><section class="settings09x-grid">${rows.map(([key,label,desc,ic]) => `<label class="settings09x-toggle"><input type="checkbox" data-setting="${key}" ${current[key] ? 'checked' : ''}><span class="settings09x-setting-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[ic]}"/></svg></span><span><strong>${label}</strong><span>${desc}</span></span><i class="settings09x-switch"></i></label>`).join('')}</section><p class="settings09x-note"><strong>Note:</strong> Accessibility settings do not change your save file, stats, or progress. They only affect presentation on this device.</p><div class="settings09x-actions"><button class="settings09x-btn primary" id="saveSettings">Save Settings</button><button class="settings09x-btn" id="backTitle">Back to Title</button>${loadPlayer()?'<button class="settings09x-btn" id="backGame">Back to Ashmere</button>':''}</div></div></main>`;
-    document.getElementById('saveSettings').onclick = () => {
-      const next = {...current};
-      document.querySelectorAll('[data-setting]').forEach(input => next[input.dataset.setting] = input.checked);
-      saveSettings(next);
-      settings();
-    };
-    document.getElementById('backTitle').onclick = title;
-    const backGame = document.getElementById('backGame');
-    if(backGame) backGame.onclick = continueGame;
+    const settingsScreen = window.LegendSettingsScreenV090;
+    if (settingsScreen && typeof settingsScreen.render === 'function') {
+      return settingsScreen.render({
+        root: root(),
+        loadSettings,
+        saveSettings,
+        buildVersion,
+        loadPlayer,
+        onBackTitle: title,
+        onBackGame: continueGame
+      });
+    }
+
+    const container = root();
+    if (!container) return;
+    container.innerHTML = '<main class="settings09x"><div class="settings09x-wrap"><section class="settings09x-hero"><h1>Settings</h1><p>The settings screen could not be loaded. Return to the title and refresh before retrying.</p></section><div class="settings09x-actions"><button class="settings09x-btn" id="backTitle" type="button">Back to Title</button></div></div></main>';
+    container.querySelector('#backTitle')?.addEventListener('click', title);
   }
 
   window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account, credits };
