@@ -45,20 +45,29 @@ jobs:
         run: |
           node <<'NODE'
           const fs = require('node:fs');
+          const path = require('node:path');
           const { spawnSync } = require('node:child_process');
 
           const html = fs.readFileSync('index.html', 'utf8');
-          const scripts = [...new Set(
+          const productionScripts = [...new Set(
             [...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi)]
               .map(([, src]) => src.split('?')[0])
               .filter(src => src.startsWith('js/') && src.endsWith('.js'))
-          )];
+          )].sort();
 
-          if (!scripts.length) {
-            throw new Error('No local production JavaScript scripts were found in index.html.');
+          function collectSpecs(directory) {
+            return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+              const file = path.join(directory, entry.name);
+              if (entry.isDirectory()) return collectSpecs(file);
+              return entry.isFile() && entry.name.endsWith('.spec.js') ? [file] : [];
+            });
           }
 
-          for (const file of scripts) {
+          const testSpecs = collectSpecs('tests').sort();
+          if (!productionScripts.length) throw new Error('No local production JavaScript scripts were found in index.html.');
+          if (!testSpecs.length) throw new Error('No Playwright .spec.js files were found under tests/.');
+
+          function checkSyntax(file) {
             const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
             if (result.status !== 0) {
               process.stderr.write('Syntax check failed: ' + file + '\n');
@@ -66,17 +75,11 @@ jobs:
               process.exit(result.status || 1);
             }
           }
-          console.log('Syntax-checked ' + scripts.length + ' active local production scripts from index.html.');
+
+          for (const file of productionScripts) checkSyntax(file);
+          for (const file of testSpecs) checkSyntax(file);
+          console.log('Syntax-checked ' + productionScripts.length + ' active local production scripts and ' + testSpecs.length + ' Playwright spec files.');
           NODE
-          node --check tests/progression-contract.spec.js
-          node --check tests/road-audio-contract.spec.js
-          node --check tests/road-combat-contract.spec.js
-          node --check tests/road-state-contract.spec.js
-          node --check tests/legend-smoke.spec.js
-          node --check tests/mobile-smoke.spec.js
-          node --check tests/workshop-art.spec.js
-          node --check tests/reboot-prototype.spec.js
-          node --check tests/live-deployment.spec.js
       - name: Run Playwright tests
         env:
           FULL_BROWSER_MATRIX: ${{ inputs.full_browser_matrix && '1' || '0' }}
