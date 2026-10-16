@@ -18,7 +18,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | --- | ---: | --- | --- |
 | `js/systems/ashmere-controller-v099.js` | 398 | Town shell/routing and navigation façade; routes to focused town modules | Preserve its public façade and split/clarify remaining navigation and shared helpers |
 | `js/systems/road-controller-v100.js` | 527 | Expedition rendering, route and POI choices, camping, special quest decisions, encounter selection/completion | Combat and audio are delegated to focused road modules; keep this file as expedition-flow owner |
-| `js/core/runtime-v080.js` | 110 | Return-to-Ashmere bridge and fallback save code | Make storage ownership explicit; preserve legacy recovery and return behavior |
+| `js/core/runtime-v080.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
 | `js/game.js` | 325 | Title screen, account/settings entry, credits and navigation | Keep it an entry/facade layer, not a dumping ground for feature systems |
 | `js/systems/beginning-v094.js` | 47 dense lines (~13 KB) | Multi-step traveler creation and creation-time player record construction | Later extract data construction/validation from step rendering without changing the flow
@@ -46,13 +46,13 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
 | `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; runtime return fallback | Creates and normalizes new player records, then marks the intro complete and enters the town. |
 | `js/systems/account-v09x.js` | Direct `LegendStorage` load/save, including returned traveler data | Profile/account flows depend on the existing player object and storage normalization behavior. |
-| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV080.loadPlayer/savePlayer/onRender` | Town screens read/write player state; the render hook restores the town shell when necessary. |
+| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV080.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
 | `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
-| `js/systems/road-controller-v087.js` | Runtime load/save/return and `onRender` | Owns legacy road state and installs a global render interceptor for old road button labels. |
-| `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
-| `js/core/runtime-v080.js` | Delegates to storage when available; hard-coded legacy fallback otherwise | Also owns pending-return session state, title continue-click fallback, mutation-observer hooks, and return-to-town recovery. |
 
-The static caller inventory is complete enough to guide the next review, but it is not yet proof that every fallback is unnecessary. In particular, `onRender()` installs a `MutationObserver` and calls pending-return logic; both road controllers can register it, and v087 changes click handlers when it recognizes legacy labels. Do not remove or make this hook one-shot until the title, traveler creation, town, expedition, combat, and return flows have been smoke-tested.
+| `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
+| `js/core/runtime-v080.js` | Delegates player load/save to `LegendStorage` | Also owns pending-return session state, title continue-click fallback, mutation-observer hooks, and return-to-town recovery. |
+
+The static caller inventory is complete enough to guide the next review, but it is not yet proof that the runtime return/MutationObserver hook can be simplified. v087 no longer registers the hook or rewrites click handlers. Keep the hook until title, traveler creation, town, expedition, combat, and return flows have been browser-smoke-tested.
 
 ## Critical runtime APIs
 
