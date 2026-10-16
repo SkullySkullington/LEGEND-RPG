@@ -106,6 +106,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Extract route-fork and moved-cairn state mutations into `js/systems/road/road-decisions-v100.js`; keep discovery's public methods as adapters.
 - [x] Extract POI investigation outcomes (evidence, rewards, pressure, counters, persistence and feedback) into `js/systems/road/road-poi-outcomes-v100.js`; preserve the discovery facade API.
 - [x] Extract discovery, route-fork, and moved-cairn panel rendering into `js/systems/road/road-discovery-view-v100.js`; keep input decisions, flag changes, and rewards in the discovery service.
+- [x] Move POI-outcome/discovery-view factories and the result-view instance into `LegendRoadControllerV100`'s composition boundary; inject them into road-discovery/results services instead of reading sibling services from inside domain modules.
 - [x] Keep XP thresholds, level-up mutation, and read-only current-level XP progress in `LegendProgressionV100`; pass the status function into the Traveler view. Gold/item/token settlement remains feature-owned rather than forcing unrelated rewards into a generic transaction service.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
 
