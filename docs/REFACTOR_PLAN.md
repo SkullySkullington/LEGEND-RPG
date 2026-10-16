@@ -46,6 +46,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Move title ambience, menu hover/focus cues, confirmation audio, and audio-unlock binding into `js/systems/title-audio-v120.js`; keep the title screen API focused on presentation and menu actions.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract region/quest/token-aware recommended-next-step rules into `js/systems/town/ashmere-guidance-v099.js`; keep the hub focused on route-card and destination presentation.
+- [x] Extract Ashmere/Greyfen destination-card data into `js/systems/town/ashmere-destination-catalog-v099.js`; keep region-specific copy and art keys separate from the hub's HTML rendering.
 - [x] Extract Ashmere/Greyfen home goal selection, destination cards, status, and footer navigation into `js/systems/town/ashmere-hub-v099.js`; keep `LegendAshmereV099.renderAshmere()` as the routed façade.
 - [x] Extract the Ashmere/Greyfen route-board cards and copy into `js/systems/town/ashmere-routes-v099.js`; keep route dispatch and public entry points in `LegendAshmereV099`.
 - [x] Extract town destination dispatch into `js/systems/town/ashmere-navigation-v099.js`; preserve `LegendAshmereV099.route()` and inject screen handlers through a route map.
