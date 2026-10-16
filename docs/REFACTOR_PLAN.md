@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.8 KB / 175 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, shared screen shell, catalog/art helpers, jobs, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.8 KB / 175 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, shared screen shell, catalog/art helpers, job data, job execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
 - `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
@@ -43,7 +43,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Split the Ashmere/Greyfen people directory from the NPC dialogue/evidence progression into `ashmere-people-v099.js` and `ashmere-npc-dialogue-v099.js`; retain the public people-module dispatcher and existing saved flags.
 - [x] Move town feature context assembly and feature-screen dispatch into `js/systems/town/ashmere-features-v099.js`; retain the existing `LegendAshmereV099.route()` contract.
 - [x] Extract shared item/art lookup maps and catalog presentation helpers into `js/systems/town/ashmere-assets-v099.js`; inject data/assets/player accessors while preserving icon, equipment-name, and region-art mappings.
-- [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
+- [x] Extract the Work Board's Ashmere/Greyfen job definitions, prompts, grades, reward values, and sequence data into `js/systems/town/ashmere-job-catalog-v099.js`; the runner now owns challenge lifecycle, persistence, and rewards.
 - [x] Split market buy/sell into `js/systems/town/ashmere-market-v099.js`, recipes into `ashmere-crafting-v099.js`, and equipment/forge behavior into `ashmere-forge-v099.js`; keep `ashmere-commerce-v099.js` as the route-compatible dispatcher and send sibling-screen navigation through injected callbacks.
 - [x] Extract inn rendering, rest/supply purchases, and rumors into `js/systems/town/ashmere-inn-v099.js`; preserve existing service costs and inject persistence/presentation helpers.
 - [x] Extract side-contract counters, acceptance/turn-in rewards, and existing evidence text into `js/systems/town/ashmere-contracts-v099.js`; preserve quest flags and inject player/save/progression/view helpers.
