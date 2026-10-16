@@ -1,6 +1,6 @@
-/* LEGEND v0.20.36 - Account authentication service and view bindings.
- * Owns sign-up/sign-in/session checks and the auth-panel markup/form behavior.
- * Profile display and cloud-slot orchestration remain in account-v09x.js.
+/* LEGEND v0.20.36 - Account authentication and auth-flow service.
+ * Owns Supabase readiness/session/sign-in/sign-up/sign-out and the profile-metadata
+ * effects of auth submissions. account-auth-view-v09x owns panel markup and DOM binding.
  */
 (() => {
   function create(context = {}) {
