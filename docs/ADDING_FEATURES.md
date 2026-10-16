@@ -10,6 +10,8 @@ When introducing a new script, add it to `index.html` before the module that con
 
 ## Where each kind of feature belongs
 
+| Title menu or title presentation cue | `js/screens/title-screen-v120.js` for markup/actions; `js/systems/title-audio-v120.js` for ambience and UI sounds | Preserve menu CSS hooks and injected navigation callbacks | Load the audio service before the title screen; keep player/navigation state in `LegendGameBootstrap` |
+
 | Feature type | Data / rules | View / interaction | Public wiring |
 | --- | --- | --- | --- |
 | Ashmere or Greyfen town screen | The relevant domain module under `js/systems/town/` | Same module, using injected `head`, `screen`, and artwork helpers | Add a destination to `js/systems/town/ashmere-navigation-v099.js`; add the feature adapter to `js/systems/town/ashmere-features-v099.js`; retain `LegendAshmereV099.route()` |
