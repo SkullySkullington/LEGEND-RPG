@@ -11,7 +11,7 @@ The Playwright foundation is on `refactor/playwright-playtester` (PR #18); workf
 
 Follow-on branch `refactor/game-audio-service` (draft PR #20) extracts Old Road sound preference, synthesized UI tones, battle effects, and battle-music lifecycle into `js/systems/audio-v100.js`. The extraction is validated by workflow #1271: 68 passed, 0 failed, 1 skipped. Live GitHub Pages validation is not claimed.
 
-Current branch `refactor/game-combat-service` is stacked on the audio branch (planned draft PR #21). It moves the Old Road combat presentation, action resolution, enemy intent, class techniques, and victory rewards into `js/systems/combat-v100.js`. The road controller injects persistence, expedition state, rendering, audio, and reward adapters, keeping its public entry points intact. The combat extraction is **not yet validated**; workflow #1275 is running on the latest code and must pass before this slice is considered complete.
+Current branch `refactor/game-combat-service` is stacked on the audio branch (planned draft PR #21). It moves the Old Road combat presentation, action resolution, enemy intent, class techniques, and victory rewards into `js/systems/combat-v100.js`. The road controller injects persistence, expedition state, rendering, audio, and reward adapters, keeping its public entry points intact. The combat extraction is **not yet validated**; workflow #1288 is running on the latest code and must pass before this slice is considered complete.
 
 Keep each slice isolated and regression-tested. Next likely boundaries after combat are narrative/POI content and town economy/crafting, but inspect their dependencies and preserve save compatibility before editing. Do not merge stacked PRs out of order.
 
