@@ -5,22 +5,13 @@
 (() => {
  function create(context = {}) {
   const {getPlayer,savePlayer,ensureState,addInventory,clamp,setBellQuestObjective,
-    awardProgress,stopMusic,renderHeader,renderShell,escapeHtml,returnToTown,returnToAshmere}=context;
+    awardProgress,stopMusic,renderHeader,renderShell,escapeHtml,resultView,returnToTown,returnToAshmere}=context;
   if(typeof getPlayer!=='function'||typeof savePlayer!=='function'||typeof ensureState!=='function'||
     typeof addInventory!=='function'||typeof clamp!=='function'||typeof setBellQuestObjective!=='function'||
     typeof awardProgress!=='function'||typeof stopMusic!=='function'||typeof renderHeader!=='function'||
     typeof renderShell!=='function'||typeof escapeHtml!=='function')return null;
   const p=getPlayer,save=savePlayer,ensure=ensureState,inv=addInventory,esc=escapeHtml,ret=returnToAshmere;
   const header=renderHeader,shell=renderShell;
-  const resultView=window.LegendRoadResultsViewV100?.create({
-    renderHeader:header,
-    renderShell:shell,
-    escapeHtml:esc,
-    onReturn:()=>{
-      if(typeof returnToTown==='function'){returnToTown();return;}
-      ret();
-    }
-  });
 function finish(){
  const pl=p();if(!pl)return;
  const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;
