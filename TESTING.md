@@ -36,9 +36,9 @@ This is the working inventory of critical coverage, not a claim that every row i
 | Character creation | valid character reaches Ashmere; blank name rejected; choices persist | Existing journey coverage; broaden combinations |
 | Regional hubs | Ashmere/Greyfen identity, destinations, regional services and routes | Existing targeted coverage; verify genuine travel journey |
 | Road/expedition | route choice, event outcomes, discovery, return to town | Partial; add full start-to-return journey |
-| Combat | Attack, Guard, class move, enemy turn, health/resources, victory/defeat and rewards | Partial; verify outcomes, not only visible buttons |
-| Quests/contracts | accept, objectives, turn-in, rewards, duplicate turn-in prevention | Gaps; add end-to-end contract completion |
-| Inventory/equipment | gain, consume, buy, sell, equip, unequip and resource accounting | Gaps; add transactional outcome assertions |
+| Combat | Attack, Guard, class move, enemy turn, health/resources, victory/defeat and rewards | Victory progression/reward now asserted; defeat and resource-use edge cases remain |
+| Quests/contracts | accept, objectives, turn-in, rewards, duplicate turn-in prevention | One contract's turn-in and reload persistence verified; broaden contract types and duplicate-attempt checks |
+| Inventory/equipment | gain, consume, buy, sell, equip, unequip and resource accounting | Market buy/sell and weapon purchase/equip transactions asserted; consumables and unequip remain |
 | Crafting/workshops | valid and invalid recipes, materials consumed, outputs granted | Partial; cover success and insufficient-material cases |
 | Saves/continue | reload, continue, region/quest/inventory state survives | Partial; cover broader persisted state |
 | Errors/assets | uncaught exceptions, failed first-party assets, missing registered assets | Partial; introduce shared error/asset assertions carefully |
