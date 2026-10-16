@@ -28,6 +28,7 @@
     const stopBattleMusic = context.stopMusic;
     const playBattleFx = context.playBattleFx;
     const tone = context.tone;
+    const toggleSound = context.toggleSound;
 
 function enemyIntent(enemy){
  const n=Number(enemy.turn||0)%3;
@@ -88,7 +89,7 @@ function combat(enemy,note=''){
  button('poultice',()=>combatAction(enemy,'poultice'));
  button('flee',()=>{stopBattleMusic();s.pressure=clamp(s.pressure-8,0,100);save(pl);renderExpedition('You withdraw from '+enemy.name+' and regroup on the road.');});
  button('battleSound',()=>{
-  try{localStorage.setItem('legend-road-sound',soundOn()?'off':'on');}catch(e){}
+  toggleSound?.();
   if(soundOn()){startBattleMusic();playBattleFx('magic');}else{stopBattleMusic();}
   const control=document.getElementById('battleSound');if(control)control.textContent=soundOn()?'♫ SOUND ON':'♫ SOUND OFF';
  });
