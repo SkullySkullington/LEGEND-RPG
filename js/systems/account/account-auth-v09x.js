@@ -10,6 +10,7 @@
       typeof getLocalPlayer!=='function')return null;
     const client=getClient,connected=isConnected,health=getHealth,esc=escapeHtml;
     const local=getLocalPlayer;
+    const authView=window.LegendAccountAuthViewV09x?.create({escapeHtml:esc});
   function supabaseReadyText(){
     if(!window.supabase) return 'CDN library missing';
     if(!window.LegendSupabaseV09x) return 'Config not loaded';
@@ -114,74 +115,50 @@
   function sessionEmail(session){ return session?.user?.email || ''; }
 
   function authBox(session, prof){
-    const debug = `<p class="account09x-note account09x-debug"><strong>Connection:</strong> ${esc(supabaseReadyText())}</p>`;
-    if(!connected()) return `<section class="account09x-panel account09x-auth-box"><div class="account09x-auth-head"><div class="account09x-kicker">Ashmere Account</div><h2>Sign In</h2><p>Sign in to access your account and cloud traveler saves.</p></div>${debug}<p class="account09x-note"><strong>Offline:</strong> Supabase did not load. Local profile and traveler saves still work.</p></section>`;
-    if(session?.user) return `<section class="account09x-panel account09x-auth-box"><div class="account09x-auth-head"><div class="account09x-kicker">Ashmere Account</div><h2>Signed In</h2><p class="account09x-session-email">${esc(sessionEmail(session))}</p></div>${debug}<div class="account09x-actions"><button class="account09x-btn danger" id="signOutBtn" type="button">Sign Out</button></div></section>`;
-    return `<section class="account09x-panel account09x-auth-box">
-      <div class="account09x-auth-head"><div class="account09x-kicker">Ashmere Account</div><h2 id="authTitle">Sign In</h2><p id="authIntro">Sign in to continue your journey.</p></div>
-      <div class="account09x-auth-tabs" role="tablist" aria-label="Account access">
-        <button class="account09x-auth-tab active" id="authSignInTab" type="button">Sign In</button>
-        <button class="account09x-auth-tab" id="authSignUpTab" type="button">Sign Up</button>
-      </div>
-      <form class="account09x-form account09x-auth-form" id="authForm">
-        <div class="account09x-field"><label for="authEmail">Email</label><input id="authEmail" type="email" maxlength="72" value="${esc(prof?.email || '')}" placeholder="you@example.com" autocomplete="email" required></div>
-        <div class="account09x-field account09x-signup-only" hidden><label for="authDisplayName">Traveler Name</label><input id="authDisplayName" type="text" maxlength="28" placeholder="Ashmere Traveler" autocomplete="nickname"></div>
-        <div class="account09x-field"><label for="authPassword">Password</label><input id="authPassword" type="password" minlength="6" placeholder="Minimum 6 characters" autocomplete="current-password" required></div>
-        <button class="account09x-btn primary account09x-auth-submit" id="authSubmitBtn" type="submit">Sign In</button>
-        <p class="account09x-auth-switch" id="authSwitchText">New to Ashmere? <button id="authSwitchBtn" type="button">Create an account</button></p>
-      </form>
-      ${debug}
-    </section>`;
+    if (authView?.renderAuthBox) {
+      return authView.renderAuthBox({
+        connected: connected(),
+        session,
+        profile: prof,
+        readyText: supabaseReadyText(),
+        sessionEmail
+      });
+    }
+    return '<section class="account09x-panel account09x-auth-box"><p>Account access is unavailable. Refresh before retrying.</p></section>';
   }
 
+    function bindAuthForm({ onComplete } = {}) {
+      if (!authView?.bindAuthForm) return;
+      authView.bindAuthForm({
+        onComplete,
+        onSubmit: async ({ mode, email, password, displayName }) => {
+          if (mode === 'signup') {
+            const chosenName = String(displayName || '').trim() || local()?.username || 'Ashmere Traveler';
+            const result = await createAccount(email, password, chosenName);
+            if (result.ok) {
+              saveProfile({
+                ...(getProfile() || {}),
+                displayName: chosenName,
+                email,
+                authUserId: result.user?.id || result.session?.user?.id || null
+              });
+            }
+            return result;
+          }
 
-
-    function bindAuthForm({onComplete} = {}) {
-    const authForm = document.getElementById('authForm');
-    let authMode = 'signin';
-    const setAuthMode = mode => {
-      authMode = mode === 'signup' ? 'signup' : 'signin';
-      const signup = authMode === 'signup';
-      const title = document.getElementById('authTitle');
-      const intro = document.getElementById('authIntro');
-      const submit = document.getElementById('authSubmitBtn');
-      const switchText = document.getElementById('authSwitchText');
-      const display = document.querySelector('.account09x-signup-only');
-      const signInTab = document.getElementById('authSignInTab');
-      const signUpTab = document.getElementById('authSignUpTab');
-      if(title) title.textContent = signup ? 'Create Account' : 'Sign In';
-      if(intro) intro.textContent = signup ? 'Create your Ashmere account.' : 'Sign in to continue your journey.';
-      if(submit) submit.textContent = signup ? 'Create Account' : 'Sign In';
-      if(switchText) switchText.innerHTML = signup ? 'Already have an account? <button id="authSwitchBtn" type="button">Sign in</button>' : 'New to Ashmere? <button id="authSwitchBtn" type="button">Create an account</button>';
-      if(display) display.hidden = !signup;
-      if(signInTab) signInTab.classList.toggle('active', !signup);
-      if(signUpTab) signUpTab.classList.toggle('active', signup);
-      const switchBtn = document.getElementById('authSwitchBtn');
-      if(switchBtn) switchBtn.onclick = () => setAuthMode(signup ? 'signin' : 'signup');
-    };
-    const signInTab = document.getElementById('authSignInTab');
-    const signUpTab = document.getElementById('authSignUpTab');
-    if(signInTab) signInTab.onclick = () => setAuthMode('signin');
-    if(signUpTab) signUpTab.onclick = () => setAuthMode('signup');
-    setAuthMode('signin');
-    if(authForm) authForm.onsubmit = async e => {
-      e.preventDefault();
-      const submit = document.getElementById('authSubmitBtn');
-      if(submit){ submit.disabled = true; submit.textContent = authMode === 'signup' ? 'Creating...' : 'Signing In...'; }
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
-      let result;
-      if(authMode === 'signup'){
-        const displayName = document.getElementById('authDisplayName').value.trim() || pl?.username || 'Ashmere Traveler';
-        result = await createAccount(email, password, displayName);
-        if(result.ok) saveProfile({ ...(getProfile() || {}), displayName, email, authUserId: result.user?.id || result.session?.user?.id || null });
-      } else {
-        result = await signIn(email, password);
-        if(result.ok) saveProfile({ ...(getProfile() || {}), email, authUserId: result.user?.id || result.session?.user?.id || null });
-      }
-      onComplete?.(result.message);
-    };
+          const result = await signIn(email, password);
+          if (result.ok) {
+            saveProfile({
+              ...(getProfile() || {}),
+              email,
+              authUserId: result.user?.id || result.session?.user?.id || null
+            });
+          }
+          return result;
+        }
+      });
     }
+
     return Object.freeze({getSession,refreshHealth,signOut,sessionEmail,authBox,bindAuthForm});
   }
   window.LegendAccountAuthV09x=Object.freeze({create});
