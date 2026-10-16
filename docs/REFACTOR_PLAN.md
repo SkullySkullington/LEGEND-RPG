@@ -75,7 +75,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - Extract shared safe HTML/formatting utilities only after the duplication and escaping rules are inventoried.
 
 ### 5. Verification and stabilization
-For each extraction: review the diff, run syntax checks on changed files, add or run relevant non-Playwright checks where available, and manually smoke-test the touched flow (title, traveler creation, Ashmere, travel, combat, return, save/load). Document anything not verified. Playwright debugging remains deferred as agreed; do not claim a flow is verified when it has not been manually checked.
+For each extraction: review the diff, run syntax checks on changed files, add focused regression coverage, and manually smoke-test the touched production flow where the deployed site is reachable. Playwright is an active CI regression gate; investigate failures from the report before changing assertions. A passing PR-branch run verifies the branch against its local test server, not the deployed GitHub Pages build. Document anything not verified, especially production flows not reached by a live smoke test.
 
 ## Guardrails
 
