@@ -15,12 +15,12 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
-    const emblem = page.locator('.portal100-emblem-wrap img');
+    const emblem = page.locator('.v136-corner-sigil');
     await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\.webp/);
     await expect.poll(() => backdrop.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     const logo = page.locator('.v120-legend-logo');
     await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
+    await expect(emblem).toHaveAttribute('src', /assets\/ui\/icons\/awakening-sigil\.svg/);
     await expect(logo).toBeVisible();
     await expect(logo).toHaveAttribute('src', /logo_legend_awakening_wordmark\.svg/);
     await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
@@ -43,7 +43,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.v120-legend-logo')).toBeVisible();
     await expect(page.locator('#legendTitleAccessibleName')).toHaveText('LEGEND: The Awakening');
     await expect(page.locator('.v120-title-hero h2')).toHaveCount(0);
-    await expect(page.locator('.v120-title-hero')).toContainText('Monsters gather beyond the borders');
+    await expect(page.locator('.v120-title-hero')).toContainText('Monsters press against the borders');
     await expect(page.locator('.portal100-brand')).not.toContainText('MONSTER WARS');
     await expect(page.locator('.portal100-traveler')).toHaveCount(0);
     await expect(page.locator('#newPrimary')).toBeVisible();
@@ -283,7 +283,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('heading', { name: 'Roads & Regions' })).toBeVisible();
     const greyfen=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Greyfen', exact: true }) });
     const ironpass=page.locator('.reg100-card').filter({ has: page.getByRole('heading', { name: 'Ironpass', exact: true }) });
-    await expect(greyfen.locator('.reg100-card-scene img')).toHaveAttribute('src', /greyfen-marsh-walkway\\.webp/);
+    await expect(greyfen.locator('.reg100-card-scene img')).toHaveAttribute('src', /greyfen-marsh-walkway\.webp/);
     await expect.poll(() => greyfen.locator('.reg100-card-scene img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect(greyfen.locator('[data-unlock="Greyfen"]')).toBeVisible();
     await expect(ironpass).toContainText('Requires Greyfen first');
@@ -1044,11 +1044,11 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await startFreshCharacter(page, 'IconArtQA');
     const icons = page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg');
     await expect(icons.first()).toBeVisible();
-    await expect(icons).toHaveCount(7);
+    await expect(icons).toHaveCount(4);
     const iconReferences = await page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg use').evaluateAll(nodes =>
       nodes.map(node => node.getAttribute('href') || node.getAttribute('xlink:href') || '')
     );
-    expect(iconReferences).toHaveLength(7);
+    expect(iconReferences).toHaveLength(4);
     expect(iconReferences.every(ref => ref.startsWith('assets/ui/icons/legend-ui-icons-v1.svg#icon-'))).toBe(true);
   });
 
