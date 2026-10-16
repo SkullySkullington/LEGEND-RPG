@@ -3,11 +3,7 @@
  * Title state and all menu actions are passed in; audio and navigation stay outside.
  */
 (() => {
-  function esc(value) {
-    return String(value == null ? '' : value).replace(/[&<>'"]/g, character => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
-    }[character]));
-  }
+  const esc = window.LegendHtmlV120.escapeHtml;
 
   function render(config = {}) {
     const {
