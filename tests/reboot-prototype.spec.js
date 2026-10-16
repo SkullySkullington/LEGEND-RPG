@@ -40,12 +40,12 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
 
     await page.locator('[data-battle="guard"]').click();
     await expect(page.locator('#battleHeading')).toContainText('You set your stance');
-    await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
+    await expect(page.locator('#battleHeading')).toContainText('Your turn', { timeout: 5000 });
 
     await page.locator('[data-battle="spell"]').click();
     await expect(page.locator('#heroMpText')).toHaveText('20 / 30');
     await expect(page.locator('#battleHeading')).toContainText('Ember Bolt');
-    await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
+    await expect(page.locator('#battleHeading')).toContainText('Your turn', { timeout: 5000 });
 
     await page.keyboard.press('Escape');
     await expect(page.locator('#title-panel')).toHaveClass(/active/);
