@@ -1,57 +1,8 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
-const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
-const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
-if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
-const version = versionMatch[1];
-
-// Each Playwright test runs in an isolated browser context, so clearing localStorage
-// here only resets that test's synthetic traveler—not a player's live browser save.
-async function openTitle(page) {
-  await page.goto('/');
-  await page.evaluate(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-  });
-  await page.reload();
-  // The game's ember/fog/CTA animations are decorative; disable them in test contexts
-  // so WebKit touch targets do not remain perpetually "unstable" during clicks.
-  await page.addStyleTag({ content: `
-    *, *::before, *::after {
-
-      animation: none !important;
-
-      transition: none !important;
-
-      scroll-behavior: auto !important;
-
-    }
-  ` });
-  await expect(page.locator('.v120-title')).toBeVisible();
-  await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
-}
-
-async function startFreshCharacter(page, name = 'QATraveler') {
-  await openTitle(page);
-  await page.getByRole('button', { name: /Begin Your Journey/i }).click();
-  await page.locator('#v094Name').fill(name);
-  await page.locator('#v094Next').click();
-  await page.locator('[data-gender="unspoken"]').click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-personality="kind"]').click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-origin]').first().click();
-  await page.locator('#v094Next').click();
-  await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
-  await page.locator('#v094Next').click();
-  await page.locator('[data-keepsake="Old Map"]').click();
-  await page.locator('#v094Next').click();
-  await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /Begin the Road/i }).click();
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
-  await expect(page.locator('.ash100-town')).toBeVisible();
-}
+const { readGameVersion, openTitle, startFreshCharacter } = require('./helpers/game');
+const version = readGameVersion();
 
 test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title and visible build version are consistent', async ({ page }) => {
