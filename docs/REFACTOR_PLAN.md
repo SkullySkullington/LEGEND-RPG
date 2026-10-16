@@ -12,7 +12,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 26.7 KB / 398 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
 - `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 44.3 KB / 527 lines. It owns expedition scenes, road choices, points of interest, camping, quest decisions, and completion; combat/audio are extracted.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
-- `js/core/runtime-v080.js` now delegates all player persistence to `LegendStorage`; it remains only as the return/navigation bridge while a future pass can modernize its name.
+- `js/core/game-runtime-v120.js` now delegates all player persistence to `LegendStorage`; it remains only as the return/navigation bridge while a future pass can modernize its name.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
 - `js/storage.js` normalizes the player record, but its data shape is implicit rather than described by a stable save contract.
 
