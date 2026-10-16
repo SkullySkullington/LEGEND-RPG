@@ -7,7 +7,7 @@ This is a working map of the production browser game. It is not a map of `protot
 
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
-- `js/storage.js` publishes `window.LegendStorage` and owns player normalization, save/load/delete, and settings persistence. See `docs/SAVE_DATA_CONTRACT.md` for the current field map, keys, normalization behavior, and compatibility guardrails.
+- `js/storage.js` publishes `window.LegendStorage` and owns player normalization plus player save/load/delete. It delegates settings persistence to `js/storage/settings-storage-v120.js` while preserving the public `loadSettings/saveSettings/applySettings` methods. See `docs/SAVE_DATA_CONTRACT.md` for the player field map and all storage keys.
 - `js/screens/title-screen-v120.js` owns the active title menu, title ambience/UI cues, transition notice, optional gate screen, and credits dialog. Navigation actions are injected.
 - `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
 - `js/screens/settings-screen-v090.js` owns settings presentation and its control binding. Persistence remains in `js/storage.js`.
@@ -26,11 +26,13 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
 | `js/systems/road-controller-v100.js` | 139 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
-| `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
+| `js/storage.js` | 132 lines | Current player normalization and player save/load/delete; facade for settings APIs | Keep player-save ownership and public storage method names stable |
+| `js/storage/settings-storage-v120.js` | 55 lines | `legend-settings-v1`, default accessibility options, and UI class application | Own device-local settings persistence separately from player-record normalization |
 | `js/screens/title-screen-v120.js` | 168 | Active title menu markup, title audio, transition notice and credits | Keep presentation and local title interactions separate from navigation/player-state owners |
 | `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
 | `js/systems/beginning-v094.js` | Creation flow + choice state | Seven-step choice orchestration, validation, record-builder invocation, persistence, and intro transition | Keep progression of the creation flow here; delegate DOM rendering/binding and record construction |
 | `js/systems/player/player-creation-view-v094.js` | 133 lines | Name, choice, confirmation, and intro screen markup plus local DOM event binding | Own creation presentation; accept current selections and callbacks without reading/writing player saves |
+| `js/systems/player/player-creation-options-v094.js` | 36 lines | Gender/pronoun labels and personality text/starting-bonus choices | Keep choice catalogs data-only while the creation flow owns selection/validation |
 | `js/systems/player/player-record-v094.js` | Focused record builder | Starting identity, stats, inventory/equipment, quest log, memories, and storage normalization adapter | Keep player record assembly independent of UI rendering and pass catalogs/normalization explicitly |
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 148 lines | Work Board rendering, timing/choice/sequence challenge lifecycle, event binding, and rewards | Own challenge execution and save/reward handling while taking job data from the catalog module |
@@ -87,6 +89,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | --- | --- |
 | Game data | `window.LEGEND_DATA` |
 | Player/settings storage | `window.LegendStorage` |
+| Device-local settings store | `window.LegendSettingsStorageV120.create()` |
 | Legacy runtime bridge | `window.LegendRuntimeV120` |
 | Progression helper | `window.LegendProgressionV100` |
 | Title presentation | `window.LegendTitleScreenV120` |
@@ -123,7 +126,7 @@ The current field-level contract is maintained in `docs/SAVE_DATA_CONTRACT.md`. 
 
 - Active player save key: `legend-roads-of-ashmere-v09` (`LEGEND_DATA.SAVE_KEY`).
 - Player persistence reads only `LEGEND_DATA.SAVE_KEY`; legacy recovered-build save keys are no longer imported.
-- Settings key: `legend-settings-v1`, owned by `js/storage.js`.
+- Settings key: `legend-settings-v1`, owned by `js/storage/settings-storage-v120.js` and exposed to game screens via `LegendStorage`.
 - Road audio preference key: `legend-road-sound`, owned by `js/systems/road/road-audio-v100.js`.
 - Title-gate session key: `legend-roads-of-ashmere-title-gate-v09x`, used by the older optional title-gate flow.
 - Runtime return key: `legend-awakening-return-to-town-v1`, owned by the runtime bridge.
