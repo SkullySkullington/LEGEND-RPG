@@ -10,7 +10,7 @@ This documents the active production data path. Per the current project directio
 | Active player record | `js/storage.js` / `window.LegendStorage` | `legend-roads-of-ashmere-v09` from `LEGEND_DATA.SAVE_KEY` |
 | Settings | `LegendStorage` | `legend-settings-v1` |
 | Road audio preference | `js/systems/road/road-audio-v100.js` | `legend-road-sound` (`off` disables; other/missing values mean on) |
-| Pending return to town | `js/core/runtime-v080.js` | session key `legend-v080-return-ashmere` |
+| Pending return to town | `js/core/game-runtime-v120.js` | session key `legend-v080-return-ashmere` |
 | Older optional title gate | `js/game.js` | session key `legend-roads-of-ashmere-title-gate-v09x` |
 
 `LegendStorage.loadPlayer()` reads only `LEGEND_DATA.SAVE_KEY`, parses that value, and calls `normalize()`. An absent or malformed active save returns `null`. Old `legend-recovered-build-v0*` keys are no longer imported. `LegendRuntimeV120` delegates player reads/writes to `LegendStorage` and no longer provides its own legacy key fallback.
