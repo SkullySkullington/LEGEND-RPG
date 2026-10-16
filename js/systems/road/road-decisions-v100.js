@@ -1,6 +1,6 @@
 /* LEGEND v0.20.36 - Old Road branch/side-story decisions.
  * Applies route-fork and moved-cairn choices to expedition state. Presentation
- * is owned by road-discovery-view-v100; inspection rewards remain in discovery.
+ * is owned by road-discovery-view-v100; inspection rewards live in road-poi-outcomes-v100.
  */
 (() => {
   function create(context = {}) {
