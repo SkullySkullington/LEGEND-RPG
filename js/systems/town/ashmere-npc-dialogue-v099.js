@@ -15,21 +15,20 @@
     const setBellQuestObjective = context.setBellQuestObjective;
     const head = context.head;
     const screen = context.screen;
+    const npcCatalog = window.LegendAshmereNpcCatalogV099?.create({ npcArt: npc });
 
   function renderNPC(id){
     const pl=p(); if(!pl)return;
     const greyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
-    const ashMap={
-      mara:{name:'Mara Vell',role:'Archive Keeper',art:npc('mara'),text:'Mara keeps Ashmere\'s records in careful stacks, as if the town might fall apart without her hands holding it together.',lines:['The bell rang once when you arrived. That should not be possible.','If the road truly woke for you, Old Road may still hide proof of what changed.','Bring back Road Tokens. Bring back anything the road should not have remembered.']},
-      brenn:{name:'Old Brenn',role:'Ledger Keeper',art:npc('brenn'),text:'Brenn keeps ink, coin, and consequences in the same room. Nothing counts in Ashmere until it is written down.',lines:['Road Tokens matter. Bell Fragments matter more.','The road forgets. I do not.','If you have three Road Tokens, I can record your first proof.']},
-      oric:{name:'Captain Oric',role:'Gate Captain',art:npc('oric'),text:'Oric watches the gate like the road owes him blood.',lines:['Out there, hesitation gets people buried.','Guard when the hit looks heavy. Fall back before pride gets you killed.','Preparation is not cowardice. It is why veterans get old.']}
-    };
-    const fenMap={
-      mara:{name:'Mara Vell',role:'Boundary Archivist',art:npc('mara'),text:'Mara has set up a temporary desk in Greyfen’s boundary archive. Every bell-mark she copies seems older than the stone it was carved into.',lines:['These stones were markers before they were graves. I am still deciding which they are now.','The light in the reeds is not a lantern. It only wants you to follow it like one.','Bring me a rubbing of any bell-mark you find. I will compare it to the drowned records.']},
-      brenn:{name:'Old Brenn',role:'Bellkeeper’s Ledger',art:npc('brenn'),text:'Brenn has carried his ledger across the causeway. Here, the ink records more than rewards: crossings, disappearances, and debts no one wants to claim.',lines:['Greyfen pays in proof, not promises. Keep every token you earn.','A crossing costs coin. A safe crossing costs preparation.','I am keeping a separate line for those who hear the bell after dark.']},
-      oric:{name:'Captain Oric',role:'Causeway Watch',art:npc('oric'),text:'Oric watches the raised paths between Greyfen and the drowned lowlands. He marks every stretch that can vanish after heavy rain.',lines:['Stay on the old stone where you can. Reeds hide holes deep enough to swallow a cart.','If something keeps pace with you in the water, do not turn your lantern toward it.','Rest before the causeway narrows. There is nowhere to stand once the flood reaches the markers.']}
-    };
-    const n=(greyfen?fenMap:ashMap)[id]||(greyfen?fenMap:ashMap).mara;
+    const n = npcCatalog?.get
+      ? npcCatalog.get(greyfen ? 'Greyfen' : 'Ashmere', id)
+      : {
+          name: 'Town Character',
+          role: 'Town Guide',
+          art: npc(id),
+          text: 'The dialogue catalog did not load. Refresh before continuing.',
+          lines: ['Town dialogue is temporarily unavailable.']
+        };
     if(greyfen&&id==='mara'&&pl.flags?.greyfenEvidenceFiled){
       n.lines=[
         'The field note, the crossing ledger, and the earlier weekly return are now preserved together. Each record tells a different part of the same route history.',
