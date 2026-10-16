@@ -36,7 +36,8 @@ Do not reorder or remove scripts until references and runtime behavior have been
 - `js/content/roads/old-road-v087.js`: road content including stages, checks, enemies, and finds.
 - `js/systems/road-controller-v100.js`: expedition flow and battle-related behavior; currently a large controller with inline rendering. Audio delegates to `LegendRoadAudioV100` while the controller keeps its existing local call contract.
 - `js/systems/road-audio-v100.js`: extracted sound preference, UI tones, battle sound effects, and battle-music lifecycle.
-- `js/systems/ashmere-controller-v099.js`: town actions and inline rendering.
+- `js/systems/town-audio-v100.js`: extracted Ashmere hover/confirm cues and their per-control binding behavior.
+- `js/systems/ashmere-controller-v099.js`: town actions and inline rendering; delegates town UI cues to `LegendTownAudioV100`.
 - `js/systems/region-controller-v100.js`: region/town progression and travel behavior.
 - `js/game.js`: core game and scene behavior.
 
@@ -72,7 +73,8 @@ Do not reorder or remove scripts until references and runtime behavior have been
 ### Phase 4 — Rendering and audio
 - [x] Extract the Old Road audio behavior behind `LegendRoadAudioV100` while preserving the existing `legend-road-sound` preference and controller-facing calls.
 - [ ] Move markup into shared render functions while preserving DOM contracts.
-- [ ] Centralize remaining town/title audio behind adapters that retain existing toggles and playback behavior.
+- [x] Extract Ashmere hover/confirm cues behind `LegendTownAudioV100`, retaining existing asset paths, volumes, throttle, and binding marker.
+- [ ] Centralize remaining title audio behind adapters that retain existing toggles and playback behavior.
 
 ### Phase 5 — ES modules and cleanup
 - Move to named ES-module exports only after the app loading/build/deployment model is verified.
