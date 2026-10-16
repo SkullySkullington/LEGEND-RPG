@@ -12,11 +12,11 @@
     player.inventory[itemId]=Number(player.inventory[itemId]||0)+amount;
   }
   function setBellQuestObjective(player,objective){
-    player.questLog=Array.isArray(player.questLog)?player.questLog:[];
-    const prefix='The Bell That Rang Once:';
-    const entry=prefix+' '+objective;
-    const index=player.questLog.findIndex(item=>String(item).startsWith(prefix));
-    if(index>=0)player.questLog[index]=entry;else player.questLog.unshift(entry);
+    const questLog=window.LegendQuestLogV120;
+    if(typeof questLog?.setBellQuestObjective!=='function'){
+      throw new Error('LegendQuestLogV120 must load before the v100 road state service.');
+    }
+    return questLog.setBellQuestObjective(player,objective);
   }
   const state=player=>{
     player.flags=player.flags||{};
