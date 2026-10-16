@@ -12,7 +12,7 @@
       addInventory,
       escapeHtml,
       clamp: clampValue,
-      setBellQuestObjective,
+      bellRoadEvidence,
       renderExpedition,
       tone
     } = context;
@@ -20,7 +20,8 @@
     if (typeof getPlayer !== 'function' || typeof savePlayer !== 'function' ||
         typeof ensureState !== 'function' || typeof getRoadData !== 'function' ||
         typeof addInventory !== 'function' || typeof escapeHtml !== 'function' ||
-        typeof renderExpedition !== 'function') return null;
+        typeof renderExpedition !== 'function' ||
+        typeof bellRoadEvidence?.recordPointEvidence !== 'function') return null;
 
     const p = getPlayer;
     const save = savePlayer;
@@ -127,40 +128,7 @@ function inspectPointOfInterest(){
  s.poiUsed=s.poiUsed||{};
  if(s.poiUsed[point.key])return renderExpedition('You have already investigated this spot on the current expedition.');
  s.poiUsed[point.key]=true;s.discoveryOpen=false;s.discoveryStage=null;visibleDiscoveryStage=null;
- let foundGreyfenFieldNote=false,foundGreyfenWeeklyReturn=false;
- if(point.key==='blackroot-mark'){
-  pl.flags=pl.flags||{};
-  pl.flags.bellRoadSearched=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Blackroot Bend, black roots split a stone seal bearing the same bell-mark found near Ashmere. The mark repeats, but its purpose remains unclear.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  if(pl.flags.firstRoadReturnMaraBriefed){
-   setBellQuestObjective(pl,'Return to Mara with your observation of the bell-marked seal at Blackroot Bend.');
-  }
- }else if(point.key==='greyfen-marker'&&pl.flags?.bellRoadSearched&&!pl.flags?.greyfenBoundaryCompared){
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenBoundaryCompared=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At the Greyfen Approach, the boundary stone carries the bell-mark seen at Blackroot Bend beneath a newer cut angled toward the reed bed. The mark proves a change in the stone, not who made it.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Take the matching boundary mark to Mara in Greyfen’s Boundary Archive.');
- }else if(point.key==='reedwatch-locker'&&pl.flags?.greyfenArchiveRead&&!pl.flags?.greyfenFieldNoteFound){
-  foundGreyfenFieldNote=true;
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenFieldNoteFound=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Reedwatch Shelter, you found a field note dated two days after Greyfen logged the flood’s retreat. Its sketch already shows the newer cut angled toward the reed bed; the signature is unreadable.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Bring the dated Reedwatch field note to Mara in Greyfen’s Boundary Archive.');
- }else if(point.key==='camp-firepit'&&pl.flags?.greyfenLedgerCompared&&!pl.flags?.greyfenWeeklyReturnFound){
-  foundGreyfenWeeklyReturn=true;
-  pl.flags=pl.flags||{};
-  pl.flags.greyfenWeeklyReturnFound=true;
-  pl.memories=Array.isArray(pl.memories)?pl.memories:[];
-  const memory='At Wayfarer’s Camp, you found an earlier weekly route return: the lower crossing was marked CLOSED pending inspection, then overwritten as OPEN without initials. The record shows a changed instruction, not who changed it.';
-  if(!pl.memories.includes(memory))pl.memories.push(memory);
-  setBellQuestObjective(pl,'Bring the earlier weekly route return to Old Brenn in Greyfen’s Bellkeeper’s Ledger.');
- }
+ const {foundGreyfenFieldNote,foundGreyfenWeeklyReturn}=bellRoadEvidence.recordPointEvidence(pl,point);
  let note='',reward='';
  if(stage===0){pl.gold=Number(pl.gold||0)+5;s.pressure=clamp(s.pressure-4,0,100);note='You follow the drier tracks and find a small coin purse caught beneath the marker. +5 gold; Road Pressure falls by 4.';}
  else if(stage===1&&s.routeChoice==='ridge'){
