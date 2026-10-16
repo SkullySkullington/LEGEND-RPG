@@ -1,31 +1,31 @@
 # LEGEND refactor plan
-Last updated: 2026-10-15
+Last updated: 2026-10-16
 
-## Current priority: establish the right title identity and RPG menu
-
-The current product title is **LEGEND: The Awakening**. “The Unquiet Road” is a retired working subtitle. The production title should use the approved local landscape and wordmark with a classic RPG-style framed menu, not a collection of website cards or a second splash overlay.
-
-### Current title pass
-- [x] Keep the approved local panorama, antique-gold wordmark, and compact awakening sigil.
-- [x] Give Continue/Begin one obvious primary action.
-- [x] Keep New Traveler, Profile, Settings, and Credits available as quieter menu choices.
-- [x] Keep labels in semantic HTML, retain keyboard focus and accessibility settings, and provide responsive/reduced-motion styles.
-- [ ] Visually inspect the branch at desktop and mobile widths.
-- [ ] Confirm the merged/deployed page when this branch is released.
-
-Do not block title/art direction on Playwright troubleshooting during this pass. Prefer direct source review and manual browser inspection for this visual change.
+## Production status
+The title refresh is merged and deployed as **LEGEND: The Awakening v0.20.36**. Desktop deployment was checked at 1440×900. A separate manual mobile-width visual pass remains outstanding. Playwright debugging is explicitly deferred and is not a gate for the refactor steps below.
 
 ## Refactor phase: stability before features
-The refactor is an incremental extraction of the existing game, not a rewrite. Preserve current gameplay, save keys, and saved-player compatibility.
 
-1. **Baseline and inventory:** map script load order, global state, localStorage/sessionStorage keys, event handlers, and cross-system dependencies. Capture smoke-test behavior before moving code.
-2. **Shared contracts:** document player/save data shape, region IDs, item IDs, and system boundaries. Add tests around save/load and region transitions.
+This is an incremental extraction of the production game, not a rewrite. Preserve current gameplay, save keys, and saved-player compatibility.
+
+### First extraction: settings screen
+- [x] Move settings markup and event wiring into `js/screens/settings-screen-v090.js`.
+- [x] Keep settings persistence in `LegendStorage`; inject settings load/save and navigation callbacks into the screen renderer.
+- [x] Keep a graceful fallback in `js/game.js` if the screen module is not available.
+- [ ] Manually smoke-test opening settings, saving each option, returning to the title, and returning to Ashmere with a loaded player.
+- [ ] Add focused automated coverage for save/load and region transitions without changing the save format.
+
+### Sequence
+1. **Baseline and inventory:** map script load order, global entry points, persistence keys, and cross-system dependencies before larger moves.
+2. **Shared contracts:** document player/save shape, region IDs, item IDs, and system boundaries. Add tests around save/load and region transitions.
 3. **UI and routing:** centralize screen transitions and reusable dialog behavior while retaining existing screen markup and interactions.
 4. **Domain systems:** extract one bounded area at a time (inventory/equipment, combat, progression, travel/regions, shops/crafting/quests). Avoid broad file moves.
-5. **Regression gate:** run tests after each extraction; keep commits small and revertible. Fix regressions immediately; defer feature requests to the backlog.
-6. **Resume features:** only after the core flows are stable and documented.
+5. **Regression gate:** inspect each focused diff and run the relevant non-Playwright checks after each extraction. Keep commits small and revertible; fix regressions immediately.
+6. **Resume features:** only after core flows are stable and documented.
 
-## Out of scope during the refactor
-- New classes, regions, combat mechanics, crafting features, and content expansions.
-- Save-format migrations unless a verified bug requires one and backward compatibility is covered by tests.
-- A full framework rewrite or replacement of the production game with the Phaser prototype.
+## Guardrails
+- Do not rename or remove current/legacy storage keys as part of a code-organization change.
+- Do not change the player save shape or introduce a migration without a verified bug and backward-compatibility coverage.
+- Do not add new classes, regions, combat mechanics, crafting features, or content expansions during this phase.
+- Do not replace production game code with the Phaser prototype or perform a full framework rewrite.
+- Defer Playwright debugging; prefer bounded source review and targeted checks for these refactor steps.
