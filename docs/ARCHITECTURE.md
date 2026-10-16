@@ -7,7 +7,7 @@ This is a working map of the production browser game. It is not a map of `protot
 
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
-- `js/storage.js` publishes `window.LegendStorage` and owns player normalization, save/load/delete, and settings persistence.
+- `js/storage.js` publishes `window.LegendStorage` and owns player normalization, save/load/delete, and settings persistence. See `docs/SAVE_DATA_CONTRACT.md` for the current field map, keys, normalization behavior, and compatibility guardrails.
 - `js/game.js` renders the title and owns entry/navigation adapters, settings entry, and credits. It publishes `window.LegendGameBootstrap`.
 - Feature systems are separate files but often have broad responsibilities and call each other via `window` APIs.
 - The current settings extraction on draft PR #17 adds `js/screens/settings-screen-v090.js`. It is a small boundary exercise only and is not deployed.
@@ -62,6 +62,8 @@ This is a working map of the production browser game. It is not a map of `protot
 These APIs are not necessarily ideal long-term boundaries; they are current compatibility points. Inspect the complete call graph before changing them.
 
 ## Persistence contracts — do not casually rename
+
+The current, field-level compatibility map is maintained in `docs/SAVE_DATA_CONTRACT.md`. It captures current behavior and known gaps; it is not yet a strict schema validator.
 
 - Active player save key: `legend-roads-of-ashmere-v09` (`LEGEND_DATA.SAVE_KEY`).
 - Historical player-save keys: `LEGEND_DATA.OLD_KEYS`, plus a separate legacy fallback list in `js/core/runtime-v080.js`.
