@@ -59,8 +59,9 @@ This is a working map of the production browser game. It is not a map of `protot
 | --- | --- | --- |
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
 | `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; `LegendPlayerRecordV094` builder; runtime return fallback | Collects traveler choices, saves the builder-created record, then marks the intro complete and enters the town. |
-| `js/systems/account-v09x.js` | Direct `LegendStorage` load/save, including returned traveler data | Profile/account flows depend on the existing player object and storage normalization behavior. |
+| `js/systems/account-v09x.js` | 181 lines | Account/profile screen composition, local profile metadata, traveler summary, and cloud-slot orchestration | Keep as the public account facade; delegate auth and cloud APIs to focused services |
 | `js/systems/account/cloud-traveler-slots-v09x.js` | 88 lines | Supabase cloud traveler slot list/save/load/delete, readiness checks, and slot error handling | Own cloud-slot CRUD and keep the account UI from embedding remote persistence rules |
+| `js/systems/account/account-auth-v09x.js` | 189 lines | Supabase session/sign-in/sign-up/sign-out logic, auth panel markup, and auth form interactions | Own auth UI/service boundary, receive storage/profile and Supabase adapters through factory context |
 | `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
 | `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
 
