@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 9.4 KB / 176 lines; the route façade and initialization remain, while records, home hub, shared screen shell, catalog/art helpers, feature-context assembly, jobs, commerce, people/NPCs, inn, and contracts/crossing live in focused modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.8 KB / 175 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, shared screen shell, catalog/art helpers, jobs, commerce, people/NPCs, inn, and contracts/crossing live in focused modules.
 - `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
@@ -36,6 +36,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Ashmere/Greyfen home goal selection, destination cards, status, and footer navigation into `js/systems/town/ashmere-hub-v099.js`; keep `LegendAshmereV099.renderAshmere()` as the routed façade.
+- [x] Extract the Ashmere/Greyfen route-board cards and copy into `js/systems/town/ashmere-routes-v099.js`; keep route dispatch and public entry points in `LegendAshmereV099`.
 - [x] Extract the town shell, header/back controls, and UI audio bindings into `js/systems/town/ashmere-view-v099.js`; inject player, art, and route callbacks and preserve the existing markup/hooks.
 - [x] Move town feature context assembly and feature-screen dispatch into `js/systems/town/ashmere-features-v099.js`; retain the existing `LegendAshmereV099.route()` contract.
 - [x] Extract shared item/art lookup maps and catalog presentation helpers into `js/systems/town/ashmere-assets-v099.js`; inject data/assets/player accessors while preserving icon, equipment-name, and region-art mappings.
