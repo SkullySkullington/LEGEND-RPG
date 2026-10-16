@@ -36,7 +36,9 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  getPointOfInterest:roadPoiCatalog?.resolve,
  roadDecisions,
  renderExpedition,
- tone
+ tone,
+ createPoiOutcomes:context=>window.LegendRoadPoiOutcomesV100?.create(context),
+ createDiscoveryView:context=>window.LegendRoadDiscoveryViewV100?.create(context)
 });
 
 const roadAudio=()=>window.LegendRoadAudioV100||{};
@@ -115,22 +117,30 @@ function combat(enemy,note=''){
  return renderExpedition('A road encounter begins, but the combat module did not load. Return to Ashmere and refresh before another attempt.');
 }
 
-const roadResults=window.LegendRoadResultsV100?.create({
- getPlayer:p,savePlayer:save,ensureState:ensure,addInventory:inv,clamp,setBellQuestObjective,
- awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
- stopMusic:stopBattleMusic,renderHeader:header,renderShell:shell,escapeHtml:esc,getRoot:root,
- returnToTown:()=> {
+function returnToTownFromRoad(){
   const player=p();
   if(player){player.town='Ashmere';save(player);}
   const host=root();
   if(host)host.innerHTML='';
   if(window.LegendAshmereV099?.renderAshmere){
-   window.LegendAshmereV099.renderAshmere();
-   if(document.querySelector('.ash100-town'))return;
+    window.LegendAshmereV099.renderAshmere();
+    if(document.querySelector('.ash100-town'))return;
   }
   ret();
- },
- returnToAshmere:ret
+}
+const roadResultsView=window.LegendRoadResultsViewV100?.create({
+  renderHeader:header,
+  renderShell:shell,
+  escapeHtml:esc,
+  onReturn:returnToTownFromRoad
+});
+const roadResults=window.LegendRoadResultsV100?.create({
+  getPlayer:p,savePlayer:save,ensureState:ensure,addInventory:inv,clamp,setBellQuestObjective,
+  awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
+  stopMusic:stopBattleMusic,renderHeader:header,renderShell:shell,escapeHtml:esc,getRoot:root,
+  resultView:roadResultsView,
+  returnToTown:returnToTownFromRoad,
+  returnToAshmere:ret
 });
 function finish(){return roadResults?.finish();}
 function outcome(title,text,kicker,skill,modifier){return roadResults?.outcome(title,text,kicker,skill,modifier);}
