@@ -34,6 +34,14 @@ Greyfen's own authority, **the Landing Warden**, was squeezed by caravan merchan
 - **Still open:** whether she ever re-inspected; whether anyone was hurt; how the player finds proof and what happens when they confront her; what the game does with the player's choice; her name (the compendium proposes "Yara Fen," which is not approved).
 - **Consistency note:** in the existing "A Dry Crossing" contract the Landing Warden discloses the reed-bed shortcut's risk openly. Anything written for her must stay consistent with that contract, or update the contract and its test together.
 
+### L4 — The traveler is an echo, but not an ordinary one (locked 2026-10-16)
+
+The traveler is an echo left by the Last Mercy and does not know it. The game does not say so early. Small signs build up (the bell that rang once, the dead lantern, people who recognize the traveler too well) and the truth lands late. Unlike ordinary echoes, the traveler is different: they have their own abilities or nature.
+
+- **Still open (owner says the "different" part is up for debate):** how exactly the traveler differs from ordinary echoes (abilities, limits, and why); whose echo the traveler is (a particular dead person, or something new); whether the player's chosen origin is the echo's inherited memory or stays true to the player; whether the game ever states it outright or leaves lasting doubt; what the late choice is and how it changes the ending; how the bell and the dead lantern fit.
+- **Hidden knowledge:** until the owner approves a reveal plan, no NPC, journal text or UI should state or imply this, and nothing in the existing game should contradict it.
+- **Conflict flag:** `docs/ASHMERE_STORY_SPINE.md` says to keep the traveler's prior life flexible and not require every origin to be false. L4 may override that, depending on how the origin question is settled. The owner decides.
+
 ## Approved direction (approved by the owner 2026-10-15, as recorded in `AI_HANDOFF.md`)
 
 - **Monster Wars & the Awakening:** a fantasy RPG about monster incursions, returning magic and regional conflict, with a deeper mystery behind it. Details: `docs/LEGEND_FANTASY_RPG_DIRECTION.md`.
@@ -60,14 +68,17 @@ These are facts players can already see. Changing one means updating the game, i
 
 ## Open questions, in the order we will settle them
 
-1. What is the traveler? The game opens with an amnesiac traveler under a dead lantern, and the Last Mercy leaves echoes that imitate people. Are the two connected? (Next up.)
-2. The Hollow Saint: what does it want, how does it act, and when is it revealed?
-3. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
-4. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
-5. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
-6. What crisis does the player solve by the end of the first game?
+1. How does the traveler differ from ordinary echoes: abilities, limits, and why? (Next up.)
+2. Is the player's chosen origin the echo's inherited memory, or does it stay true to the player? (See the conflict flag under L4.)
+3. The Hollow Saint: what does it want, how does it act, and when is it revealed?
+4. The late choice: when the traveler learns what they are, what can the player decide, and how does it shape the ending?
+5. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
+6. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
+7. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
+8. What crisis does the player solve by the end of the first game?
 
 ## Change log
 
 - 2026-10-16: File created. L1 and L2 locked by the owner in conversation with Claude.
 - 2026-10-16: L3 locked (the Landing Warden reopened the crossing). "Who ordered it" removed from the open questions.
+- 2026-10-16: L4 locked (the traveler is an echo, but not an ordinary one). "What is the traveler" removed from the open questions; its details added as new ones.
