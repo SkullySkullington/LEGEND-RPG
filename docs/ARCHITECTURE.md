@@ -46,6 +46,7 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 | `js/systems/beginning-v094.js` | Creation flow + choice state | Seven-step choice orchestration, validation, record-builder invocation, persistence, and intro transition | Keep progression of the creation flow here; delegate DOM rendering/binding and record construction |
 | `js/systems/player/player-creation-view-v094.js` | 133 lines | Name, choice, confirmation, and intro screen markup plus local DOM event binding | Own creation presentation; accept current selections and callbacks without reading/writing player saves |
 | `js/systems/player/player-creation-options-v094.js` | 36 lines | Gender/pronoun labels and personality text/starting-bonus choices | Keep choice catalogs data-only while the creation flow owns selection/validation |
+| `js/systems/player/player-creation-steps-v094.js` | 98 lines | Narrative copy and catalog-to-choice mapping for the five selectable creation steps | Keep prompts and data shaping out of the flow controller; pass current data/options to `get()` |
 | `js/systems/player/player-record-v094.js` | Focused record builder | Starting identity, stats, inventory/equipment, quest log, memories, and storage normalization adapter | Keep player record assembly independent of UI rendering and pass catalogs/normalization explicitly |
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 148 lines | Work Board rendering, timing/choice/sequence challenge lifecycle, event binding, and rewards | Own challenge execution and save/reward handling while taking job data from the catalog module |
@@ -125,6 +126,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Title audio | `window.LegendTitleAudioV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
 | Traveler record builder | `window.LegendPlayerRecordV094` |
+| Traveler creation step catalog | `window.LegendPlayerCreationStepsV094.get()` |
 | Traveler creation view | `window.LegendPlayerCreationViewV094` |
 | Region map view | `window.LegendRegionViewV100.create()` |
 | Traveler creation | `window.LegendBeginningV094` |
