@@ -86,6 +86,7 @@ jobs:
           node --check js/systems/scene-transitions-v120.js
           node --check tests/progression-contract.spec.js
           node --check tests/road-audio-contract.spec.js
+          node --check tests/road-combat-contract.spec.js
           node --check tests/road-state-contract.spec.js
           node --check tests/legend-smoke.spec.js
           node --check tests/mobile-smoke.spec.js
