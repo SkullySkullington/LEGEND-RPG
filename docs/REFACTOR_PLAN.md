@@ -10,7 +10,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ## Confirmed structural hot spots
 
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 9.4 KB / 176 lines; the route façade and initialization remain, while records, home hub, shared screen shell, catalog/art helpers, feature-context assembly, jobs, commerce, people/NPCs, inn, and contracts/crossing live in focused modules.
-- `js/systems/road-controller-v100.js`: now about 14.6 KB / 207 lines; coordinates expedition lifecycle/camp/combat handoff/completion, while content, discovery, presentation and road action effects are in dedicated modules.
+- `js/systems/road-controller-v100.js`: now about 12 KB / 171 lines; coordinates expedition lifecycle and module wiring. Content, discovery, presentation, action effects and settlement/rewards live in focused road modules.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
@@ -61,6 +61,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Move route choice, POI interactions, evidence recording, and discovery rewards into `js/systems/road/road-discovery-v100.js`; retain the existing `LegendRoadControllerV100` entry point and injected state/save/render contracts.
 - [x] Extract Old Road scene markup, DOM-preserving shell, sound toggle, hotspot delegation, and expedition header into `js/systems/road/road-view-v100.js`; keep gameplay mutations injected.
 - [x] Extract travel/search choices, pressure changes, skill checks, find rewards, and encounter selection into `js/systems/road/road-actions-v100.js`; keep rendering and combat behind injected callbacks.
+- [x] Extract expedition reward/XP/token settlement, first-return reporting, and outcome/return flow into `js/systems/road/road-results-v100.js`; preserve current progression and quest fields.
 - [x] Move reusable Old Road stage descriptions and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; retain route/state-dependent clue variants in the controller.
 - [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
