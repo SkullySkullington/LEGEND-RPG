@@ -1213,7 +1213,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect.poll(() => page.evaluate(() => Array.from(document.styleSheets).some(s => (s.href || '').includes('title-cinematic-v120.css')))).toBe(true);
     const title = page.locator('.title-v100 .v120-title-hero');
     await expect(title).toBeVisible();
-    await expect(title.locator('h1')).toHaveText('LEGEND');
+    await expect(title.locator('h1')).toHaveText('LEGEND: The Awakening');
   });
 
 });
