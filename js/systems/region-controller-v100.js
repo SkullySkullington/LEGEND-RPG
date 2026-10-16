@@ -3,7 +3,7 @@
 (() => {
   const RT=()=>window.LegendRuntimeV120||{}, D=()=>window.LEGEND_DATA||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
   const p=()=>RT().loadPlayer?.()||null, save=pl=>RT().savePlayer?.(pl);
-  const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const esc=window.LegendHtmlV120.escapeHtml;
   const gold=n=>Number(n||0).toLocaleString()+'g';
   const regions=()=>D().regions||{};
   function backToTown(){
