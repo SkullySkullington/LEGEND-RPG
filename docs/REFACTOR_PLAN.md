@@ -12,7 +12,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.3 KB / 171 lines; the route façade, shared feature contexts, and initialization remain, while records, home hub, route board, navigation map, shared screen shell, catalog/art helpers, job data, job execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
 - `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
 - `js/systems/road/road-decisions-v100.js` now owns the initial route fork and the moved-cairn side-story choice mutations; discovery keeps an adapter for the existing road facade.
-- `js/systems/road/road-discovery-v100.js` owns stateful clue selection/inspection and rewards; `js/systems/road/road-discovery-view-v100.js` owns pure clue/route/cairn panel markup, while `js/content/roads/road-poi-catalog-v100.js` resolves contextual clue records from route and evidence flags.
+- `js/systems/road/road-discovery-v100.js` is now the discovery facade; `road-discovery-view-v100.js` owns clue/route/cairn panel markup, `road-poi-catalog-v100.js` resolves contextual clue records, `road-decisions-v100.js` applies branch choices, and `road-poi-outcomes-v100.js` settles clue evidence/rewards.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
 - `js/systems/region-controller-v100.js` keeps the public regional facade and UI wiring; `js/systems/region-view-v100.js` owns the map UI, and `js/systems/region-service-v100.js` owns unlock/travel checks and mutations.
@@ -95,6 +95,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Centralize Bell quest-log objective replacement in `js/systems/quest-log-v120.js`; both Ashmere and v100 road progression now use `LegendQuestLogV120` instead of maintaining parallel implementations.
 - [x] Extract context-sensitive Old Road POI selection into `js/content/roads/road-poi-catalog-v100.js`; leave discovery panels and investigation rewards in `road-discovery-v100.js`.
 - [x] Extract route-fork and moved-cairn state mutations into `js/systems/road/road-decisions-v100.js`; keep discovery's public methods as adapters.
+- [x] Extract POI investigation outcomes (evidence, rewards, pressure, counters, persistence and feedback) into `js/systems/road/road-poi-outcomes-v100.js`; preserve the discovery facade API.
 - [x] Extract discovery, route-fork, and moved-cairn panel rendering into `js/systems/road/road-discovery-view-v100.js`; keep input decisions, flag changes, and rewards in the discovery service.
 - Make progression/reward decisions come from one clearly owned service where feasible.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
