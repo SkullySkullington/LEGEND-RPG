@@ -8,7 +8,7 @@
     const {
       getPlayer, savePlayer, getAssets, getData, escapeHtml: esc, imageMarkup: img,
       background: bg, npcArt: npc, setBellQuestObjective, note, head, screen,
-      locationInterior, renderTown, awardProgress, gold, serviceArt, icon,
+      locationInterior, renderTown, awardProgress, getProgressionStatus, gold, serviceArt, icon,
       itemName, itemIcon, canAfford, owned, canCraft, needsMarkup,
       armorArt, weaponName, armorName, regionShopArt, hpPct
     } = context;
@@ -178,6 +178,7 @@
           armorArt,
           gold,
           hpPct,
+          getProgressionStatus,
           head,
           screen
         });
