@@ -17,7 +17,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
 - `js/systems/account-v09x.js`: 5.1 KB / 114-line account facade for async auth/cloud orchestration and bootstrap callbacks; profile markup is in `js/systems/account/account-profile-view-v09x.js`, profile metadata persistence is in `js/systems/account/account-profile-store-v09x.js`, auth UI/service is in `js/systems/account/account-auth-v09x.js`, and cloud-slot CRUD is in `js/systems/account/cloud-traveler-slots-v09x.js`. Player saves remain owned by `LegendStorage`.
 - `index.html` loads versioned classic scripts that publish APIs on `window`. Script order and global names are part of the runtime contract until migrated deliberately.
-- `js/storage.js` normalizes the player record, but its data shape is implicit rather than described by a stable save contract.
+- `js/storage.js` now focuses on player normalization/save/load/delete and delegates `legend-settings-v1` to `js/storage/settings-storage-v120.js`; the facade preserves the existing settings API.
+- Traveler identity/pronoun and personality-bonus options are in `js/systems/player/player-creation-options-v094.js`, separate from flow and view logic.
 
 ## Refactor phases
 
@@ -32,6 +33,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Complete the current persistence ownership pass: `LegendStorage` is the sole owner of player save/load; `LegendRuntimeV120` delegates to it and retains return/navigation only.
 - [x] Extract starting player record construction from the seven-step traveler-creation UI into `js/systems/player/player-record-v094.js`; preserve starting values and verify merged origin/keepsake inventory with a browser regression test.
 - [x] Extract traveler creation name/choice/confirmation/intro markup and DOM binding into `js/systems/player/player-creation-view-v094.js`; keep choice state, validation decisions, persistence, and navigation callbacks in `LegendBeginningV094`.
+- [x] Extract traveler gender/pronoun/personality options and starting personality bonuses into `js/systems/player/player-creation-options-v094.js`; keep choice state and flow in `LegendBeginningV094`.
+- [x] Separate device-local accessibility settings persistence into `js/storage/settings-storage-v120.js` while keeping `LegendStorage`'s public settings methods stable.
 - [x] Extract account/profile screen markup and DOM event binding into `js/systems/account/account-profile-view-v09x.js`; keep local profile persistence and async auth/cloud decisions in `LegendAccountV09x`.
 - [x] Extract the device-local account metadata key and profile snapshot/get/save/delete helpers into `js/systems/account/account-profile-store-v09x.js`; do not merge its key with the player-save key.
 - [x] Extract the regional ledger/map rendering and action binding into `js/systems/region-view-v100.js`; keep affordability/requirements checks, unlocking, fares, memory writes, and player saves in `LegendRegionsV100`.
