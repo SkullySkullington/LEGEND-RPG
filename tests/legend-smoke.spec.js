@@ -476,7 +476,18 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.ash099-contract-completed')).toContainText(/Recorded in Journal/i);
     const result=await page.evaluate(()=>{const pl=window.LegendRuntimeV080.loadPlayer();return {completed:pl.stats.sideContractsCompleted,food:pl.inventory.food};});
     expect(result.completed).toBe(1);
-    await page.reload();
+    await page.evaluate(() => window.LegendGameBootstrap.title());
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await page.locator('#continue').click();
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
+    await expect(page.locator('[data-contract-turnin="watchlightSurvey"]')).toHaveCount(0);
+    const persisted = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { completed: Number(pl.stats?.sideContractsCompleted || 0), food: Number(pl.inventory?.food || 0) };
+    });
+    expect(persisted.completed).toBe(1);
+    expect(persisted.food).toBe(result.food);
   });
 
   test('Forge shows material-specific sword illustrations and tactical passive descriptions', async ({ page }) => {
@@ -486,6 +497,35 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('[data-gear="stoneSword"]')).toContainText(/Heavy Strike deals 25% more damage/i);
     await expect(page.locator('[data-gear="steelSword"]')).toContainText(/20% critical chance/i);
     await expect(page.locator('[data-gear="woodenSword"] .ash099-weapon-art svg')).toBeVisible();
+  });
+
+
+  test('buying gear deducts the correct price and equips the purchased weapon', async ({ page }) => {
+    await startFreshCharacter(page, 'GearTransactionQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.gold = 10000;
+      rt.savePlayer(pl);
+    });
+    await page.locator('[data-ash-view="smith"]').click();
+    const item = await page.evaluate(() => {
+      const weapon = window.LEGEND_DATA.weapons.find(entry => entry.id === 'stoneSword');
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return { cost: Number(weapon.cost), gold: Number(pl.gold), equipped: pl.weapon };
+    });
+    await page.locator('[data-gear="stoneSword"]').click();
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        gold: Number(pl.gold),
+        weapon: pl.weapon,
+        owned: Number(pl.ownedWeapons?.stoneSword || 0)
+      };
+    });
+    expect(after.gold).toBe(item.gold - item.cost);
+    expect(after.weapon).toBe('stoneSword');
+    expect(after.owned).toBeGreaterThan(0);
+    await expect(page.locator('[data-gear="stoneSword"]')).toContainText(/Equipped/i);
   });
 
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
