@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 28.7 KB / 411 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 26.7 KB / 398 lines; the town shell/router and shared helpers remain, while records, jobs, commerce, people/NPCs, inn, and contracts/crossing now have dedicated modules.
 - `js/systems/road-controller-v100.js`: approximately 59 KB / 654 lines. It combines expedition scenes, road choices, points of interest, camping, quest decisions, combat, and audio effects.
 - `js/systems/road-controller-v087.js`: still loaded alongside v100; contains a second road/combat implementation and its own XP logic. Its live references must be traced before retiring or consolidating it.
 - `js/core/runtime-v080.js` duplicates legacy save fallbacks as well as return-to-Ashmere behavior already adjacent to `LegendStorage`. Persistence ownership needs to be clarified before this bridge can be simplified.
