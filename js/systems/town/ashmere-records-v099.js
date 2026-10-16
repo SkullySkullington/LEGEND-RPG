@@ -22,8 +22,9 @@
         '<div class="ash099-inventory-item-copy"><strong>' + esc(itemName(key)) +
         '</strong><small>In your pack</small></div><b>×' + Number(value) + '</b></article>';
     }).join('') || '<p class="ash099-inventory-empty">Your pack is light. The road may change that.</p>';
-    const xp = Number(pl.xp || 0);
-    const nextXp = Number(pl.level || 1) * 100;
+    const progression = window.LegendProgressionV100;
+    if (typeof progression?.status !== 'function') return;
+    const { level, xp, next, progressPercent } = progression.status(pl);
     const weapon = (data.weapons || []).find(item => item.id === pl.weapon);
     const armor = (data.armors || []).find(item => item.id === pl.armor);
     const equipment = (label, name, detail, art) =>
@@ -45,9 +46,9 @@
             esc(pl.personalityLabel || 'Traveler') + ' · ' + esc(pl.origin || 'Unknown origin') +
             '</p><p class="ash099-flavor">' + esc(pl.keepsake || 'A life not yet written') + '</p></div>' +
           '<div class="ash099-traveler-profile-level"><span>LEVEL</span><strong>' +
-            Number(pl.level || 1) + '</strong><small>' + xp + ' / ' + nextXp +
+            level + '</strong><small>' + xp + ' / ' + next +
             ' XP</small><i><b style="width:' +
-            Math.max(0, Math.min(100, Math.round(xp / Math.max(1, nextXp) * 100))) +
+            progressPercent +
             '%"></b></i></div></div>' +
         '<div class="ash099-traveler-vitals"><div class="ash099-vital-hp"><span>HEALTH</span><strong>' +
           Number(pl.hp || 0) + ' <small>/ ' + Number(pl.maxHp || 0) +
