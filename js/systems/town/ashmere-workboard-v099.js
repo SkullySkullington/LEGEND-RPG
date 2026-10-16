@@ -8,9 +8,7 @@
         typeof context.savePlayer !== 'function' || typeof context.screen !== 'function') return;
     const p = () => context.getPlayer();
     const save = player => context.savePlayer(player);
-    const { screen, head, locationInterior, esc, gold, itemName } = context;
-
-  const jobCatalog = window.LegendAshmereJobCatalogV099;
+    const { screen, head, locationInterior, esc, gold, itemName, jobCatalog } = context;
   function jobsForCurrentRegion(){
     return jobCatalog?.forRegion?.(p()?.currentRegion) || {};
   }
