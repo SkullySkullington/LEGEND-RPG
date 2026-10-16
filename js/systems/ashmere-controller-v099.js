@@ -71,10 +71,13 @@
     renderTown: renderAshmere,
     bindNavigation: bind
   });
+  function unavailableTownView(){
+    const host = root();
+    if (host) host.innerHTML = '<main class="ash099 ash099-terminal"><div class="ash099-wrap"><section class="ash099-screen"><h1>Town screens are unavailable</h1><p>The shared town view module did not load. Refresh before continuing.</p></section></div></main>';
+  }
   function shell(html){
     if (townView?.shell) return townView.shell(html);
-    const host = root();
-    if (host) host.innerHTML = `<main class="ash099 ash099-terminal"><div class="ash099-wrap">${html}</div></main>`;
+    unavailableTownView();
   }
   function hpPct(pl){ return Math.max(0, Math.min(100, Math.round((Number(pl.hp || 0) / Math.max(1, Number(pl.maxHp || 1))) * 100))); }
   function owned(pl, k){ return Number(pl.inventory?.[k] || 0); }
@@ -136,22 +139,11 @@
     }
     return renderAshmere();
   }
-  function back(extra = ''){
-    if (townView?.back) return townView.back(extra);
-    const region=String(p()?.currentRegion||'Ashmere');
-    const label=region==='Greyfen'?'Back to Greyfen':'Back to Ashmere';
-    return `<div class="ash099-bottom">${extra}<button class="ash099-btn primary" id="ashBack">${label}</button></div>`;
-  }
-  function head(k,t,d,im='',fallbackIcon='quest'){
-    if (townView?.head) return townView.head(k,t,d,im,fallbackIcon);
-    return `<div class="ash099-head ${im ? 'has-art' : 'no-art'}">${im ? img(im,t) : `<div class="ash099-head-icon">${icon(fallbackIcon)}</div>`}<div><div class="ash099-kicker">${esc(k)}</div><h1>${esc(t)}</h1><p>${esc(d)}</p></div></div>`;
-  }
+  function back(extra = ''){ return townView?.back?.(extra) || ''; }
+  function head(k,t,d,im='',fallbackIcon='quest'){ return townView?.head?.(k,t,d,im,fallbackIcon) || ''; }
   function screen(h,b,extra=''){
     if (townView?.screen) return townView.screen(h,b,extra);
-    shell(`<section class="ash099-screen">${h}${b}${back(extra)}</section>`);
-    const backButton=document.getElementById('ashBack');
-    if(backButton)backButton.onclick=renderAshmere;
-    bind();
+    unavailableTownView();
   }
 
   function renderRoutes(){
