@@ -38,6 +38,7 @@ This is a working map of the production browser game. It is not a map of `protot
 - The Ashmere `startRoad()` adapter prefers `LegendRoadControllerV100.start()` and falls back to `LegendRoadControllerV087.start()` if v100 is unavailable.
 - v087 also registers an `intercept()` callback with `LegendRuntimeV080.onRender()` (or a DOM-ready handler) that scans buttons for legacy labels and can replace their click handlers. This is an independent side effect to account for before removing the old script.
 - The v100 controller exports `start`, `renderHub`, and `renderExpedition`, and existing smoke-test source references v100 directly. No v087 removal or combat-balancing change is included in this refactor slice.
+- The two controllers are not behavior-equivalent: v087 stores state under `flags.roadV087`, keeps its own `xpUntil` countdown, and grants +22 max HP with a full heal on level-up. v100 stores state under `flags.roadExpeditionV100`, uses `LegendProgressionV100.award` (whose current level-up adds +8 max HP and heals +8), tracks `roadVictories`/`monstersDefeated`, and awards Road Tokens on different events. Treat these as gameplay compatibility differences, not duplicate code to delete blindly.
 - Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; sound preferences and effects are isolated in `js/systems/road/road-audio-v100.js`. The controller still owns expedition stage/pressure, encounter selection, road choices, and expedition completion.
 
 ## Critical runtime APIs
