@@ -22,6 +22,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Record production script boundaries and critical storage keys in `docs/ARCHITECTURE.md`.
 - [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
 - [ ] Inventory all callers of `LegendAshmereV099`, `LegendRoadControllerV087`, `LegendRoadControllerV100`, `LegendRuntimeV080`, and `LegendStorage`.
+- [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
+- [ ] Smoke-test the traveler sheet, inventory display, journal entries, and navigation back to the town hub.
 - [ ] Document the player/save shape, core flags, region IDs, item IDs, and current script load order before moving domain logic.
 
 ### 1. Split the Ashmere monolith
