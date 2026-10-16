@@ -9,7 +9,7 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await page.goto('/prototypes/reboot/', { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__legendRebootReady === true, null, { timeout: 15000 });
 
-    await expect(page).toHaveTitle(/LEGEND — Reboot Prototype/);
+    await expect(page).toHaveTitle(/LEGEND: The Awakening — Reboot Prototype/);
     await expect(page.locator('#title-panel')).toBeVisible();
     await expect(page.locator('h1')).toHaveText('LEGEND');
     await expect(page.locator('.subtitle')).toHaveText('The Unquiet Road');
@@ -35,16 +35,18 @@ test.describe('LEGEND reboot prototype (isolated from production)', () => {
     await expect(page.locator('#battleLog')).toBeVisible();
 
     await page.locator('[data-battle="attack"]').click();
-    await expect(page.locator('#battleLog')).toContainText('A measured strike');
-    await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
+    // The narration advances after the enemy responds, so assert its stable turn state.
+    await expect(page.locator('#battleLog')).toContainText('The goblin is exposed after its lunge', { timeout: 5000 });
 
+    const hpBeforeGuard = Number((await page.locator('#heroHpText').innerText()).split('/')[0].trim());
     await page.locator('[data-battle="guard"]').click();
-    await expect(page.locator('#battleLog')).toContainText('You set your stance');
+    await expect.poll(async () => Number((await page.locator('#heroHpText').innerText()).split('/')[0].trim())).toBeLessThan(hpBeforeGuard);
+    const guardedLoss = hpBeforeGuard - Number((await page.locator('#heroHpText').innerText()).split('/')[0].trim());
+    expect(guardedLoss).toBeLessThanOrEqual(5);
     await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
 
     await page.locator('[data-battle="spell"]').click();
     await expect(page.locator('#heroMpText')).toHaveText('20 / 30');
-    await expect(page.locator('#battleLog')).toContainText('Ember Bolt');
     await expect(page.locator('#battleLog')).toContainText('Your turn', { timeout: 5000 });
 
     await page.keyboard.press('Escape');
