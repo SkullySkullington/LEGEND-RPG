@@ -26,7 +26,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
 - [x] Extract trader, buy/sell, crafting recipes, equipment browsing, and purchase/equip behavior into `js/systems/town/ashmere-commerce-v099.js`; keep current routes and inject persistence/presentation helpers.
 - [x] Extract inn rendering, rest/supply purchases, and rumors into `js/systems/town/ashmere-inn-v099.js`; preserve existing service costs and inject persistence/presentation helpers.
-- [ ] Smoke-test the traveler sheet, journal entries, work board challenge modes/rewards, market transactions, crafting, equipment purchases, inn rest/supply purchases, rumors, and return navigation.
+- [x] Extract side-contract counters, acceptance/turn-in rewards, Greyfen crossing choices/retries, and existing evidence text into `js/systems/town/ashmere-contracts-v099.js`; preserve quest flags and inject player/save/progression/navigation helpers.
+- [ ] Smoke-test traveler records, NPC evidence dialogue, side-contract acceptance/turn-in, Dry Crossing safe/risky routes, work board challenge modes/rewards, market/crafting/gear, inn services, and return navigation.
 - [ ] Document the player/save shape, core flags, region IDs, item IDs, and current script load order before moving domain logic.
 
 ### 1. Split the Ashmere monolith
@@ -36,8 +37,7 @@ Keep `LegendAshmereV099` as a compatibility façade while moving responsibilitie
 3. trader, inventory transactions, crafting, smithing, and gear.
 
 Still to extract:
-1. side contracts and Greyfen crossing;
-2. remaining town routes/services, then review and simplify the compatibility façade.
+1. remaining town routes/services, then review and simplify the compatibility façade.
 
 Pass shared dependencies through small context objects or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
 
