@@ -1,0 +1,66 @@
+# LEGEND — Canon
+
+Story decisions made by the project owner. **If any other document disagrees with a LOCKED item here, this file wins.**
+Last updated: 2026-10-16.
+
+## How every AI assistant uses this file
+
+- Only the owner locks decisions. An assistant may propose, draft options, or flag conflicts, but never marks something LOCKED on its own.
+- Check this file before writing story, dialogue, quests, or lore. LOCKED items are facts, not suggestions.
+- To change a LOCKED item, ask the owner first, then record the change with its date in the change log below. Do not edit it silently.
+- Locked is not the same as implemented. Do not describe anything as playable until source and tests confirm it (see `AI_HANDOFF.md`).
+- Status labels: **LOCKED** (owner decided) · **APPROVED DIRECTION** (owner approved the direction, details still open) · **ESTABLISHED** (already in the shipped game) · **PROPOSED** (an idea in the docs, not approved) · **OPEN** (undecided).
+
+## Locked decisions
+
+### L1 — The deepest threat is the Hollow Saint and the Last Mercy (locked 2026-10-16)
+
+Long ago a healer's ritual, the **Last Mercy**, tried to save the dead. It failed: instead of restoring people it left echoes that imitate them. The figure behind it, the **Hollow Saint**, offers to bring people's lost loved ones back.
+
+- **Locked:** the Hollow Saint and the Last Mercy are the deepest threat behind the awakening.
+- **Still open:** the Hollow Saint's personality and agency; how much of the monster invasion it causes versus merely accelerates (not every monster is its servant); when and how the player learns of it; whether the ritual can be ended or repaired; any link to the player's traveler.
+- **Working detail (PROPOSED, not locked):** `docs/LEGEND_GAME_REBOOT_PLAN.md` section 4, including the Veil, the Afterwake and Strain.
+
+### L2 — The Greyfen crossing was reopened because of trade pressure (locked 2026-10-16)
+
+The crossing records were altered because of trade pressure: **someone with authority reopened the lower crossing early to protect money and routes, knowing it was still unsafe.** This is a human decision.
+
+- **Still open:** who did it; why the crossing was still unsafe; how the closure order went missing; what the player can do about it; whether the danger itself has a supernatural cause.
+
+## Approved direction (approved by the owner 2026-10-15, as recorded in `AI_HANDOFF.md`)
+
+- **Monster Wars & the Awakening:** a fantasy RPG about monster incursions, returning magic and regional conflict, with a deeper mystery behind it. Details: `docs/LEGEND_FANTASY_RPG_DIRECTION.md`.
+- Monsters are not one army. Goblins, orcs, ogres and the Changed have different motives, and not every monster is evil or connected to the awakening.
+- Bells are ordinary Ashmere currency, not the universe's central mechanism. Region access combines money, preparation, permits, standing, relationships and proof.
+- The first game spans Ashmere, the Old Road, Greyfen, Ironpass, Blackwood and the Ruined March. Only Ashmere, the Old Road and Greyfen exist in the game today.
+- The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey and Ivara are demoted legacy ideas. Do not build on them without the owner's re-approval.
+
+## Established in the shipped game (v0.20.35)
+
+These are facts players can already see. Changing one means updating the game, its save flags and its tests.
+
+- The traveler wakes beneath a dead lantern outside Ashmere with no memory of the last mile. Mara says the bell rang once when the traveler arrived, which should not be possible.
+- Recurring cast: Mara Vell (Archive Keeper), Old Brenn (Ledger Keeper), Captain Oric (gate and watch captain), Sella Marr (inn cook and road provisioner).
+- The evidence chain, in order:
+  1. A bell-marked seal at Blackroot Bend.
+  2. Greyfen's Boundary Stone: the older bell-mark sits under a newer cut angled toward the reed bed.
+  3. The Reedwatch field note, dated two days after Greyfen logged the flood's retreat; its sketch already shows the newer cut.
+  4. Brenn's ledger: two crossing entries rewritten in a later hand within days of the flood's retreat, with no closure order.
+  5. An earlier weekly return: the lower crossing marked "CLOSED pending inspection," later marked OPEN in darker ink with no initials.
+  6. Mara's conclusion: this is evidence of alteration, not of who did it. The missing closure order is the next lead.
+- The Moved Cairn side story (three choices at the High Ridge cairn) exists, and the choice is saved.
+- "A Dry Crossing" in Greyfen offers a safer path or a reed-bed shortcut with a disclosed 65% chance. It is requested by "the Landing Warden," who is unnamed in the game. The name Yara Fen appears only in `docs/LEGEND_CHARACTER_COMPENDIUM.md` as a proposal.
+
+## Open questions, in the order we will settle them
+
+1. Who ordered the lower crossing reopened? (Next up.)
+2. Why was the crossing still unsafe: flood damage, or something else?
+3. What is the traveler? The game opens with an amnesiac traveler under a dead lantern, and the Last Mercy leaves echoes that imitate people. Are the two connected?
+4. The Hollow Saint: what does it want, how does it act, and when is it revealed?
+5. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
+6. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
+7. What crisis does the player solve by the end of the first game?
+
+## Change log
+
+- 2026-10-16: File created. L1 and L2 locked by the owner in conversation with Claude.
