@@ -14,6 +14,14 @@ const roadPoiCatalog=window.LegendRoadPoiCatalogV100?.create({
  getRoadData:road,
  clamp
 });
+const roadDecisions=window.LegendRoadDecisionsV100?.create({
+ getPlayer:p,
+ savePlayer:save,
+ ensureState:ensure,
+ addInventory:inv,
+ clamp,
+ renderExpedition
+});
 
 let roadExpeditionScreen=null;
 const roadDiscovery=window.LegendRoadDiscoveryV100.create({
@@ -26,6 +34,7 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  clamp,
  bellRoadEvidence,
  getPointOfInterest:roadPoiCatalog?.resolve,
+ roadDecisions,
  renderExpedition,
  tone
 });
