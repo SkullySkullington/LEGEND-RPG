@@ -71,8 +71,17 @@ jobs:
           node --check js/systems/ashmere-controller-v099.js
           node --check js/systems/road/road-audio-v100.js
           node --check js/systems/road/road-combat-v100.js
+          node --check js/systems/road/road-state-v100.js
+          node --check js/systems/road/road-discovery-v100.js
+          node --check js/systems/road/road-view-v100.js
+          node --check js/systems/road/road-actions-v100.js
+          node --check js/systems/road/road-results-v100.js
+          node --check js/systems/road/road-expedition-screen-v100.js
           node --check js/systems/road-controller-v100.js
           node --check js/systems/scene-transitions-v120.js
+          node --check tests/progression-contract.spec.js
+          node --check tests/road-audio-contract.spec.js
+          node --check tests/road-state-contract.spec.js
           node --check tests/legend-smoke.spec.js
           node --check tests/mobile-smoke.spec.js
           node --check tests/workshop-art.spec.js
