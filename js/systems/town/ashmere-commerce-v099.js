@@ -12,7 +12,15 @@
           ? window.LegendAshmereForgeV099
           : null;
 
-    if (service?.render) return service.render(context, argument);
+    if (service?.render) {
+      if (!context) return;
+      const moduleContext = {
+        ...context,
+        openTradingPost: () => render(context, 'trader', 'buy'),
+        openCrafting: feedback => render(context, 'crafting', feedback || '')
+      };
+      return service.render(moduleContext, argument);
+    }
 
     if (typeof context?.head === 'function' && typeof context?.screen === 'function') {
       const label = view === 'trader' ? 'Trading Post' : view === 'crafting' ? 'Crafting Bench' : 'Blacksmith';
