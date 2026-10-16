@@ -7,7 +7,7 @@
     bindTitleAudio: () => {}
   });
 
-  function esc(s){ return String(s == null ? '' : s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+  const esc = window.LegendHtmlV120.escapeHtml;
 
   function titleTransition(message, action){
     titleAudio.playUi('confirm');
