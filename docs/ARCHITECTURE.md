@@ -23,7 +23,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/storage.js` | 132 | Player normalization, save/load/delete, settings storage and accessibility settings | Document and test current persistence contracts before changing them |
 | `js/screens/title-screen-v120.js` | 168 | Active title menu markup, title audio, transition notice and credits | Keep presentation and local title interactions separate from navigation/player-state owners |
 | `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
-| `js/systems/beginning-v094.js` | 47 dense lines (~13 KB) | Multi-step traveler creation and creation-time player record construction | Later extract data construction/validation from step rendering without changing the flow
+| `js/systems/beginning-v094.js` | UI flow + choice state | Seven-step traveler creation, choice validation, and intro transition | Keep presentation/choice state here; delegate persisted record construction to the focused builder |
+| `js/systems/player/player-record-v094.js` | Focused record builder | Starting identity, stats, inventory/equipment, quest log, memories, and storage normalization adapter | Keep player record assembly independent of UI rendering and pass catalogs/normalization explicitly |
 | `js/systems/town/ashmere-records-v099.js` | 98 | Traveler sheet and journal/archive screen rendering | Read-only view module; shared dependencies are passed in explicitly |
 | `js/systems/town/ashmere-workboard-v099.js` | 151 | Job definitions, work board, timing/choice/sequence challenges, rewards and completion loop | Owns Work Board gameplay; player access, saving and progression are injected from town facade |
 | `js/systems/town/ashmere-commerce-v099.js` | 155 | Market transactions, crafting recipes, smithy gear listings, purchase/equip rules and related rendering | Cohesive commerce boundary; persistence, inventory helpers and town presentation are injected |
@@ -46,7 +47,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | Caller | Current dependency | Why the bridge must be preserved for now |
 | --- | --- | --- |
 | `js/game.js` | Direct `LegendStorage` load/save/settings calls | Title menu uses player presence to choose Begin/Continue; settings are device-local. |
-| `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; runtime return fallback | Creates and normalizes new player records, then marks the intro complete and enters the town. |
+| `js/systems/beginning-v094.js` | Direct `LegendStorage` save/load; `LegendPlayerRecordV094` builder; runtime return fallback | Collects traveler choices, saves the builder-created record, then marks the intro complete and enters the town. |
 | `js/systems/account-v09x.js` | Direct `LegendStorage` load/save, including returned traveler data | Profile/account flows depend on the existing player object and storage normalization behavior. |
 | `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
 | `js/systems/region-controller-v100.js` | Runtime player load/save | Region unlock/travel mutates region, inventory, and travel state. |
@@ -66,6 +67,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Progression helper | `window.LegendProgressionV100` |
 | Title presentation | `window.LegendTitleScreenV120` |
 | Title/bootstrap/navigation | `window.LegendGameBootstrap` |
+| Traveler record builder | `window.LegendPlayerRecordV094` |
 | Traveler creation | `window.LegendBeginningV094` |
 | Ashmere town | `window.LegendAshmereV099` |
 | Region travel | `window.LegendRegionsV100` |
