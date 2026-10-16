@@ -34,7 +34,7 @@
       onBack:()=>window.LegendGameBootstrap?.title?.(),
       onSubmit:(input,error)=>{
         const n=String(input?.value||'').trim();
-        if(!n||/\\s/.test(n)){
+        if(!n||/\s/.test(n)){
           if(error){
             error.textContent=!n?'Please enter a traveler name.':'Use a name without spaces.';
             error.style.display='block';
