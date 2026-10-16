@@ -75,6 +75,7 @@ jobs:
           node --check js/systems/road/road-audio-v100.js
           node --check js/systems/road/road-combat-v100.js
           node --check js/systems/road/road-state-v100.js
+          node --check js/systems/quests/bell-road-evidence-v120.js
           node --check js/systems/road/road-discovery-v100.js
           node --check js/systems/road/road-view-v100.js
           node --check js/systems/road/road-actions-v100.js
