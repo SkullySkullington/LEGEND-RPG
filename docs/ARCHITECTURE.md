@@ -27,7 +27,7 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
-| `js/systems/road-controller-v100.js` | 139 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
+| `js/systems/road-controller-v100.js` | 154 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
 | `js/storage.js` | 33 lines | Player save/load/delete plus stable `LegendStorage` facade methods | Keep persistence ownership and public API names stable |
 | `js/storage/player-normalizer-v120.js` | 122 lines | Player-record defaults, retired-field cleanup, and preservation of current unknown data | Own normalization rules separately from storage I/O and expose them through `LegendStorage.normalize()` |
@@ -56,7 +56,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-crossing-v099.js` | 73 lines | Greyfen Dry Crossing choices, safe/risky outcomes, retry cost, health toll, and marker rewards | Own the mini-contract flow separately from side-contract progress; receive town state/save/screen callbacks |
 | `js/content/roads/road-poi-catalog-v100.js` | 69 lines | Contextual POI selection when route/evidence state changes which clue should appear | Own clue selection and narrative overrides; inject player/state/data readers |
 | `js/systems/road/road-decisions-v100.js` | 73 lines | Route-fork selection and moved-cairn decision mutations | Keep expedition branch/side-story state changes separate from discovery presentation and general POI rewards |
-| `js/systems/road/road-discovery-v100.js` | 154 lines | Contextual POI resolution, route choices, investigation state changes, evidence recording, and discovery rewards | Own stateful discovery actions; delegate panel markup to the focused discovery view and quest evidence to its service |
+| `js/systems/road/road-poi-outcomes-v100.js` | 85 lines | Point-of-interest examination outcomes: evidence, rewards, pressure, counters, save and feedback | Own stateful clue outcomes; keep them separate from clue selection and panel markup |
+| `js/systems/road/road-discovery-v100.js` | 101 lines | Discovery facade, visibility/reveal state, POI/view/decision adapters | Preserve its existing public API; inject catalog, decision, view, and outcome services |
 | `js/systems/road/road-discovery-view-v100.js` | 45 lines | Clue reveal panel, opening route-fork panel, and moved-cairn choice markup | Own pure presentation for discovery choices; receive selected point data and current visibility state through arguments |
 | `js/systems/quests/bell-road-evidence-v120.js` | 50 lines | Bell storyline evidence flags, memories, and objective changes for Blackroot/Greyfen road records | Own quest-specific evidence mutation behind an injected Bell-objective updater |
 | `js/systems/road/road-state-v100.js` | 49 lines | Canonical expedition flag initialization/clamping, player stat modifiers, item/equipment lookup, and inventory addition | Reuse this API for future road systems instead of duplicating saved-state rules; Bell objective mutation is centralized in `LegendQuestLogV120` |
@@ -134,6 +135,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Region unlock/travel rules | `window.LegendRegionServiceV100.create()` |
 | Road POI catalog | `window.LegendRoadPoiCatalogV100.create()` |
 | Road decision service | `window.LegendRoadDecisionsV100.create()` |
+| Road POI outcomes | `window.LegendRoadPoiOutcomesV100.create()` |
 | Old Road discovery view | `window.LegendRoadDiscoveryViewV100.create()` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
 | v100 road audio | `window.LegendRoadAudioV100` |
