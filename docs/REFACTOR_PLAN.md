@@ -121,7 +121,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - Create a broader shared navigation contract only after town, traveler-creation, and road call sites have been fully mapped.
 - Replace broad document-wide event interception only when every affected caller is understood.
 - Keep scene-transition behavior and focus/keyboard interactions intact.
-- Extract shared safe HTML/formatting utilities only after the duplication and escaping rules are inventoried.
+- [x] Inventory active production script escape helpers and consolidate the identical HTML escaping mapping in `js/core/html-utils-v120.js`; URL validation and arbitrary-HTML sanitization remain separate concerns.
 
 ### 5. Verification and stabilization
 For each extraction: review the diff, run syntax checks on changed files, add focused regression coverage, and manually smoke-test the touched production flow where the deployed site is reachable. Playwright is an active CI regression gate; investigate failures from the report before changing assertions. A passing PR-branch run verifies the branch against its local test server, not the deployed GitHub Pages build. Document anything not verified, especially production flows not reached by a live smoke test.
