@@ -7,7 +7,7 @@ This is a working map of the production browser game. It is not a map of `protot
 
 - `index.html` loads the production scripts directly, in an explicit order. There is no bundler or native ES-module graph.
 - `js/data.js` defines `window.LEGEND_DATA`: version, active save key, legacy keys, class/origin/keepsake data, item names/prices, and region definitions.
-- `js/storage.js` publishes `window.LegendStorage` and owns player normalization plus player save/load/delete. It delegates settings persistence to `js/storage/settings-storage-v120.js` while preserving the public `loadSettings/saveSettings/applySettings` methods. See `docs/SAVE_DATA_CONTRACT.md` for the player field map and all storage keys.
+- `js/storage.js` publishes `window.LegendStorage` and owns player save/load/delete, while preserving the stable `baseSkills()` and `normalize()` facade methods. The field defaults and normalizing rules live in `js/storage/player-normalizer-v120.js`; device-local settings persistence lives in `js/storage/settings-storage-v120.js`.
 - `js/screens/title-screen-v120.js` owns the active title menu, title ambience/UI cues, transition notice, optional gate screen, and credits dialog. Navigation actions are injected.
 - `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
 - `js/screens/settings-screen-v090.js` owns settings presentation and its control binding. Persistence remains in `js/storage.js`.
@@ -26,7 +26,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
 | `js/systems/road-controller-v100.js` | 139 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
 | `js/core/game-runtime-v120.js` | 102 | Return-to-Ashmere/navigation bridge | Player load/save delegates to `LegendStorage`; retain return/recovery flow until browser-verified |
-| `js/storage.js` | 132 lines | Current player normalization and player save/load/delete; facade for settings APIs | Keep player-save ownership and public storage method names stable |
+| `js/storage.js` | 33 lines | Player save/load/delete plus stable `LegendStorage` facade methods | Keep persistence ownership and public API names stable |
+| `js/storage/player-normalizer-v120.js` | 122 lines | Player-record defaults, retired-field cleanup, and preservation of current unknown data | Own normalization rules separately from storage I/O and expose them through `LegendStorage.normalize()` |
 | `js/storage/settings-storage-v120.js` | 55 lines | `legend-settings-v1`, default accessibility options, and UI class application | Own device-local settings persistence separately from player-record normalization |
 | `js/screens/title-screen-v120.js` | 168 | Active title menu markup, title audio, transition notice and credits | Keep presentation and local title interactions separate from navigation/player-state owners |
 | `js/game.js` | 104 | Continue/new-traveler/account/settings adapters and `LegendGameBootstrap` | Keep as a thin entry/facade layer, not a dumping ground for feature systems |
