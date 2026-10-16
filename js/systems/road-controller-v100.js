@@ -63,7 +63,8 @@ const roadActions=window.LegendRoadActionsV100?.create({
  itemName,
  skillLabel,
  renderExpedition,
- combat
+ combat,
+ getAreaForStage:areaForStage
 });
 function resolveChoice(kind){return roadActions?.resolveChoice(kind);}
 function roadCombatContext(){
