@@ -23,8 +23,9 @@ The current `index.html` loads classic scripts in this order:
 13. `js/systems/town-audio-v100.js` — Ashmere hover/confirm audio adapter
 14. `js/systems/ashmere-controller-v099.js` — town controller using the town audio adapter
 15. `js/systems/road-audio-v100.js` — expedition sound effects and battle music adapter
-16. `js/systems/road-controller-v100.js` — expedition behavior using the road audio adapter
-17. `js/systems/scene-transitions-v120.js`
+16. `js/systems/road-state-v100.js` — expedition state initialization and normalization
+17. `js/systems/road-controller-v100.js` — expedition behavior using the state and audio adapters
+18. `js/systems/scene-transitions-v120.js`
 
 Do not reorder or remove scripts until references and runtime behavior have been verified. The presence of both road controller versions is a dependency-audit item, not proof that the older controller is safe to remove.
 
@@ -35,8 +36,9 @@ Do not reorder or remove scripts until references and runtime behavior have been
 - `js/core/runtime-v080.js`: runtime bridge, loading/saving players, and returning to Ashmere.
 - `js/systems/progression-v100.js`: XP awards, level thresholds, and HP gains on level-up.
 - `js/content/roads/old-road-v087.js`: road content including stages, checks, enemies, and finds.
-- `js/systems/road-controller-v100.js`: expedition flow and battle-related behavior; currently a large controller with inline rendering. Audio delegates to `LegendRoadAudioV100` while the controller keeps its existing local call contract.
+- `js/systems/road-controller-v100.js`: expedition flow and battle-related behavior; currently a large controller with inline rendering. Delegates audio to `LegendRoadAudioV100` and state normalization to `LegendRoadStateV100` while retaining existing local calls.
 - `js/systems/road-audio-v100.js`: extracted sound preference, UI tones, battle sound effects, and battle-music lifecycle.
+- `js/systems/road-state-v100.js`: extracted expedition state initialization, stage/pressure normalization, and shared clamping.
 - `js/systems/town-audio-v100.js`: extracted Ashmere hover/confirm cues and their per-control binding behavior.
 - `js/systems/ashmere-controller-v099.js`: town actions and inline rendering; delegates town UI cues to `LegendTownAudioV100`.
 - `js/systems/region-controller-v100.js`: region/town progression and travel behavior.
@@ -73,6 +75,7 @@ Do not reorder or remove scripts until references and runtime behavior have been
 
 ### Phase 4 — Rendering and audio
 - [x] Extract the Old Road audio behavior behind `LegendRoadAudioV100` while preserving the existing `legend-road-sound` preference and controller-facing calls.
+- [x] Extract Old Road expedition state initialization and stage/pressure normalization behind `LegendRoadStateV100`, preserving the existing state object shape.
 - [ ] Move markup into shared render functions while preserving DOM contracts.
 - [x] Extract Ashmere hover/confirm cues behind `LegendTownAudioV100`, retaining existing asset paths, volumes, throttle, and binding marker.
 - [ ] Centralize remaining title audio behind adapters that retain existing toggles and playback behavior.
