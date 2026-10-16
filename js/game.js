@@ -2,7 +2,6 @@
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
-  function esc(s){ return String(s == null ? '' : s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
   function root(){ return document.getElementById('root'); }
   function loadPlayer(){ return S().loadPlayer ? S().loadPlayer() : null; }
   function saveSettings(settings){ if(S().saveSettings) S().saveSettings(settings); }
