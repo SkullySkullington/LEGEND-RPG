@@ -1,6 +1,14 @@
-# LEGEND: The Unquiet Road — Development Roadmap
+# LEGEND: The Awakening — Development Roadmap
 
-This is the active roadmap for the current modular HTML5 RPG. Priorities are ordered by player impact, not by a fixed release date. The current region system and loader sequence should remain stable unless a change clearly improves the game; because this is a private early playtest, traveler saves may be reset or migrated when needed.
+This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priorities are ordered by player impact, not by a fixed release date. Preserve the current region system, loader sequence, save keys, and player compatibility unless a deliberate migration is approved.
+
+## Current priority — identity, presentation, and RPG feel
+
+- [x] Confirm the product title as **LEGEND: The Awakening**; retire “The Unquiet Road” as a visible subtitle.
+- [x] Keep the production Ashmere panorama and antique-gold wordmark as stable local assets.
+- [x] Replace the landing-page-style title hero with a framed RPG menu and clear Continue/Begin hierarchy.
+- [ ] Manually review the production title at desktop and mobile sizes, including focus states and reduced motion.
+- The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
 
 ## Current foundation
 
@@ -18,7 +26,7 @@ The first-session story spine links the dead lantern, first conversations in Ash
 
 ## High-priority design brief: Opening Experience
 
-The title screen and new-traveler journey were previously framed as a DOM-led redesign. The broader [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) now proposes proving a persistent animated game layer instead of indefinitely polishing screen-by-screen flows. See the isolated [Phaser reboot prototype](../prototypes/reboot/) for an experimental title scene, draft cinematic, battle feel test, and rune-training activity. This remains a separate experiment, not production gameplay.
+The title screen now has an explicit RPG-menu direction. The broader [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) still proposes proving a persistent animated game layer rather than indefinitely polishing screen-by-screen flows. See the isolated [Phaser reboot prototype](../prototypes/reboot/) for an experimental title scene, draft cinematic, battle feel test, and rune-training activity. This remains a separate experiment, not production gameplay.
 
 ## Reboot direction — prototype before migration
 

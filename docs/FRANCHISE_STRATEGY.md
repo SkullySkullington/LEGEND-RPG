@@ -5,7 +5,7 @@
 
 ## CURRENT CREATIVE DIRECTION — MONSTER WARS & THE AWAKENING
 
-The current preferred creative foundation is [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). LEGEND should be recognizable as a fantasy RPG with monsters, dungeons, factions, dangerous expeditions, skill training, crafting, magic, regional adventures, and an escalating supernatural conflict. The central mystery supports this adventure; it must not replace it.
+The current product title is **LEGEND: The Awakening**; “The Unquiet Road” is retired as a visible subtitle. The current preferred creative foundation is [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md). LEGEND should be recognizable as a fantasy RPG with monsters, dungeons, factions, dangerous expeditions, skill training, crafting, magic, regional adventures, and an escalating supernatural conflict. The central mystery supports this adventure; it must not replace it.
 
 The older Pale Surveyor / Hollow Mile proposal is no longer the primary franchise engine. It remains a legacy concept that can be mined selectively for local folklore or a bounded secondary mystery, but must not become the explanation for every region or monster. Build expansions around new conflicts, factions, magic, and consequences in the shared world—not merely around new pieces of the old road mystery.
 
@@ -34,7 +34,7 @@ The first game remains the anchor. A broad IP needs a strong, understandable ent
 ### The flagship line: games
 The main game series carries the central playable journey and major canon revelations. Each game needs its own local conflict, a complete emotional arc, meaningful progression, and a larger question that naturally points forward. Do not make a sequel feel like an oversized content update, or require an external book to understand its plot.
 
-**Current flagship:** *LEGEND: The Unquiet Road* (recommended working subtitle) — one continuous first game intended to span Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. The regions are not separate game installments; future titles should revisit them as events change their people, policies, and physical routes.
+**Current flagship:** *LEGEND: The Awakening* (current product title) — one continuous first game intended to span Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. The regions are not separate game installments; future titles should revisit them as events change their people, policies, and physical routes.
 
 ### Companion stories: short fiction and illustrated pieces
 Use short stories, character vignettes, journal entries, illustrated route reports, or a limited web-serial to explore people and places that the game cannot fully cover. These should:
@@ -165,7 +165,7 @@ This order keeps the IP ambition connected to a game people can actually play an
 
 ## 8. Shared geography, gameplay reboot, continuing series
 
-The current working title is **LEGEND: The Unquiet Road**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are shared geography; they are not individual game installments. Future titles can revisit these places after their inhabitants, routes, governments, and memories have changed.
+The current working title is **LEGEND: The Awakening**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are shared geography; they are not individual game installments. Future titles can revisit these places after their inhabitants, routes, governments, and memories have changed.
 
 The new [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) is the primary proposal for how LEGEND should feel and function: browser-first 2D runtime, animated exploration and title/cinematic presentation, skill mini-games, real magic progression, and active turn-based combat. The separate [Phaser reboot prototype](../prototypes/reboot/) is a proof of concept, not a production migration. Evaluate Phaser before choosing a broader engine change; do not rewrite the full production game before one playable slice proves the direction.
 

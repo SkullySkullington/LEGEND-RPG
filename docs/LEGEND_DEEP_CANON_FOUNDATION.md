@@ -1,5 +1,7 @@
 # LEGEND — Deep Canon Foundation
 
+> **Current identity note (2026-10-16):** The product title is **LEGEND: The Awakening**. The older “The Unquiet Road” subtitle recommendation is retired; this document remains a legacy mythology proposal, not the primary current canon.
+
 **Status:** Archived proposal; superseded as the default mythology by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
 **Purpose:** Preserve the earlier Pale Surveyor / Hollow Mile concepts for reference only. The current proposed cosmology and gameplay foundation live in [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 **Use with:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Series Myth Arc](LEGEND_SERIES_MYTH_ARC.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), and [Franchise Strategy](FRANCHISE_STRATEGY.md).
@@ -186,7 +188,7 @@ The franchise must preserve the distinction between *a useful standard* and *an 
 
 ## 6. The first game and the wider series
 
-The first game, under the recommended working subtitle **LEGEND: The Unquiet Road**, is intended to travel through all planned regions: Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. These are different acts within one continuous story, not separate releases. Each region dramatizes a new consequence of the same ancient failure.
+The first game, under the current product title **LEGEND: The Awakening**, is intended to travel through all planned regions: Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March. These are different acts within one continuous story, not separate releases. Each region dramatizes a new consequence of the same ancient failure.
 
 - **Ashmere — trust:** the player has to decide whom to trust when the traveler cannot account for the last mile.
 - **The Old Road — contradiction:** physical route evidence conflicts with markers and old instructions.

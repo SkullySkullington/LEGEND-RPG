@@ -1,10 +1,12 @@
-# LEGEND: The Unquiet Road — First-Session Story Spine
+# LEGEND: The Awakening — First-Session Story Spine
 
 **Status:** Narrative design draft. Existing game facts are marked *implemented*; new connective scenes and future payoffs are *proposed* until approved.  
 **Purpose:** Turn the first 30–60 minutes into a memorable RPG journey with a clear emotional arc, not a checklist of unrelated features.  
 **Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Ashmere Vertical Slice GDD](ASHMERE_VERTICAL_SLICE_GDD.md), [Opening Experience Redesign](OPENING_EXPERIENCE_REDESIGN.md).
 
 ## CURRENT DIRECTION UPDATE — OPEN WITH A FANTASY ADVENTURE
+
+**Canon guardrail — L4 (locked 2026-10-16):** Production canon locks the traveler as an echo left by the Last Mercy, touched by the Veil before the ritual could finish making them. This is internal author knowledge only: the game must not state or imply the traveler's nature in dialogue, journal text, menus, or UI until an owner-approved reveal plan exists. The traveler's exact difference from ordinary echoes and how this relates to origin choices remain open. Existing guidance that keeps the prior life flexible is flagged for later reconciliation; do not add hints or change the current intro as part of the title-screen work.
 
 Use [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md) as the main story direction. Preserve the implemented dead-lantern arrival, single bell, High Ridge/Reed Cut choice, Bell Fragment, Moved Cairn, Blackroot mark, Greyfen comparison, Reedwatch note, Brenn's ledger, weekly return, and missing-closure-order lead. Reframe the *meaning* only when supported by evidence; do not replace their implemented facts.
 
@@ -246,11 +248,11 @@ This creates a concrete sequence—Blackroot observation, second-site comparison
 
 The current source sequence continues from Mara's Greyfen archive comparison to a contextual discovery at Reedwatch Shelter. The dated note shows the changed route mark was already drawn two days after Greyfen logged the flood's retreat. The player reports the note to Mara, then brings the question to Old Brenn, whose ledger contains two overwritten crossing destinations.
 
-Brenn's next lead is an earlier weekly route return. This creates a concrete sequence of evidence—stone, dated sketch, rewritten ledger, earlier field record—without revealing the person responsible prematurely. The chain is in source v0.20.25; the full browser path remains unverified.
+Brenn's next lead is an earlier weekly route return. This creates a concrete sequence of evidence—stone, dated sketch, rewritten ledger, earlier field record—without yet proving the Landing Warden's responsibility to the player. Canon now establishes her role and trade-pressure motive, but the reveal and player response remain to be implemented. The chain is in source v0.20.25; the full browser path remains unverified.
 
 
 ## 13. Evidence chapter close: The Earlier Weekly Return
 
 After Brenn records the overwritten destinations, the Old Road's Wayfarer's Camp can reveal an earlier weekly route return. Its lower-crossing line says “CLOSED pending inspection,” then a later hand changes it to “OPEN” without initials.
 
-The player brings this return to Brenn, who compares it with his ledger and directs the player to Mara. Mara preserves the conflicting records together and leaves a clear remaining question: the missing closure order. The chapter establishes chronology and evidence of alteration, not the responsible person's identity.
+The player brings this return to Brenn, who compares it with his ledger and directs the player to Mara. Mara preserves the conflicting records together and leaves a clear remaining question: the missing closure order. The implemented chapter establishes chronology and evidence of alteration, but does not yet prove the Landing Warden's responsibility to the player. Production canon names her role, leaves her personal name open, and requires a later evidence-backed reveal.

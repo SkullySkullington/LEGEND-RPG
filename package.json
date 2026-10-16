@@ -1,8 +1,8 @@
 {
   "name": "legend-roads-of-ashmere",
-  "version": "0.20.33",
+  "version": "0.20.36",
   "private": true,
-  "description": "Playwright end-to-end tests for LEGEND: The Awakening.",
+  "description": "Browser regression tests and utilities for LEGEND: The Awakening.",
   "scripts": {
     "serve": "http-server . -p 4173 -c-1",
     "test:e2e": "playwright test",

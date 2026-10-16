@@ -1,4 +1,4 @@
-# LEGEND: The Unquiet Road — Ashmere Vertical Slice GDD
+# LEGEND: The Awakening — Ashmere Vertical Slice GDD
 
 **Target:** v0.9.x polish path toward the first public 1.0 vertical slice  
 **Scope:** Ashmere first town + Old Road loop  
@@ -981,5 +981,5 @@ The build is ready when:
 Use this when generating assets/music with external tools:
 
 ```text
-LEGEND: The Unquiet Road is a dark medieval fantasy browser RPG. The 1.0 vertical slice focuses on Ashmere, a rain-dark town at the edge of the Old Road. The mood is grounded, grim, mysterious, and adventurous — not cartoonish, not high fantasy neon. Visuals should feel like candlelit inns, muddy roads, old stone, wet wood, rusted iron, fog, lantern light, parchment, worn leather, and strange supernatural traces. UI should feel like a real RPG: framed panels, icons, subtle ember/fog animation, medieval motifs, readable but immersive. The first gameplay loop is: prepare in town, take jobs, craft, buy supplies, travel the Old Road, face varied events/enemies, gather drops, return to Ashmere, sell/craft/upgrade, repeat.
+LEGEND: The Awakening is a dark medieval fantasy browser RPG. The 1.0 vertical slice focuses on Ashmere, a rain-dark town at the edge of the Old Road. The mood is grounded, grim, mysterious, and adventurous — not cartoonish, not high fantasy neon. Visuals should feel like candlelit inns, muddy roads, old stone, wet wood, rusted iron, fog, lantern light, parchment, worn leather, and strange supernatural traces. UI should feel like a real RPG: framed panels, icons, subtle ember/fog animation, medieval motifs, readable but immersive. The first gameplay loop is: prepare in town, take jobs, craft, buy supplies, travel the Old Road, face varied events/enemies, gather drops, return to Ashmere, sell/craft/upgrade, repeat.
 ```

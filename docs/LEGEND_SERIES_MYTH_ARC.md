@@ -1,5 +1,7 @@
 # LEGEND — Series Myth Arc: The Pale Surveyor
 
+> **Current identity note (2026-10-16):** The product title is **LEGEND: The Awakening**. The older “The Unquiet Road” subtitle recommendation is retired; this document remains a legacy mythology proposal, not the primary current canon.
+
 **Status:** Archived proposal; superseded as the default mythology by [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md)
 **Purpose:** Preserve the earlier Pale Surveyor idea for reference only. Do not use its cosmology as the current story baseline; see [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md).
 **Companions:** [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Deep Canon Foundation](LEGEND_DEEP_CANON_FOUNDATION.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [Franchise Strategy](FRANCHISE_STRATEGY.md).
@@ -131,7 +133,7 @@ Those choices should be distinct. Some people serve the Surveyor knowingly; othe
 
 ## 5. The first game spans the shared geography
 
-The recommended working subtitle for the first game is **LEGEND: The Unquiet Road**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are all intended regions of this one game. They are not separate games named after different places. The exact amount of each region that is implemented today remains a production question; future regions should not be described as playable until their hubs, stories, and tests exist.
+The current product title for the first game is **LEGEND: The Awakening**. Ashmere, the Old Road, Greyfen, Ironpass, Blackwood, and the Ruined March are all intended regions of this one game. They are not separate games named after different places. The exact amount of each region that is implemented today remains a production question; future regions should not be described as playable until their hubs, stories, and tests exist.
 
 ### Act I — Ashmere: the wound comes home
 The traveler wakes beneath a dead lantern with a gap in the last mile. The single bell ring is an observation before it is an explanation. Mara wants evidence; Brenn wants a record he can defend; Oric wants to know what danger is still on the road; Sella worries about the traveler as a living person who must eat, sleep, and prepare.
