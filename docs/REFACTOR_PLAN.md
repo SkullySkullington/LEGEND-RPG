@@ -47,6 +47,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract town destination dispatch into `js/systems/town/ashmere-navigation-v099.js`; preserve `LegendAshmereV099.route()` and inject screen handlers through a route map.
 - [x] Extract the town shell, header/back controls, and UI audio bindings into `js/systems/town/ashmere-view-v099.js`; inject player, art, and route callbacks and preserve the existing markup/hooks.
 - [x] Split the Ashmere/Greyfen people directory from the NPC dialogue/evidence progression into `ashmere-people-v099.js` and `ashmere-npc-dialogue-v099.js`; retain the public people-module dispatcher and existing saved flags.
+- [x] Extract baseline Ashmere/Greyfen NPC copy into `js/systems/town/ashmere-npc-catalog-v099.js`; keep state-driven dialogue variants, quest mutations, persistence, and rendering in the dialogue service.
 - [x] Move town feature context assembly and feature-screen dispatch into `js/systems/town/ashmere-features-v099.js`; retain the existing `LegendAshmereV099.route()` contract.
 - [x] Extract shared item/art lookup maps and catalog presentation helpers into `js/systems/town/ashmere-assets-v099.js`; inject data/assets/player accessors while preserving icon, equipment-name, and region-art mappings.
 - [x] Extract the Work Board's Ashmere/Greyfen job definitions, prompts, grades, reward values, and sequence data into `js/systems/town/ashmere-job-catalog-v099.js`; the runner now owns challenge lifecycle, persistence, and rewards.
