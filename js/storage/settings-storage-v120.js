@@ -42,9 +42,8 @@
     }
 
     function saveSettings(settings) {
-      const merged = { ...DEFAULT_SETTINGS, ...(settings || {}) };
-      localStorage.setItem(SETTINGS_KEY, JSON.stringify(merged));
-      applySettings(merged);
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      applySettings(settings);
     }
 
     return Object.freeze({ loadSettings, saveSettings, applySettings });
