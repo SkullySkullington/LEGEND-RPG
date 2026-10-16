@@ -12,6 +12,7 @@ This is a working map of the production browser game. It is not a map of `protot
 - `js/game.js` is the thin bootstrap/navigation adapter for continue, new traveler, account, settings, and title-screen callbacks. It publishes `window.LegendGameBootstrap`.
 - `js/screens/settings-screen-v090.js` owns settings presentation and its control binding. Persistence remains in `js/storage.js`.
 - Feature systems use classic browser scripts and shared `window` namespaces; injection objects provide the dependencies between extracted screens.
+- `docs/ADDING_FEATURES.md` maps common feature types to their data, rules, views, and facade wiring points so new gameplay stays inside the existing module boundaries.
 
 ## Confirmed hot spots
 
