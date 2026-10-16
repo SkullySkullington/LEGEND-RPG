@@ -29,7 +29,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Add `docs/ADDING_FEATURES.md` with the owning module, insertion points, save contracts, and validation path for common feature types.
 - [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
 - [x] Retire and delete the v087 road controller and make `LegendRoadControllerV100` the only road entry point; move road data to `LegendRoadsV100`.
-- [x] Extract v100 enemy intent, class techniques, fight rendering/actions, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the existing expedition controller entry point and inject state/audio/progression adapters.
+- [x] Extract v100 enemy intent, class techniques, turn/damage/action rules, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the expedition controller entry point and inject state/audio/progression adapters.
+- [x] Extract battle markup and combat command binding into `js/systems/road/road-combat-view-v100.js`; have the view forward fight/act/item/guard/retreat commands to the combat service without owning combat mutations.
 - [x] Extract road sound preference, UI tones, battle effects, and battle music into `js/systems/road/road-audio-v100.js`; preserve the existing `legend-road-sound` preference and delegate both expedition and combat controls to the same audio service.
 - [x] Document the current player/save shape, active key, dynamic flags/stats, item/region IDs, and v100 progression contract in `docs/SAVE_DATA_CONTRACT.md`.
 - [x] Inventory current production callers of `LegendRuntimeV120` and direct `LegendStorage` users: title/bootstrap, traveler creation, account/profile, Ashmere/region screens, and the active v100 road controller.
