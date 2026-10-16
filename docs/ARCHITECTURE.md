@@ -24,7 +24,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |
 | `js/systems/town/ashmere-navigation-v099.js` | 57 lines | Public town view ID to handler map for home, NPCs, feature screens, routes, road, profile, and regions | Add new town destinations in one map while preserving `LegendAshmereV099.route()` as the public façade |
-| `js/systems/town/ashmere-hub-v099.js` | 79 lines | Ashmere/Greyfen home-screen goal selection, route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
+| `js/systems/town/ashmere-guidance-v099.js` | 20 lines | Chooses the suggested next action from region, quest flags, and Road Token count | Own progression-aware town guidance independently of the hub markup; expose `getGoal(player)` |
+| `js/systems/town/ashmere-hub-v099.js` | 74 lines | Ashmere/Greyfen route strip, destination cards, status, and footer navigation | Own the hub presentation; receive formatting, image, shell, and navigation helpers through context |
 | `js/systems/town/ashmere-features-v099.js` | 223 lines | Shared dependency assembly and dispatch to records, jobs, commerce, people, inn, contracts, and crossing modules | Own feature adapters; keep feature modules independently injected and route-compatible |
 | `js/content/roads/old-road-v100.js` | Data-only catalog | Old Road metadata, route checks, finds, enemies, six stage scenes, and base points of interest | Keep reusable road text/data separate from stateful expedition logic |
 | `js/systems/road-controller-v100.js` | 154 lines | Module initialization, expedition kickoff/stage adaptation, combat adapter and public facade | Keep as orchestration only; shared state/rules belong to the road-state service |
@@ -115,6 +116,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Traveler creation view | `window.LegendPlayerCreationViewV094` |
 | Region map view | `window.LegendRegionViewV100.create()` |
 | Traveler creation | `window.LegendBeginningV094` |
+| Ashmere next-step guidance | `window.LegendAshmereGuidanceV099.getGoal(player)` |
 | Ashmere/Greyfen home hub | `window.LegendAshmereHubV099` |
 | Ashmere route map | `window.LegendAshmereNavigationV099.create()` |
 | Ashmere asset/catalog helpers | `window.LegendAshmereAssetsV099.create()` |
