@@ -173,6 +173,52 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(region).toBe('Greyfen');
   });
 
+  test('loadout, inventory, quest journal and progression survive a real page reload', async ({ page }) => {
+    await startFreshCharacter(page, 'ReloadPersistenceQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV080, pl = rt.loadPlayer();
+      pl.weapon = 'stoneSword';
+      pl.ownedWeapons = pl.ownedWeapons || {};
+      pl.ownedWeapons.stoneSword = 1;
+      pl.inventory = pl.inventory || {};
+      pl.inventory.roadHerb = 7;
+      pl.inventory.potion = 2;
+      pl.questLog = Array.isArray(pl.questLog) ? pl.questLog : [];
+      pl.questLog.push('Playwright reload marker: Blackroot clues retained');
+      pl.stats = pl.stats || {};
+      pl.stats.sideContractsCompleted = 3;
+      rt.savePlayer(pl);
+      window.LegendGameBootstrap.title();
+    });
+
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.locator('#continue')).toBeVisible();
+    await page.locator('#continue').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+
+    const persisted = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV080.loadPlayer();
+      return {
+        region: pl.currentRegion,
+        weapon: pl.weapon,
+        ownedWeapon: Number(pl.ownedWeapons?.stoneSword || 0),
+        herbs: Number(pl.inventory?.roadHerb || 0),
+        potions: Number(pl.inventory?.potion || 0),
+        journalHasMarker: Array.isArray(pl.questLog) && pl.questLog.includes('Playwright reload marker: Blackroot clues retained'),
+        completedContracts: Number(pl.stats?.sideContractsCompleted || 0)
+      };
+    });
+    expect(persisted.region).toBe('Ashmere');
+    expect(persisted.weapon).toBe('stoneSword');
+    expect(persisted.ownedWeapon).toBe(1);
+    expect(persisted.herbs).toBe(7);
+    expect(persisted.potions).toBe(2);
+    expect(persisted.journalHasMarker).toBe(true);
+    expect(persisted.completedContracts).toBe(3);
+  });
+
   test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenWorkQA');
     await page.evaluate(() => {
