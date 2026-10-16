@@ -1,4 +1,6 @@
-/* LEGEND Ashmere forge and equipment.\n * Owns weapon/armor listings, illustration markup, purchases, and equip actions.\n */
+/* LEGEND Ashmere forge and equipment.
+ * Owns weapon/armor listings, illustration markup, purchases, and equip actions.
+ */
 (() => {
   function render(context, argument = 'weapon') {
     if (!context || typeof context.getPlayer !== 'function' ||
