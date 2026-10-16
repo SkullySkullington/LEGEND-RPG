@@ -12,6 +12,15 @@
     typeof renderShell!=='function'||typeof escapeHtml!=='function'||typeof getRoot!=='function')return null;
   const p=getPlayer,save=savePlayer,ensure=ensureState,inv=addInventory,esc=escapeHtml,ret=returnToAshmere,root=getRoot;
   const header=renderHeader,shell=renderShell;
+  const resultView=window.LegendRoadResultsViewV100?.create({
+    renderHeader:header,
+    renderShell:shell,
+    escapeHtml:esc,
+    onReturn:()=>{
+      if(typeof returnToTown==='function'){returnToTown();return;}
+      ret();
+    }
+  });
 function finish(){
  const pl=p();if(!pl)return;
  const s=ensure(pl),complete=s.stage>=5,reward=30+s.stage*20+Math.floor(s.pressure/20)*10;
@@ -54,7 +63,10 @@ function outcome(title,text,kicker,skill,modifier){
  stopMusic();
  const pl=p();if(!pl)return;
  const s=ensure(pl);
- shell(header(pl,s,kicker||'EXPEDITION COMPLETE',title,text)+'<section class="exp100-explore-dock exp100-outcome"><div class="exp100-route"><span>THE ROAD REMEMBERS</span><strong>'+esc(title)+'</strong><small>'+esc(text)+'</small></div><div class="exp100-dock-actions"><button class="exp100-dock-action primary" id="outcomeReturn"><strong>Return to Ashmere</strong><span>Leave the road and return to town.</span></button></div></section>');
+ if(resultView?.render){
+  return resultView.render({player:pl,state:s,kicker,title,text,skill,modifier});
+ }
+ shell(header(pl,s,kicker||'EXPEDITION COMPLETE',title,text)+'<section class="exp100-explore-dock exp100-outcome"><div class="exp100-route"><span>THE ROAD REMEMBERS</span><strong>'+esc(title)+'</strong><small>'+esc(text)+'</small></div><div class="exp100-dock-actions"><button class="exp100-dock-action primary" id="outcomeReturn"><strong>Return to Ashmere</strong><span>Leave the road and return to town.</span></button></div><p class="exp100-dock-note">The result view module did not load; your result has still been recorded.</p></section>');
  document.getElementById('outcomeReturn')?.addEventListener('click',()=>{
   if(typeof returnToTown==='function'){returnToTown();return;}
   ret();
