@@ -17,7 +17,7 @@ This documents the active production data path. Per the current project directio
 
 ## Normalization behavior
 
-`LegendStorage.normalize(player)` mutates the parsed player object in place and sets `player.version = LEGEND_DATA.VERSION`. It adds defaults for missing fields but does not enforce a strict whitelist or remove unknown fields. Existing unknown inventory entries, stat counters, flags, and nested state must therefore be preserved by refactors.
+`LegendStorage.normalize(player)` delegates to `LegendPlayerNormalizerV120.normalize(player)` and preserves the existing public API. The normalizer mutates the parsed player object in place and sets `player.version = LEGEND_DATA.VERSION`. It adds defaults for missing fields but does not enforce a strict whitelist or remove unknown fields. Existing unknown inventory entries, stat counters, flags, and nested state must therefore be preserved by refactors.
 
 Current defaults include:
 
