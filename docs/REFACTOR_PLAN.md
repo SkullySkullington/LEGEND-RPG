@@ -24,6 +24,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ### 0. Baseline and contracts
 - [x] Record production script boundaries and critical storage keys in `docs/ARCHITECTURE.md`.
+- [x] Add `docs/ADDING_FEATURES.md` with the owning module, insertion points, save contracts, and validation path for common feature types.
 - [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
 - [x] Retire and delete the v087 road controller and make `LegendRoadControllerV100` the only road entry point; move road data to `LegendRoadsV100`.
 - [x] Extract v100 enemy intent, class techniques, fight rendering/actions, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the existing expedition controller entry point and inject state/audio/progression adapters.
