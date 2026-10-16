@@ -82,7 +82,7 @@ The current field-level contract is maintained in `docs/SAVE_DATA_CONTRACT.md`. 
 - Settings key: `legend-settings-v1`, owned by `js/storage.js`.
 - Road audio preference key: `legend-road-sound`, owned by `js/systems/road/road-audio-v100.js`.
 - Title-gate session key: `legend-roads-of-ashmere-title-gate-v09x`, used by the older optional title-gate flow.
-- Runtime return key: `legend-v080-return-ashmere`, owned by the runtime bridge.
+- Runtime return key: `legend-awakening-return-to-town-v1`, owned by the runtime bridge.
 - The player record is JSON in local storage and is normalized in place by `LegendStorage`. Fields, nested flags, inventory IDs, region IDs, and old creation-version fields are consumed by multiple systems.
 
 The settings, records, workboard, commerce, people, inn, contracts/crossing, v100 combat, road-audio extractions, and removal of unused town helpers do not change player-save schema, normalization, active/historical player keys, or settings persistence. The existing `legend-road-sound` preference remains intact and is now owned by the road audio service. The Ashmere controller remains the public router. `renderSheet()` and `renderArchive()` delegate to the records module; `renderWorkBoard()` delegates to the workboard module; `renderTrader()`, `renderCrafting()`, and `renderSmith()` delegate to the commerce module; `renderPeople()` and `renderNPC()` delegate to the people module; `renderInn()` delegates to the inn module; `renderSideContracts()` and `renderDryCrossing()` delegate to the contracts module. These modules receive their required helpers through explicit context values.
