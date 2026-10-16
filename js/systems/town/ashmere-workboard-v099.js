@@ -71,7 +71,7 @@ const workJobs = {
     if(mode==='timing'){
       timer=setInterval(()=>{if(done)return;pos+=dir*2.35;if(pos>=100){pos=100;dir=-1;}if(pos<=0){pos=0;dir=1;}if(marker)marker.style.left=pos+'%';},24);
     }
-    function finish(gradeOverride,context){
+    function finish(gradeOverride,feedback){
       if(done)return;
       done=true;
       cleanup();
@@ -92,7 +92,7 @@ const workJobs = {
       if(grade==='Miss'&&Number(player.hp||0)>1){player.hp=Math.max(1,Number(player.hp||0)-1);bonus+=' You lose 1 HP from the rough work.';}
       save(player);
       const xpNote=progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'';
-      if(result){result.style.display='block';result.textContent=grade+'! '+(context?context+' ':'')+'Earned '+pay+'g.'+bonus+' Local standing increased.'+xpNote;}
+      if(result){result.style.display='block';result.textContent=grade+'! '+(feedback?feedback+' ':'')+'Earned '+pay+'g.'+bonus+' Local standing increased.'+xpNote;}
       if(strike){strike.disabled=true;strike.textContent='Job Complete';}
       document.querySelectorAll('[data-job-choice],[data-job-sequence],#jobStartSequence').forEach(b=>b.disabled=true);
       // Keep the reward summary visible until the player chooses to leave the activity.
