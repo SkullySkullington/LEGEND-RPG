@@ -69,7 +69,8 @@ This is a working map of the production browser game. It is not a map of `protot
 | `js/systems/road/road-actions-v100.js` | 96 lines | Travel/search resolution, pressure, skill checks, finds, and encounter selection | Own the effectful road action layer through injected save/state/render/combat services |
 | `js/systems/road/road-results-v100.js` | 68 lines | Expedition reward/XP/token settlement, first-return story report, and outcome screen | Own settlement/reward decisions through injected persistence, progression, view, and town-return adapters |
 | `js/systems/road/road-expedition-screen-v100.js` | 60 lines | Expedition stage panel assembly and camp/road control event binding | Own screen composition; inject domain decisions and state changes from actions/discovery/results modules |
-| `js/systems/road/road-combat-v100.js` | 165 | v100 turn-based battle display, commands, enemy intents, player actions, victory rewards and progression | Combat module injected with save, expedition, progression, and audiovisual adapters |
+| `js/systems/road/road-combat-view-v100.js` | 81 lines | Battle layout, player/enemy status panels, command buttons, and combat UI event binding | Own battle presentation and forward commands to injected handlers; do not mutate combat state in the view |
+| `js/systems/road/road-combat-v100.js` | 162 lines | Enemy intent, class techniques, damage/turn rules, item use, retreat/defeat, and victory rewards | Own combat behavior and progression effects; delegate battle markup and button binding to the combat view |
 | `js/systems/road/road-audio-v100.js` | 55 | Road sound preference, UI tones, battle sound effects, and battle music lifecycle | Single road-audio API for the v100 expedition and combat modules; owns `legend-road-sound` preference |
 
 ## Road-controller overlap audit
@@ -78,7 +79,7 @@ This is a working map of the production browser game. It is not a map of `protot
 - `LegendRoadControllerV100` is the sole active road controller. The old v087 controller and its button-interception side effect have been removed from the production path and the source file is deleted.
 - Road content now exports `window.LegendRoadsV100`; the old `LegendRoadsV087` namespace is no longer used.
 - Active v100 state is `flags.roadExpeditionV100`, and XP/rewards come from `LegendProgressionV100.award` and the v100 expedition rules. The normalizer discards legacy `flags.roadV087`/`xpUntil` state rather than trying to translate it.
-- Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; sound preference and effects are isolated in `js/systems/road/road-audio-v100.js`.
+- Combat behavior is isolated in `js/systems/road/road-combat-v100.js`; battle markup/command binding is in `js/systems/road/road-combat-view-v100.js`; sound preference and effects are isolated in `js/systems/road/road-audio-v100.js`.
 
 ## Runtime and storage call-site inventory
 
@@ -145,6 +146,7 @@ The static caller inventory is complete enough to guide the next review, but it 
 | Road POI outcomes | `window.LegendRoadPoiOutcomesV100.create()` |
 | Old Road discovery view | `window.LegendRoadDiscoveryViewV100.create()` |
 | Expedition/road path | `window.LegendRoadControllerV100` |
+| v100 combat view | `window.LegendRoadCombatViewV100.create()` |
 | v100 road audio | `window.LegendRoadAudioV100` |
 | Account/profile | `window.LegendAccountV09x` |
 | Account/profile view | `window.LegendAccountProfileViewV09x.create()` |
