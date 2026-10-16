@@ -9,7 +9,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 
 ## Confirmed structural hot spots
 
-- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 14.3 KB / 310 lines; the route façade and context assembly remain, while records, home hub, shared screen shell, catalog/art helpers, jobs, commerce, people/NPCs, inn, and contracts/crossing have dedicated modules.
+- `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 14.3 KB / 323 lines; the route façade and context assembly remain, while records, home hub, shared screen shell, catalog/art helpers, jobs, commerce, people/NPCs, inn, and contracts/crossing have dedicated modules.
 - `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 44.3 KB / 527 lines. It owns expedition scenes, road choices, points of interest, camping, quest decisions, and completion; combat/audio are extracted.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
