@@ -7,6 +7,7 @@
   function apply(player, id, greyfen, dialogue, setBellQuestObjective) {
     if (!player || !dialogue || typeof setBellQuestObjective !== 'function') return false;
     const pl = player;
+    const n = dialogue;
     if(greyfen&&id==='mara'&&pl.flags?.greyfenEvidenceFiled){
       n.lines=[
         'The field note, the crossing ledger, and the earlier weekly return are now preserved together. Each record tells a different part of the same route history.',
