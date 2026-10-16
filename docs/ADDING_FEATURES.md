@@ -6,7 +6,7 @@ This guide records where a new gameplay change belongs in the current production
 
 Production scripts are loaded in order by `index.html` and publish APIs on `window`. Most feature modules export a small `create(context)` or `render(context)` API, and controllers pass their dependencies explicitly. Preserve existing public names such as `LegendAshmereV099`, `LegendRegionsV100`, and `LegendRoadControllerV100` when adding a feature. Do not add another global click interceptor or a second router.
 
-When introducing a new script, add it to `index.html` before the module that consumes it, and bump its cache query token. Add `node --check path/to/new-file.js` to `.github/workflows/playwright.yml`.
+When introducing a new script, add it to `index.html` before the module that consumes it and bump its cache query token. The CI syntax gate automatically checks every local `js/**/*.js` path loaded from `index.html`, then discovers and checks all `tests/**/*.spec.js` files. Keep scripts in those locations rather than maintaining a second manual syntax-check list.
 
 ## Where each kind of feature belongs
 
