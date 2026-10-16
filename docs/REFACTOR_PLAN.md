@@ -21,7 +21,9 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ### 0. Baseline and contracts
 - [x] Record production script boundaries and critical storage keys in `docs/ARCHITECTURE.md`.
 - [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
-- [ ] Inventory all callers of `LegendAshmereV099`, `LegendRoadControllerV087`, `LegendRoadControllerV100`, `LegendRuntimeV080`, and `LegendStorage`.
+- [x] Begin the road-controller call-site audit: `LegendRoadControllerV100` is the preferred path from Ashmere; `LegendRoadControllerV087` is still loaded and remains a fallback, so it is not removed in this phase.
+- [x] Extract v100 enemy intent, class techniques, fight rendering/actions, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the existing expedition controller entry point and inject state/audio/progression adapters.
+- [ ] Complete the caller/side-effect audit for `LegendRuntimeV080` and `LegendStorage` before simplifying those bridges.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
 - [x] Extract trader, buy/sell, crafting recipes, equipment browsing, and purchase/equip behavior into `js/systems/town/ashmere-commerce-v099.js`; keep current routes and inject persistence/presentation helpers.
@@ -42,8 +44,9 @@ Still to extract:
 Pass shared dependencies through small context objects or explicit function arguments instead of introducing more hidden global coupling. Keep current HTML/CSS classes and saved flags stable in this phase.
 
 ### 2. Consolidate road and combat ownership
-- Trace how the v087 road system is entered from current town code and which v100 flows are authoritative.
-- Compare combat, rewards, experience, retreat/death handling, flags, and road-token behavior before changing either implementation.
+- [x] Extract the v100 combat implementation behind a focused module boundary.
+- [x] Confirm v100 is preferred in the Ashmere road-entry adapter; v087 is still a loaded fallback and an event-interception path, so defer removal until its live behavior is resolved.
+- [ ] Compare combat, rewards, experience, retreat/death handling, flags, and road-token behavior across v087 and v100 before considering any consolidation or retirement.
 - Make progression/reward decisions come from one clearly owned service where feasible.
 - Redirect call sites in small steps. Only remove a legacy path after static reference review and a focused manual regression pass show it is unused.
 
