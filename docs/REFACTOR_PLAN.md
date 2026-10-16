@@ -28,6 +28,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Document the current player/save shape, active key, dynamic flags/stats, item/region IDs, and v100 progression contract in `docs/SAVE_DATA_CONTRACT.md`.
 - [x] Inventory current production callers of `LegendRuntimeV120` and direct `LegendStorage` users: title/bootstrap, traveler creation, account/profile, Ashmere/region screens, and the active v100 road controller.
 - [x] Complete the current persistence ownership pass: `LegendStorage` is the sole owner of player save/load; `LegendRuntimeV120` delegates to it and retains return/navigation only.
+- [x] Extract starting player record construction from the seven-step traveler-creation UI into `js/systems/player/player-record-v094.js`; preserve starting values and verify merged origin/keepsake inventory with a browser regression test.
 - [x] Extract active title rendering, title audio hooks, transition notice, optional gate screen, and credits into `js/screens/title-screen-v120.js`; inject navigation handlers through `LegendGameBootstrap` and remove unused legacy portal/menu builders from `js/game.js`.
 - [x] Extract the traveler sheet and archive/journal screens into `js/systems/town/ashmere-records-v099.js`, leaving the existing Ashmere route names as compatibility wrappers.
 - [x] Extract Work Board data, challenge rendering, and job completion/reward logic into `js/systems/town/ashmere-workboard-v099.js`; keep the existing `work` route as the entry point and inject player/save/progression dependencies.
