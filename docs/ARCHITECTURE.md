@@ -176,6 +176,7 @@ The focused contract specs complement the larger journey tests:
 - `tests/progression-contract.spec.js` locks down XP thresholds, level-up HP changes, multiple level-ups, and invalid award inputs.
 - `tests/road-state-contract.spec.js` locks down the `roadExpeditionV100` state shape, stage/pressure normalization, additive bonuses, inventory changes, equipment lookups, and display fallbacks.
 - `tests/road-audio-contract.spec.js` locks down the existing sound preference, toggle semantics, battle asset paths/volumes, and music reuse behavior.
+- `tests/road-combat-contract.spec.js` locks down potion healing/capping, guard reduction against a heavy wind-up, victory drops/XP, counters, and expedition stage/pressure updates.
 - `.github/workflows/playwright.yml` should syntax-check every extracted road module and focused contract spec in addition to running `npm run test:e2e`.
 
 These are compatibility contracts, not a replacement for journey-level tests. When behavior changes intentionally, update the contract and the relevant player journey assertions together.
