@@ -10,7 +10,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ## Confirmed structural hot spots
 
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 9.4 KB / 176 lines; the route façade and initialization remain, while records, home hub, shared screen shell, catalog/art helpers, feature-context assembly, jobs, commerce, people/NPCs, inn, and contracts/crossing live in focused modules.
-- `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 44.3 KB / 527 lines. It owns expedition scenes, road choices, points of interest, camping, quest decisions, and completion; combat/audio are extracted.
+- `js/systems/road-controller-v100.js`: reduced from 59 KB / 654 lines to about 42.1 KB / 514 lines. It owns expedition state/actions and completion; combat/audio are extracted, and base scene/POI descriptions are in `js/content/roads/old-road-v100.js`.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
 - `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
 - `js/game.js` shrank from 325 to about 104 lines after extracting the active title screen into `js/screens/title-screen-v120.js`; current menu markup/classes and navigation actions are preserved.
@@ -58,6 +58,7 @@ Pass shared dependencies through small context objects or explicit function argu
 
 ### 2. Consolidate road and combat ownership
 - [x] Extract the v100 combat implementation behind a focused module boundary.
+- [x] Move reusable Old Road stage descriptions and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; retain route/state-dependent clue variants in the controller.
 - [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
 - [ ] Browser-smoke-test active v100 flows and confirm XP, level-up, token rewards, audio, and return-to-Ashmere.
