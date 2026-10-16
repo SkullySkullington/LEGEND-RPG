@@ -34,13 +34,13 @@ async function startFreshCharacter(page, name = 'QATraveler', interact = (_page,
   await interact(page, page.locator('#v094Next'));
   await interact(page, page.locator('[data-origin]').first());
   await interact(page, page.locator('#v094Next'));
-  await interact(page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }));
+  await interact(page, page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }));
   await interact(page, page.locator('#v094Next'));
   await interact(page, page.locator('[data-keepsake="Old Map"]'));
   await interact(page, page.locator('#v094Next'));
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
-  await interact(page.getByRole('button', { name: /Begin the Road/i }));
-  await interact(page.getByRole('button', { name: /Enter Ashmere/i }));
+  await interact(page, page.getByRole('button', { name: /Begin the Road/i }));
+  await interact(page, page.getByRole('button', { name: /Enter Ashmere/i }));
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
