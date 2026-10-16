@@ -133,6 +133,42 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(player.customState).toEqual({ preserved: true });
   });
 
+  test('traveler record builder preserves identity, starting stats, and merged starting inventory', async ({ page }) => {
+    await openTitle(page);
+    const player = await page.evaluate(() => {
+      const storage = window.LegendStorage;
+      return window.LegendPlayerRecordV094?.create({
+        data: window.LEGEND_DATA,
+        name: 'RecordBuilderQA',
+        gender: { id: 'unspoken', label: 'Keep It Unspoken', pronouns: 'they/them' },
+        personality: { id: 'kind', label: 'Kind-Hearted', bonus: { luck: 1 }, text: 'You notice fear before weakness.' },
+        originId: 'Wandering Cook',
+        classId: 'Ranger',
+        keepsakeId: 'Cooked Ration',
+        baseSkills: storage.baseSkills,
+        normalize: storage.normalize
+      });
+    });
+
+    expect(player).not.toBeNull();
+    expect(player.username).toBe('RecordBuilderQA');
+    expect(player.version).toBe(`v${version}`);
+    expect(player.origin).toBe('Wandering Cook');
+    expect(player.className).toBe('Ranger');
+    expect(player.keepsake).toBe('Cooked Ration');
+    expect(player.hp).toBe(115);
+    expect(player.maxHp).toBe(115);
+    expect(player.gold).toBe(100);
+    expect(player.creationV094.bonuses).toEqual({ luck: 1 });
+    expect(player.inventory.food).toBe(10);
+    expect(player.inventory.potion).toBe(1);
+    expect(player.inventory.camp).toBe(1);
+    expect(player.flags.introV094Complete).toBe(false);
+    expect(player.flags.tutorialStep).toBe('people');
+    expect(player.skills.Woodcutting.level).toBe(1);
+    expect(player.xpUntil).toBeUndefined();
+  });
+
   test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
