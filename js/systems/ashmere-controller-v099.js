@@ -5,7 +5,7 @@
   const A = () => window.LegendAssetsV090 || {};
   const D = () => window.LEGEND_DATA || {};
   const root = () => document.getElementById('root');
-  const esc = s => String(s == null ? '' : s).replace(/[&<>'"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[c]));
+  const esc = window.LegendHtmlV120.escapeHtml;
   const p = () => RT().loadPlayer?.() || null;
   const save = pl => RT().savePlayer?.(pl);
   const townAssets = window.LegendAshmereAssetsV099?.create({
