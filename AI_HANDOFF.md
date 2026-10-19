@@ -28,6 +28,18 @@ Validation status (2026-10-19):
 - Current presentation work is in [PR #27](https://github.com/TDTRIA/LEGEND-RPG/pull/27), pending its final-head CI and release check. It includes the raster wordmark, the anonymous soul-shaping creator (speaker shown only as ???; the Veil remains unnamed to the player), Oric's separate arrival briefing, dedicated Ashmere service icons, and the opening/tutorial/story plan. Do not call it shipped before main deploy and smoke succeed.
 - Manual long-session visual review, full cross-browser matrix, and audible-output verification remain optional QA tasks; do not claim they were performed.
 
+## Active draft slice — v0.20.40 road-first opening (PR #27)
+
+The active development branch `feature/immersive-traveler-creation-v140` consolidates the anonymous soul-shaping presentation, the raster LEGEND wordmark, dedicated town service art, the Oric / dead-lantern conversation, the ACT / “Awaken” wolf ambush, the guided first Old Road loop, and the title-menu News & Roadmap screen. PR #28 is a duplicate earlier draft; continue with PR #27 to keep one integrated change set.
+
+**Player flow:** Begin Your Journey → create a traveler with a speaker shown only as `???` → Let Me Wake → Beneath the Dead Lantern → choose how to answer Captain Oric → Blackroot Wolf attacks Oric → use the highlighted ACT command labeled “Awaken” → choose Follow the Road or Go Straight to Ashmere. The guided loop uses the actual High Ridge/Reed Cut decision, landmark inspection, roadside search, travel pressure, camp rest, and secured return. Continue Journey calls `LegendRoadOpeningV140.resume()` for active `oric`, `combat`, `aftermath`, or `road` phases.
+
+Key production modules: `js/systems/road-opening-v140.js`, `js/systems/road-controller-v100.js`, the existing `js/systems/road/` action/combat/result/screen modules, `js/screens/title-dispatches-v140.js`, and `css/opening-road-v140.css`. New status is saved to `flags.openingRoadV140`; do not change `legend-roads-of-ashmere-v09`, the player record schema, existing class/origin/keepsake IDs, ordinary enemy mechanics or damage formulas. Road tutorial gates should only apply to an unfinished opening state, not to older or completed journeys.
+
+`tests/road-opening-v140.spec.js` covers News & Roadmap, the Oric/ACT encounter, a full five-stage expedition and reward settlement, and reload/continue. The main town regression helper deliberately bypasses the opening after character confirmation so older town system tests remain focused; a dedicated end-to-end test must continue to exercise the real opening. Desktop and mobile flows have been updated for the new creator handoff.
+
+**Status: not merged or deployed.** Wait for final-head Playwright/syntax/Pages smoke to pass, then manually inspect desktop and 390px mobile flow, fix any failures, and only then mark the draft PR ready. Do not merge this branch while checks are pending or failing.
+
 ## Active development phase — gameplay expansion
 
 The refactor is no longer the main task. Prefer player-visible gameplay improvements and measurable loop quality over further structural extraction, unless a concrete defect requires it.
