@@ -36,7 +36,7 @@ async function openTitle(page) {
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
 
-async function startFreshCharacter(page, name = 'QATraveler') {
+async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await openTitle(page);
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill(name);
@@ -53,6 +53,12 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await page.locator('#v094Next').click();
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await page.getByRole('button', { name: /Begin the Road/i }).click();
+  if (options.stopAtIntro) {
+    await expect(page.locator('.v140-creation')).toBeVisible();
+    return;
+  }
+  await page.getByRole('button', { name: /Continue|Enter Ashmere/i }).click();
+  await page.getByRole('button', { name: /Continue|Enter Ashmere/i }).click();
   await page.getByRole('button', { name: /Enter Ashmere/i }).click();
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
@@ -1733,6 +1739,20 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.v140-dialogue-box')).toContainText(/ledger/i);
     await expect(page.locator('.v094-choice-grid')).toBeVisible();
     await expect(page.locator('.v140-guide-portrait')).toBeVisible();
+  });
+
+  test('Oric guides the arrival briefing through three in-world dialogue beats', async ({ page }) => {
+    await startFreshCharacter(page, 'OricIntroQA', { stopAtIntro: true });
+    await expect(page.locator('.v094-beginning-card h2')).toHaveText('Under a Dead Lantern');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/Captain Oric/i);
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/I won't pretend I know where you came from/i);
+    await page.locator('#v094Next').click();
+    await expect(page.locator('.v094-beginning-card h2')).toHaveText('A Bell, Once');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/Mara keeps the archive/i);
+    await page.locator('#v094Next').click();
+    await expect(page.locator('.v094-beginning-card h2')).toHaveText('Warm Lights. Open Roads.');
+    await expect(page.locator('.v094-summary')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Enter Ashmere/i })).toBeVisible();
   });
 
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
