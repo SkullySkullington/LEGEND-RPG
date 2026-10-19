@@ -1,4 +1,4 @@
-// LEGEND v0.20.37 - classic RPG title menu refresh
+// LEGEND v0.20.38 - classic RPG title menu refresh
 // Keeps existing saves compatible while adding a clear level-up loop.
 (() => {
   if (!window.LEGEND_DATA) return;
