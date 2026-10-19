@@ -614,11 +614,16 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       const rt = window.LegendRuntimeV120;
       const pl = rt.loadPlayer();
       pl.hp = 1;
+      pl.armor = 'none';
       pl.flags = pl.flags || {};
       pl.flags.roadExpeditionV100 = {
         ...(pl.flags.roadExpeditionV100 || {}),
         stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
       };
+      // Pin the encounter to a predator with a guaranteed damaging opening;
+      // the test is about defeat recovery, not random damage/armor mitigation.
+      const road = window.LegendRoadsV100.oldRoad;
+      road.enemies = road.enemies.filter(enemy => enemy.id === 'wolf');
       rt.savePlayer(pl);
     });
 
