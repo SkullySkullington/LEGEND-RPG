@@ -62,7 +62,7 @@
       '<div class="v094-field"><label for="v094Name">Traveler Name</label>' +
       '<input id="v094Name" maxlength="24" placeholder="A name that feels like yours" value="' + escapeHtml(name) + '">' +
       '<p id="v094NameError" role="alert" style="display:none;color:#ffb4a9;margin:8px 0 0"></p></div>' +
-      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'A name. Something for the world to call you. Does it come from a memory, a wish, or a future you have not lived yet? Choose, and let it take root.' });
+      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'You are not awake yet. Not quite. I can offer questions; only you can give the answers shape. First, a name. Is it remembered, wished for, or waiting to be made?' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => {
       const input = root.querySelector('#v094Name');
@@ -96,7 +96,7 @@
       '<aside class="v094-scene-note"><span>FRAGMENT · MEMORY</span><p>' + escapeHtml(scene) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'Look at the outline in the still water. No shape is more true than another. Which feels like you?', personality: 'A feeling returns before the memory that carried it. Which instinct still lives in you?', origin: 'A place rises behind your eyes—rain on a window, smoke in the air, the sense of having belonged. Where does the memory lead?', class: 'Your hands remember what your mind cannot. Steel, bow, spell, or a careful trick: which movement returns without thought?', keepsake: 'A small object hangs in the dark, threaded with warmth. It may be the first memory you trust. What do you reach for?' })[key] || scene, mode: 'creation' });
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'Something is taking shape where the dark was. Is it the form you remember, or the form you choose now?', personality: 'A feeling can survive the memory that made it. Which one still calls to you?', origin: 'A place takes shape, but its edges are blurred. Was it home, refuge, or only a story you needed?', class: 'Your hands remember before your mind does. Steel, bow, spell, or guile. What movement finds you first?', keepsake: 'One thing remained when the rest fell quiet. Did you carry it—or did it carry you?' })[key] || scene, mode: 'creation' });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
@@ -125,7 +125,7 @@
       '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
       '<div><span>Class</span><strong>' + escapeHtml(className) + '</strong></div>' +
       '<div><span>Keepsake</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
-      actionButtons({ back: true, next: true, label: 'Let Me Wake' }) + '</section>', { step: 7, mode: 'creation', guideText: 'The pieces settle, just for a moment. Some feel chosen. Others feel remembered. You do not need to understand them yet.' });
+      actionButtons({ back: true, next: true, label: 'Let Me Wake' }) + '</section>', { step: 7, mode: 'creation', guideText: 'There. A name, a shape, a feeling to follow. A beginning, not the whole of you. When you are ready, open your eyes.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => onBegin?.());
   }
