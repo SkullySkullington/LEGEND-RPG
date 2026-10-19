@@ -1,12 +1,12 @@
-## v0.20.36 — The Awakening RPG title refresh
-- Reaffirm the product title as **LEGEND: The Awakening** and retire “The Unquiet Road” as a visible subtitle/branding direction.
-- Replace the landing-page-style hero feel with a framed, dark-fantasy RPG menu, ornamental gold trim, and a clear Continue/Begin action followed by New Traveler, Profile, Settings, and Credits.
-- Keep the committed local Ashmere panorama, antique-gold wordmark, sigil, semantic HTML controls, focus visibility, responsive layout, and reduced-motion support.
-- Refine the RPG feel with a double-framed, squared-off title panel, corner ornaments, a consistent SVG menu-icon family, less repetitive introductory copy, stronger menu-subtitle/footer contrast, and a location-specific footer.
-- Bring the README, roadmap, title art notes, and opening-experience brief into agreement with the current product identity and fantasy-RPG direction.
-- No gameplay systems, save keys, or player data are changed. Manual browser review and deployed-site review remain pending; Playwright investigation is not a gate for this title pass.
+## v0.20.37 — Distinct Old Road enemy intent patterns
+- Give the Road Goblin, Blackroot Wolf, and Lantern Wisp separate, data-driven intent patterns using the existing Attack, Heavy Wind-up, and Guard Break telegraphs.
+- Let the chosen enemy's pattern determine the opening tell and subsequent combat turns, so players can learn different encounter rhythms without another command row.
+- Preserve the legacy intent rotation for enemies that do not declare a known behavior ID; do not change save shape, damage formulas, or rewards.
+- Add browser-contract tests for each behavior and make the production combat smoke test deterministic. Version/cache references are updated together.
+- Verification: the new PR's full CI run and live deployment smoke test are required before treating this version as released.
 
 ---
+
 
 ## v0.20.35 — Production title screen finish
 - Rework the actual production title screen into a cinematic, landscape-led composition using the committed Ashmere road panorama, full Awakening wordmark, and Awakening sigil.
