@@ -974,6 +974,28 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('#jobResult')).toContainText(/recognize Oric/i);
   });
 
+  test('Blackroot Tracks is a playable Work Board field contract with a saved reward', async ({ page }) => {
+    await startFreshCharacter(page, 'TracksContractQA');
+    await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
+
+    const card = page.locator('[data-job-open="tracks"]');
+    await expect(card).toContainText(/Trail reading/i);
+    await expect(card).toContainText(/Read the Blackroot Tracks/i);
+    await card.click();
+
+    await expect(page.locator('.ash099-job-mode-track')).toBeVisible();
+    await expect(page.locator('.ash099-job-challenge-heading')).toContainText(/What should you record first/i);
+    await page.locator('[data-job-choice="0"]').click();
+    await expect(page.locator('#jobResult')).toContainText(/You record the depth and stride/i);
+    await expect(page.locator('#jobResult')).toContainText(/Earned 75g/i);
+
+    const progress = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return { jobs: Number(player.flags.ashmereJobs || 0), gold: Number(player.gold || 0) };
+    });
+    expect(progress.jobs).toBe(1);
+  });
+
   test('Work Board memory sequence can be studied and repeated', async ({ page }) => {
     await startFreshCharacter(page, 'SequenceQA');
     await page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }).click();
