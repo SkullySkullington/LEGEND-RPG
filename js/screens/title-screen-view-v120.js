@@ -39,7 +39,7 @@
             <div class="v120-divider"><span></span><b>THE BORDERLANDS ARE WAKING</b><span></span></div>
             <div class="v120-traveler-line">
               <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '✦'}</span>
-              <div><small>${player ? 'CURRENT TRAVELER' : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
+              <div><small>${player ? (player.flags?.openingRoadV140 && !player.flags.openingRoadV140.completed ? 'THE ROAD IS WAITING' : 'CURRENT TRAVELER') : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
             </div>
             <nav class="v120-title-actions v136-rpg-menu" aria-label="Main menu">
               <div class="v136-menu-heading"><span>CHOOSE YOUR PATH</span><i aria-hidden="true"></i></div>
