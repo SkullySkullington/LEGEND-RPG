@@ -5,11 +5,11 @@ Last updated: 2026-10-19. Read this file before changing code, and update it whe
 ## Canon — read first
 Story decisions made by the owner are recorded in [`docs/CANON.md`](docs/CANON.md). **If another document disagrees with a LOCKED item there, CANON.md wins.** Assistants may propose and draft story options but never lock a decision themselves, and must ask the owner before changing a locked item. As of 2026-10-16 the owner has locked: (L1) the Hollow Saint and the Last Mercy as the deepest threat, and (L2) the Greyfen crossing records were altered because of trade pressure, and (L3) the Landing Warden reopened the lower crossing, unsigned, under merchant pressure, and (L4) the traveler is an echo touched by the Veil before the Last Mercy could finish making them, who does not know it (hidden knowledge: do not state or imply it in dialogue or UI until the owner approves a reveal plan). Where older sections below call these "proposals only," CANON.md supersedes them for every locked item. Also locked on 2026-10-19: (L5) "echo" means anything the Veil made or touched, and the hostile monsters, including goblins and ogres, are Veil-touched echoes while human wrongdoers stay ordinary people; (L6) the Last Mercy wounded the Veil, and the wound makes echoes on its own; (L7) an old war between the monsters and the kingdoms ended in an agreement that the Veil is now breaking. The Veil is therefore canon, while the Five Arts, Strain and the Afterwake remain proposals. Locked is still not implemented, so keep the implementation-plan and verification rules in this file.
 
-## Production architecture baseline — v0.20.36 (integrated and deployed 2026-10-19)
+## Production architecture baseline — v0.20.37 (integrated and deployed 2026-10-19)
 
 **Status: the broad production refactor is complete and integrated.** The product remains **LEGEND: The Awakening**. Production stays browser-based, with versioned classic scripts in `index.html` and stable `window.Legend...` facades; do not replace it with `prototypes/reboot/` or introduce a framework/bundler without an explicit decision.
 
-The current production baseline is `main`, commit [`8006281`](https://github.com/TDTRIA/LEGEND-RPG/commit/800628126545107d06d8a09a368a56dcd3568901). Architecture integration was delivered by [PR #17](https://github.com/TDTRIA/LEGEND-RPG/pull/17); the post-refactor test corrections and additional regression guards were delivered by [PR #25](https://github.com/TDTRIA/LEGEND-RPG/pull/25).
+The current production baseline is `main`, commit [`adbd436`](https://github.com/TDTRIA/LEGEND-RPG/commit/adbd4361e13d8eab5d6fdd6ed00c273e93c21dff). Architecture integration was delivered by [PR #17](https://github.com/TDTRIA/LEGEND-RPG/pull/17); post-refactor regression guards by [PR #25](https://github.com/TDTRIA/LEGEND-RPG/pull/25); and distinct data-driven Old Road enemy intent patterns by [PR #26](https://github.com/TDTRIA/LEGEND-RPG/pull/26).
 
 Current architectural boundaries:
 - `js/game.js` is a thin title/bootstrap adapter; title markup, auxiliary screens, and title audio are separate modules.
@@ -21,17 +21,18 @@ Current architectural boundaries:
 - `docs/ADDING_FEATURES.md`, `docs/ARCHITECTURE.md`, `docs/REFACTOR_PLAN.md`, and `docs/SAVE_DATA_CONTRACT.md` describe feature insertion points and compatibility rules.
 
 Validation status (2026-10-19):
-- [Main workflow #1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed on `main` commit `800628126545107d06d8a09a368a56dcd3568901`.
-- The branch-local regression suite passed **97 tests, 0 failed, 1 skipped**. The separate live GitHub Pages smoke test passed **1/1**. That smoke test verified the published version and key asset URLs, traveler creation, distinct Work Board activities, Forge/Crafting Bench, side-contract persistence, desktop title sizing, mobile-width overflow, and browser errors.
-- [Pages deployment #1159](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094040) succeeded for the same commit.
+- [Main workflow #1507](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775742) passed on `main` commit `adbd4361e13d8eab5d6fdd6ed00c273e93c21dff`.
+- The full Playwright suite, syntax gate, and deployed GitHub Pages smoke check all passed; the previous enemy-pattern PR run verified **100 passed, 0 failed, 1 skipped** before integration.
+- [Pages deployment #1166](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775037) succeeded for the same main commit.
 - An isolated manual browser attempt was blocked by `ERR_TUNNEL_CONNECTION_FAILED` before the app loaded; it touched no account, cloud save, or repository data. The successful GitHub Actions live smoke test is the authoritative deployed-path check for this checkpoint.
+- Current presentation work is in [PR #27](https://github.com/TDTRIA/LEGEND-RPG/pull/27), pending its final-head CI and release check. It includes the raster wordmark, Captain Oric's creation dialogue, dedicated Ashmere service icons, and the opening/tutorial/story plan. Do not call it shipped before main deploy and smoke succeed.
 - Manual long-session visual review, full cross-browser matrix, and audible-output verification remain optional QA tasks; do not claim they were performed.
 
 ## Active development phase — gameplay expansion
 
 The refactor is no longer the main task. Prefer player-visible gameplay improvements and measurable loop quality over further structural extraction, unless a concrete defect requires it.
 
-First planned slice: **distinct, data-driven Old Road enemy behaviors**. The three current encounters (Road Goblin, Blackroot Wolf, Lantern Wisp) share the same intent rotation. Give each a readable telegraph pattern without adding more combat buttons or changing save schema. Keep combat formulas and rewards stable; add contract tests for each pattern and run full CI/live smoke before calling it done.
+First gameplay slice complete: **distinct, data-driven Old Road enemy behaviors** are merged. Road Goblin, Blackroot Wolf and Lantern Wisp have separate intent sequences, unknown behavior IDs retain the legacy rotation, and the four-command interface, save schema, damage formulas, and rewards remain stable. The active player-facing slice is now [PR #27](https://github.com/TDTRIA/LEGEND-RPG/pull/27): the traveler-creation scene and hub icon treatment. The planned follow-up is the portrait-and-dialogue first-session tutorial, then loading/scene transitions, then one compact dungeon loop.
 
 Canon guardrails: read `docs/CANON.md` before lore changes. L1–L7 are locked. Keep the traveler’s nature hidden from dialogue/UI until an owner-approved reveal plan. The Veil, Last Mercy, Hollow Saint, echo rules, and old war/agreement are canon; the Five Arts as named disciplines, Strain, and the Afterwake remain proposals.
 
