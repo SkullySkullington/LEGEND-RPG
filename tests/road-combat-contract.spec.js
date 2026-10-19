@@ -109,6 +109,46 @@ test.describe('LegendRoadCombatV100 compatibility contract', () => {
     await expect(page.locator('.rpg-enemy-tell')).toContainText('Quick strike');
   });
 
+  test('Raider behavior opens with a guard-break feint, then a quick strike and heavy wind-up', async ({ page }) => {
+    await startCombat(page, {
+      enemy: { behavior: 'raider', turn: 0, intent: null, damage: [3, 3] },
+    });
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-guardbreak/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Guard-break/i);
+
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Quick strike/i);
+
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Heavy wind-up/i);
+  });
+
+  test('Predator behavior presses with an attack, then a heavy lunge', async ({ page }) => {
+    await startCombat(page, {
+      enemy: { behavior: 'predator', turn: 0, intent: null, damage: [3, 3] },
+    });
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Quick strike/i);
+
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Heavy wind-up/i);
+  });
+
+  test('Flicker behavior opens with a heavy surge, then tries to break the guard', async ({ page }) => {
+    await startCombat(page, {
+      enemy: { behavior: 'flicker', turn: 0, intent: null, damage: [3, 3] },
+    });
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Heavy wind-up/i);
+
+    await page.locator('#guard').click();
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-guardbreak/);
+    await expect(page.locator('.exp100-intent')).toContainText(/Guard-break/i);
+  });
+
   test('victory grants the configured drop and XP, updates counters, and advances the stage', async ({ page }) => {
     await startCombat(page, {
       player: { hp: 40, maxHp: 100 },
