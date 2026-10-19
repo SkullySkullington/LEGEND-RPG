@@ -59,7 +59,7 @@
       '<section class="v094-beginning-card"><div class="v094-kicker">A Voice in the Dark</div>' +
       stepProgress(1, 'A name gives the forming soul something to answer to.') +
       '<h1>What name shall you carry?</h1><p>Before there is a road, a face, or a past, there is a name. Choose one to gather the scattered pieces around.</p>' +
-      '<div class="v094-field"><label for="v094Name">Traveler Name</label>' +
+      '<div class="v094-field"><label for="v094Name">Name to carry</label>' +
       '<input id="v094Name" maxlength="24" placeholder="A name that feels like yours" value="' + escapeHtml(name) + '">' +
       '<p id="v094NameError" role="alert" style="display:none;color:#ffb4a9;margin:8px 0 0"></p></div>' +
       actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'You are not awake yet. Not quite. I can offer questions; only you can give the answers shape. First, a name. Is it remembered, wished for, or waiting to be made?' });
@@ -120,11 +120,11 @@
       '<section class="v094-beginning-card v140-soul-confirmation"><div class="v094-kicker">The Shape You Chose</div>' +
       stepProgress(7, 'Fragments of memory gather around the self you have chosen.') +
       '<h2>' + escapeHtml(name) + '</h2><p>A shape gathers from your choices: a name to answer to, instincts that still feel familiar, and memories you may or may not fully trust. The rest can wait.</p>' +
-      '<div class="v094-summary"><div><span>Gender</span><strong>' + escapeHtml(gender.label) + ' (' + escapeHtml(gender.pronouns) + ')</strong></div>' +
-      '<div><span>Personality</span><strong>' + escapeHtml(personality.label) + '</strong></div>' +
-      '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
-      '<div><span>Class</span><strong>' + escapeHtml(className) + '</strong></div>' +
-      '<div><span>Keepsake</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
+      '<div class="v094-summary"><div><span>Form</span><strong>' + escapeHtml(gender.label) + ' (' + escapeHtml(gender.pronouns) + ')</strong></div>' +
+      '<div><span>Feeling</span><strong>' + escapeHtml(personality.label) + '</strong></div>' +
+      '<div><span>Memory</span><strong>' + escapeHtml(origin) + '</strong></div>' +
+      '<div><span>Calling</span><strong>' + escapeHtml(className) + '</strong></div>' +
+      '<div><span>Fragment</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
       actionButtons({ back: true, next: true, label: 'Let Me Wake' }) + '</section>', { step: 7, mode: 'creation', guideText: 'There. A name, a shape, a feeling to follow. A beginning, not the whole of you. When you are ready, open your eyes.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => onBegin?.());
