@@ -79,29 +79,15 @@ npm run test:e2e:report
 
 ---
 
-## Current smoke tests
+## Current validation baseline (2026-10-19)
 
-The starter tests check that:
+Main workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed on deployed commit `8006281`: **97 branch-local tests passed, 0 failed, 1 skipped**, followed by **1/1 live GitHub Pages smoke tests passed**. Coverage includes title/version consistency, traveler creation and Ashmere entry, region and route behavior, Work Board activities, crafting, combat and progression contracts, reload/Continue persistence, combat defeat recovery, mobile touch-critical flows, browser errors, and deployment asset/version checks.
 
-- The title screen loads.
-- A new player can create a character.
-- The player can reach Ashmere.
-- Core menu buttons appear.
-- The player can talk to Mara.
-- The player can open Ashmere Inn.
-- The player can enter The First Road route screen.
-- The desktop page has no obvious horizontal overflow.
-- The mobile layout loads and has tappable buttons.
+The live smoke test is separate from pull-request branch runs; the one skipped test in the branch-local suite is expected because it is the dedicated live deployment test. Use the [latest Actions run](https://github.com/TDTRIA/LEGEND-RPG/actions) for current status rather than treating this document as a substitute for CI.
 
----
+## Remaining high-value test gaps
 
-## Future tests to add
-
-Good next automated tests:
-
-- Complete The Bell That Rang Once.
-- Collect 3 Road Tokens and turn them in to Brenn.
-- Trigger combat and use Attack, Guard, and Class Move.
-- Buy Camp Supplies and Make Camp while exploring.
-- Sell drops at the Trading Post.
-- Check that mobile battle buttons stay reachable.
+- End-to-end Healing Potion use and enemy response on the live UI (unit/contract coverage exists).
+- Region-appropriate enemy behaviors and readable intent patterns across multiple encounters.
+- The complete first-session loop over a longer play session on desktop and the critical path on mobile.
+- Full Firefox matrix and manual audible-output checks when deliberately scheduled.
