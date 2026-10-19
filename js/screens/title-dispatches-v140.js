@@ -1,15 +1,16 @@
-/* LEGEND v0.20.40 — in-game development dispatches and roadmap preview */
+/* LEGEND v0.20.41 — in-game development dispatches and roadmap */
 (() => {
   const esc = window.LegendHtmlV120?.escapeHtml || (value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])));
   const updates = [
-    {version:'v0.20.40',title:'The first journey begins on the road',status:'Opening pass · preview',text:'The Veil-led memory flow leads into Oric finding the traveler beneath a dead lantern, a scripted ACT awakening, and a guided first expedition in the production road systems.'},
+    {version:'v0.20.41',title:'Read the Blackroot Tracks',status:'New field contract · preview',text:'Ashmere’s Work Board gains a trail-reading activity: compare print depth, stride, and direction before the evidence is disturbed. Clean work pays more and can earn a Road Herb.'},
+    {version:'v0.20.40',title:'The first journey begins on the road',status:'Shipped',text:'New travelers now shape their memories with the unknown voice shown only as ???, wake beneath the dead lantern, meet Captain Oric, answer a Blackroot Wolf ambush with ACT / Awaken, then follow a guided first Old Road expedition. News & Roadmap is available from the title menu.'},
     {version:'v0.20.37',title:'Road encounters gain distinct rhythms',status:'Shipped',text:'Road Goblins, Blackroot Wolves, and Lantern Wisps now use different readable attack patterns. Watch the intent, then choose how to respond.'},
     {version:'v0.20.35',title:'A more cinematic title screen',status:'Shipped',text:'The production menu uses committed Ashmere artwork, the Awakening wordmark, and a framed RPG menu while preserving Continue and accessibility options.'},
     {version:'v0.20.29',title:'The world gets a stronger art foundation',status:'Shipped',text:'New local environment, class, enemy, service, equipment, and item art now support the Ashmere and Old Road experience.'}
   ];
   const roadmap = [
-    {status:'In progress',title:'The Veil and the first road',text:'A memory-led opening, Oric at the dead lantern, a first ACT encounter, and a guided first expedition using the real road systems.'},
-    {status:'Next',title:'Make the road remember',text:'Give route, discovery, combat, and return choices stronger callbacks in dialogue, the journal, and later expeditions.'},
+    {status:'Shipped',title:'The first road is playable',text:'The v0.20.40 opening is live, including Oric, the ACT awakening, guided travel, and the secured return to Ashmere.'},
+    {status:'In progress',title:'Fieldwork on the Old Road',text:'Grow the Work Board with new survival activities that turn monster signs and roadside discoveries into practical supplies and meaningful rewards.'},
     {status:'Planned',title:'A more connected frontier',text:'Expand regional stories, progression, NPC relationships, and the reasons to prepare before travelling farther.'}
   ];
   function card(item, kind) {
@@ -17,7 +18,7 @@
   }
   function render(config = {}) {
     const root = config.root;
-    const buildVersion = config.buildVersion || 'v0.20.40';
+    const buildVersion = config.buildVersion || 'v0.20.41';
     const onBack = config.onBack;
     if (!root) return false;
     root.innerHTML =
