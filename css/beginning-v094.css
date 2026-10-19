@@ -220,3 +220,18 @@
  .v140-presence-caption{bottom:7%;font-size:.4rem;letter-spacing:.11em}
 }
 @media(prefers-reduced-motion:reduce){.v140-presence-haze{animation:none!important}}
+
+
+/* The soul-shaping sequence is outside ordinary place and time; Ashmere arrives after waking. */
+.v140-creation:not(.v140-arrival) .v094-beginning-bg{
+  background-image:
+    radial-gradient(ellipse at 70% 35%,rgba(103,87,161,.20),transparent 33%),
+    radial-gradient(ellipse at 28% 72%,rgba(62,91,127,.13),transparent 37%),
+    linear-gradient(90deg,rgba(4,5,12,.97),rgba(4,5,12,.86) 52%,rgba(4,5,12,.97)),
+    url('../assets/generated/title/title-ashmere-road.webp');
+  background-position:center;
+  filter:saturate(.26) contrast(1.08) brightness(.44);
+}
+.v140-creation:not(.v140-arrival) .v140-guide-pane{align-self:center}
+.v140-creation:not(.v140-arrival) .v140-guide-portrait-frame{border-color:rgba(174,166,214,.34)}
+@media(prefers-reduced-motion:reduce){.v140-creation:not(.v140-arrival) .v140-presence-haze{animation:none!important}}
