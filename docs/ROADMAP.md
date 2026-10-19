@@ -7,8 +7,15 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Confirm the product title as **LEGEND: The Awakening**; retire “The Unquiet Road” as a visible subtitle.
 - [x] Keep the production Ashmere panorama and antique-gold wordmark as stable local assets.
 - [x] Replace the landing-page-style title hero with a framed RPG menu and clear Continue/Begin hierarchy.
-- [ ] Manually review the production title at desktop and mobile sizes, including focus states and reduced motion.
+- [ ] Manually review the production title and News & Roadmap at desktop and mobile sizes, including focus states and reduced motion.
+- [x] Add a title-menu News & Roadmap page with development notes and a clearly labeled directional roadmap.
+- [x] Reframe new-traveler choices as memories prompted by the unidentified Veil voice “???”, preserving existing character data and save contracts.
+- [ ] Verify the Oric / dead-lantern opening, the ACT awakening encounter, and the first expedition loop on desktop and mobile; do not merge until browser regression passes.
 - The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
+
+## Active opening slice — `feature/veil-road-opening-v140`
+
+The first-session branch preview starts beneath the dead lantern outside Ashmere. Captain Oric asks whether the traveler is friend or foe; the answer changes his dialogue and is preserved as a memory. A Blackroot Wolf ambushes Oric, the unidentified voice says “Awaken,” and the player must use the production ACT command to finish the scripted encounter. The player then learns the existing High Ridge/Reed Cut choice, roadside inspection, search, travel, waystation rest, and secured return. The News & Roadmap screen is in-game and links to the maintained development hub. The new opening status lives under `flags.openingRoadV140`; the storage key and existing record fields remain intact. This branch is still pending CI and human review.
 
 ## Current foundation
 
