@@ -9,25 +9,35 @@
     if (!root) return;
     const assets = window.LegendAssetsV090 || {};
     const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png';
+    const mode = options.mode === 'arrival' ? 'arrival' : 'creation';
+    const isArrival = mode === 'arrival';
+    const presenceMark = assets.skills?.veil || 'assets/generated/skills/icons/veil.webp';
     const portrait = assets.npcs?.oric || 'assets/generated/npcs/captain-oric.webp';
     const step = Math.max(1, Math.min(7, Number(options.step || 1)));
-    const guideText = options.guideText || 'Take your time. The road can wait while you decide who you are.';
-    root.innerHTML = '<main class="v094-beginning v140-creation" data-creation-step="' + step + '">' +
+    const guideText = options.guideText || 'A name is a small beginning. What do you remember?';
+    const speaker = isArrival ? 'CAPTAIN ORIC' : '???';
+    const role = isArrival ? 'GATE CAPTAIN' : 'A VOICE WITHOUT A NAME';
+    const visual = isArrival
+      ? '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async"><span>ASHMERE WATCH</span></div>'
+      : '<div class="v140-guide-portrait-frame v140-presence-frame" aria-hidden="true"><div class="v140-presence-haze"></div><div class="v140-presence-ring"></div><img class="v140-presence-mark" src="' + escapeHtml(presenceMark) + '" alt="" decoding="async"><span class="v140-presence-glyph">???</span><small class="v140-presence-caption">MEMORY · SHAPE · SELF</small></div>';
+    root.innerHTML = '<main class="v094-beginning v140-creation v140-' + mode + '" data-creation-step="' + step + '">' +
       '<div class="v094-beginning-bg" aria-hidden="true"></div>' +
-      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async" onerror="this.onerror=null;this.style.display=\'none\'">' +
-      '<span>YOUR STORY BEGINS AT THE GATE</span></header>' +
+      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async">' +
+      '<span>' + (isArrival ? 'THE GATE IS OPEN' : 'BETWEEN MEMORY AND WAKING') + '</span></header>' +
       '<div class="v140-creation-layout">' +
-        '<aside class="v140-guide-pane" aria-label="Your guide at the Ashmere gate">' +
-          '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async" onerror="this.onerror=null;this.style.display=\'none\'">' +
-          '<span>ASHMERE WATCH</span></div>' +
-          '<section class="v140-dialogue-box" role="region" aria-live="polite" aria-label="Captain Oric dialogue">' +
-            '<div class="v140-dialogue-speaker"><strong>CAPTAIN ORIC</strong><span>GATE CAPTAIN</span></div>' +
+        '<aside class="v140-guide-pane" aria-label="' + (isArrival ? 'Captain Oric at the Ashmere gate' : 'An unnamed voice in the darkness') + '">' +
+          visual +
+          '<section class="v140-dialogue-box" role="region" aria-live="polite" aria-label="' + (isArrival ? 'Captain Oric dialogue' : 'Unknown speaker dialogue') + '">' +
+            '<div class="v140-dialogue-speaker"><strong>' + speaker + '</strong><span>' + role + '</span></div>' +
             '<p>' + escapeHtml(guideText) + '</p>' +
-            '<small>THE OLD ROAD · ENTRY QUESTIONS</small>' +
+            '<small>' + (isArrival ? 'ASHMERE · FIRST STEPS' : 'A SOUL TAKES SHAPE') + '</small>' +
           '</section>' +
         '</aside>' +
         '<div class="v094-beginning-shell">' + markup + '</div>' +
       '</div></main>';
+    root.querySelectorAll('.v140-creation img').forEach(img => {
+      img.addEventListener('error', () => img.remove(), { once: true });
+    });
   }
 
   function actionButtons({ back = false, next = true, label = 'Continue' } = {}) {
@@ -46,13 +56,13 @@
 
   function renderName({ root, name = '', onBack, onSubmit }) {
     mount(root,
-      '<section class="v094-beginning-card"><div class="v094-kicker">Traveler Creation</div>' +
-      stepProgress(1, 'Start with the name you want the world to remember.') +
-      '<h1>Who reaches Ashmere?</h1><p>You wake under a dead lantern with road mud on your boots. Give the town a name to remember.</p>' +
+      '<section class="v094-beginning-card"><div class="v094-kicker">A Voice in the Dark</div>' +
+      stepProgress(1, 'A name gives the forming soul something to answer to.') +
+      '<h1>What name shall you carry?</h1><p>Before there is a road, a face, or a past, there is a name. Choose one to gather the scattered pieces around.</p>' +
       '<div class="v094-field"><label for="v094Name">Traveler Name</label>' +
-      '<input id="v094Name" maxlength="24" placeholder="Name, no spaces" value="' + escapeHtml(name) + '">' +
+      '<input id="v094Name" maxlength="24" placeholder="A name that feels like yours" value="' + escapeHtml(name) + '">' +
       '<p id="v094NameError" role="alert" style="display:none;color:#ffb4a9;margin:8px 0 0"></p></div>' +
-      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'Easy now. The road is behind you. Before I open the gate, tell me what name to put in the watch ledger.' });
+      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'A name. Something for the world to call you. Does it come from a memory, a wish, or a future you have not lived yet? Choose, and let it take root.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => {
       const input = root.querySelector('#v094Name');
@@ -86,7 +96,7 @@
       '<aside class="v094-scene-note"><span>FIELD NOTE · THE OLD ROAD</span><p>' + escapeHtml(scene) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'You decide what the ledger says about you. No one here has the right to choose that for you.', personality: 'A long road leaves a mark on everyone. Which instinct carried you through it?', origin: 'Everyone comes from somewhere. The question is what that life left in your hands.', class: 'Steel, bow, spell, or a clever hand. What do you trust when the Old Road stops asking politely?', keepsake: 'One small thing made it through the fog with you. Sometimes a keepsake is the only proof the past was real.' })[key] || scene });
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'You decide what the ledger says about you. No one here has the right to choose that for you.', personality: 'A long road leaves a mark on everyone. Which instinct carried you through it?', origin: 'Everyone comes from somewhere. The question is what that life left in your hands.', class: 'Steel, bow, spell, or a clever hand. What do you trust when the Old Road stops asking politely?', keepsake: 'One small thing made it through the fog with you. Sometimes a keepsake is the only proof the past was real.' })[key] || scene, mode: 'creation' });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
@@ -107,15 +117,15 @@
 
   function renderConfirmation({ root, name, gender, personality, origin, className, keepsake, onBack, onBegin }) {
     mount(root,
-      '<section class="v094-beginning-card"><div class="v094-kicker">Your Story So Far</div>' +
-      stepProgress(7, 'One last look before your first steps into Ashmere.') +
-      '<h2>' + escapeHtml(name) + '</h2><p>A ' + escapeHtml(personality.label.toLowerCase()) + ' traveler reaches Ashmere. The bell is silent. The gate is open.</p>' +
+      '<section class="v094-beginning-card v140-soul-confirmation"><div class="v094-kicker">The Shape You Chose</div>' +
+      stepProgress(7, 'Fragments of memory gather around the self you have chosen.') +
+      '<h2>' + escapeHtml(name) + '</h2><p>A shape gathers from your choices: a name to answer to, instincts that still feel familiar, and memories you may or may not fully trust. The rest can wait.</p>' +
       '<div class="v094-summary"><div><span>Gender</span><strong>' + escapeHtml(gender.label) + ' (' + escapeHtml(gender.pronouns) + ')</strong></div>' +
       '<div><span>Personality</span><strong>' + escapeHtml(personality.label) + '</strong></div>' +
       '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
       '<div><span>Class</span><strong>' + escapeHtml(className) + '</strong></div>' +
       '<div><span>Keepsake</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
-      actionButtons({ back: true, next: true, label: 'Begin the Road' }) + '</section>', { step: 7, guideText: 'That is enough for the ledger. Your name, your calling, and the thing you kept. The gate is open, traveler.' });
+      actionButtons({ back: true, next: true, label: 'Let Me Wake' }) + '</section>', { step: 7, mode: 'creation', guideText: 'The pieces settle, just for a moment. Some feel chosen. Others feel remembered. You do not need to understand them yet.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => onBegin?.());
   }
@@ -165,7 +175,7 @@
         '</div>' + goals +
         actionButtons({ back: false, next: true, label: index === scenes.length - 1 ? 'Enter Ashmere' : 'Continue' }) +
         '<button class="v140-skip-intro" id="v140SkipIntro" type="button">Skip arrival briefing</button>' +
-        '</section>', { step: 7, guideText: scene.dialogue });
+        '</section>', { step: 7, mode: 'arrival', guideText: scene.dialogue });
       root?.querySelector('#v140SkipIntro')?.addEventListener('click', () => onEnter?.());
       root?.querySelector('#v094Next')?.addEventListener('click', () => {
         if (index < scenes.length - 1) {
