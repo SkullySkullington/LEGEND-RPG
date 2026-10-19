@@ -1,5 +1,5 @@
-// LEGEND v0.20.38 - classic RPG title menu refresh
-// Keeps existing saves compatible while adding a clear level-up loop.
+// LEGEND v0.20.38 — traveler creation and Ashmere service-art presentation.
+// Existing saves remain compatible; this file only synchronizes runtime identity.
 (() => {
   if (!window.LEGEND_DATA) return;
   window.LEGEND_DATA.VERSION = 'v0.20.38';
