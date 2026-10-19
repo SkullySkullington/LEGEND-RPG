@@ -620,10 +620,12 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
         ...(pl.flags.roadExpeditionV100 || {}),
         stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
       };
-      // Pin the encounter to a predator with a guaranteed damaging opening;
-      // the test is about defeat recovery, not random damage/armor mitigation.
+      // Pin the encounter to a durable predator with a guaranteed damaging opening;
+      // the test is about defeat recovery, not random enemy health or armor mitigation.
       const road = window.LegendRoadsV100.oldRoad;
-      road.enemies = road.enemies.filter(enemy => enemy.id === 'wolf');
+      const wolf = road.enemies.find(enemy => enemy.id === 'wolf');
+      if (!wolf) throw new Error('Blackroot Wolf fixture is missing');
+      road.enemies = [{ ...wolf, hp: [100, 100], damage: [4, 10] }];
       rt.savePlayer(pl);
     });
 
