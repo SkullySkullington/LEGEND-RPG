@@ -78,7 +78,12 @@ async function startFreshCharacter(page, name) {
   await tap(page, page.locator('#v094Next'));
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await tap(page, page.getByRole('button', { name: /Begin the Road/i }));
-  await tap(page, page.getByRole('button', { name: /Enter Ashmere/i }));
+  await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    window.LegendRoadOpeningV140.complete(player, 'abandoned');
+    window.LegendAshmereV099.renderAshmere();
+  });
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 async function expectNoHorizontalOverflow(page) {
@@ -92,7 +97,7 @@ async function expectNoHorizontalOverflow(page) {
 }
 
 test.describe('LEGEND mobile compatibility smoke tests', () => {
-  test('title and character creation reach Ashmere without overflow', async ({ page }) => {
+  test('Veil opening, Oric ambush, and first road controls fit mobile', async ({ page }) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.setViewportSize({ width: 390, height: 844 });
@@ -101,6 +106,7 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     await expect.poll(() => page.evaluate(() => window.LEGEND_DATA?.VERSION)).toBe(`v${version}`);
     await expectNoHorizontalOverflow(page);
     await tap(page, page.getByRole('button', { name: /Begin Your Journey/i }));
+    await expect(page.getByText('A VOICE IN THE VEIL · ???')).toBeVisible();
     await page.locator('#v094Name').fill('MobileCreationQA');
     await tap(page, page.locator('#v094Next'));
     await tap(page, page.locator('[data-gender="unspoken"]'));
@@ -120,9 +126,28 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     const beginRoad = page.getByRole('button', { name: /Begin the Road/i });
     await expect.poll(() => beginRoad.evaluate(el => getComputedStyle(el).transform)).toBe('none');
     await tap(page, beginRoad);
-    await tap(page, page.getByRole('button', { name: /Enter Ashmere/i }));
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    await tap(page, page.locator('[data-oric-response="honest"]'));
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await expect(page.locator('#skill')).toContainText('Awaken');
+    await expect(page.locator('#strike')).toBeDisabled();
+    await expectNoHorizontalOverflow(page);
+    await tap(page, page.locator('#skill'));
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+    await tap(page, page.getByRole('button', { name: 'Follow the road' }));
+    await expect(page.locator('.opening-road-v140-guide')).toBeVisible();
+    await expect(page.locator('#routeRidge')).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    await tap(page, page.locator('#routeRidge'));
+    await tap(page, page.locator('.exp100-hotspot-find'));
+    await expect(page.locator('#poiInspect')).toBeVisible();
+    await tap(page, page.locator('#poiInspect'));
+    await tap(page, page.locator('#search'));
+    await expect(page.locator('#push')).toBeEnabled();
+    await expectNoHorizontalOverflow(page);
+    await tap(page, page.locator('#town'));
     await expect(page.locator('.ash100-town')).toBeVisible();
-    await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
     await expectNoHorizontalOverflow(page);
     expect(errors).toEqual([]);
   });
