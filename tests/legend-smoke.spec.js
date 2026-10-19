@@ -54,16 +54,31 @@ async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await page.getByRole('button', { name: /Let Me Wake/i }).click();
   if (options.stopAtIntro) {
-    await expect(page.locator('.v140-creation')).toBeVisible();
+    await expect(page.locator('.opening-road-v140')).toBeVisible();
     return;
   }
-  await page.getByRole('button', { name: /Continue|Enter Ashmere/i }).click();
-  await page.getByRole('button', { name: /Continue|Enter Ashmere/i }).click();
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
+  // Most system-level regressions need a stable Ashmere fixture; the dedicated
+  // road-opening spec exercises Oric, ACT, and the complete first expedition.
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    window.LegendRoadOpeningV140.complete(player, 'abandoned');
+    window.LegendAshmereV099.renderAshmere();
+  });
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
 test.describe(`LEGEND v${version} browser regression tests`, () => {
+  test('News & Roadmap opens from the title and returns without changing the save', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /News & Roadmap/i }).click();
+    await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
+    await expect(page.locator('.dispatches-v140-card')).toHaveCount(7);
+    await page.getByRole('button', { name: 'Return to Title' }).click();
+    await expect(page.locator('.v120-title')).toBeVisible();
+  });
+
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect.poll(() => page.title()).toContain(`v${version}`);
@@ -750,7 +765,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.getByRole('button', { name: /Begin Your Journey/i }).click();
     await page.locator('#v094Next').click();
     await expect(page.locator('#v094NameError')).toHaveText('Please enter a traveler name.');
-    await expect(page.getByRole('heading', { name: 'Who reaches Ashmere?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What name shall you carry?' })).toBeVisible();
     await expect(page.locator('#v094Name')).toHaveAttribute('aria-invalid', 'true');
   });
 
@@ -1765,24 +1780,27 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.v140-creation')).not.toContainText(/Captain Oric|the Veil/i);
   });
 
-  test('Oric guides the arrival briefing after the soul-shaping sequence', async ({ page }) => {
-    await startFreshCharacter(page, 'OricIntroQA', { stopAtIntro: true });
-    await expect(page.locator('.v094-beginning-card h2')).toHaveText('Under a Dead Lantern');
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/Captain Oric/i);
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/I won't pretend I know where you came from/i);
-    await page.locator('#v094Next').click();
-    await expect(page.locator('.v094-beginning-card h2')).toHaveText('A Bell, Once');
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/Mara keeps the archive/i);
-    await page.locator('#v094Next').click();
-    await expect(page.locator('.v094-beginning-card h2')).toHaveText('Warm Lights. Open Roads.');
-    await expect(page.locator('.v094-summary')).toBeVisible();
-    await expect(page.getByRole('button', { name: /Enter Ashmere/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Skip arrival briefing/i })).toBeVisible();
+  test('Oric finds the traveler beneath the dead lantern and the voice teaches ACT', async ({ page }) => {
+    await startFreshCharacter(page, 'OricOpeningQA', { stopAtIntro: true });
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Your answer to Captain Oric' })).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
+    await page.locator('[data-oric-response="honest"]').click();
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await expect(page.locator('.rpg-battle')).toContainText('Blackroot Wolf');
+    await expect(page.locator('#skill')).toContainText('Awaken');
+    await expect(page.locator('#strike')).toBeDisabled();
+    await page.locator('#skill').click();
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
   });
 
-  test('arrival briefing can be skipped directly to Ashmere', async ({ page }) => {
-    await startFreshCharacter(page, 'SkipArrivalQA', { stopAtIntro: true });
-    await page.getByRole('button', { name: /Skip arrival briefing/i }).click();
+  test('the opening can be skipped to Ashmere after the required ACT awakening', async ({ page }) => {
+    await startFreshCharacter(page, 'SkipOpeningQA', { stopAtIntro: true });
+    await page.locator('[data-oric-response="peaceful"]').click();
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await page.locator('#skill').click();
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+    await page.getByRole('button', { name: 'Go straight to Ashmere' }).click();
     await expect(page.locator('.ash100-town')).toBeVisible();
   });
 
