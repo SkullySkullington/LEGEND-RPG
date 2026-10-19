@@ -1,7 +1,7 @@
 # LEGEND — Canon
 
 Story decisions made by the project owner. **If any other document disagrees with a LOCKED item here, this file wins.**
-Last updated: 2026-10-16.
+Last updated: 2026-10-19.
 
 ## How every AI assistant uses this file
 
@@ -19,7 +19,8 @@ Long ago a healer's ritual, the **Last Mercy**, tried to save the dead. It faile
 
 - **Locked:** the Hollow Saint and the Last Mercy are the deepest threat behind the awakening.
 - **Still open:** the Hollow Saint's personality and agency; how much of the monster invasion it causes versus merely accelerates (not every monster is its servant); when and how the player learns of it; whether the ritual can be ended or repaired; any link to the player's traveler.
-- **Working detail (PROPOSED, not locked):** `docs/LEGEND_GAME_REBOOT_PLAN.md` section 4, including the Veil, the Afterwake and Strain.
+- **Working detail (PROPOSED, not locked):** `docs/LEGEND_GAME_REBOOT_PLAN.md` section 4, including the Afterwake and Strain.
+- **Updated by L6 (2026-10-19):** the echoes now come from the wound the Last Mercy made in the Veil.
 
 ### L2 — The Greyfen crossing was reopened because of trade pressure (locked 2026-10-16)
 
@@ -42,26 +43,31 @@ The traveler is an echo left by the Last Mercy and does not know it. The game do
 - **Hidden knowledge:** until the owner approves a reveal plan, no NPC, journal text or UI should state or imply this, and nothing in the existing game should contradict it.
 - **Conflict flag:** `docs/ASHMERE_STORY_SPINE.md` says to keep the traveler's prior life flexible and not require every origin to be false. L4 may override that, depending on how the origin question is settled. The owner decides.
 
+### L5 — Echoes are anything the Veil made or touched (locked 2026-10-19)
+
+"Echo" is the umbrella word for anything the Veil has made or touched. **Made echoes** appear out of thin air. **Touched creatures** are real ones the Veil has changed. The hostile monsters, including goblins and ogres, are touched creatures: the Veil's touch has made them far more aggressive than they were. Everything attacking or evil in the monster conflict is an echo. Bandits and other human wrongdoers stay ordinary people (L2 and L3 are human wrongs).
+
+- **Still open:** whether orcs and the Changed are touched creatures (the owner named goblins and ogres); whether ordinary animals and untouched monsters still exist and can be hostile for ordinary reasons; how touching works and whether it can be undone (calmed, released, healed); how the player tells made echoes from touched creatures; which kind the traveler is.
+
+### L6 — The Last Mercy wounded the Veil, and the wound makes echoes (locked 2026-10-19)
+
+The Last Mercy wounded the Veil. The wound now makes echoes on its own: at first imitating the dead, and increasingly from nothing. The Hollow Saint caused the wound through the Last Mercy.
+
+- **Still open:** whether the Hollow Saint controls what comes out of the wound; the Saint's want and personality; when the player learns of it; whether the wound can be closed; the name of the force that makes echoes (until one is chosen, call it "the Veil").
+
+### L7 — An old war ended in an agreement (locked 2026-10-19)
+
+Long ago the monsters and the kingdoms fought a war, then reached an agreement, and the peace held. The Veil's touch is what is breaking it.
+
+- **Still open:** who fought and who agreed; the terms; where it was settled; what the player learns of it and when; how and when the Veil began to break it.
+
 ## Approved direction (approved by the owner 2026-10-15, as recorded in `AI_HANDOFF.md`)
 
 - **Monster Wars & the Awakening:** a fantasy RPG about monster incursions, returning magic and regional conflict, with a deeper mystery behind it. Details: `docs/LEGEND_FANTASY_RPG_DIRECTION.md`.
-- Monsters are not one army. Goblins, orcs, ogres and the Changed have different motives, and not every monster is evil or connected to the awakening.
+- Monsters are not one army: goblins, orcs, ogres and the Changed are different peoples. The ones attacking are echoes (see L5). Whether untouched monsters and ordinary animals exist and can be hostile is open.
 - Bells are ordinary Ashmere currency, not the universe's central mechanism. Region access combines money, preparation, permits, standing, relationships and proof.
 - The first game spans Ashmere, the Old Road, Greyfen, Ironpass, Blackwood and the Ruined March. Only Ashmere, the Old Road and Greyfen exist in the game today.
 - The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey and Ivara are demoted legacy ideas. Do not build on them without the owner's re-approval.
-
-### Added by the owner 2026-10-16 (direction approved; details and conflicts still being settled)
-
-- **The Veil is the source of the trouble.** It creates echoes out of thin air. The force or magic that makes them has no name yet.
-- **The attackers are echoes.** The hostile creatures, including goblins and ogres, have been touched by the Veil and are far more aggressive than they were. The owner named goblins and ogres; orcs and others are to be confirmed.
-- **There was an old war, and an agreement ended it.** The monsters and the kingdoms had peace. The Veil's touch is what is breaking it.
-
-**Conflicts with earlier decisions, to be reconciled (the owner decides):**
-
-1. L1 says the Last Mercy left echoes that imitate the dead. The new direction says the Veil creates echoes out of thin air. *Proposed, not approved:* the Last Mercy wounded the Veil, and the wound now makes echoes on its own, at first imitating the dead and increasingly from nothing.
-2. The 2026-10-15 direction says not every monster is evil or connected to the awakening, and that independent threats stay. The new direction says the hostile monsters are echoes. L2 and L3 (the Landing Warden's unsafe reopening) are human wrongs and stay that way unless the owner says otherwise.
-3. The 2026-10-15 direction says the old monster wars faded into folklore after the monsters retreated. The new direction says the war ended in an agreement.
-4. The combined traveler draft proposed on 2026-10-16 was written before this and is on hold until the echo rules are settled.
 
 ## Established in the shipped game (v0.20.35)
 
@@ -81,15 +87,15 @@ These are facts players can already see. Changing one means updating the game, i
 
 ## Open questions, in the order we will settle them
 
-1. What are the echo rules? Are the goblins and ogres the same living creatures changed by the Veil, or newly made copies, or both? Do bandits and other human wrongdoers stay ordinary people? (Next up.)
-2. What is the force that makes echoes called? (Name open.)
-3. The Hollow Saint: what is its role now that the Veil makes echoes on its own, what does it want, how does it act, and when is it revealed?
-4. The old war and the agreement: who fought, who agreed, what were the terms, where was it settled, and how does the Veil break it?
-5. What did the Veil's touch do to the traveler: abilities, limits, and what can they become? (A combined draft is on hold until the echo rules are settled.)
+1. What did the Veil's touch do to the traveler: abilities, limits, and what can they become? Is the traveler a made echo or a touched person? (Next up: a combined draft is awaiting the owner's decision.)
+2. What is the force that makes echoes called? (Name open; "the Veil" until chosen.)
+3. The Hollow Saint: does it control what comes out of the wound, what does it want, how does it act, and when is it revealed?
+4. The old war and the agreement: who fought, who agreed, what were the terms, where was it settled, and when did the Veil begin to break it?
+5. How does touching work? Can a touched creature be calmed, released or healed? Do orcs and the Changed count? Do ordinary animals and untouched monsters exist?
 6. Is the player's chosen origin the echo's inherited memory, or does it stay true to the player? (See the conflict flag under L4.)
 7. The late choice: when the traveler learns what they are, what can the player decide, and how does it shape the ending?
 8. Greyfen details: why was the lower crossing unsafe (flood damage, or something else), did the Warden re-inspect, was anyone hurt, and how does the player resolve it?
-9. Is the magic system approved: the Veil, the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
+9. Is the magic system approved: the Afterwake, Strain and the Five Arts (Ember, Tide, Root, Gale, Veil)?
 10. Exactly how do Bells, permits and standing combine to open regions, and is there a separate "Bellmarks" currency?
 11. What crisis does the player solve by the end of the first game?
 
@@ -100,3 +106,5 @@ These are facts players can already see. Changing one means updating the game, i
 - 2026-10-16: L4 locked (the traveler is an echo, but not an ordinary one). "What is the traveler" removed from the open questions; its details added as new ones.
 - 2026-10-16: L4 amended by the owner: the traveler was touched by the Veil before the Last Mercy could finish, which is why they differ.
 - 2026-10-16: Owner direction added: the Veil makes echoes, the hostile monsters are Veil-touched echoes, and an old war ended in an agreement the Veil is breaking. Recorded as approved direction (not locked), with four conflicts listed for the owner to reconcile. The traveler draft is on hold.
+- 2026-10-19: Owner confirmed the echo rules. L5 (echoes are anything the Veil made or touched; the hostile monsters are Veil-touched echoes; humans stay ordinary), L6 (the Last Mercy wounded the Veil and the wound makes echoes) and L7 (an old war ended in an agreement the Veil is breaking) locked. The three conflicts listed on 2026-10-16 are resolved, and the monster bullet under Approved direction was updated to match L5.
+- 2026-10-19: The traveler draft is off hold.
