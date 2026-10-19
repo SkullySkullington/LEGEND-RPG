@@ -1,7 +1,7 @@
 # LEGEND — Game Reboot & Playable Foundation Plan
 
 **Status:** Proposed reboot plan; production engine migration not yet approved or applied  
-**Current source build:** v0.20.31, browser-based, desktop-first with mobile compatibility. The production title currently presents **LEGEND: The Awakening**; live deployment verification is pending.  
+**Current source build:** v0.20.36, browser-based, desktop-first with mobile compatibility. The production title presents **LEGEND: The Awakening**. Main workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed on 2026-10-19, including the separate live GitHub Pages smoke test. This document remains a proposal for future gameplay systems and a controlled engine experiment; it does not approve a production migration.  
 **Purpose:** Replace incremental screen polishing with a coherent design for a dark-fantasy RPG that has animated exploration, magic, trainable skills, active turn-based combat, a cinematic opening, and room to grow across a shared world.
 
 **Related documents:** [Fantasy RPG Direction: Monster Wars & the Awakening](LEGEND_FANTASY_RPG_DIRECTION.md), [World & Story Bible](LEGEND_WORLD_BIBLE.md), [Mystery & Story Arc Blueprint](LEGEND_MYSTERY_AND_STORY_ARC.md), [First-Session Story Spine](ASHMERE_STORY_SPINE.md), [Series & Title Reframe](LEGEND_SERIES_CONTINUITY_REFRAME.md), [Character Compendium](LEGEND_CHARACTER_COMPENDIUM.md), [Culture & History Atlas](LEGEND_CULTURE_AND_HISTORY_ATLAS.md), [Roadmap](ROADMAP.md), [Art Direction](ART-DIRECTION.md).
@@ -61,7 +61,7 @@ Every expedition should contain a beginning, a discovery or complication, a cons
 
 ## 4. Story reboot: widen the mythology beyond Ashmere
 
-**This is a fresh proposal that supersedes the Pale Surveyor / Hollow Mile as the default direction.** The older ideas may be retained as optional discarded concepts, but they should not continue expanding by inertia. Bells become local currency and civic signal-making, not the franchise's central supernatural mechanism.
+**Direction status:** this proposal supersedes the Pale Surveyor / Hollow Mile as the default direction. CANON L1–L7 is authoritative wherever this document differs: the Hollow Saint and Last Mercy are the deepest threat; the Veil was wounded by the Last Mercy and its wound makes echoes; echoes are things the Veil made or touched; hostile goblins and ogres are touched creatures; and an old war between monsters and kingdoms ended in an agreement now being broken. The Five Arts as named disciplines, Strain, the Afterwake, and detailed magic mechanics remain proposals. The older ideas may be retained as optional discarded concepts, but should not expand by inertia. Bells remain ordinary local currency and civic signal-making, not the franchise's central supernatural mechanism.
 
 ### The magic of the world
 
