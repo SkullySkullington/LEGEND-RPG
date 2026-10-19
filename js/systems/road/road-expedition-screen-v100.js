@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - Old Road expedition screen assembly.
+/* LEGEND v0.20.38 - Old Road expedition screen assembly.
  * Chooses stage panels and binds camp, travel, search, discovery and return controls.
  * State/effect decisions are injected from their domain-owned modules.
  */
@@ -20,12 +20,18 @@ function renderExpedition(note=''){
   const pl=p();if(!pl)return;
   const s=ensure(pl),stage=Math.min(5,s.stage),area=areaForStage(stage),atCamp=!!area.camp;
   const searchDone=!!s.searchUsed?.[stage];
+  const guide=window.LegendRoadOpeningV140?.guide?.(pl,s,stage)||'';
+  const travelGate=window.LegendRoadOpeningV140?.travelGate?.(pl,s,stage)||{allowed:true};
+  const travelLocked=travelGate.allowed===false;
+  const openingLesson=pl.flags?.openingRoadV140?.phase==='road'&&!pl.flags.openingRoadV140.completed;
+  const discoveryFound=Object.values(s.poiUsed||{}).some(Boolean);
+  const searchLocked=openingLesson&&stage===0&&(!s.routeChoice||!discoveryFound);
   let choices=stage>=5
     ? '<button class="exp100-dock-action primary" id="finish"><strong>Return to Ashmere</strong><span>Secure what you found.</span></button>'
-    : '<button class="exp100-dock-action" id="search" '+(searchDone?'disabled':'')+'><strong>'+(searchDone?'Nothing left to search':'Search the roadside')+'</strong><span>'+(searchDone?'You have searched this stretch':'Look for something useful')+'</span></button><button class="exp100-dock-action primary" id="push"><strong>Travel On</strong><span>Continue toward '+esc(areaForStage(Math.min(5,stage+1)).name)+'</span></button>';
+    : '<button class="exp100-dock-action" id="search" '+(searchDone||searchLocked?'disabled aria-disabled="true"':'')+'><strong>'+(searchDone?'Nothing left to search':searchLocked?'Inspect the marker first':'Search the roadside')+'</strong><span>'+(searchDone?'You have searched this stretch':searchLocked?'A clue may reveal something useful':'Look for something useful')+'</span></button><button class="exp100-dock-action primary" id="push" '+(travelLocked?'disabled aria-disabled="true"':'')+'><strong>'+(travelLocked?'Complete the first road lesson':'Travel On')+'</strong><span>'+(travelLocked?esc(travelGate.message):'Continue toward '+esc(areaForStage(Math.min(5,stage+1)).name))+'</span></button>';
   const roadMood=s.pressure>=55?'A second set of footsteps keeps pace just beyond the lantern light.':s.pressure>=30?'The birds fall silent. Somewhere ahead, a branch snaps.':'The road bends into mist. Somewhere beyond it, a lantern flickers.';
   const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
-  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+roadDiscovery.routeChoicePanel(s,stage)+roadDiscovery.pointOfInterestPanel(pl,s,stage)+roadDiscovery.movedCairnDecisionPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
+  shell(header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText)+guide+roadDiscovery.routeChoicePanel(s,stage)+roadDiscovery.pointOfInterestPanel(pl,s,stage)+roadDiscovery.movedCairnDecisionPanel(pl,s,stage)+(atCamp?campActions(pl,s):'')+'<section class="exp100-explore-dock"><div class="exp100-route"><span>BEYOND THE MIST</span><strong>'+esc(areaForStage(Math.min(5,stage+1)).name)+'</strong><small>Follow the road when you are ready.</small></div><div class="exp100-dock-actions">'+choices+'</div><div class="exp100-actions"><button class="exp100-btn" id="town">Abandon expedition</button></div></section>');
   bindHotspotDelegation();
   document.getElementById('poiLeave')?.addEventListener('click',()=>{const pl=p();if(!pl)return;const s=ensure(pl);s.discoveryOpen=false;s.discoveryStage=null;roadDiscovery.hide();save(pl);document.querySelector('.exp100-discovery-beat')?.remove();});
   document.getElementById('poiInspect')?.addEventListener('click',roadDiscovery.inspectPointOfInterest);
@@ -36,7 +42,7 @@ function renderExpedition(note=''){
   document.getElementById('search')?.addEventListener('click',()=>resolveChoice('search'));
   document.getElementById('push')?.addEventListener('click',()=>resolveChoice('push'));
   document.getElementById('finish')?.addEventListener('click',finish);
-  document.getElementById('town').onclick=ret;
+  document.getElementById('town').onclick=()=>{const player=p();if(player?.flags?.openingRoadV140?.phase==='road'&&!player.flags.openingRoadV140.completed)window.LegendRoadOpeningV140?.complete?.(player,'abandoned');ret();};
   document.getElementById('campRest')?.addEventListener('click',()=>{
     const supply=Number(pl.inventory?.camp||0)>0?'camp':'food';
     pl.inventory[supply]=Math.max(0,Number(pl.inventory?.[supply]||0)-1);
