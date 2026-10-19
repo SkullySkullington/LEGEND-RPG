@@ -67,13 +67,11 @@ function start(){
  return renderExpedition(openingNote);
 }
 function areaForStage(stage){
- const index=clamp(Number(stage||0),0,5),areas=road().scenes||[];
- const area={...(areas[index]||{name:'Old Road',type:'Road',text:'The road disappears into the mist.',icon:'↗'})};
  const pl=p(),s=pl?ensure(pl):{};
- const variant=area.routeVariants?.[s.routeChoice];
- if(variant&&typeof variant==='object')Object.assign(area,variant);
- delete area.routeVariants;
- return area;
+ const resolveScene=ROADS().resolveScene;
+ if(typeof resolveScene==='function')return resolveScene(stage,s.routeChoice);
+ const index=clamp(Number(stage||0),0,5),areas=road().scenes||[];
+ return {...(areas[index]||{name:'Old Road',type:'Road',text:'The road disappears into the mist.',icon:'↗'})};
 }
 function renderExpedition(note=''){return roadExpeditionScreen?.render(note);}
 const roadActions=window.LegendRoadActionsV100?.create({
