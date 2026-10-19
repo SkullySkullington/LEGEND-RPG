@@ -1708,19 +1708,31 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
   });
 
-  test('Ashmere navigation and destination symbols use local SVG sprite artwork', async ({ page }) => {
+  test('Ashmere hub destinations use the dedicated local service icon artwork', async ({ page }) => {
     await startFreshCharacter(page, 'IconArtQA');
     const destinationIcons = page.locator('.ash100-destinations .ash100-destination-icon');
     await expect(destinationIcons).toHaveCount(7);
-    const spriteIcons = page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg');
-    await expect(spriteIcons.first()).toBeVisible();
-    await expect(spriteIcons).toHaveCount(4);
-    const iconReferences = await page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg use').evaluateAll(nodes =>
-      nodes.map(node => node.getAttribute('href') || node.getAttribute('xlink:href') || '')
-    );
-    expect(iconReferences).toHaveLength(4);
-    expect(iconReferences.every(ref => ref.startsWith('assets/ui/icons/legend-ui-icons-v1.svg#icon-'))).toBe(true);
-    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(3);
+    const iconImages = page.locator('.ash100-destinations .ash100-destination-icon .ash099-asset-icon img');
+    await expect(iconImages).toHaveCount(7);
+    const iconSources = await iconImages.evaluateAll(nodes => nodes.map(node => node.getAttribute('src') || ''));
+    expect(iconSources.every(src => src.startsWith('assets/generated/ui/icons/service-'))).toBe(true);
+    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
+    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
+  });
+
+  test('traveler creation uses Captain Oric dialogue and the raster LEGEND wordmark', async ({ page }) => {
+    await openTitle(page);
+    await page.locator('#newPrimary').click();
+    await expect(page.locator('.v140-creation')).toBeVisible();
+    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(page.locator('.v140-guide-portrait')).toHaveAttribute('src', /captain-oric\.webp/);
+    await expect(page.locator('.v140-dialogue-box')).toContainText('CAPTAIN ORIC');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/watch ledger/i);
+    await page.locator('#v094Name').fill('OricGuideQA');
+    await page.locator('#v094Next').click();
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/ledger/i);
+    await expect(page.locator('.v094-choice-grid')).toBeVisible();
+    await expect(page.locator('.v140-guide-portrait')).toBeVisible();
   });
 
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
