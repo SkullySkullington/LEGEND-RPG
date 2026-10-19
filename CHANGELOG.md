@@ -1,3 +1,15 @@
+## v0.20.40 — Road-first opening and guided first expedition (PR #27; verification pending)
+- Keep the v0.20.39 anonymous soul-shaping creator, raster wordmark, dedicated service art, and scene-transition presentation as the visual foundation.
+- After **Let Me Wake**, begin beneath the dead lantern outside Ashmere. Captain Oric asks whether the traveler is friend or foe and offers three response tones; the selected response is saved as a memory and changes his aftermath dialogue.
+- Have a Blackroot Wolf ambush Oric and require the production battle ACT command, labeled **Awaken**, to win the one-HP scripted tutorial encounter. Keep other combat formulas and normal encounters unchanged.
+- Send the player into the existing five-stage Old Road for the High Ridge/Reed Cut choice, clue inspection, roadside search, travel pressure, waystation rest, and secured return to Ashmere. Allow an explicit skip to Ashmere after the ambush.
+- Add the in-game **News & Roadmap** screen with dated development notes, clearly labeled shipped/preview/in-progress status, and links to the maintained development updates, devlog, and GitHub project.
+- Preserve the existing save key and player record schema. Active opening progress is stored under `flags.openingRoadV140`; unfinished encounters resume from Continue Journey.
+- Add desktop/mobile Playwright coverage for the opening encounter, ACT handoff, full expedition, return, resume behavior, and News & Roadmap.
+- **Verification is pending.** Do not merge or call this released until final-head Playwright CI, desktop/mobile visual review, deployment, and deployed smoke checks pass.
+
+---
+
 ## v0.20.39 — Soul-shaping traveler creation and Ashmere service art (PR #27; verification pending)
 - Reframe the existing seven-step creator as a dreamlike soul-shaping sequence voiced by an unnamed presence displayed only as **???**. The presence is the Veil at the author/story-design level but is never named or identified to the player; its prompts evoke returning memories, form, instinct, origin, calling and keepsakes.
 - Keep Captain Oric out of character creation; his portrait and practical dialogue begin in the separate arrival briefing after the player chooses **Let Me Wake**.
