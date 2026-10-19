@@ -56,3 +56,9 @@
 .v094-veil-creation .v094-choice.is-selected{border-color:#dfc07b;background:linear-gradient(180deg,rgba(48,42,27,.95),rgba(9,14,9,.98));box-shadow:0 0 22px rgba(229,190,110,.1)}
 .v094-veil-creation .v094-choice strong{color:#f2e3be}
 .v094-veil-creation .v094-btn.primary{background:linear-gradient(180deg,#f6d995,#c99a42);border-color:#e8c878;color:#261c08}
+
+/* Make the one required opening command unmistakable without animating under reduced motion. */
+.rpg-opening-awakening #skill{border-color:#e8c878!important;background:linear-gradient(180deg,#604b25,#1c2118)!important;box-shadow:0 0 0 1px rgba(232,200,120,.44),0 0 28px rgba(232,200,120,.24),inset 0 0 18px rgba(232,200,120,.10)!important;animation:legend-awakening-command-v140 1.6s ease-in-out infinite alternate}
+.rpg-opening-awakening #skill .rpg-command-label small{color:#f3d990!important;font-weight:900;letter-spacing:.08em}
+@keyframes legend-awakening-command-v140{from{transform:translateY(0);filter:brightness(1)}to{transform:translateY(-2px);filter:brightness(1.14)}}
+@media(prefers-reduced-motion:reduce){.rpg-opening-awakening #skill{animation:none!important;transform:none!important}}
