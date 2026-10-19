@@ -523,7 +523,7 @@
 .portal-v100::before{content:"";position:absolute;width:min(58vw,760px);aspect-ratio:1;left:-18vw;top:18%;border:1px solid rgba(215,184,106,.08);border-radius:50%;box-shadow:0 0 0 34px rgba(215,184,106,.018),0 0 0 68px rgba(215,184,106,.012);pointer-events:none;z-index:1}
 .portal-v100::after{content:"ASHMERE  /  OLD ROAD  /  LANTERN GATE";position:absolute;right:clamp(14px,4vw,54px);top:50%;transform:translateY(-50%) rotate(90deg);transform-origin:center;color:rgba(215,184,106,.24);font-size:.55rem;font-weight:800;letter-spacing:.28em;white-space:nowrap;pointer-events:none;z-index:1}
 .portal100-hero::before{content:"✦";width:54px;height:54px;margin-bottom:18px;border:1px solid rgba(215,184,106,.28);border-radius:50%;display:grid;place-items:center;color:#d7b86a;font-size:1.25rem;box-shadow:0 0 34px rgba(215,184,106,.07)}
-.portal100-footer{position:relative}.portal100-footer::after{content:"THE ROAD REMEMBERS";position:absolute;left:50%;top:-30px;transform:translateX(-50%);color:rgba(215,184,106,.22);font-size:.52rem;letter-spacing:.28em;white-space:nowrap}
+.portal100-footer{position:relative}.portal100-footer::after{content:"THE ROAD REMEMBERS";position:absolute;left:50%;top:-30px;transform:translateX(-50%);color:rgba(238,207,137,.72);font-size:.55rem;letter-spacing:.22em;text-shadow:0 1px 8px rgba(0,0,0,.95);white-space:nowrap}
 @media(max-width:760px){.portal-v100::after{display:none}.portal-v100::before{width:90vw;left:-42vw;top:26%}.portal100-hero::before{width:46px;height:46px;margin-bottom:14px}}
 
 
