@@ -164,7 +164,9 @@
         scene.lines.map(line => '<p>' + escapeHtml(line) + '</p>').join('') +
         '</div>' + goals +
         actionButtons({ back: false, next: true, label: index === scenes.length - 1 ? 'Enter Ashmere' : 'Continue' }) +
+        '<button class="v140-skip-intro" id="v140SkipIntro" type="button">Skip arrival briefing</button>' +
         '</section>', { step: 7, guideText: scene.dialogue });
+      root?.querySelector('#v140SkipIntro')?.addEventListener('click', () => onEnter?.());
       root?.querySelector('#v094Next')?.addEventListener('click', () => {
         if (index < scenes.length - 1) {
           index += 1;
