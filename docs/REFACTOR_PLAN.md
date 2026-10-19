@@ -10,7 +10,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ## Confirmed structural hot spots
 
 - `js/systems/ashmere-controller-v099.js`: started at 93.6 KB / 883 lines. After the current branch's extractions, it is about 7.3 KB / 171 lines; the route façade, feature adapters, and initialization remain, while player records, town guidance, hub, routes, navigation, view shell, art/catalogs, job data/execution, market, crafting, forge, people/NPCs, inn, side contracts, and crossing live in focused modules.
-- `js/systems/road-controller-v100.js`: now about 6 KB / 139 lines; initializes the road services and coordinates kickoff/combat/public entry. State rules, content, discovery, view, actions, screen assembly, and settlement are focused modules.
+- `js/systems/road-controller-v100.js`: now about 6.2 KB / 174 lines; composes road services and coordinates combat/public entry. Expedition kickoff is in `road-actions-v100.js`; state rules, content, discovery, view, actions, screen assembly, and settlement have focused owners.
 - `js/systems/road/road-decisions-v100.js` now owns the initial route fork and the moved-cairn side-story choice mutations; discovery keeps an adapter for the existing road facade.
 - `js/systems/road/road-discovery-v100.js` is now the discovery facade; `road-discovery-view-v100.js` owns clue/route/cairn panel markup, `road-poi-catalog-v100.js` resolves contextual clue records, `road-decisions-v100.js` applies branch choices, and `road-poi-outcomes-v100.js` settles clue evidence/rewards.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
