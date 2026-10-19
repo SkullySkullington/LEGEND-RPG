@@ -175,3 +175,10 @@
 @media(prefers-reduced-motion:reduce){
  .v140-creation .v094-choice,.v140-creation .v094-btn,.v140-creation .v094-stepper-track i{transition:none!important;animation:none!important}
 }
+
+
+.v140-skip-intro{display:block;margin:8px auto 0;padding:7px 10px;border:1px solid transparent;border-radius:2px;background:transparent;color:#a6b09f;font:600 .72rem/1.4 system-ui,sans-serif;letter-spacing:.04em;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.v140-skip-intro:hover{color:#e6d39e}
+.v140-skip-intro:focus-visible{outline:2px solid #f0d38b;outline-offset:3px}
+.v140-creation .v140-arrival-card .v094-actions{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){.v140-skip-intro{transition:none!important}}
