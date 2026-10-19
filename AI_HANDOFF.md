@@ -27,6 +27,12 @@ Validation status (2026-10-19):
 - An isolated manual browser attempt was blocked by `ERR_TUNNEL_CONNECTION_FAILED` before the app loaded; it touched no account, cloud save, or repository data. The successful GitHub Actions live smoke test is the authoritative deployed-path check for this checkpoint.
 - Manual long-session visual review, full cross-browser matrix, and audible-output verification remain optional QA tasks; do not claim they were performed.
 
+## Active branch slice — 2026-10-19
+
+Branch `feature/veil-road-opening-v140` is implementing the first-session presentation and tutorial directly in production code. Read the latest `CHANGELOG.md` v0.20.38 branch-preview note and `docs/OPENING_EXPERIENCE_REDESIGN.md`. The creation shell speaks as `???` and asks memory-framed choices while preserving the existing record schema. The new traveler first meets Captain Oric under a dead lantern outside Ashmere; three response choices adjust his dialogue and create a memory. A Blackroot Wolf ambush is routed through the active road combat UI. The opening enemy has one HP and the player must select ACT, labeled “Awaken,” to win. The post-combat scene hands into the current five-stage Old Road with tutorial guide callouts and first-stage route/discovery/search gates, then return-to-Ashmere settlement. The title menu gets a local News & Roadmap screen that links to `updates.html`, `blog.html`, and GitHub.
+
+**Status:** branch work only; not merged or deployed. The Playwright suite and human review are still required. Preserve save key `legend-roads-of-ashmere-v09`, existing class/origin/keepsake data, item IDs, region IDs, and all non-opening combat formulas. Existing travelers without `flags.openingRoadV140` should continue normally. Before merge, verify title → Veil memory creation → Oric response → ACT win → High Ridge/Reed Cut → inspection → search → waystation → secured return; verify the saved opening resumes after reload, and verify 390px mobile layout. The new end-to-end test is `tests/road-opening-v140.spec.js`.
+
 ## Active development phase — gameplay expansion
 
 The refactor is no longer the main task. Prefer player-visible gameplay improvements and measurable loop quality over further structural extraction, unless a concrete defect requires it.
