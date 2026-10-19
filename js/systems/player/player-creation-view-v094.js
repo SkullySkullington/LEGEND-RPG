@@ -88,8 +88,8 @@
   function renderConfirmation({ root, name, gender, personality, origin, className, keepsake, onBack, onBegin }) {
     mount(root,
       '<section class="v094-beginning-card"><div class="v094-kicker">Your Story So Far</div>' +
-      stepProgress(7, 'One last look before your first steps into Ashmere.') +
-      '<h2>' + escapeHtml(name) + '</h2><p>A ' + escapeHtml(personality.label.toLowerCase()) + ' traveler reaches Ashmere. The bell is silent. The gate is open.</p>' +
+      stepProgress(7, 'One last look before your first steps onto the Old Road.') +
+      '<h2>' + escapeHtml(name) + '</h2><p>A ' + escapeHtml(personality.label.toLowerCase()) + ' traveler wakes beneath a dead lantern. The road is quiet. Someone is coming.</p>' +
       '<div class="v094-summary"><div><span>Gender</span><strong>' + escapeHtml(gender.label) + ' (' + escapeHtml(gender.pronouns) + ')</strong></div>' +
       '<div><span>Personality</span><strong>' + escapeHtml(personality.label) + '</strong></div>' +
       '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
