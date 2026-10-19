@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - Old Road settlement and outcome flow.
+/* LEGEND v0.20.38 - Old Road settlement and outcome flow.
  * Owns expedition rewards, progression, first-return report flags and result-screen
  * rendering. Expedition state, persistence, view framing and town return are injected.
  */
@@ -41,6 +41,8 @@ function finish(){
    routeReport=' Mara can help identify what evidence would make the next report more useful.';
   }
  }
+ const opening=pl.flags?.openingRoadV140;
+ if(complete&&opening?.phase==='road'&&!opening.completed){opening.phase='complete';opening.completed=true;pl.flags.introV094Complete=true;pl.flags.tutorialStep='people';}
  pl.gold=Number(pl.gold||0)+reward;
  if(complete)inv(pl,'roadToken',1);
  const progress=awardProgress(pl,15+Number(s.stage||0)*10);
