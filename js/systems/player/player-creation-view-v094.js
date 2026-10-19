@@ -14,11 +14,11 @@
     const guideText = options.guideText || 'Take your time. The road can wait while you decide who you are.';
     root.innerHTML = '<main class="v094-beginning v140-creation" data-creation-step="' + step + '">' +
       '<div class="v094-beginning-bg" aria-hidden="true"></div>' +
-      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async" onerror="this.onerror=null;this.style.display=\\'none\\'">' +
+      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async" onerror="this.onerror=null;this.style.display=\'none\'">' +
       '<span>YOUR STORY BEGINS AT THE GATE</span></header>' +
       '<div class="v140-creation-layout">' +
         '<aside class="v140-guide-pane" aria-label="Your guide at the Ashmere gate">' +
-          '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async" onerror="this.onerror=null;this.style.display=\\'none\\'">' +
+          '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async" onerror="this.onerror=null;this.style.display=\'none\'">' +
           '<span>ASHMERE WATCH</span></div>' +
           '<section class="v140-dialogue-box" role="region" aria-label="Captain Oric dialogue">' +
             '<div class="v140-dialogue-speaker"><strong>CAPTAIN ORIC</strong><span>GATE CAPTAIN</span></div>' +
