@@ -90,8 +90,8 @@
       skills: typeof baseSkills === 'function' ? (baseSkills() || {}) : {},
       mastery: {},
       questLog: [
-        'Ashmere Welcome: Speak to someone in the Town Square.',
-        'Old Road Proof: Prepare in town, travel the Old Road, and return with Road Tokens.'
+        'Ashmere Welcome: Follow Captain Oric’s lead and reach the Town Square.',
+        'Old Road Proof: Inspect the fork, search the roadside, and return to Ashmere.'
       ],
       memories: [
         'You woke beneath a dead lantern outside Ashmere.',
