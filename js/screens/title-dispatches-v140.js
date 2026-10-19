@@ -2,7 +2,8 @@
 (() => {
   const esc = window.LegendHtmlV120?.escapeHtml || (value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])));
   const updates = [
-    {version:'v0.20.37',title:'Road encounters gain distinct rhythms',status:'Latest build',text:'Road Goblins, Blackroot Wolves, and Lantern Wisps now use different readable attack patterns. Watch the intent, then choose how to respond.'},
+    {version:'v0.20.38',title:'The first journey begins on the road',status:'Opening pass · preview',text:'The Veil-led memory flow leads into Oric finding the traveler beneath a dead lantern, a scripted ACT awakening, and a guided first expedition in the production road systems.'},
+    {version:'v0.20.37',title:'Road encounters gain distinct rhythms',status:'Shipped',text:'Road Goblins, Blackroot Wolves, and Lantern Wisps now use different readable attack patterns. Watch the intent, then choose how to respond.'},
     {version:'v0.20.35',title:'A more cinematic title screen',status:'Shipped',text:'The production menu uses committed Ashmere artwork, the Awakening wordmark, and a framed RPG menu while preserving Continue and accessibility options.'},
     {version:'v0.20.29',title:'The world gets a stronger art foundation',status:'Shipped',text:'New local environment, class, enemy, service, equipment, and item art now support the Ashmere and Old Road experience.'}
   ];
