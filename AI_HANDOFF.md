@@ -5,11 +5,11 @@ Last updated: 2026-10-19. Read this file before changing code, and update it whe
 ## Canon — read first
 Story decisions made by the owner are recorded in [`docs/CANON.md`](docs/CANON.md). **If another document disagrees with a LOCKED item there, CANON.md wins.** Assistants may propose and draft story options but never lock a decision themselves, and must ask the owner before changing a locked item. As of 2026-10-16 the owner has locked: (L1) the Hollow Saint and the Last Mercy as the deepest threat, and (L2) the Greyfen crossing records were altered because of trade pressure, and (L3) the Landing Warden reopened the lower crossing, unsigned, under merchant pressure, and (L4) the traveler is an echo touched by the Veil before the Last Mercy could finish making them, who does not know it (hidden knowledge: do not state or imply it in dialogue or UI until the owner approves a reveal plan). Where older sections below call these "proposals only," CANON.md supersedes them for every locked item. Also locked on 2026-10-19: (L5) "echo" means anything the Veil made or touched, and the hostile monsters, including goblins and ogres, are Veil-touched echoes while human wrongdoers stay ordinary people; (L6) the Last Mercy wounded the Veil, and the wound makes echoes on its own; (L7) an old war between the monsters and the kingdoms ended in an agreement that the Veil is now breaking. The Veil is therefore canon, while the Five Arts, Strain and the Afterwake remain proposals. Locked is still not implemented, so keep the implementation-plan and verification rules in this file.
 
-## Production architecture baseline — v0.20.37 (integrated and deployed 2026-10-19)
+## Production architecture baseline — v0.20.40 (integrated and deployed 2026-10-19)
 
 **Status: the broad production refactor is complete and integrated.** The product remains **LEGEND: The Awakening**. Production stays browser-based, with versioned classic scripts in `index.html` and stable `window.Legend...` facades; do not replace it with `prototypes/reboot/` or introduce a framework/bundler without an explicit decision.
 
-The current production baseline is `main`, commit [`adbd436`](https://github.com/TDTRIA/LEGEND-RPG/commit/adbd4361e13d8eab5d6fdd6ed00c273e93c21dff). Architecture integration was delivered by [PR #17](https://github.com/TDTRIA/LEGEND-RPG/pull/17); post-refactor regression guards by [PR #25](https://github.com/TDTRIA/LEGEND-RPG/pull/25); and distinct data-driven Old Road enemy intent patterns by [PR #26](https://github.com/TDTRIA/LEGEND-RPG/pull/26).
+The current production baseline is `main`, commit [`cc626b4`](https://github.com/TDTRIA/LEGEND-RPG/commit/cc626b43d090dd0050b1760714249096e250923c). Architecture integration was delivered by [PR #17](https://github.com/TDTRIA/LEGEND-RPG/pull/17); post-refactor regression guards by [PR #25](https://github.com/TDTRIA/LEGEND-RPG/pull/25); and distinct data-driven Old Road enemy intent patterns by [PR #26](https://github.com/TDTRIA/LEGEND-RPG/pull/26).
 
 Current architectural boundaries:
 - `js/game.js` is a thin title/bootstrap adapter; title markup, auxiliary screens, and title audio are separate modules.
@@ -21,24 +21,22 @@ Current architectural boundaries:
 - `docs/ADDING_FEATURES.md`, `docs/ARCHITECTURE.md`, `docs/REFACTOR_PLAN.md`, and `docs/SAVE_DATA_CONTRACT.md` describe feature insertion points and compatibility rules.
 
 Validation status (2026-10-19):
-- [Main workflow #1507](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775742) passed on `main` commit `adbd4361e13d8eab5d6fdd6ed00c273e93c21dff`.
-- The full Playwright suite, syntax gate, and deployed GitHub Pages smoke check all passed; the previous enemy-pattern PR run verified **100 passed, 0 failed, 1 skipped** before integration.
-- [Pages deployment #1166](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775037) succeeded for the same main commit.
+- [Main workflow #1573](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39313233734) passed on `main` commit `cc626b43d090dd0050b1760714249096e250923c`, including the deployed GitHub Pages smoke test.
+- The post-opening PR suite passed **111 tests with 1 skipped** including desktop and mobile-touch coverage; the main-branch workflow also passed the live deployment check.
+- [Pages deployment](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39313233450) succeeded for the same main commit.
 - An isolated manual browser attempt was blocked by `ERR_TUNNEL_CONNECTION_FAILED` before the app loaded; it touched no account, cloud save, or repository data. The successful GitHub Actions live smoke test is the authoritative deployed-path check for this checkpoint.
-- Current presentation work is in [PR #27](https://github.com/TDTRIA/LEGEND-RPG/pull/27), pending its final-head CI and release check. It includes the raster wordmark, the anonymous soul-shaping creator (speaker shown only as ???; the Veil remains unnamed to the player), Oric's separate arrival briefing, dedicated Ashmere service icons, and the opening/tutorial/story plan. Do not call it shipped before main deploy and smoke succeed.
+- [PR #27](https://github.com/TDTRIA/LEGEND-RPG/pull/27) is merged and deployed as v0.20.40. It includes the raster wordmark, anonymous soul-shaping creator (speaker shown only as ???), the Oric / dead-lantern encounter, ACT / Awaken, guided first Old Road tutorial, and News & Roadmap.
 - Manual long-session visual review, full cross-browser matrix, and audible-output verification remain optional QA tasks; do not claim they were performed.
 
-## Active draft slice — v0.20.40 road-first opening (PR #27)
+## Active preview — v0.20.41 Blackroot Tracks Work Board contract
 
-The active development branch `feature/immersive-traveler-creation-v140` consolidates the anonymous soul-shaping presentation, the raster LEGEND wordmark, dedicated town service art, the Oric / dead-lantern conversation, the ACT / “Awaken” wolf ambush, the guided first Old Road loop, and the title-menu News & Roadmap screen. PR #28 is a duplicate earlier draft; continue with PR #27 to keep one integrated change set.
+The active development branch is `feature/blackroot-tracks-workboard-v141`. It builds on the shipped v0.20.40 opening with a new Ashmere Work Board activity, **Read the Blackroot Tracks**.
 
-**Player flow:** Begin Your Journey → create a traveler with a speaker shown only as `???` → Let Me Wake → Beneath the Dead Lantern → choose how to answer Captain Oric → Blackroot Wolf attacks Oric → use the highlighted ACT command labeled “Awaken” → choose Follow the Road or Go Straight to Ashmere. The guided loop uses the actual High Ridge/Reed Cut decision, landmark inspection, roadside search, travel pressure, camp rest, and secured return. Continue Journey calls `LegendRoadOpeningV140.resume()` for active `oric`, `combat`, `aftermath`, or `road` phases.
+**Player flow:** Continue to Ashmere → open Work Board → choose Read the Blackroot Tracks → compare print depth, stride, and direction before disturbing the mud → earn contract pay and a possible Road Herb bonus. The new `track` mode reuses the existing choice challenge and job reward lifecycle. A clean read gives Perfect-grade pay (75g on a 52g base job) with the standard bonus-item chance.
 
-Key production modules: `js/systems/road-opening-v140.js`, `js/systems/road-controller-v100.js`, the existing `js/systems/road/` action/combat/result/screen modules, `js/screens/title-dispatches-v140.js`, and `css/opening-road-v140.css`. New status is saved to `flags.openingRoadV140`; do not change `legend-roads-of-ashmere-v09`, the player record schema, existing class/origin/keepsake IDs, ordinary enemy mechanics or damage formulas. Road tutorial gates should only apply to an unfinished opening state, not to older or completed journeys.
+Key files: `js/systems/town/ashmere-job-catalog-v099.js`, `js/systems/town/ashmere-workboard-v099.js`, `tests/legend-smoke.spec.js`, and `tests/mobile-smoke.spec.js`. `index.html` refreshes the job catalog/workboard cache references; runtime/package version is v0.20.41. No save shape or storage key changes are planned.
 
-`tests/road-opening-v140.spec.js` covers News & Roadmap, the Oric/ACT encounter, a full five-stage expedition and reward settlement, and reload/continue. The main town regression helper deliberately bypasses the opening after character confirmation so older town system tests remain focused; a dedicated end-to-end test must continue to exercise the real opening. Desktop and mobile flows have been updated for the new creator handoff.
-
-**Status: not merged or deployed.** Wait for final-head Playwright/syntax/Pages smoke to pass, then manually inspect desktop and 390px mobile flow, fix any failures, and only then mark the draft PR ready. Do not merge this branch while checks are pending or failing.
+**Status: branch preview only.** Run final-head syntax/Playwright and live deployment checks after merge. Desktop and 390px touch tests cover the new activity and no-horizontal-overflow behavior. Existing work and opening tests should remain intact.
 
 ## Active development phase — gameplay expansion
 
