@@ -291,9 +291,10 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     }
   });
 
-  test('inn actions show the newly generated local service illustrations', async ({ page }) => {
-    await startFreshCharacter(page, 'ServiceArtQA');
+  test('Inn services enforce rest and supply costs, including insufficient-gold cases', async ({ page }) => {
+    await startFreshCharacter(page, 'InnServicesQA');
     await page.locator('.ash100-destination[data-ash-view="inn"]').click();
+
     const innIcon = page.locator('#rest .ash099-asset-icon img');
     const roadIcon = page.locator('#camp .ash099-asset-icon img');
     const journalIcon = page.locator('#rumor .ash099-asset-icon img');
@@ -303,6 +304,92 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect.poll(async () => page.locator('.ash099-asset-icon img').evaluateAll(imgs =>
       imgs.length === 3 && imgs.every(img => img.complete && img.naturalWidth > 0)
     )).toBe(true);
+
+    const before = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const player = rt.loadPlayer();
+      player.gold = 200;
+      player.hp = Math.max(1, Number(player.maxHp || 100) - 23);
+      player.inventory = player.inventory || {};
+      player.inventory.camp = 0;
+      rt.savePlayer(player);
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+
+    await page.locator('#rest').click();
+    await expect(page.locator('#ashNote')).toContainText('recover completely');
+    const rested = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+    expect(rested.gold).toBe(before.gold - 35);
+    expect(rested.hp).toBe(rested.maxHp);
+    expect(rested.camp).toBe(before.camp);
+
+    await page.locator('#camp').click();
+    await expect(page.locator('#ashNote')).toContainText('Bought camp supplies.');
+    const stocked = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+    expect(stocked.gold).toBe(rested.gold - 90);
+    expect(stocked.camp).toBe(rested.camp + 1);
+    expect(stocked.hp).toBe(rested.hp);
+
+    const lowFunds = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const player = rt.loadPlayer();
+      player.gold = 20;
+      player.hp = Math.max(1, Number(player.maxHp || 100) - 9);
+      rt.savePlayer(player);
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+
+    await page.locator('#rest').click();
+    await expect(page.locator('#ashNote')).toContainText('Not enough gold.');
+    const rejectedRest = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+    expect(rejectedRest).toEqual(lowFunds);
+
+    await page.locator('#camp').click();
+    await expect(page.locator('#ashNote')).toContainText('Not enough gold.');
+    const rejectedCamp = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        hp: Number(player.hp),
+        maxHp: Number(player.maxHp),
+        camp: Number(player.inventory.camp)
+      };
+    });
+    expect(rejectedCamp).toEqual(lowFunds);
   });
 
   test('Greyfen hub changes identity and destinations after regional travel', async ({ page }) => {
@@ -1373,19 +1460,78 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('[data-craft="wispLanternWick"]')).toBeVisible();
   });
 
-  test('Secured expedition has a direct Return to Ashmere action', async ({ page }) => {
+  test('Secured expedition settles gold, XP, level-up, token, and return state', async ({ page }) => {
     await startFreshCharacter(page, 'ReturnFromRoadQA');
-    await page.evaluate(() => {
-      const rt=window.LegendRuntimeV120;
-      const pl=rt.loadPlayer();
-      pl.flags=pl.flags||{};
-      pl.flags.roadExpeditionV100={stage:5,pressure:20,trips:1,events:0,finds:0,battles:0};
-      rt.savePlayer(pl);
+    const before = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const player = rt.loadPlayer();
+      player.xp = 80;
+      player.stats = player.stats || {};
+      player.flags = player.flags || {};
+      player.flags.roadExpeditionV100 = {
+        stage: 5,
+        pressure: 20,
+        trips: 1,
+        events: 0,
+        finds: 0,
+        battles: 0,
+        routeChoice: 'ridge',
+        poiUsed: { 'ridge-cairn': true },
+        searchUsed: {},
+        readUsed: {}
+      };
+      rt.savePlayer(player);
       window.LegendRoadControllerV100.renderHub();
+      return {
+        gold: Number(player.gold || 0),
+        xp: Number(player.xp || 0),
+        level: Number(player.level || 1),
+        hp: Number(player.hp || 0),
+        maxHp: Number(player.maxHp || 0),
+        tokens: Number(player.inventory?.roadToken || 0),
+        clears: Number(player.stats.oldRoadClears || 0)
+      };
     });
+
     await page.locator('#finish').click();
     await expect(page.locator('#outcomeReturn')).toBeVisible();
     await expect(page.locator('.exp100-outcome')).toContainText('Expedition Secured');
+    await expect(page.locator('.exp100-outcome')).toContainText(/Road Token/i);
+    await expect(page.locator('.exp100-outcome')).toContainText(/Level up! You are now level 2\./);
+
+    const after = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      const state = player.flags.roadExpeditionV100;
+      return {
+        gold: Number(player.gold || 0),
+        xp: Number(player.xp || 0),
+        level: Number(player.level || 1),
+        hp: Number(player.hp || 0),
+        maxHp: Number(player.maxHp || 0),
+        tokens: Number(player.inventory?.roadToken || 0),
+        clears: Number(player.stats?.oldRoadClears || 0),
+        stage: Number(state.stage),
+        pressure: Number(state.pressure),
+        firstReturnSeen: Boolean(player.flags.firstRoadReturnSeen),
+        firstReturnRoute: player.flags.firstRoadReturnRoute,
+        firstReturnDiscovery: player.flags.firstRoadReturnDiscovery
+      };
+    });
+
+    expect(before.xp).toBe(80);
+    expect(after.gold).toBe(before.gold + 140);
+    expect(after.xp).toBe(45);
+    expect(after.level).toBe(2);
+    expect(after.hp).toBe(before.hp + 8);
+    expect(after.maxHp).toBe(before.maxHp + 8);
+    expect(after.tokens).toBe(before.tokens + 1);
+    expect(after.clears).toBe(before.clears + 1);
+    expect(after.stage).toBe(0);
+    expect(after.pressure).toBe(7);
+    expect(after.firstReturnSeen).toBe(true);
+    expect(after.firstReturnRoute).toBe('ridge');
+    expect(after.firstReturnDiscovery).toBe('ridge-cairn');
+
     await page.locator('#outcomeReturn').click();
     await expect(page.locator('.ash100-town')).toBeVisible();
   });
