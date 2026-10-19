@@ -68,7 +68,8 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - [x] Extract inn rendering, rest/supply purchases, and rumors into `js/systems/town/ashmere-inn-v099.js`; preserve existing service costs and inject persistence/presentation helpers.
 - [x] Extract side-contract counters, acceptance/turn-in rewards, and existing evidence text into `js/systems/town/ashmere-contracts-v099.js`; preserve quest flags and inject player/save/progression/view helpers.
 - [x] Extract Greyfen Dry Crossing choices, retry costs, health toll, marker rewards, and completion handling into `js/systems/town/ashmere-crossing-v099.js`; preserve the existing completion and attempt flags.
-- [ ] Smoke-test traveler records, NPC evidence dialogue, side-contract acceptance/turn-in, Dry Crossing safe/risky routes, work board challenge modes/rewards, market/crafting/gear, inn services, and return navigation.
+- [x] Automated Playwright browser coverage passes for traveler records, NPC evidence dialogue, side-contract acceptance/turn-in, Dry Crossing safe/risky routes, Work Board challenge modes/rewards, market/crafting/gear, Inn transactions, and return navigation. This is PR-local coverage, not a manual/live-site smoke.
+- [ ] Manually smoke-test the deployed GitHub Pages build and key desktop/mobile town and road journeys before release.
 - [x] Document the player/save shape, core flags, region IDs, item IDs, and current script load order before moving domain logic.
 
 ### 1. Split the Ashmere monolith
@@ -101,7 +102,8 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Move reusable Old Road stage descriptions, route-specific camp-scene text, stage-indexed travel beats, pressure-templated route feedback, and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; route choice and state stay in services while narrative copy stays in content data.
 - [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
-- [ ] Browser-smoke-test active v100 flows and confirm XP, level-up, token rewards, audio, and return-to-Ashmere.
+- [x] Automated Playwright and focused contract coverage passes for active v100 XP/level-up settlement, Road Token rewards, road audio behavior contracts, and return-to-Ashmere.
+- [ ] Manually verify the deployed v100 journey and audible output before release.
 - [x] Centralize Bell quest-log objective replacement in `js/systems/quest-log-v120.js`; both Ashmere and v100 road progression now use `LegendQuestLogV120` instead of maintaining parallel implementations.
 - [x] Extract context-sensitive Old Road POI selection into `js/content/roads/road-poi-catalog-v100.js`; leave discovery panels and investigation rewards in `road-discovery-v100.js`.
 - [x] Extract route-fork and moved-cairn state mutations into `js/systems/road/road-decisions-v100.js`; keep discovery's public methods as adapters.

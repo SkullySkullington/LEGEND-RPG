@@ -1,6 +1,6 @@
 # AI Handoff — LEGEND: The Awakening
 
-Last updated: 2026-10-16. Read this file before changing code, and update it when project status changes.
+Last updated: 2026-10-19. Read this file before changing code, and update it when project status changes.
 
 ## Canon — read first
 Story decisions made by the owner are recorded in [`docs/CANON.md`](docs/CANON.md). **If another document disagrees with a LOCKED item there, CANON.md wins.** Assistants may propose and draft story options but never lock a decision themselves, and must ask the owner before changing a locked item. As of 2026-10-16 the owner has locked: (L1) the Hollow Saint and the Last Mercy as the deepest threat, and (L2) the Greyfen crossing records were altered because of trade pressure, and (L3) the Landing Warden reopened the lower crossing, unsigned, under merchant pressure, and (L4) the traveler is an echo touched by the Veil before the Last Mercy could finish making them, who does not know it (hidden knowledge: do not state or imply it in dialogue or UI until the owner approves a reveal plan). Where older sections below call these "proposals only," CANON.md supersedes them for all four locked items; locked is still not implemented, so keep the implementation-plan and verification rules in this file.
@@ -20,11 +20,11 @@ Current architectural boundaries:
 - `js/core/html-utils-v120.js` owns the shared HTML text/quoted-attribute escaping mapping. It is not an arbitrary-HTML sanitizer or URL validator.
 - `docs/ADDING_FEATURES.md`, `docs/ARCHITECTURE.md`, `docs/REFACTOR_PLAN.md`, and `docs/SAVE_DATA_CONTRACT.md` describe feature insertion points and compatibility rules.
 
-Validation status:
-- Playwright run #1425 passed the then-current full CI suite before the latest shared escaping/progression-status edits.
-- The latest code head should be checked against its own GitHub Actions run before claiming that those latest edits passed; PR-local Playwright uses the local test server.
-- The previous live GitHub Pages smoke attempt failed before reaching the game with `ERR_TUNNEL_CONNECTION_FAILED`. It made no character changes and did not modify storage. Live deployment is therefore still unverified.
-- Do not merge or deploy this draft without the owner's direction. Keep the remaining town/road browser smoke checks explicit rather than marking them complete based only on source review.
+Validation status (updated 2026-10-19):
+- GitHub Actions [run #1489](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39245185505) passed on PR head `d4da54d20c`: 93 passed, 0 failed, 1 skipped in about 3.2 minutes.
+- This branch-local Playwright run verified the Inn cost/affordability checks, expedition gold/XP/level-up/Token settlement and return, and the pure route-aware road-content resolver, alongside existing dialogue, side-contract, Dry Crossing, kickoff, combat, progression, audio-contract, and mobile-compatibility coverage.
+- The deployed GitHub Pages smoke step is skipped on pull-request runs, so this result does not verify the live site. A previous live smoke attempt failed before reaching the game with `ERR_TUNNEL_CONNECTION_FAILED`; it made no character changes and did not modify storage.
+- Keep PR #17 as a draft and do not merge or deploy without the owner's direction. Manual desktop/mobile review, deployed-build navigation, and audible-output verification remain pending.
 
 ## Current narrative direction — 2026-10-15
 
