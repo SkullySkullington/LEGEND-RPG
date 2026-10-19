@@ -10,6 +10,16 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [ ] Manually review the production title and new traveler-creation scene at desktop and mobile sizes, including focus states, portrait crops and reduced motion.
 - The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
 
+## Active opening preview — v0.20.40 / PR #27
+
+- [x] Preserve the anonymous soul-shaping creator and raster wordmark; keep the speaker visibly `???` and do not reveal the traveler's hidden nature.
+- [x] Start new travelers on the Old Road outside Ashmere; add choice-driven Oric dialogue, a scripted Blackroot Wolf ambush, and an ACT-only tutorial victory.
+- [x] Reuse the production expedition and guide the first route decision, landmark inspection, roadside search, waystation rest, and secured return.
+- [x] Add a title-menu News & Roadmap screen.
+- [ ] Pass the final-head desktop/mobile Playwright suite, inspect the actual browser flow at desktop and 390px width, then verify deploy and live smoke before merging.
+
+This is branch work only until those checks pass; `main` and existing saves remain untouched.
+
 ## Current foundation
 
 - [x] Guided traveler creation with visible selections, Back/Next persistence, and inline validation.
@@ -24,7 +34,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 
 The first-session story spine links the dead lantern, first conversations in Ashmere, preparation, the High Ridge/Reed Cut decision, expedition return, and Greyfen. It distinguishes implemented facts from proposed connective scenes and leaves central mysteries deliberately open. See [ASHMERE_STORY_SPINE.md](ASHMERE_STORY_SPINE.md). This is a narrative design document, not a claim that all proposed scenes are implemented.
 
-The companion [Opening Experience Plan](OPENING_EXPERIENCE_PLAN.md) lays out the anonymous soul-shaping creator (speaker shown only as ???), Oric's separate three-beat skippable arrival tutorial, expanded portrait-and-dialogue conversations with Mara/Brenn/Sella, the broader five-act story scaffold, and a first compact dungeon slice. PR #27 also refreshes the existing location-transition curtain with raster branding and scene art. All new story beats remain proposed and must not overrule [CANON.md](CANON.md).
+The companion [Opening Experience Plan](OPENING_EXPERIENCE_PLAN.md) now tracks the road-first opening preview: the anonymous soul-shaping creator (speaker shown only as ???), Oric's friend-or-foe conversation, a scripted ACT awakening, a guided first Old Road loop, and the first secured return. The in-game News & Roadmap page links to the maintained public update hub and clearly separates shipped notes from previews and plans. The longer-term plan still covers expanded portrait-and-dialogue conversations with Mara/Brenn/Sella, a broader story scaffold, and a first compact dungeon slice. All new story beats remain subject to [CANON.md](CANON.md).
 
 ## High-priority design brief: Opening Experience
 
