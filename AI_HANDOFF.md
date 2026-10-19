@@ -21,8 +21,8 @@ Current architectural boundaries:
 - `docs/ADDING_FEATURES.md`, `docs/ARCHITECTURE.md`, `docs/REFACTOR_PLAN.md`, and `docs/SAVE_DATA_CONTRACT.md` describe feature insertion points and compatibility rules.
 
 Validation status (updated 2026-10-19):
-- GitHub Actions [run #1491](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39246771624) passed on PR head `f85f4972e6`: 94 passed, 0 failed, 1 skipped in about 2.4 minutes.
-- The passing branch-local suite verified the observer-free return bridge alongside the Inn cost/affordability checks, expedition gold/XP/level-up/Token settlement and return, route-aware road-content resolver, NPC dialogue, exploration side-contract payout, Dry Crossing safe/risky paths, kickoff, combat, progression, audio behavior contracts, and mobile compatibility.
+- GitHub Actions [run #1492](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39247373869) passed on PR head `c02ad1ab00`: 95 passed, 0 failed, 1 skipped in about 3.2 minutes.
+- The passing branch-local suite verified the observer-free return bridge, Inn costs/affordability, expedition gold/XP/level-up/Token settlement and return, route-aware road-content resolution, NPC evidence dialogue, exploration/battle-win/secured-return side-contract payouts, Dry Crossing safe/risky paths, kickoff state resets, combat, progression, audio behavior contracts, and mobile compatibility.
 - The deployed GitHub Pages smoke step is skipped on pull-request runs, so this result does not verify the live site. A previous live smoke attempt failed before reaching the game with `ERR_TUNNEL_CONNECTION_FAILED`; it made no character changes and did not modify storage.
 - Keep PR #17 as a draft and do not merge or deploy without the owner's direction. Manual desktop/mobile review, deployed-build navigation, and audible-output verification remain pending.
 
