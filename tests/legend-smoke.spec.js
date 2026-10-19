@@ -1753,6 +1753,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.v094-beginning-card h2')).toHaveText('Warm Lights. Open Roads.');
     await expect(page.locator('.v094-summary')).toBeVisible();
     await expect(page.getByRole('button', { name: /Enter Ashmere/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Skip arrival briefing/i })).toBeVisible();
+  });
+
+  test('arrival briefing can be skipped directly to Ashmere', async ({ page }) => {
+    await startFreshCharacter(page, 'SkipArrivalQA', { stopAtIntro: true });
+    await page.getByRole('button', { name: /Skip arrival briefing/i }).click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
   });
 
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {
