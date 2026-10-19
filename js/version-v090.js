@@ -1,4 +1,4 @@
-// LEGEND v0.20.38 — traveler creation and Ashmere service-art presentation.
+// LEGEND v0.20.39 — anonymous soul-shaping creation and Ashmere service-art presentation.
 // Existing saves remain compatible; this file only synchronizes runtime identity.
 (() => {
   if (!window.LEGEND_DATA) return;
