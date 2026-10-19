@@ -8,6 +8,12 @@
 
 The product title is **LEGEND: The Awakening**. “The Unquiet Road” is a retired working subtitle and should not be used as current branding. The production title screen is being shaped as a fantasy RPG main menu: panoramic local art, the Awakening wordmark, a framed dark-fantasy menu panel, one obvious Continue/Begin action, and quieter New Traveler, Profile, Settings, and Credits options. Keep the production game playable and separate from the isolated Phaser reboot experiment.
 
+## Implementation direction update — 2026-10-19
+
+The opening is now being implemented on the production browser RPG in branch `feature/veil-road-opening-v140`, not in the isolated Phaser experiment. New travelers meet the unknown voice as `???` during memory-led creation, then begin on the Old Road outside Ashmere. Captain Oric finds them beneath the dead lantern and asks whether they are friend or foe. A response changes his dialogue and leaves a journal memory. A Blackroot Wolf ambushes him; the voice says “Awaken,” and the player uses the existing ACT command in the production combat screen to defeat the one-HP tutorial enemy. The player then learns the existing fork, clue inspection, search, travel, waystation rest, and secured return. The sequence leaves the player free to skip to Ashmere after the ambush.
+
+The production title now also has an in-game News & Roadmap page. Its notes distinguish shipped items from the opening preview and planned direction; it must not present planned features as shipped or invent live player activity. This is an active branch preview; desktop/mobile Playwright and live deployment checks remain release gates.
+
 ## North star
 
 The opening should feel like stepping into a living dark-fantasy RPG world. The player should not feel as though they are filling out a sequence of website forms before the game begins. The title screen should establish a world already in motion; character creation should let the player discover who they are through choices, objects, scenes, and consequences.
