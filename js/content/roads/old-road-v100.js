@@ -11,7 +11,10 @@
     scenes: [
       {name:'South Fork',type:'Crossroads',text:'Two muddy tracks leave Ashmere behind. The lanterns are still visible, but the road is already asking you to choose carefully.',icon:'↗'},
       {name:'Lantern Ditch',type:'Roadside Hazard',text:'A low ditch cuts across the old stone road. Cart tracks vanish into the reeds and something glimmers in the mud.',icon:'⌁'},
-      {name:"Wayfarer's Camp",type:'Rest & Craft',text:'A sheltered clearing sits just off the road. Old firewood is stacked beneath a canvas lean-to; someone planned to return.',icon:'⌂',camp:true},
+      {name:"Wayfarer's Camp",type:'Rest & Craft',text:'A sheltered clearing sits just off the road. Old firewood is stacked beneath a canvas lean-to; someone planned to return.',icon:'⌂',camp:true,routeVariants:{
+        ridge:{text:'The High Ridge drops into a sheltered clearing. Dry kindling and a line of pale stones make this a safer place to rest; the ridge markers continue beyond the firepit.'},
+        reeds:{text:'The Reed Cut spills into a sheltered clearing, but wet reeds cling to your boots and long tracks circle the firepit. The blue light is gone; something followed you out.'}
+      }},
       {name:'Blackroot Bend',type:'Dangerous Crossing',text:'Black roots buckle the road and the trees crowd close. The air is damp, and the next mile feels watched.',icon:'✦'},
       {name:'Reedwatch Shelter',type:'Rest & Craft',text:'An abandoned watch shelter overlooks the lowlands. Its roof holds, its hearth can be lit, and its worktable is still usable.',icon:'⌂',camp:true},
       {name:'Greyfen Approach',type:'Regional Threshold',text:'The road slopes toward Greyfen. Beyond the last marker, reeds and drowned stone stretch into the mist.',icon:'⚑'}
@@ -24,6 +27,14 @@
       {key:'reedwatch-locker',name:'The Shelter Locker',kind:'Forgotten Stores',text:'A swollen wooden locker sits beneath a shelter bench, held shut by a rusted catch.',action:'Open the locker',icon:'▣',short:'Locker',x:25,y:52},
       {key:'greyfen-marker',name:'The Greyfen Boundary Stone',kind:'Regional Clue',text:'The boundary stone is scored with route marks. A few fresh scratches point beyond the reeds.',action:'Record the route marks',icon:'⚑',short:'Boundary',x:78,y:48}
     ],
+    travelBeats: {
+      0: 'Ashmere’s lanterns shrink behind you as the fork opens into two uncertain tracks.',
+      1: 'The road dips sharply. Cart tracks disappear into reeds, and a small blue glimmer moves where the water should be still.',
+      2: 'The trees loosen their grip and a cold firepit appears through the brush. Someone made camp here—and left in a hurry.',
+      3: 'The sheltered clearing falls behind you. Black roots buckle the road ahead, and the old bell-mark is split across a stone at your feet.',
+      4: 'The roots give way to an abandoned watch shelter. Its roof still holds, but something has scratched at the door from the outside.',
+      5: 'The last road marker emerges from the mist. Greyfen begins beyond it, quiet enough that you can hear water moving under the stones.'
+    },
     checks: [
       {id:'scout', title:'A Split in the Mud', text:'Cart tracks divide around a flooded ditch. One path is quiet. The other smells like smoke.', skill:'survival', risk:'Moderate', success:'You read the mud and avoid a bad crossing.', fail:'The soft ground grabs your boots and costs supplies.'},
       {id:'help', title:'A Wagon Wheel Turns Alone', text:'A trader crouches beside a broken wheel, watching the trees more than the axle.', skill:'strength', risk:'Low', success:'You help repair the wheel and earn a grateful rumor.', fail:'The repair takes too long and the road grows colder.'},
