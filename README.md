@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.37 — Distinct Old Road enemy behaviors.** Road Goblins, Blackroot Wolves, and Lantern Wisps now follow different readable intent patterns in combat, while retaining the four-command battle UI and existing save/reward rules. The current production title remains the framed dark-fantasy RPG menu with a clear Continue/Begin action.
+**v0.20.38 — Immersive traveler creation and RPG presentation.** The next presentation slice replaces the SVG wordmark with the committed raster logo, places Captain Oric and his step-aware dialogue into character creation, and gives Ashmere/Greyfen destinations a consistent dedicated service-icon family. Existing choices and player records remain intact. PR #27 must pass CI and deployed smoke validation before this build is treated as released.
 
 ## Development Roadmap
 
