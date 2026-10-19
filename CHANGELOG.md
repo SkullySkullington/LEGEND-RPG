@@ -7,7 +7,7 @@
 - Add a skippable three-beat Oric arrival tutorial, with a scene title, portrait dialogue, and explicit first goals, following the anonymous soul-shaping sequence.
 - Give each creator step a short entrance transition; enhance road/travel curtain transitions with the raster wordmark, local Ashmere road art, and a readable location label. Reduced-motion preferences disable the new motion.
 - Add Playwright smoke coverage for creator dialogue, skip/continue behavior, illustrated transition branding, and local service icon mapping; update the roadmap and opening/tutorial/story plan.
-- **Verification is pending in PR #27.** Do not treat v0.20.38 as released until final-head Playwright CI, deployment, and the deployed smoke check pass.
+- **Verification is pending in PR #27.** Do not treat v0.20.39 as released until final-head Playwright CI, deployment, and the deployed smoke check pass.
 
 ---
 
