@@ -1293,9 +1293,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await page.getByRole('button', { name: /The Old Road/i }).click();
-    // The global transition curtain delays the underlying click and covers the
-    // scene during its reveal. Wait until it is fully clear before staging step 4.
-    await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+    // The transition shows the local raster title mark and destination label before
+    // handing control to the road screen; then it releases the UI.
+    const curtain = page.locator('#legend-scene-curtain');
+    await expect(curtain).toHaveClass(/is-covering/);
+    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\\.png/);
+    await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
+    await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
     )).toBe(true);
     await page.evaluate(() => {
