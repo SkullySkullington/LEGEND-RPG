@@ -96,7 +96,7 @@ function eventCheck(skill,bonus){
 }
 function battleEvent(){
  const pl=p();if(!pl)return;const s=ensure(pl),base=pick(road().enemies);if(!base)return eventCheck('survival',2);
- const enemy={...base,hp:rand(base.hp?.[0]||20,base.hp?.[1]||35)};enemy.maxHp=enemy.hp;enemy.intent='attack';
+ const enemy={...base,hp:rand(base.hp?.[0]||20,base.hp?.[1]||35)};enemy.maxHp=enemy.hp;
  s.battles=Number(s.battles||0)+1;save(pl);combat(enemy);
 }
 
