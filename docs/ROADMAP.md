@@ -10,15 +10,21 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [ ] Manually review the production title and new traveler-creation scene at desktop and mobile sizes, including focus states, portrait crops and reduced motion.
 - The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
 
-## Active opening preview — v0.20.40 / PR #27
+## Shipped opening — v0.20.40 / PR #27 (merged 2026-10-19)
 
 - [x] Preserve the anonymous soul-shaping creator and raster wordmark; keep the speaker visibly `???` and do not reveal the traveler's hidden nature.
 - [x] Start new travelers on the Old Road outside Ashmere; add choice-driven Oric dialogue, a scripted Blackroot Wolf ambush, and an ACT-only tutorial victory.
 - [x] Reuse the production expedition and guide the first route decision, landmark inspection, roadside search, waystation rest, and secured return.
 - [x] Add a title-menu News & Roadmap screen.
-- [ ] Pass the final-head desktop/mobile Playwright suite, inspect the actual browser flow at desktop and 390px width, then verify deploy and live smoke before merging.
+- [x] Pass final-head Playwright CI, including Desktop Chrome, Mobile Safari, and Mobile Chrome touch flows; verify GitHub Pages deployment and deployed smoke testing.
 
-This is branch work only until those checks pass; `main` and existing saves remain untouched.
+**Status:** v0.20.40 is merged and live. Existing save keys and player records remain the compatibility baseline. A separate manual mobile visual session was blocked by browser-preview service credits; automated touch coverage passed, and longer visual/accessibility review remains open.
+
+## Active gameplay preview — v0.20.41 / Blackroot Tracks Work Board contract
+
+- [x] Add a new survival-based trail-reading contract to the Ashmere Work Board using the existing choice and reward lifecycle.
+- [x] Add desktop regression coverage for the activity, saved job completion, and pay; add a 390px mobile touch test and no-horizontal-overflow check.
+- [ ] Pass final-head CI and review the new Work Board activity in the branch preview before merging.
 
 ## Current foundation
 
