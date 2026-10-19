@@ -19,7 +19,7 @@
 
   function stepProgress(step, label) {
     return '<div class="v094-stepper" aria-label="Character creation progress">' +
-      '<div class="v094-stepper-top"><span>YOUR TRAVELER</span><strong>STEP ' + step + ' OF 7</strong></div>' +
+      '<div class="v094-stepper-top"><span>THE SOUL TAKES SHAPE</span><strong>STEP ' + step + ' OF 7</strong></div>' +
       '<div class="v094-stepper-track"><i style="width:' + (step / 7 * 100) + '%"></i></div>' +
       '<p>' + escapeHtml(label) + '</p></div>';
   }
