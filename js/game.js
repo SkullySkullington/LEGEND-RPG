@@ -1,4 +1,4 @@
-// LEGEND: The Awakening v0.20.36 - classic RPG title menu refresh
+// LEGEND: The Awakening v0.20.38 - classic RPG title menu refresh
 // Owns title/start/settings/account entry. Ashmere is owned by ashmere-controller-v099.js.
 (() => {
   const S = () => window.LegendStorage || {};
@@ -19,7 +19,8 @@
       onNewTraveler: newTraveler,
       onAccount: account,
       onSettings: settings,
-      onCredits: credits
+      onCredits: credits,
+      onDispatches: dispatches
     };
   }
 
@@ -40,9 +41,18 @@
     return window.LegendTitleScreenV120?.openCredits?.();
   }
 
+  function dispatches(){
+    const screen = window.LegendTitleDispatchesV140;
+    if (typeof screen?.render === 'function') return screen.render({ root: root(), buildVersion: buildVersion(), onBack: title });
+    const host = root();
+    if (host) host.innerHTML = '<main class="settings09x"><div class="settings09x-wrap"><h1>News &amp; Roadmap unavailable</h1><p>Refresh before opening this page again.</p><button id="backTitle" type="button">Return to Title</button></div></main>';
+    host?.querySelector('#backTitle')?.addEventListener('click', title);
+  }
+
   function continueGame(){
     const player = loadPlayer();
     if(!player) return title();
+    if(typeof window.LegendRoadOpeningV140?.resume === 'function' && window.LegendRoadOpeningV140.resume(player)) return;
     const activeRegion=String(player.currentRegion||'Ashmere');
     if(['Ashmere','Greyfen'].includes(activeRegion)){
       player.town=activeRegion;
@@ -92,7 +102,7 @@
     container.querySelector('#backTitle')?.addEventListener('click', title);
   }
 
-  window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account, credits };
+  window.LegendGameBootstrap = { title, titleGate, continueGame, newTraveler, settings, account, credits, dispatches };
   // v0.20.26: enter directly on the actual title menu. The former Ashmere Gate
   // splash was a redundant extra screen before the title and required an extra click.
   const boot = () => title();
