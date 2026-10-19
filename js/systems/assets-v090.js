@@ -1,9 +1,9 @@
-// LEGEND v0.20.33 - Stable local production asset manifest.
+// LEGEND v0.20.38 - Stable local production asset manifest; title wordmark is raster artwork.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
-      main: 'assets/ui/logos/logo_legend_awakening_wordmark.svg',
+      main: 'assets/ui/logos/logo_legend_main_v1.png',
       emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
       emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
