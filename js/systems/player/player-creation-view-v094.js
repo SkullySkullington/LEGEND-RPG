@@ -1,4 +1,4 @@
-/* LEGEND v0.20.38 - immersive traveler creation with in-world guide dialogue.
+/* LEGEND v0.20.39 - anonymous presence and soul-shaping traveler creation.
  * Owns the reusable creation step markup and DOM binding. The creation controller
  * supplies the current state and callbacks; this module never writes player saves.
  */
@@ -49,7 +49,7 @@
 
   function stepProgress(step, label) {
     return '<div class="v094-stepper" aria-label="Character creation progress">' +
-      '<div class="v094-stepper-top"><span>YOUR TRAVELER</span><strong>STEP ' + step + ' OF 7</strong></div>' +
+      '<div class="v094-stepper-top"><span>SOUL TAKING SHAPE</span><strong>STEP ' + step + ' OF 7</strong></div>' +
       '<div class="v094-stepper-track"><i style="width:' + (step / 7 * 100) + '%"></i></div>' +
       '<p>' + escapeHtml(label) + '</p></div>';
   }
@@ -93,10 +93,10 @@
     mount(root,
       '<section class="v094-beginning-card v094-choice-scene"><div class="v094-kicker">' + escapeHtml(kicker) + '</div>' +
       stepProgress(step, progress) + '<h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(description) + '</p>' +
-      '<aside class="v094-scene-note"><span>FIELD NOTE · THE OLD ROAD</span><p>' + escapeHtml(scene) + '</p></aside>' +
+      '<aside class="v094-scene-note"><span>FRAGMENT · MEMORY</span><p>' + escapeHtml(scene) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'You decide what the ledger says about you. No one here has the right to choose that for you.', personality: 'A long road leaves a mark on everyone. Which instinct carried you through it?', origin: 'Everyone comes from somewhere. The question is what that life left in your hands.', class: 'Steel, bow, spell, or a clever hand. What do you trust when the Old Road stops asking politely?', keepsake: 'One small thing made it through the fog with you. Sometimes a keepsake is the only proof the past was real.' })[key] || scene, mode: 'creation' });
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'Look at the outline in the still water. No shape is more true than another. Which feels like you?', personality: 'A feeling returns before the memory that carried it. Which instinct still lives in you?', origin: 'A place rises behind your eyes—rain on a window, smoke in the air, the sense of having belonged. Where does the memory lead?', class: 'Your hands remember what your mind cannot. Steel, bow, spell, or a careful trick: which movement returns without thought?', keepsake: 'A small object hangs in the dark, threaded with warmth. It may be the first memory you trust. What do you reach for?' })[key] || scene, mode: 'creation' });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
