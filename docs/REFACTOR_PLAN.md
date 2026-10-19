@@ -1,6 +1,11 @@
 # LEGEND refactor plan
 Last updated: 2026-10-19
 
+## Post-refactor status
+
+The planned broad production architecture refactor is **complete and integrated**. Main commit [`8006281`](https://github.com/TDTRIA/LEGEND-RPG/commit/800628126545107d06d8a09a368a56dcd3568901) contains the architecture integration plus follow-up test guards. [Workflow #1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed: **97 branch-local tests passed, 0 failed, 1 skipped, and the dedicated live GitHub Pages smoke test passed 1/1**. Further work should be player-visible gameplay expansion, not more broad refactoring by default.
+
+
 ## The actual goal: a substantial, staged production refactor
 
 The goal is not simply to make `js/game.js` smaller. LEGEND's production code has accumulated overlapping controller generations, wide controllers that own many unrelated screens, implicit save/data contracts, and browser-global dependencies. Refactor those boundaries in small, reviewable slices while keeping the new active game path coherent. Legacy recovered-build saves are no longer supported, by project direction.
@@ -28,7 +33,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 ### 0. Baseline and contracts
 - [x] Record production script boundaries and critical storage keys in `docs/ARCHITECTURE.md`.
 - [x] Add `docs/ADDING_FEATURES.md` with the owning module, insertion points, save contracts, and validation path for common feature types.
-- [x] Start a low-risk settings-screen extraction as a first wiring/pattern exercise (draft PR #17; not deployed).
+- [x] Complete the production architecture refactor, including the settings/title/runtime, player creation/storage, Ashmere, regional travel, and Old Road module boundaries. Integrated through [PR #17](https://github.com/TDTRIA/LEGEND-RPG/pull/17), merged and deployed 2026-10-19.
 - [x] Retire and delete the v087 road controller and make `LegendRoadControllerV100` the only road entry point; move road data to `LegendRoadsV100`.
 - [x] Extract v100 enemy intent, class techniques, turn/damage/action rules, and victory rewards into `js/systems/road/road-combat-v100.js`; preserve the expedition controller entry point and inject state/audio/progression adapters.
 - [x] Extract battle markup and combat command binding into `js/systems/road/road-combat-view-v100.js`; have the view forward fight/act/item/guard/retreat commands to the combat service without owning combat mutations.
