@@ -6,7 +6,9 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.40 — Road-first opening preview (PR #27; verification pending).** The current branch keeps the anonymous `???` soul-shaping creator, raster LEGEND wordmark, and dedicated Ashmere/Greyfen service art, then starts new travelers beneath the dead lantern outside Ashmere. Captain Oric's dialogue is choice-driven; a Blackroot Wolf ambush teaches the production ACT command as **Awaken**, then hands into the existing guided Old Road loop and its first secured return. The title menu also includes News & Roadmap. This is still a draft branch, not a release; existing save keys and player records remain the compatibility baseline.
+**Production v0.20.40 is live.** The road-first opening now keeps the anonymous `???` soul-shaping creator, raster LEGEND wordmark and local Ashmere/Greyfen art, then starts new travelers beneath the dead lantern outside Ashmere. Captain Oric's choice-driven dialogue leads into the Blackroot Wolf ambush, where ACT / **Awaken** starts the first guided Old Road expedition. News & Roadmap is available from the title menu. PR #27 is merged, deployed, and passed main CI plus the live-site smoke test.
+
+**Next preview: v0.20.41 — Read the Blackroot Tracks.** This branch adds a survival-based field contract to Ashmere's Work Board, with trail-reading choices, clearer reward feedback, and a Road Herb bonus chance. It uses the existing job and save systems; no save migration is planned.
 
 ## Development Roadmap
 
