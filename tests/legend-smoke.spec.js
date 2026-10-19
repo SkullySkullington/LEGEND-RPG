@@ -1760,7 +1760,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await expect(page.getByRole('heading', { name: 'SoulMemoryQA', exact: true })).toBeVisible();
     await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/chosen|remembered/i);
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/name|shape|feeling/i);
     await expect(page.getByRole('button', { name: /Let Me Wake/i })).toBeVisible();
     await expect(page.locator('.v140-creation')).not.toContainText(/Captain Oric|the Veil/i);
   });
