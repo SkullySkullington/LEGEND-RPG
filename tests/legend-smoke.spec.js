@@ -560,6 +560,116 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(region).toBe('Greyfen');
   });
 
+  test('loadout, inventory, quest journal, and progression survive a real page reload', async ({ page }) => {
+    await startFreshCharacter(page, 'ReloadPersistenceQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const pl = rt.loadPlayer();
+      pl.weapon = 'stoneSword';
+      pl.ownedWeapons = pl.ownedWeapons || {};
+      pl.ownedWeapons.stoneSword = 1;
+      pl.inventory = pl.inventory || {};
+      pl.inventory.roadHerb = 7;
+      pl.inventory.potion = 2;
+      pl.questLog = Array.isArray(pl.questLog) ? pl.questLog : [];
+      pl.questLog.push('Playwright reload marker: Blackroot clues retained');
+      pl.stats = pl.stats || {};
+      pl.stats.roadVictories = 3;
+      rt.savePlayer(pl);
+      window.LegendGameBootstrap.title();
+    });
+
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.locator('#continue')).toContainText(/Return to Ashmere/i);
+    await page.locator('#continue').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+
+    const persisted = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      return {
+        region: pl.currentRegion,
+        weapon: pl.weapon,
+        ownedWeapon: Number(pl.ownedWeapons?.stoneSword || 0),
+        herbs: Number(pl.inventory?.roadHerb || 0),
+        potions: Number(pl.inventory?.potion || 0),
+        journalHasMarker: Array.isArray(pl.questLog) &&
+          pl.questLog.includes('Playwright reload marker: Blackroot clues retained'),
+        victories: Number(pl.stats?.roadVictories || 0)
+      };
+    });
+    expect(persisted.region).toBe('Ashmere');
+    expect(persisted.weapon).toBe('stoneSword');
+    expect(persisted.ownedWeapon).toBe(1);
+    expect(persisted.herbs).toBe(7);
+    expect(persisted.potions).toBe(2);
+    expect(persisted.journalHasMarker).toBe(true);
+    expect(persisted.victories).toBe(3);
+  });
+
+  test('combat defeat ends the expedition with no victory rewards and preserves the traveler', async ({ page }) => {
+    await startFreshCharacter(page, 'CombatDefeatQA');
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const pl = rt.loadPlayer();
+      pl.hp = 1;
+      pl.flags = pl.flags || {};
+      pl.flags.roadExpeditionV100 = {
+        ...(pl.flags.roadExpeditionV100 || {}),
+        stage: 0, pressure: 53, trips: 0, events: 0, finds: 0, battles: 0
+      };
+      rt.savePlayer(pl);
+    });
+
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
+      .getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await page.locator('#push').click();
+    await expect(page.locator('.exp100-combat')).toBeVisible();
+
+    const before = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      const road = pl.flags?.roadExpeditionV100 || {};
+      return {
+        pressure: Number(road.pressure || 0),
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        gold: Number(pl.gold || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    await page.locator('#strike').click();
+    await expect(page.locator('.exp100-outcome')).toBeVisible();
+    await expect(page.locator('.exp100-outcome')).toContainText('Driven Back');
+    await expect(page.locator('.exp100-outcome')).toContainText('badly wounded');
+
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      const road = pl.flags?.roadExpeditionV100 || {};
+      return {
+        hp: Number(pl.hp),
+        pressure: Number(road.pressure || 0),
+        stage: Number(road.stage || 0),
+        victories: Number(pl.stats?.roadVictories || 0),
+        defeated: Number(pl.stats?.monstersDefeated || 0),
+        gold: Number(pl.gold || 0),
+        inventory: { ...(pl.inventory || {}) }
+      };
+    });
+    expect(after.hp).toBe(1);
+    expect(after.stage).toBe(0);
+    expect(after.pressure).toBe(Math.min(100, before.pressure + 12));
+    expect(after.victories).toBe(before.victories);
+    expect(after.defeated).toBe(before.defeated);
+    expect(after.gold).toBe(before.gold);
+    expect(after.inventory).toEqual(before.inventory);
+
+    await page.locator('#outcomeReturn').click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.LegendRuntimeV120.loadPlayer().hp)).toBe(1);
+  });
+
   test('Greyfen work board offers lowland-specific contracts', async ({ page }) => {
     await startFreshCharacter(page, 'GreyfenWorkQA');
     await page.evaluate(() => {

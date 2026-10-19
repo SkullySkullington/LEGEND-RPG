@@ -81,7 +81,27 @@ test('Crafting Bench shows ingredients, recipe feedback, and armor comparisons',
   await page.locator('[data-forge-tab="craft"]').click();
   await expect(page.locator('.ash099-craft-card')).toHaveCount(6);
   await expect(page.locator('.ash099-craft-ingredient img').first()).toBeVisible();
+  const beforeCraft = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    return {
+      roadHerb: Number(player.inventory?.roadHerb || 0),
+      clothScrap: Number(player.inventory?.clothScrap || 0),
+      roadPoultice: Number(player.inventory?.roadPoultice || 0)
+    };
+  });
   await page.locator('[data-craft="roadPoultice"]').click();
   await expect(page.locator('.ash099-craft-feedback')).toContainText('Crafted Road Poultice');
+  const afterCraft = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    return {
+      roadHerb: Number(player.inventory?.roadHerb || 0),
+      clothScrap: Number(player.inventory?.clothScrap || 0),
+      roadPoultice: Number(player.inventory?.roadPoultice || 0)
+    };
+  });
+  expect(afterCraft.roadHerb).toBe(beforeCraft.roadHerb - 2);
+  expect(afterCraft.clothScrap).toBe(beforeCraft.clothScrap - 1);
+  expect(afterCraft.roadPoultice).toBe(beforeCraft.roadPoultice + 1);
+  await expect(page.locator('[data-craft="roadPoultice"]')).toBeDisabled();
   expect(errors).toEqual([]);
 });
