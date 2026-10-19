@@ -1,7 +1,7 @@
 /* LEGEND v0.20.36 - Old Road action resolution.
- * Owns travel/search decisions, pressure changes, road checks, resource finds and
- * random encounter selection. Rendering, persistence, progression data and combat
- * are injected so new road actions can be added without widening the controller.
+ * Owns expedition kickoff, travel/search decisions, pressure changes, road checks,
+ * resource finds, and random encounter selection. Narrative copy lives in the road
+ * content catalog; rendering, persistence, progression data and combat are injected.
  */
 (() => {
   function create(context = {}) {
