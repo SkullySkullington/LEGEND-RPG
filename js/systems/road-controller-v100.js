@@ -70,8 +70,9 @@ function areaForStage(stage){
  const index=clamp(Number(stage||0),0,5),areas=road().scenes||[];
  const area={...(areas[index]||{name:'Old Road',type:'Road',text:'The road disappears into the mist.',icon:'↗'})};
  const pl=p(),s=pl?ensure(pl):{};
- if(index===2&&s.routeChoice==='ridge')area.text='The High Ridge drops into a sheltered clearing. Dry kindling and a line of pale stones make this a safer place to rest; the ridge markers continue beyond the firepit.';
- if(index===2&&s.routeChoice==='reeds')area.text='The Reed Cut spills into a sheltered clearing, but wet reeds cling to your boots and long tracks circle the firepit. The blue light is gone; something followed you out.';
+ const variant=area.routeVariants?.[s.routeChoice];
+ if(variant&&typeof variant==='object')Object.assign(area,variant);
+ delete area.routeVariants;
  return area;
 }
 function renderExpedition(note=''){return roadExpeditionScreen?.render(note);}
