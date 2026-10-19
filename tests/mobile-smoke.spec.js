@@ -36,11 +36,28 @@ async function tap(page, locator) {
     return;
   }
 
-  await locator.evaluate(el => el.scrollIntoView({
-    block: 'center',
-    inline: 'nearest',
-    behavior: 'auto'
-  }));
+  await locator.evaluate(el => {
+    const centerY = () => {
+      const r = el.getBoundingClientRect();
+      return r.top + r.height / 2;
+    };
+    el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+
+    // Mobile WebKit can leave a tall combat action below the visual viewport
+    // after scrollIntoView when nested game containers are being replaced.
+    // Explicitly move the document scroller when the target is still off-screen.
+    const delta = centerY() - window.innerHeight / 2;
+    if (delta > 2 || delta < -2) {
+      const scroller = document.scrollingElement || document.documentElement;
+      scroller.scrollTop = Math.max(0, scroller.scrollTop + delta);
+      document.documentElement.scrollTop = Math.max(0, document.documentElement.scrollTop + delta);
+      document.body.scrollTop = Math.max(0, document.body.scrollTop + delta);
+      window.scrollTo(0, Math.max(0, window.scrollY + delta));
+    }
+
+    el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+  });
+  await page.waitForTimeout(50);
   const target = await locator.evaluate(el => {
     const r = el.getBoundingClientRect();
     const x = r.left + r.width / 2;
