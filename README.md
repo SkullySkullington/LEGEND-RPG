@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.37 — Distinct Old Road enemy behaviors.** Road Goblins, Blackroot Wolves, and Lantern Wisps now follow different readable intent patterns in combat, while retaining the four-command battle UI and existing save/reward rules. The current production title remains the framed dark-fantasy RPG menu with a clear Continue/Begin action.
+**v0.20.38 — Veil-led opening and first-road tutorial preview.** The active branch adds memory-led creation with `???`, Oric finding the traveler beneath a dead lantern, a scripted ACT awakening, a guided Old Road expedition, and an in-game News & Roadmap screen. The branch is still in review and has not been merged or deployed. Existing production mechanics and save storage remain the compatibility baseline.
 
 ## Development Roadmap
 
