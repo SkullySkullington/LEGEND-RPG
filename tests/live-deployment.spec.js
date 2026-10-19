@@ -122,6 +122,8 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     await expect(page.locator('.ash099-job-track')).toHaveCount(0);
     await page.locator('[data-job-choice="0"]').click();
     await expect(page.locator('#jobResult')).toContainText(/recognize Oric/i);
+    // Job results intentionally remain visible until the player chooses another job.
+    await page.locator('#backJobs').click();
     await expect(page.locator('[data-job-open="crates"]')).toBeVisible({ timeout: 8_000 });
 
     // The memory job previews a sequence and accepts it in the correct order.
@@ -132,6 +134,8 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
       await page.locator('[data-job-sequence="' + action + '"]').click();
     }
     await expect(page.locator('#jobResult')).toContainText(/repeated the full handling sequence/i);
+    // The completed result stays on the activity screen until explicit navigation.
+    await page.locator('#backJobs').click();
     await expect(page.locator('[data-job-open="wood"]')).toBeVisible({ timeout: 8_000 });
 
     // Forge illustrations, meaningful passives, and the Crafting Bench entry must render.
