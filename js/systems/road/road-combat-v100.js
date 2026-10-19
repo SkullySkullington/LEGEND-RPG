@@ -1,4 +1,4 @@
-/* LEGEND turn-based combat module.
+/* LEGEND v0.20.38 turn-based combat module.
  * Combat choices/rewards are separated from road traversal. Player state, save,
  * expedition return and audiovisual services are supplied by the road controller.
  * Gameplay formulas and strings are preserved from road-controller-v100.js.
@@ -104,6 +104,7 @@ function toggleBattleSound(){
 
 function combatAction(enemy,action){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
+ if(enemy.openingEncounterV140&&action!=='skill')return combat(enemy,'???: “Awaken.” Use ACT to answer the voice.');
  if(action==='skill'&&Number(enemy.skillCooldown||0)>0)return combat(enemy,'Your class technique is recovering. Choose another command; this does not consume your turn.');
  const guarding=action==='guard';
  playBattleFx(action==='guard'?'guard':action==='item'||action==='poultice'?'heal':action==='skill'?'magic':action==='heavy'?'heavy':'swing');
@@ -161,6 +162,14 @@ function win(enemy){
  stopBattleMusic();playBattleFx('victory');tone('success');
  const pl=p();if(!pl)return;const s=ensure(pl);inv(pl,enemy.reward||'fur',1);
  const progress=context.awardProgress?.(pl,25+Math.min(20,Number(s.stage||0)*4));
+ if(enemy.openingEncounterV140){
+  pl.stats=pl.stats||{};
+  pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;
+  pl.stats.roadVictories=Number(pl.stats.roadVictories||0)+1;
+  save(pl);
+  if(typeof context.onOpeningEncounterWin==='function')return context.onOpeningEncounterWin(pl,enemy,progress);
+  return outcome('Oric is still standing','The opening creature falls, but the story handoff did not load. Your victory and rewards are saved.','OPENING ENCOUNTER');
+ }
  s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;pl.stats.roadVictories=Number(pl.stats.roadVictories||0)+1;
  save(pl);renderExpedition(enemy.name+' defeated. You recover '+itemName(enemy.reward||'fur')+'. '+(progress?'XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'. ':'')+'You continue along the Old Road.');
 }
