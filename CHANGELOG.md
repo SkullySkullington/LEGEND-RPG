@@ -1,4 +1,14 @@
-## v0.20.40 — Road-first opening and guided first expedition (PR #27; verification pending)
+## v0.20.41 — Blackroot Tracks Work Board field contract (preview)
+
+- Add **Read the Blackroot Tracks** to Ashmere's Work Board as a survival-based field activity about recording track depth, stride, and direction before the mud is disturbed.
+- Use a dedicated “Trail reading” activity label and existing choice-driven challenge/reward lifecycle, with 52g base pay and a possible Road Herb bonus. A clean reading gives full reward credit; poor fieldwork pays less.
+- Add desktop regression coverage for the new card, activity, reward result, and saved job count; add a 390px mobile touch test that checks the activity remains inside the viewport.
+- Bump the displayed build to v0.20.41 and refresh only the affected Work Board/news asset cache keys. Preserve the current save key and player record schema.
+- **Verification pending on this branch:** final-head Playwright and deployed review must pass before release.
+
+---
+
+## v0.20.40 — Road-first opening and guided first expedition (shipped 2026-10-19)
 - Keep the v0.20.39 anonymous soul-shaping creator, raster wordmark, dedicated service art, and scene-transition presentation as the visual foundation.
 - After **Let Me Wake**, begin beneath the dead lantern outside Ashmere. Captain Oric asks whether the traveler is friend or foe and offers three response tones; the selected response is saved as a memory and changes his aftermath dialogue.
 - Have a Blackroot Wolf ambush Oric and require the production battle ACT command, labeled **Awaken**, to win the one-HP scripted tutorial encounter. Keep other combat formulas and normal encounters unchanged.
@@ -6,7 +16,7 @@
 - Add the in-game **News & Roadmap** screen with dated development notes, clearly labeled shipped/preview/in-progress status, and links to the maintained development updates, devlog, and GitHub project.
 - Preserve the existing save key and player record schema. Active opening progress is stored under `flags.openingRoadV140`; unfinished encounters resume from Continue Journey.
 - Add desktop/mobile Playwright coverage for the opening encounter, ACT handoff, full expedition, return, resume behavior, and News & Roadmap.
-- **Verification is pending.** Do not merge or call this released until final-head Playwright CI, desktop/mobile visual review, deployment, and deployed smoke checks pass.
+- **Verified and shipped:** final-head Playwright CI passed 111 tests with 1 skip; the main-branch Playwright suite and deployed GitHub Pages smoke test passed after merge. The dedicated 390px mobile touch suite passed on Mobile Safari and Mobile Chrome. Manual longer-session visual review remains follow-up QA.
 
 ---
 
