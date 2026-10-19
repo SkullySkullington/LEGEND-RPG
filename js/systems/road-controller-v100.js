@@ -115,7 +115,8 @@ function roadCombatContext(){
   playBattleFx,
   tone,
   toggleSound:()=>roadAudio().toggleSound?.(),
-  awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount)
+  awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
+  onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress)
  };
 }
 function combat(enemy,note=''){
