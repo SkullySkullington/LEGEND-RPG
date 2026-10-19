@@ -191,4 +191,56 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     await expect(page.locator('.exp100-combat')).toBeVisible();
     await expectNoHorizontalOverflow(page);
   });
+
+  test('road-opening tutorial route and discovery fit mobile without overflow', async ({ page }) => {
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openTitle(page);
+    await expectNoHorizontalOverflow(page);
+
+    await tap(page, page.getByRole('button', { name: /Begin Your Journey/i }));
+    await page.locator('#v094Name').fill('MobileOpeningRoadQA');
+    await tap(page, page.locator('#v094Next'));
+    await tap(page, page.locator('[data-gender="unspoken"]'));
+    await tap(page, page.locator('#v094Next'));
+    await tap(page, page.locator('[data-personality="kind"]'));
+    await tap(page, page.locator('#v094Next'));
+    await tap(page, page.locator('[data-origin]').first());
+    await tap(page, page.locator('#v094Next'));
+    await tap(page, page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }));
+    await tap(page, page.locator('#v094Next'));
+    await tap(page, page.locator('[data-keepsake="Old Map"]'));
+    await tap(page, page.locator('#v094Next'));
+    await expect(page.getByRole('heading', { name: 'MobileOpeningRoadQA', exact: true })).toBeVisible();
+    await tap(page, page.getByRole('button', { name: /Let Me Wake/i }));
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+
+    await tap(page, page.locator('[data-oric-response="honest"]'));
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await tap(page, page.locator('#skill'));
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+
+    await tap(page, page.getByRole('button', { name: 'Follow the road' }));
+    await expect(page.locator('.exp100-wrap')).toBeVisible();
+    await expect(page.locator('.opening-road-v140-guide')).toContainText('The road forks');
+    await expect(page.locator('#routeRidge')).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+
+    await tap(page, page.locator('#routeRidge'));
+    await expect(page.locator('#push')).toBeDisabled();
+    await tap(page, page.locator('.exp100-hotspot-find'));
+    await expect(page.locator('#poiInspect')).toBeVisible();
+    await tap(page, page.locator('#poiInspect'));
+    await expect(page.locator('#search')).toBeEnabled();
+    await tap(page, page.locator('#search'));
+    await expect(page.locator('#push')).toBeEnabled();
+    await tap(page, page.locator('#push'));
+    await expect(page.locator('.exp100-head h1')).toHaveText('Lantern Ditch');
+    await expectNoHorizontalOverflow(page);
+    expect(errors).toEqual([]);
+  });
+
 });
