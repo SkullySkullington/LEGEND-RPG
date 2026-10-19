@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - traveler creation step catalog.
+/* LEGEND v0.20.38 — soul-shaping and memory-recovery creation step catalog.
  * Owns step copy and transforms current class/origin/keepsake catalog records into
  * choice cards. State, navigation callbacks, view binding and record persistence
  * stay with the existing creation controller.
@@ -7,35 +7,35 @@
   const definitions = Object.freeze({
     gender: Object.freeze({
       step: 2,
-      kicker: 'Identity',
-      title: 'How does Ashmere know you?',
-      description: 'This shapes how your traveler is described, never what you are allowed to become.',
+       kicker: 'Form',
+      title: 'What shape returns to you?',
+      description: 'A silhouette rises through the dark. Choose the form that feels remembered—or the one you want to keep.',
       key: 'gender',
       nextLabel: 'Choose Personality',
-      progress: 'Decide what the world sees first. You can revisit the details before setting out.',
-      scene: 'The gatekeeper lifts a lantern, waiting for a name and a face to match. There is no correct answer—only the one that feels like yours.',
+      progress: 'The body is the first outline of a self.',
+      scene: 'Dark water reflects a shape before there is a face to it. It seems familiar. Does it feel like you?',
       getItems: context => context.genderOptions || []
     }),
     personality: Object.freeze({
       step: 3,
-      kicker: 'Temperament',
-      title: 'What survived with you?',
-      description: 'Your instinct gives a small starting bonus and colors the way you meet the world.',
+      kicker: 'Feeling',
+      title: 'Which feeling stayed?',
+      description: 'A feeling returns before its memory. Your instinct will shape how you meet the world.',
       key: 'personality',
       nextLabel: 'Remember Your Past',
-      progress: 'Every survivor has a habit that kept them alive.',
-      scene: 'A memory comes back in a flash: a hand reaching out, a door closing, a choice made in the dark. Which instinct did you carry through?',
+      progress: 'Something in you remembers how it endured.',
+      scene: 'A hand reaching out. A door closing. A choice in the dark. You cannot place the moment, but the feeling remains.',
       getItems: context => context.personalityOptions || []
     }),
     origin: Object.freeze({
       step: 4,
-      kicker: 'Origins',
-      title: 'Who were you before?',
-      description: 'Your past is part of your story, not a cage. Origins can add skills, supplies, or a little coin.',
+      kicker: 'Memory',
+      title: 'Where does the memory begin?',
+      description: 'A place comes into focus at the edge of waking. It may be a memory, or the shape of one.',
       key: 'origin',
       nextLabel: 'Choose Your Calling',
-      progress: 'Before the road found you, you belonged somewhere—or you made your own way.',
-      scene: 'Rain runs down the old milestone. For a moment you remember a place, a voice, and the reason you left. What part of that life still travels with you?',
+      progress: 'The edges of a life return before the whole story.',
+      scene: 'Rain on a window. Smoke in the air. The sensation of belonging somewhere. No face comes with the memory yet. Where does it lead?', 
       getItems: context => Object.entries(context.data?.origins || {}).map(([id, record]) => ({
         id,
         label: id,
@@ -45,13 +45,13 @@
     }),
     class: Object.freeze({
       step: 5,
-      kicker: 'Calling',
-      title: 'How do you survive?',
-      description: 'Choose the playstyle that sounds fun. Each class begins with its own strengths and a distinct battle technique.',
+      kicker: 'Instinct',
+      title: 'What do your hands remember?',
+      description: 'The mind may lose its story; muscle and habit remain. Choose the skill that feels most familiar.',
       key: 'class',
       nextLabel: 'Choose a Keepsake',
-      progress: 'You are not choosing your whole future—just the first tool you trust.',
-      scene: 'At the edge of the gate, the guard asks what you can do when the road turns cruel. You think of the skill you reach for before fear can answer.',
+      progress: 'Muscle, habit, and instinct outlast a name.',
+      scene: 'Steel. Bow. Spell. A careful trick. The memory of movement rises before the reason for it. Which motion returns without thought?', 
       getItems: context => Object.entries(context.data?.classes || {}).map(([id, record]) => ({
         id,
         label: id,
@@ -61,13 +61,13 @@
     }),
     keepsake: Object.freeze({
       step: 6,
-      kicker: 'Keepsake',
-      title: 'What did you refuse to leave behind?',
-      description: 'A small object can carry a memory—or give you an edge when the road gets hard.',
+      kicker: 'The Last Fragment',
+      title: 'What survived the forgetting?',
+      description: 'A small object catches the light in the dark. It may be a keepsake, or the first memory you can hold.',
       key: 'keepsake',
       nextLabel: 'Review Your Story',
-      progress: 'One last piece of your old life remains in your pack.',
-      scene: 'Your hand finds something familiar beneath the wet cloth in your pack. For the first time since waking, the fog feels a little less empty.',
+      progress: 'A single object catches the light in the dark.',
+      scene: 'You cannot remember packing it. Still, your hand knows how to reach for it. What do you choose to carry?', 
       getItems: context => Object.entries(context.data?.keepsakes || {}).map(([id, record]) => ({
         id,
         label: id,
