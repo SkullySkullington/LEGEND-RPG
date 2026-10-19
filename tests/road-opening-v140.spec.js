@@ -143,6 +143,6 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     expect(indexSource.indexOf('js/systems/road-controller-v100.js')).toBeLessThan(indexSource.indexOf('js/systems/road-opening-v140.js'));
     expect(indexSource).toContain('css/opening-road-v140.css');
     expect(indexSource).toContain('css/title-dispatches-v140.css');
-    expect(indexSource).toContain("SAVE_KEY: 'legend-roads-of-ashmere-v09'");
+    expect(versionSource).toContain("SAVE_KEY: 'legend-roads-of-ashmere-v09'");
   });
 });
