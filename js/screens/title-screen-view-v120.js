@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - active title menu view.
+/* LEGEND v0.20.38 - active title menu view with committed raster logo.
  * Owns the main title screen markup and CSS/accessibility hooks.
  * Title state and all menu actions are passed in; audio and navigation stay outside.
  */
@@ -34,7 +34,7 @@
           <section class="v120-title-hero" aria-labelledby="legendTitleAccessibleName">
             <h1 class="v120-title-accessible-name" id="legendTitleAccessibleName">LEGEND: The Awakening</h1>
             <div class="portal100-kicker">A DARK FANTASY RPG</div>
-            <img class="v120-legend-logo" src="${esc(logoImage || 'assets/ui/logos/logo_legend_awakening_wordmark.svg')}" alt="" aria-hidden="true" decoding="async" onerror="this.style.display='none'">
+            <img class="v120-legend-logo" src="${esc(logoImage || 'assets/ui/logos/logo_legend_main_v1.png')}" alt="" aria-hidden="true" decoding="async" onerror="this.style.display='none'">
             <p>Monsters press against the borders. Old magic stirs beneath a wounded realm.</p>
             <div class="v120-divider"><span></span><b>THE BORDERLANDS ARE WAKING</b><span></span></div>
             <div class="v120-traveler-line">
