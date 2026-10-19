@@ -24,7 +24,7 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 
 | File | Size (source lines) | Responsibility currently mixed together | Refactor direction |
 | --- | ---: | --- | --- |
-| `js/systems/ashmere-controller-v099.js` | 171 lines | Town route façade, shared feature contexts, and runtime initialization | Keep public routes stable and delegate navigation and feature behavior to focused modules |
+| `js/systems/ashmere-controller-v099.js` | 7.8 KB / 182 lines | Town route façade, shared feature contexts, and runtime initialization | Keep public routes stable and delegate navigation and feature behavior to focused modules |
 | `js/systems/town/ashmere-assets-v099.js` | 95 lines | Item ID aliases, item display names, region/art lookups, equipment names, and icon markup | Own town presentation/catalog helper mappings via injected data/assets/player accessors |
 | `js/systems/town/ashmere-view-v099.js` | 84 lines | Town framing, header/back controls, and pointer/click UI-audio bindings | Own the shared screen shell; receive player, image, icon, and navigation adapters through `create()` |
 | `js/systems/town/ashmere-routes-v099.js` | 64 lines | Ashmere/Greyfen route-board copy and destination cards | Own route-board presentation; route button handling stays in the facade dispatcher |
