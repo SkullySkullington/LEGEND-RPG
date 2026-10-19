@@ -1,4 +1,4 @@
-// LEGEND v0.20.38 — traveler creation and dedicated Ashmere service icon art.
+// LEGEND v0.20.39 — anonymous soul-shaping creation and dedicated Ashmere service icon art.
 window.LEGEND_DATA = {
   VERSION: 'v0.20.38',
   SAVE_KEY: 'legend-roads-of-ashmere-v09',
