@@ -1,6 +1,6 @@
 {
   "name": "legend-roads-of-ashmere",
-  "version": "0.20.36",
+  "version": "0.20.40",
   "private": true,
   "description": "Browser regression tests and utilities for LEGEND: The Awakening.",
   "scripts": {
