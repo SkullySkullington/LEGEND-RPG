@@ -56,7 +56,16 @@ function scene(stage=0,interactive=true){return roadView?.scene(stage,interactiv
 function shell(body){return roadView?.shell(body);}
 function bindHotspotDelegation(){return roadView?.bindHotspotDelegation();}
 function header(pl,s,kicker,title,text){return roadView?.header(pl,s,kicker,title,text)||'';}
-function start(){stopBattleMusic();roadDiscovery.hide();const pl=p();if(!pl)return;const s=ensure(pl);s.stage=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;if(lanternWard)pl.inventory.wispLanternWick--;s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);s.trips=Number(s.trips||0)+1;pl.flags.firstRoadEvent=true;save(pl);renderExpedition(lanternWard?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.':'You leave Ashmere with a clear route and a reason to come back.')}
+function start(){
+ stopBattleMusic();
+ roadDiscovery.hide();
+ if(typeof roadActions?.start!=='function'){
+  return renderExpedition('The expedition action service did not load. Return to Ashmere and refresh before trying again.');
+ }
+ const openingNote=roadActions.start();
+ if(openingNote===null)return;
+ return renderExpedition(openingNote);
+}
 function areaForStage(stage){
  const index=clamp(Number(stage||0),0,5),areas=road().scenes||[];
  const area={...(areas[index]||{name:'Old Road',type:'Road',text:'The road disappears into the mist.',icon:'↗'})};
