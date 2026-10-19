@@ -13,7 +13,7 @@ The world should be uneasy but humane. Ashmere is a warm refuge; roads carry unc
 
 ### 1. Outside Ashmere — create a traveler
 
-**Implemented in the v0.20.38 presentation slice, pending CI and deployed verification:** retain the existing seven-step record builder, visible choices, class portrait art and save contracts, but place the form in a scene with Captain Oric's portrait and changing dialogue.
+**In PR #27 (v0.20.38 presentation slice; CI and deployed verification pending):** retain the existing seven-step record builder, visible choices, class portrait art and save contracts, but place the form in a scene with Captain Oric's portrait and changing dialogue. The same slice adds a skippable three-beat arrival briefing and gives the existing shared transition curtain a scene-art background, raster wordmark and location title.
 
 Oric speaks like a tired watch captain rather than a narrator explaining the mythology. He asks what to enter in the ledger, what instinct carried the traveler, what past they choose to share, what they can do, and what keepsake survived the fog. He does not claim to know the traveler's history and does not suggest a hidden explanation for the dead lantern or the traveler's existence.
 
@@ -108,9 +108,9 @@ Dungeons can uncover traces of the old war and the agreements between kingdoms a
 
 ## Implementation order
 
-1. **Traveler creation + hub service art** — in PR #27; require Playwright and deployed smoke validation before merge.
-2. **First-session tutorial conversations** — Oric, Mara, Brenn and Sella; explicit tutorial steps, skip/replay and small player choices.
-3. **Scene loading and transitions** — fade, location splash, reduced-motion behavior, asset fallback and timing tests.
+1. **Traveler creation + hub service art** — in PR #27; initial three-beat Oric briefing and first illustrated transition curtain are included. Require Playwright and deployed smoke validation before merge.
+2. **Full first-session dialogue tutorial** — add replayable conversations and small choices for Oric, Mara, Brenn and Sella, building on the short arrival briefing.
+3. **Scene/loading polish** — deepen the shared location transition into dedicated screen/loading art where useful; verify asset fallbacks, timing, skip paths and reduced-motion behavior.
 4. **First dungeon vertical slice** — three-to-five-room loop with one encounter, one decision, one find and persistent return consequences.
 5. **Regional story expansion** — connect the crossing evidence to the old agreement while preserving player choice and the locked reveal guardrails.
 
