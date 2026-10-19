@@ -1,3 +1,13 @@
+## v0.20.38 — Immersive traveler creation and Ashmere service art (PR #27; verification pending)
+- Place the existing seven-step traveler creator inside an Ashmere gate scene, with Captain Oric portrait and dialogue that reacts to the name, identity, temperament, origin, class and keepsake stages.
+- Retain current class portraits, choice IDs, creation callbacks, starting-record builder, and the existing save contract; this is a presentation pass, not a player-record migration.
+- Use the committed raster LEGEND wordmark in the title and traveler creator instead of the SVG wordmark.
+- Render Ashmere/Greyfen destination cards, route strip, and town navigation with dedicated local service-icon art, in consistent contained image wells.
+- Add regression coverage for the new creation scene and local service icon mapping; update the roadmap and opening/tutorial/story plan.
+- **Verification is pending in PR #27.** Do not treat v0.20.38 as released until final-head Playwright CI, deployment, and the deployed smoke check pass.
+
+---
+
 ## v0.20.37 — Distinct Old Road enemy intent patterns
 - Give the Road Goblin, Blackroot Wolf, and Lantern Wisp separate, data-driven intent patterns using the existing Attack, Heavy Wind-up, and Guard Break telegraphs.
 - Let the chosen enemy's pattern determine the opening tell and subsequent combat turns, so players can learn different encounter rhythms without another command row.
