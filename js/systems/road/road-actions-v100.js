@@ -31,6 +31,24 @@
     const p=getPlayer, save=savePlayer, ensure=ensureState, road=getRoadData;
     const score=getScore, inv=addInventory, rand=randomInt, clamp=clampValue;
     const areaForStage=getAreaForStage;
+function startExpedition(){
+ const pl=p();if(!pl)return null;
+ const s=ensure(pl);
+ s.stage=0;
+ s.poiUsed={};
+ s.searchUsed={};
+ s.readUsed={};
+ s.routeChoice=null;
+ const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;
+ if(lanternWard)pl.inventory.wispLanternWick--;
+ s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);
+ s.trips=Number(s.trips||0)+1;
+ pl.flags.firstRoadEvent=true;
+ save(pl);
+ return lanternWard
+  ?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.'
+  :'You leave Ashmere with a clear route and a reason to come back.';
+}
 function resolveChoice(kind){
  const pl=p();if(!pl)return;const s=ensure(pl),stageBefore=s.stage,area=areaForStage(stageBefore);
  s.events=Number(s.events||0)+1;
@@ -91,7 +109,7 @@ function battleEvent(){
  s.battles=Number(s.battles||0)+1;save(pl);combat(enemy);
 }
 
-    return Object.freeze({resolveChoice});
+    return Object.freeze({start: startExpedition, resolveChoice});
   }
   window.LegendRoadActionsV100=Object.freeze({create});
 })();
