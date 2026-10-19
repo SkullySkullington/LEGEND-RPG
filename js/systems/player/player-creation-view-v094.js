@@ -16,7 +16,7 @@
     const step = Math.max(1, Math.min(7, Number(options.step || 1)));
     const guideText = options.guideText || 'A name is a small beginning. What do you remember?';
     const speaker = isArrival ? 'CAPTAIN ORIC' : '???';
-    const role = isArrival ? 'GATE CAPTAIN' : 'A VOICE WITHOUT A NAME';
+    const role = isArrival ? 'GATE CAPTAIN' : '';
     const visual = isArrival
       ? '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async"><span>ASHMERE WATCH</span></div>'
       : '<div class="v140-guide-portrait-frame v140-presence-frame" aria-hidden="true"><div class="v140-presence-haze"></div><div class="v140-presence-ring"></div><img class="v140-presence-mark" src="' + escapeHtml(presenceMark) + '" alt="" decoding="async"><span class="v140-presence-glyph">???</span><small class="v140-presence-caption">MEMORY · SHAPE · SELF</small></div>';
@@ -27,7 +27,7 @@
       '<div class="v140-creation-layout">' +
         '<aside class="v140-guide-pane" aria-label="' + (isArrival ? 'Captain Oric at the Ashmere gate' : 'An unnamed voice in the darkness') + '">' +
           visual +
-          '<section class="v140-dialogue-box" role="region" aria-live="polite" aria-label="' + (isArrival ? 'Captain Oric dialogue' : 'Unknown speaker dialogue') + '">' +
+          '<section class="v140-dialogue-box" role="region" aria-live="polite" aria-label="' + (isArrival ? 'Captain Oric dialogue' : '??? dialogue') + '">' +
             '<div class="v140-dialogue-speaker"><strong>' + speaker + '</strong><span>' + role + '</span></div>' +
             '<p>' + escapeHtml(guideText) + '</p>' +
             '<small>' + (isArrival ? 'ASHMERE · FIRST STEPS' : 'A SOUL TAKES SHAPE') + '</small>' +
