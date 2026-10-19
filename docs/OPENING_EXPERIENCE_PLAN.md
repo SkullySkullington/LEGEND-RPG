@@ -97,8 +97,8 @@ Dungeons can uncover traces of the old war and the agreements between kingdoms a
 
 ## Implementation order
 
-1. **Traveler creation + hub service art** — in PR #27; the creator is voiced by an anonymous presence shown only as ???, and a three-beat Oric briefing follows awakening. The first illustrated transition curtain and dedicated hub art are included. Require Playwright and deployed smoke validation before merge.
-2. **Full first-session dialogue tutorial** — add replayable conversations and small choices for Oric, Mara, Brenn and Sella, building on the short arrival briefing.
+1. **Road-first opening + creator + hub art** — combined in the current PR #27 branch preview: anonymous soul-shaping creation, Oric’s response-driven dead-lantern conversation, an ACT-only “Awaken” ambush, the guided first Old Road loop, the News & Roadmap screen, raster branding and dedicated service art. Require final Playwright and deployed smoke validation before merge.
+2. **Town return and first-session dialogue** — deepen replayable conversations and small choices for Oric, Mara, Brenn and Sella after the first secured road return; tie town responses to route clues and rewards.
 3. **Scene/loading polish** — deepen the shared location transition into dedicated screen/loading art where useful; verify asset fallbacks, timing, skip paths and reduced-motion behavior.
 4. **First dungeon vertical slice** — three-to-five-room loop with one encounter, one decision, one find and persistent return consequences.
 5. **Regional story expansion** — connect the crossing evidence to the old agreement while preserving player choice and the locked reveal guardrails.
