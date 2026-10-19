@@ -57,4 +57,23 @@
       {id:'cloth', title:'Abandoned Supply Wrap', text:'A torn bundle contains usable cloth and a few clean strips.', item:'clothScrap', amount:1}
     ]
   };
+
+  // Resolve route-dependent scene presentation without putting narrative rules in
+  // the expedition controller. This is pure content lookup; it does not mutate saves.
+  window.LegendRoadsV100.resolveScene = (stage, routeChoice) => {
+    const scenes = window.LegendRoadsV100.oldRoad?.scenes || [];
+    const numericStage = Number(stage || 0);
+    const requestedIndex = Number.isFinite(numericStage) ? Math.floor(numericStage) : 0;
+    const index = Math.max(0, Math.min(Math.max(0, scenes.length - 1), requestedIndex));
+    const area = { ...(scenes[index] || {
+      name: 'Old Road',
+      type: 'Road',
+      text: 'The road disappears into the mist.',
+      icon: '↗'
+    }) };
+    const variant = area.routeVariants?.[routeChoice];
+    if (variant && typeof variant === 'object') Object.assign(area, variant);
+    delete area.routeVariants;
+    return area;
+  };
 })();
