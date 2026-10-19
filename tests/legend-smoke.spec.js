@@ -730,15 +730,38 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('#jobResult')).toContainText(/repeated the full handling sequence/i);
   });
 
-  test('Side contracts track exploration and can be claimed once', async ({ page }) => {
+  test('Side contracts track only post-acceptance exploration and pay rewards once', async ({ page }) => {
     await startFreshCharacter(page, 'ContractsQA');
+    const before = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const pl = rt.loadPlayer();
+      pl.stats = pl.stats || {};
+      // A point found before accepting must not satisfy a new posting.
+      pl.stats.pointsOfInterest = Number(pl.stats.pointsOfInterest || 0) + 1;
+      rt.savePlayer(pl);
+      return {
+        gold: Number(pl.gold || 0),
+        xp: Number(pl.xp || 0),
+        food: Number(pl.inventory?.food || 0),
+        favor: Number(pl.flags?.ashmereFavor || 0),
+        pointsOfInterest: Number(pl.stats.pointsOfInterest || 0),
+        completed: Number(pl.stats.sideContractsCompleted || 0)
+      };
+    });
+
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
     await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
     await expect(page.locator('.ash099-contract-card')).toHaveCount(4);
     await page.locator('[data-contract-accept="watchlightSurvey"]').click();
+    await expect(page.locator('[data-contract-turnin="watchlightSurvey"]')).toHaveCount(0);
+    await expect(page.locator('.ash099-contract-card').filter({ has: page.getByRole('heading', { name: 'The Watchlight Survey' }) })).toContainText(/In progress · 0 \/ 1/);
+
     await page.evaluate(() => {
-      const rt=window.LegendRuntimeV120;const pl=rt.loadPlayer();
-      pl.stats=pl.stats||{};pl.stats.pointsOfInterest=Number(pl.stats.pointsOfInterest||0)+1;rt.savePlayer(pl);
+      const rt = window.LegendRuntimeV120;
+      const pl = rt.loadPlayer();
+      pl.stats = pl.stats || {};
+      pl.stats.pointsOfInterest = Number(pl.stats.pointsOfInterest || 0) + 1;
+      rt.savePlayer(pl);
     });
     await page.locator('#ashBack').click();
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
@@ -746,8 +769,49 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('[data-contract-turnin="watchlightSurvey"]')).toBeVisible();
     await page.locator('[data-contract-turnin="watchlightSurvey"]').click();
     await expect(page.locator('.ash099-contract-completed')).toContainText(/Recorded in Journal/i);
-    const result=await page.evaluate(()=>{const pl=window.LegendRuntimeV120.loadPlayer();return {completed:pl.stats.sideContractsCompleted,food:pl.inventory.food};});
-    expect(result.completed).toBe(1);
+
+    const after = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(pl.gold || 0),
+        xp: Number(pl.xp || 0),
+        food: Number(pl.inventory?.food || 0),
+        favor: Number(pl.flags?.ashmereFavor || 0),
+        completed: Number(pl.stats?.sideContractsCompleted || 0),
+        contractComplete: Boolean(pl.flags?.sideContracts?.watchlightSurvey?.complete),
+        memoryRecorded: (pl.memories || []).some(memory => /Completed side contract: The Watchlight Survey/i.test(memory))
+      };
+    });
+    expect(after.gold).toBe(before.gold + 55);
+    expect(after.xp).toBe(before.xp + 25);
+    expect(after.food).toBe(before.food + 1);
+    expect(after.favor).toBe(before.favor + 2);
+    expect(after.completed).toBe(before.completed + 1);
+    expect(after.contractComplete).toBe(true);
+    expect(after.memoryRecorded).toBe(true);
+
+    // Reopening the journal must not expose a second turn-in action or pay again.
+    await page.locator('#ashBack').click();
+    await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
+    await page.getByRole('button', { name: /Side Stories & Contracts/i }).click();
+    await expect(page.locator('[data-contract-turnin="watchlightSurvey"]')).toHaveCount(0);
+    const reopened = await page.evaluate(() => {
+      const pl = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(pl.gold || 0),
+        xp: Number(pl.xp || 0),
+        food: Number(pl.inventory?.food || 0),
+        favor: Number(pl.flags?.ashmereFavor || 0),
+        completed: Number(pl.stats?.sideContractsCompleted || 0)
+      };
+    });
+    expect(reopened).toEqual({
+      gold: after.gold,
+      xp: after.xp,
+      food: after.food,
+      favor: after.favor,
+      completed: after.completed
+    });
     await page.reload();
   });
 
