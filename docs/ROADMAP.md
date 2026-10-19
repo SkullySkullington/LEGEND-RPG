@@ -24,7 +24,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 
 The first-session story spine links the dead lantern, first conversations in Ashmere, preparation, the High Ridge/Reed Cut decision, expedition return, and Greyfen. It distinguishes implemented facts from proposed connective scenes and leaves central mysteries deliberately open. See [ASHMERE_STORY_SPINE.md](ASHMERE_STORY_SPINE.md). This is a narrative design document, not a claim that all proposed scenes are implemented.
 
-The companion [Opening Experience Plan](OPENING_EXPERIENCE_PLAN.md) now lays out the Captain Oric creator scene, a portrait-and-dialogue tutorial with Mara/Brenn/Sella, the broader five-act story scaffold, and a first compact dungeon slice. All new story beats remain proposed and must not overrule [CANON.md](CANON.md).
+The companion [Opening Experience Plan](OPENING_EXPERIENCE_PLAN.md) lays out the Captain Oric creator scene, a three-beat skippable arrival tutorial, expanded portrait-and-dialogue conversations with Mara/Brenn/Sella, the broader five-act story scaffold, and a first compact dungeon slice. PR #27 also refreshes the existing location-transition curtain with raster branding and scene art. All new story beats remain proposed and must not overrule [CANON.md](CANON.md).
 
 ## High-priority design brief: Opening Experience
 
