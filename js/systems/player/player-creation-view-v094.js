@@ -1,13 +1,33 @@
-/* LEGEND v0.20.36 - traveler creation presentation.
+/* LEGEND v0.20.38 - immersive traveler creation with in-world guide dialogue.
  * Owns the reusable creation step markup and DOM binding. The creation controller
  * supplies the current state and callbacks; this module never writes player saves.
  */
 (() => {
   const escapeHtml = window.LegendHtmlV120.escapeHtml;
 
-  function mount(root, markup) {
+  function mount(root, markup, options = {}) {
     if (!root) return;
-    root.innerHTML = '<main class="v094-beginning"><div class="v094-beginning-bg" aria-hidden="true"></div><div class="v094-beginning-shell">' + markup + '</div></main>';
+    const assets = window.LegendAssetsV090 || {};
+    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png';
+    const portrait = assets.npcs?.oric || 'assets/generated/npcs/captain-oric.webp';
+    const step = Math.max(1, Math.min(7, Number(options.step || 1)));
+    const guideText = options.guideText || 'Take your time. The road can wait while you decide who you are.';
+    root.innerHTML = '<main class="v094-beginning v140-creation" data-creation-step="' + step + '">' +
+      '<div class="v094-beginning-bg" aria-hidden="true"></div>' +
+      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async" onerror="this.onerror=null;this.style.display=\\'none\\'">' +
+      '<span>YOUR STORY BEGINS AT THE GATE</span></header>' +
+      '<div class="v140-creation-layout">' +
+        '<aside class="v140-guide-pane" aria-label="Your guide at the Ashmere gate">' +
+          '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async" onerror="this.onerror=null;this.style.display=\\'none\\'">' +
+          '<span>ASHMERE WATCH</span></div>' +
+          '<section class="v140-dialogue-box" role="region" aria-label="Captain Oric dialogue">' +
+            '<div class="v140-dialogue-speaker"><strong>CAPTAIN ORIC</strong><span>GATE CAPTAIN</span></div>' +
+            '<p>' + escapeHtml(guideText) + '</p>' +
+            '<small>THE OLD ROAD · ENTRY QUESTIONS</small>' +
+          '</section>' +
+        '</aside>' +
+        '<div class="v094-beginning-shell">' + markup + '</div>' +
+      '</div></main>';
   }
 
   function actionButtons({ back = false, next = true, label = 'Continue' } = {}) {
@@ -32,7 +52,7 @@
       '<div class="v094-field"><label for="v094Name">Traveler Name</label>' +
       '<input id="v094Name" maxlength="24" placeholder="Name, no spaces" value="' + escapeHtml(name) + '">' +
       '<p id="v094NameError" role="alert" style="display:none;color:#ffb4a9;margin:8px 0 0"></p></div>' +
-      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>');
+      actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>', { step: 1, guideText: 'Easy now. The road is behind you. Before I open the gate, tell me what name to put in the watch ledger.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => {
       const input = root.querySelector('#v094Name');
@@ -66,7 +86,7 @@
       '<aside class="v094-scene-note"><span>FIELD NOTE · THE OLD ROAD</span><p>' + escapeHtml(scene) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>');
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'You decide what the ledger says about you. No one here has the right to choose that for you.', personality: 'A long road leaves a mark on everyone. Which instinct carried you through it?', origin: 'Everyone comes from somewhere. The question is what that life left in your hands.', class: 'Steel, bow, spell, or a clever hand. What do you trust when the Old Road stops asking politely?', keepsake: 'One small thing made it through the fog with you. Sometimes a keepsake is the only proof the past was real.' })[key] || scene });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
@@ -95,7 +115,7 @@
       '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
       '<div><span>Class</span><strong>' + escapeHtml(className) + '</strong></div>' +
       '<div><span>Keepsake</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
-      actionButtons({ back: true, next: true, label: 'Begin the Road' }) + '</section>');
+      actionButtons({ back: true, next: true, label: 'Begin the Road' }) + '</section>', { step: 7, guideText: 'That is enough for the ledger. Your name, your calling, and the thing you kept. The gate is open, traveler.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => onBegin?.());
   }
@@ -111,7 +131,7 @@
       '<div class="v094-summary"><div><span>First Goal</span><strong>Talk in Town Square</strong></div>' +
       '<div><span>Then</span><strong>Prepare at Inn / Shops</strong></div>' +
       '<div><span>Then</span><strong>Travel the Old Road</strong></div></div>' +
-      actionButtons({ back: false, next: true, label: 'Enter Ashmere' }) + '</section>');
+      actionButtons({ back: false, next: true, label: 'Enter Ashmere' }) + '</section>', { step: 7, guideText: 'First, speak to the townsfolk. Mara keeps the archive and may know why the bell rang. Prepare at the inn or shops before taking the Old Road. You choose when you are ready.' });
     root?.querySelector('#v094Next')?.addEventListener('click', () => onEnter?.());
   }
 
