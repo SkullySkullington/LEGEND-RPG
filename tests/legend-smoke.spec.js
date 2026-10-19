@@ -904,6 +904,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       const rt=window.LegendRuntimeV120, pl=rt.loadPlayer();
       pl.flags=pl.flags||{};
       pl.flags.roadExpeditionV100={...(pl.flags.roadExpeditionV100||{}),stage:0,pressure:53,trips:0,events:0,finds:0,battles:0};
+      // Pin this browser test to the goblin so its intent pattern is deterministic.
+      const road = window.LegendRoadsV100.oldRoad;
+      road.enemies = road.enemies.filter(enemy => enemy.id === 'goblin');
       rt.savePlayer(pl);
     });
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
@@ -913,8 +916,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.exp100-combat')).toBeVisible();
     await expect(page.locator('#skill')).toContainText('Trap Shot');
     await expect(page.locator('.rpg-enemy-tell')).toContainText(/Enemy intent/i);
-    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
-    await expect(page.locator('.rpg-foe-nameplate')).toContainText('OPPONENT');
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-guardbreak/);
+    await expect(page.locator('.rpg-foe-nameplate')).toContainText('GUARD BREAK');
     await expect(page.locator('#guard')).toContainText(/GUARD/i);
     await expect(page.locator('.rpg-turn-heading')).toContainText('YOUR TURN');
     await expect(page.locator('.rpg-command-grid .rpg-command')).toHaveCount(4);
@@ -922,9 +925,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('#skill')).toContainText('ACT');
     await expect(page.locator('#item')).toContainText('ITEM');
     await page.locator('#guard').click();
-    await page.locator('#guard').click();
-    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-guardbreak/);
-    await expect(page.locator('.rpg-foe-nameplate')).toContainText('GUARD BREAK');
+    await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-attack/);
+    await expect(page.locator('.rpg-foe-nameplate')).toContainText('OPPONENT');
     await page.locator('#guard').click();
     await expect(page.locator('.rpg-foe-nameplate')).toHaveClass(/rpg-foe-intent-heavy/);
     await expect(page.locator('.rpg-foe-nameplate')).toContainText('HEAVY WIND-UP');
