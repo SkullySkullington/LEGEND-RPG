@@ -124,7 +124,7 @@ Pass shared dependencies through small context objects or explicit function argu
 ### 4. Reduce shared UI/runtime coupling
 - [x] Introduce focused title and settings screen boundaries with navigation injected through `LegendGameBootstrap`.
 - Create a broader shared navigation contract only after town, traveler-creation, and road call sites have been fully mapped.
-- [ ] Verify removal of the legacy Ashmere text-matching render observer under full Playwright regression; keep pending-return recovery and manual/deployed-site checks explicit.
+- [x] Verify removal of the legacy Ashmere text-matching render observer with the full Playwright regression suite; keep pending-return recovery and manual/deployed-site checks explicit.
 - Keep scene-transition behavior and focus/keyboard interactions intact.
 - [x] Inventory active production script escape helpers and consolidate the identical HTML escaping mapping in `js/core/html-utils-v120.js`; URL validation and arbitrary-HTML sanitization remain separate concerns.
 

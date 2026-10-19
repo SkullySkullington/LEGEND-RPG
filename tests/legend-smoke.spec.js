@@ -930,6 +930,144 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.reload();
   });
 
+  test('Side contracts track post-acceptance battles and secured returns', async ({ page }) => {
+    await startFreshCharacter(page, 'RoadContractsQA');
+
+    const before = await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const player = rt.loadPlayer();
+      player.gold = 100;
+      player.xp = 0;
+      player.stats = player.stats || {};
+      player.stats.roadVictories = 2;
+      player.stats.oldRoadClears = 4;
+      player.stats.sideContractsCompleted = 0;
+      player.flags = player.flags || {};
+      player.flags.ashmereFavor = 0;
+      player.flags.sideContracts = {};
+      player.inventory = player.inventory || {};
+      player.inventory.clothScrap = 0;
+      player.inventory.oil = 0;
+      rt.savePlayer(player);
+      return {
+        gold: Number(player.gold),
+        xp: Number(player.xp),
+        victories: Number(player.stats.roadVictories),
+        clears: Number(player.stats.oldRoadClears),
+        clothScrap: Number(player.inventory.clothScrap),
+        oil: Number(player.inventory.oil),
+        favor: Number(player.flags.ashmereFavor),
+        completed: Number(player.stats.sideContractsCompleted)
+      };
+    });
+
+    await page.evaluate(() => window.LegendAshmereV099.route('quests'));
+    await page.locator('[data-contract-accept="blackrootProof"]').click();
+    await page.locator('[data-contract-accept="maraSafeReturn"]').click();
+    await expect(page.locator('[data-contract-turnin="blackrootProof"]')).toHaveCount(0);
+    await expect(page.locator('[data-contract-turnin="maraSafeReturn"]')).toHaveCount(0);
+
+    await page.evaluate(() => {
+      const rt = window.LegendRuntimeV120;
+      const player = rt.loadPlayer();
+      player.stats.roadVictories += 1;
+      player.stats.oldRoadClears += 1;
+      rt.savePlayer(player);
+      window.LegendAshmereV099.route('quests');
+    });
+
+    await expect(page.locator('[data-contract-turnin="blackrootProof"]')).toBeVisible();
+    await expect(page.locator('[data-contract-turnin="maraSafeReturn"]')).toBeVisible();
+
+    await page.locator('[data-contract-turnin="blackrootProof"]').click();
+    await expect(page.locator('.ash099-contract-card').filter({
+      has: page.getByRole('heading', { name: 'Proof from the Blackroot Road' })
+    })).toContainText(/Recorded in Journal/i);
+
+    const battlePaid = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        xp: Number(player.xp),
+        clothScrap: Number(player.inventory.clothScrap),
+        oil: Number(player.inventory.oil),
+        favor: Number(player.flags.ashmereFavor),
+        completed: Number(player.stats.sideContractsCompleted),
+        battleComplete: Boolean(player.flags.sideContracts.blackrootProof.complete),
+        returnComplete: Boolean(player.flags.sideContracts.maraSafeReturn.complete),
+        memory: (player.memories || []).some(line => /Completed side contract: Proof from the Blackroot Road/i.test(line))
+      };
+    });
+    expect(battlePaid.gold).toBe(before.gold + 75);
+    expect(battlePaid.xp).toBe(before.xp + 35);
+    expect(battlePaid.clothScrap).toBe(before.clothScrap + 1);
+    expect(battlePaid.oil).toBe(before.oil);
+    expect(battlePaid.favor).toBe(before.favor + 2);
+    expect(battlePaid.completed).toBe(before.completed + 1);
+    expect(battlePaid.battleComplete).toBe(true);
+    expect(battlePaid.returnComplete).toBe(false);
+    expect(battlePaid.memory).toBe(true);
+    await expect(page.locator('[data-contract-turnin="blackrootProof"]')).toHaveCount(0);
+    await expect(page.locator('[data-contract-turnin="maraSafeReturn"]')).toBeVisible();
+
+    await page.locator('[data-contract-turnin="maraSafeReturn"]').click();
+    await expect(page.locator('.ash099-contract-card').filter({
+      has: page.getByRole('heading', { name: 'Mara’s Missing Road Ledger' })
+    })).toContainText(/Recorded in Journal/i);
+
+    const returnPaid = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        xp: Number(player.xp),
+        clothScrap: Number(player.inventory.clothScrap),
+        oil: Number(player.inventory.oil),
+        favor: Number(player.flags.ashmereFavor),
+        completed: Number(player.stats.sideContractsCompleted),
+        battleComplete: Boolean(player.flags.sideContracts.blackrootProof.complete),
+        returnComplete: Boolean(player.flags.sideContracts.maraSafeReturn.complete),
+        battleMemory: (player.memories || []).some(line => /Completed side contract: Proof from the Blackroot Road/i.test(line)),
+        returnMemory: (player.memories || []).some(line => /Completed side contract: Mara’s Missing Road Ledger/i.test(line))
+      };
+    });
+    expect(returnPaid.gold).toBe(before.gold + 75 + 95);
+    expect(returnPaid.xp).toBe(before.xp + 35 + 50);
+    expect(returnPaid.clothScrap).toBe(before.clothScrap + 1);
+    expect(returnPaid.oil).toBe(before.oil + 1);
+    expect(returnPaid.favor).toBe(before.favor + 4);
+    expect(returnPaid.completed).toBe(before.completed + 2);
+    expect(returnPaid.battleComplete).toBe(true);
+    expect(returnPaid.returnComplete).toBe(true);
+    expect(returnPaid.battleMemory).toBe(true);
+    expect(returnPaid.returnMemory).toBe(true);
+    await expect(page.locator('[data-contract-turnin="blackrootProof"]')).toHaveCount(0);
+    await expect(page.locator('[data-contract-turnin="maraSafeReturn"]')).toHaveCount(0);
+
+    await page.reload();
+    await expect(page.locator('.v120-title')).toBeVisible();
+    const persisted = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return {
+        gold: Number(player.gold),
+        xp: Number(player.xp),
+        victories: Number(player.stats.roadVictories),
+        clears: Number(player.stats.oldRoadClears),
+        completed: Number(player.stats.sideContractsCompleted),
+        battleComplete: Boolean(player.flags.sideContracts.blackrootProof.complete),
+        returnComplete: Boolean(player.flags.sideContracts.maraSafeReturn.complete)
+      };
+    });
+    expect(persisted).toEqual({
+      gold: before.gold + 75 + 95,
+      xp: before.xp + 35 + 50,
+      victories: before.victories + 1,
+      clears: before.clears + 1,
+      completed: before.completed + 2,
+      battleComplete: true,
+      returnComplete: true
+    });
+  });
+
   test('Forge shows material-specific sword illustrations and tactical passive descriptions', async ({ page }) => {
     await startFreshCharacter(page, 'WeaponTraitsQA');
     await page.locator('.ash100-destinations').getByRole('button', { name: /Forge & Workshop/i }).click();

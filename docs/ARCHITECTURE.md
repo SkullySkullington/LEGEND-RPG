@@ -192,6 +192,7 @@ The focused contract specs complement the larger journey tests:
 - `tests/road-combat-contract.spec.js` locks down potion healing/capping, guard reduction against a heavy wind-up, victory drops/XP, counters, and expedition stage/pressure updates.
 - `tests/road-actions-contract.spec.js` locks down expedition kickoff resets, trip count, preserved cumulative counters, Wisp Lantern Wick use, and opening pressure.
 - `tests/road-content-contract.spec.js` locks down route-aware scene selection, fallback resolution, and the catalog's non-mutating contract.
+- `tests/legend-smoke.spec.js` verifies side-contract progress snapshots and one-time payouts for exploration, road victories, secured expedition returns, and the moved-cairn report.
 - `.github/workflows/playwright.yml` should syntax-check every extracted road module and focused contract spec in addition to running `npm run test:e2e`.
 
 These are compatibility contracts, not a replacement for journey-level tests. When behavior changes intentionally, update the contract and the relevant player journey assertions together.
