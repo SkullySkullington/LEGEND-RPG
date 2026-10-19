@@ -5,10 +5,20 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 ## Current priority — identity, presentation, and RPG feel
 
 - [x] Confirm the product title as **LEGEND: The Awakening**; retire “The Unquiet Road” as a visible subtitle.
-- [x] Keep the production Ashmere panorama and antique-gold wordmark as stable local assets.
+- [x] Keep the production Ashmere panorama and local LEGEND wordmark; use the committed raster wordmark for the title and traveler-creation scenes.
 - [x] Replace the landing-page-style title hero with a framed RPG menu and clear Continue/Begin hierarchy.
-- [ ] Manually review the production title at desktop and mobile sizes, including focus states and reduced motion.
+- [ ] Manually review the production title and new traveler-creation scene at desktop and mobile sizes, including focus states, portrait crops and reduced motion.
 - The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
+
+## Active opening preview — v0.20.40 / PR #27
+
+- [x] Preserve the anonymous soul-shaping creator and raster wordmark; keep the speaker visibly `???` and do not reveal the traveler's hidden nature.
+- [x] Start new travelers on the Old Road outside Ashmere; add choice-driven Oric dialogue, a scripted Blackroot Wolf ambush, and an ACT-only tutorial victory.
+- [x] Reuse the production expedition and guide the first route decision, landmark inspection, roadside search, waystation rest, and secured return.
+- [x] Add a title-menu News & Roadmap screen.
+- [ ] Pass the final-head desktop/mobile Playwright suite, inspect the actual browser flow at desktop and 390px width, then verify deploy and live smoke before merging.
+
+This is branch work only until those checks pass; `main` and existing saves remain untouched.
 
 ## Current foundation
 
@@ -24,6 +34,8 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 
 The first-session story spine links the dead lantern, first conversations in Ashmere, preparation, the High Ridge/Reed Cut decision, expedition return, and Greyfen. It distinguishes implemented facts from proposed connective scenes and leaves central mysteries deliberately open. See [ASHMERE_STORY_SPINE.md](ASHMERE_STORY_SPINE.md). This is a narrative design document, not a claim that all proposed scenes are implemented.
 
+The companion [Opening Experience Plan](OPENING_EXPERIENCE_PLAN.md) now tracks the road-first opening preview: the anonymous soul-shaping creator (speaker shown only as ???), Oric's friend-or-foe conversation, a scripted ACT awakening, a guided first Old Road loop, and the first secured return. The in-game News & Roadmap page links to the maintained public update hub and clearly separates shipped notes from previews and plans. The longer-term plan still covers expanded portrait-and-dialogue conversations with Mara/Brenn/Sella, a broader story scaffold, and a first compact dungeon slice. All new story beats remain subject to [CANON.md](CANON.md).
+
 ## High-priority design brief: Opening Experience
 
 The title screen now has an explicit RPG-menu direction. The broader [Game Reboot Plan](LEGEND_GAME_REBOOT_PLAN.md) still proposes proving a persistent animated game layer rather than indefinitely polishing screen-by-screen flows. See the isolated [Phaser reboot prototype](../prototypes/reboot/) for an experimental title scene, draft cinematic, battle feel test, and rune-training activity. This remains a separate experiment, not production gameplay.
@@ -38,7 +50,7 @@ The title screen now has an explicit RPG-menu direction. The broader [Game Reboo
 
 ## Next priorities
 
-**Baseline status (2026-10-19):** the production refactor is integrated. Main workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed with 97 branch-local tests and a separate passing live GitHub Pages smoke test. The next work should target player-facing gameplay rather than another broad refactor.
+**Baseline status (2026-10-19):** refactor and enemy intent-pattern slices are integrated on main at `adbd4361`. Main Playwright workflow [#1507](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775742) passed, as did the GitHub Pages deployment [#1166](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775037) and its deployed smoke check. PR [#27](https://github.com/TDTRIA/LEGEND-RPG/pull/27) contains the next presentation slice (raster wordmark, in-world traveler-creation dialogue, and consistent hub service art); its current CI result determines release readiness.
 
 ### 1. Make road choices echo through the expedition
 
@@ -73,7 +85,7 @@ The title screen now has an explicit RPG-menu direction. The broader [Game Reboo
 - [x] Gate the roadmap in order: Greyfen → complete A Dry Crossing → Ironpass. Ironpass, Blackwood, and The Ruined March remain visible as in-development regions without unlock/travel actions until their hubs exist.
 - [x] Add smoke-test coverage for Greyfen scene selection, keeper dialogue, local work contracts, regional unlock order, and avoiding the Ashmere-only expedition from Greyfen.
 - [ ] Review all screens at desktop widths first; verify scene crops, icon centering, contrast, file size, and fallback behavior, then smoke-check critical layouts at 390px mobile width.
-- [ ] Generate a dedicated, cohesive town/service UI icon atlas (inn, market, forge, journal, map, work board, traveler, route). Current buttons use committed local item/portrait images instead of inline SVGs, but several are interim semantic matches until a dedicated icon family is available.
+- [ ] Verify PR #27's dedicated service-icon family at desktop and mobile widths; if approved, remove the remaining mixed SVG/region-shop icon treatment from the hub's critical destinations.
 - Keep UI labels as HTML, never baked into the art.
 - See [PRODUCTION_ASSET_PACK.md](PRODUCTION_ASSET_PACK.md) for task IDs and target file paths.
 
@@ -90,19 +102,19 @@ The title screen now has an explicit RPG-menu direction. The broader [Game Reboo
 
 **Goal:** Add variety while keeping the road exploration-first and touch-friendly.
 
-**First implementation slice: data-driven enemy behavior patterns.** The current Road Goblin, Blackroot Wolf, and Lantern Wisp share the same three-step telegraph rotation. Give each a distinct intent sequence using the existing `attack`, `heavy`, and `guardbreak` actions, while preserving the four-command combat UI and existing reward/save contracts.
+**Completed in v0.20.37:** Road Goblin, Blackroot Wolf, and Lantern Wisp now use different data-driven intent sequences. Unknown behavior IDs retain the legacy rotation, with existing combat formulas, save schema and four-command interface unchanged.
 
-- [ ] Add explicit behavior IDs to the three existing enemy records; keep behavior definitions in `road-combat-v100.js`.
-- [ ] Make the initial and subsequent intent telegraphs follow the selected enemy pattern; unknown behavior IDs retain the legacy rotation.
-- [ ] Add combat-contract coverage for the first telegraph and next-turn transition for every pattern.
-- [ ] Update the production smoke assertion to exercise a deterministic enemy; retain all victory, defeat, retreat, and return checks.
-- [ ] Verify the merged build with the full `main` workflow and live GitHub Pages smoke test.
+- [x] Add explicit behavior IDs to the three existing enemy records and pattern definitions to `road-combat-v100.js`.
+- [x] Make the initial and subsequent intent telegraphs follow the selected enemy pattern; unknown behavior IDs retain the legacy rotation.
+- [x] Add contract coverage for the first telegraph and next-turn transition for every pattern.
+- [x] Exercise a deterministic enemy in the production smoke test; retain victory, defeat, retreat, and return checks.
+- [x] Verify merged main on the full workflow and GitHub Pages smoke test.
 
-Follow-on work can add new road event templates and enemy types once the first behavior slice is verified.
+Follow-on work can add new road event templates and enemy types after the presentation/tutorial slice.
 
 ### 5. Stabilize and validate
 
-**Automated release gate verified 2026-10-19:** the main CI suite and dedicated deployed-site smoke test both pass on commit `8006281` (workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517)). The gate remains mandatory after future gameplay changes.
+**Automated release gate verified 2026-10-19:** main CI and deployed-site smoke pass on `adbd4361` (workflow [#1507](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775742), Pages workflow [#1166](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39263775037)). The gate remains mandatory after future gameplay changes.
 
 - [x] Run the current regression suite on Desktop Chrome and focused touch-critical smoke tests on Mobile Safari and Mobile Chrome; the last run passed 97 tests, with the separate live deployment smoke passing 1/1.
 - [x] Verify the visible version, page title, data version, and cache-busting references agree in the deployed smoke.

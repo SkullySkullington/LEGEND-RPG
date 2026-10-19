@@ -1,0 +1,50 @@
+/* LEGEND v0.20.38 — cinematic opening and guided first-road lesson */
+.opening-road-v140{position:relative;isolation:isolate;min-height:100svh;display:grid;place-items:center;overflow:auto;padding:clamp(12px,3vw,36px);background:#030705;color:#f1efe3}
+.opening-road-v140 *{box-sizing:border-box}
+.opening-road-v140-bg,.opening-road-v140-shade{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.opening-road-v140-bg{z-index:-2;object-fit:cover;object-position:center 55%;filter:saturate(.82) contrast(1.1) brightness(.66);transform:scale(1.02)}
+.opening-road-v140-shade{z-index:-1;background:linear-gradient(90deg,rgba(2,6,4,.78),rgba(2,7,5,.38) 50%,rgba(2,6,4,.72)),linear-gradient(180deg,rgba(2,4,3,.2),rgba(2,5,4,.35) 42%,rgba(2,4,3,.93))}
+.opening-road-v140-card{width:min(880px,100%);margin:auto;padding:clamp(20px,4vw,42px);position:relative;border:1px solid rgba(229,190,110,.68);border-radius:3px;background:linear-gradient(180deg,rgba(14,23,17,.97),rgba(4,9,6,.98));box-shadow:0 28px 90px rgba(0,0,0,.62),inset 0 0 0 5px rgba(1,5,3,.8),inset 0 0 0 6px rgba(229,190,110,.17)}
+.opening-road-v140-card:before{content:"";position:absolute;inset:9px;pointer-events:none;border:1px solid rgba(229,190,110,.18)}
+.opening-road-v140-card>*{position:relative}
+.opening-road-v140-kicker,.opening-road-v140-scene-note>span,.opening-road-v140-guide span{display:block;color:#dfc07b;font-size:.65rem;font-weight:800;letter-spacing:.19em;text-transform:uppercase}
+.opening-road-v140-card h1{margin:10px 0 14px;color:#f4e8c6;font-size:clamp(2.2rem,6.2vw,4.8rem);line-height:.94;letter-spacing:-.025em;text-shadow:0 4px 18px #000}
+.opening-road-v140-card p{color:#d5dfd3;line-height:1.65;margin:10px 0}
+.opening-road-v140-lede{font-size:clamp(1rem,2vw,1.16rem);max-width:740px}
+.opening-road-v140-scene-note{padding:14px 16px;margin:20px 0;border-left:2px solid #c9a55e;background:rgba(0,0,0,.24)}
+.opening-road-v140-scene-note p{margin-bottom:0}
+.opening-road-v140-card blockquote{margin:16px 0;padding:0 0 0 16px;border-left:1px solid rgba(229,190,110,.42)}
+.opening-road-v140-card blockquote strong{color:#edcc81;letter-spacing:.1em;text-transform:uppercase;font-size:.73rem}
+.opening-road-v140-card blockquote p{margin:6px 0 0;color:#fff1cf;font-size:clamp(1.03rem,2vw,1.28rem);font-family:Georgia,serif}
+.opening-road-v140-prompt{color:#f0dbab!important;font-weight:700}
+.opening-road-v140-choices{display:grid;gap:9px;margin:16px 0}
+.opening-road-v140-choice,.opening-road-v140-primary,.opening-road-v140-secondary{font:inherit;cursor:pointer;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.opening-road-v140-choice{width:100%;min-height:60px;padding:12px 15px;text-align:left;color:#f4efdd;border:1px solid rgba(229,190,110,.25);border-left:2px solid rgba(229,190,110,.56);border-radius:2px;background:linear-gradient(90deg,rgba(24,34,26,.94),rgba(6,12,8,.92))}
+.opening-road-v140-choice strong,.opening-road-v140-choice span{display:block}
+.opening-road-v140-choice strong{font-size:.98rem;color:#f4e8c6}
+.opening-road-v140-choice span{margin-top:4px;color:#b9c6b9;font-size:.82rem}
+.opening-road-v140-choice:hover,.opening-road-v140-choice:focus-visible{border-color:#eacb86;background:linear-gradient(90deg,rgba(55,47,30,.96),rgba(10,17,12,.96));transform:translateX(2px)}
+.opening-road-v140-footnote{font-size:.78rem;color:#98a89a!important;margin-bottom:0!important}
+.opening-road-v140-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.opening-road-v140-primary,.opening-road-v140-secondary{min-height:48px;padding:11px 16px;border:1px solid rgba(229,190,110,.42);border-radius:2px;color:#f4efdd;background:linear-gradient(180deg,#25281c,#0a100b);font-weight:800}
+.opening-road-v140-primary{color:#261c08;border-color:#e8c878;background:linear-gradient(180deg,#f6d995,#c99a42)}
+.opening-road-v140-primary:hover,.opening-road-v140-secondary:hover{filter:brightness(1.1)}
+.opening-road-v140-choice:focus-visible,.opening-road-v140-primary:focus-visible,.opening-road-v140-secondary:focus-visible{outline:2px solid #ffe7a6;outline-offset:3px}
+.opening-road-v140-guide{display:flex;align-items:flex-start;gap:12px;margin:12px 0;padding:14px 16px;border:1px solid rgba(229,190,110,.46);border-radius:3px;background:linear-gradient(100deg,rgba(54,43,23,.82),rgba(8,15,10,.94));box-shadow:inset 0 0 20px rgba(225,188,109,.04)}
+.opening-road-v140-guide-mark{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(229,190,110,.44);color:#f0d18b}
+.opening-road-v140-guide>div:last-child{min-width:0}
+.opening-road-v140-guide span{font-size:.57rem;letter-spacing:.14em}
+.opening-road-v140-guide strong{display:block;margin-top:4px;color:#f3e5c2;font-family:Georgia,serif;font-size:1.13rem}
+.opening-road-v140-guide p{margin:5px 0 0;color:#ccd6ca;font-size:.86rem;line-height:1.5}
+.exp100 .opening-road-v140-guide{margin:12px 0}
+.exp100 .opening-road-v140-guide p{color:#ccd6ca}
+#push:disabled{opacity:.5;cursor:not-allowed;filter:saturate(.5)}
+#push:disabled:hover{transform:none;border-color:rgba(150,205,160,.2)}
+@media(min-width:760px){.opening-road-v140-choices{grid-template-columns:repeat(3,minmax(0,1fr))}.opening-road-v140-choice{min-height:118px}.opening-road-v140-choice strong{line-height:1.35}}
+@media(max-width:560px){.opening-road-v140{padding:10px;place-items:start center}.opening-road-v140-card{margin:8px auto;padding:22px 16px}.opening-road-v140-card h1{font-size:clamp(2.1rem,12vw,3.1rem)}.opening-road-v140-actions{display:grid}.opening-road-v140-primary,.opening-road-v140-secondary{width:100%}.opening-road-v140-guide{padding:12px;gap:9px}.opening-road-v140-guide-mark{flex-basis:29px;width:29px;height:29px}}
+@media(prefers-reduced-motion:reduce){.opening-road-v140-choice,.opening-road-v140-primary,.opening-road-v140-secondary{transition:none!important;transform:none!important}}
+/* Make the one required opening command unmistakable without animating under reduced motion. */
+.rpg-opening-awakening #skill{border-color:#e8c878!important;background:linear-gradient(180deg,#604b25,#1c2118)!important;box-shadow:0 0 0 1px rgba(232,200,120,.44),0 0 28px rgba(232,200,120,.24),inset 0 0 18px rgba(232,200,120,.10)!important;animation:legend-awakening-command-v140 1.6s ease-in-out infinite alternate}
+.rpg-opening-awakening #skill .rpg-command-label small{color:#f3d990!important;font-weight:900;letter-spacing:.08em}
+@keyframes legend-awakening-command-v140{from{transform:translateY(0);filter:brightness(1)}to{transform:translateY(-2px);filter:brightness(1.14)}}
+@media(prefers-reduced-motion:reduce){.rpg-opening-awakening #skill{animation:none!important;transform:none!important}}

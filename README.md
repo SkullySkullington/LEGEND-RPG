@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.37 — Distinct Old Road enemy behaviors.** Road Goblins, Blackroot Wolves, and Lantern Wisps now follow different readable intent patterns in combat, while retaining the four-command battle UI and existing save/reward rules. The current production title remains the framed dark-fantasy RPG menu with a clear Continue/Begin action.
+**v0.20.40 — Road-first opening preview (PR #27; verification pending).** The current branch keeps the anonymous `???` soul-shaping creator, raster LEGEND wordmark, and dedicated Ashmere/Greyfen service art, then starts new travelers beneath the dead lantern outside Ashmere. Captain Oric's dialogue is choice-driven; a Blackroot Wolf ambush teaches the production ACT command as **Awaken**, then hands into the existing guided Old Road loop and its first secured return. The title menu also includes News & Roadmap. This is still a draft branch, not a release; existing save keys and player records remain the compatibility baseline.
 
 ## Development Roadmap
 

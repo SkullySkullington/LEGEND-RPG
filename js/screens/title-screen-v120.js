@@ -32,6 +32,7 @@
     const account = config.onAccount;
     const settings = config.onSettings;
     const credits = config.onCredits || openCredits;
+    const dispatches = config.onDispatches;
     applySettings();
     const player = loadPlayer();
     const name = player?.username || 'No Traveler';
@@ -68,6 +69,8 @@
     document.getElementById('account').onclick = () => titleTransition('Opening Traveler Profile...', account);
     document.getElementById('settings').onclick = () => titleTransition('Opening Options...', settings);
     document.getElementById('credits').onclick = credits;
+    const dispatchesButton = document.getElementById('dispatches');
+    if (dispatchesButton) dispatchesButton.onclick = () => titleTransition('Opening News & Roadmap...', dispatches);
   }
   
   const titleExtras = window.LegendTitleExtrasV120?.create({

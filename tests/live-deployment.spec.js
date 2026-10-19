@@ -107,8 +107,14 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     await page.locator('[data-keepsake="Old Map"]').click();
     await page.locator('#v094Next').click();
     await expect(page.getByRole('heading', { name: travelerName, exact: true })).toBeVisible();
-    await page.getByRole('button', { name: /Begin the Road/i }).click();
-    await page.getByRole('button', { name: /Enter Ashmere/i }).click();
+    await page.getByRole('button', { name: /Let Me Wake/i }).click();
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await page.locator('[data-oric-response="honest"]').click();
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await expect(page.locator('#skill')).toContainText('Awaken');
+    await page.locator('#skill').click();
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+    await page.getByRole('button', { name: 'Go straight to Ashmere' }).click();
     await expect(page.locator('.ash100-town')).toBeVisible();
 
     // Different jobs must render genuinely different controls.

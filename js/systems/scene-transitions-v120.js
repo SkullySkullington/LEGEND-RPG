@@ -1,4 +1,4 @@
-/* LEGEND v0.20.14 — lightweight browser scene transitions; no engine/save changes */
+/* LEGEND v0.20.38 — illustrated location transitions; preserves existing navigation and save contracts */
 (() => {
   if (window.__legendSceneTransitionsV120) return;
   window.__legendSceneTransitionsV120 = true;
@@ -10,7 +10,7 @@
     el = document.createElement('div');
     el.id = 'legend-scene-curtain';
     el.setAttribute('aria-hidden','true');
-    el.innerHTML = '<span>THE OLD ROAD</span>';
+    el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="assets/ui/logos/logo_legend_main_v1.png" alt="" decoding="async"><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><small class="legend-transition-caption">A TURNING IN THE TALE</small></div>';
     document.body.appendChild(el);
     return el;
   }
@@ -30,7 +30,8 @@
     event.stopImmediatePropagation();
     busy = true;
     const curtain = overlay();
-    curtain.querySelector('span').textContent = destinationLabel(target);
+    const location = curtain.querySelector('.legend-transition-location');
+    if (location) location.textContent = destinationLabel(target).toUpperCase();
     curtain.classList.remove('is-revealing');
     curtain.classList.add('is-covering');
     const delay = 290;

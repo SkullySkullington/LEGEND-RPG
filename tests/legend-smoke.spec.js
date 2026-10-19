@@ -36,7 +36,7 @@ async function openTitle(page) {
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
 
-async function startFreshCharacter(page, name = 'QATraveler') {
+async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await openTitle(page);
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill(name);
@@ -52,12 +52,33 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await page.locator('[data-keepsake="Old Map"]').click();
   await page.locator('#v094Next').click();
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /Begin the Road/i }).click();
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
+  await page.getByRole('button', { name: /Let Me Wake/i }).click();
+  if (options.stopAtIntro) {
+    await expect(page.locator('.opening-road-v140')).toBeVisible();
+    return;
+  }
+  // Most system-level regressions need a stable Ashmere fixture; the dedicated
+  // road-opening spec exercises Oric, ACT, and the complete first expedition.
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    window.LegendRoadOpeningV140.complete(player, 'abandoned');
+    window.LegendAshmereV099.renderAshmere();
+  });
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
 test.describe(`LEGEND v${version} browser regression tests`, () => {
+  test('News & Roadmap opens from the title and returns without changing the save', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /News & Roadmap/i }).click();
+    await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
+    await expect(page.locator('.dispatches-v140-card')).toHaveCount(7);
+    await page.getByRole('button', { name: 'Return to Title' }).click();
+    await expect(page.locator('.v120-title')).toBeVisible();
+  });
+
   test('title and visible build version are consistent', async ({ page }) => {
     await openTitle(page);
     await expect.poll(() => page.title()).toContain(`v${version}`);
@@ -238,7 +259,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(result.gold).toBe('47g');
   });
 
-  test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
+  test('title background, raster wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
     const emblem = page.locator('.v136-corner-sigil');
@@ -248,7 +269,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(emblem).toBeVisible();
     await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
     await expect(logo).toBeVisible();
-    await expect(logo).toHaveAttribute('src', /logo_legend_awakening_wordmark\.svg/);
+    await expect(logo).toHaveAttribute('src', /logo_legend_main_v1\.png/);
     await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
@@ -744,7 +765,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.getByRole('button', { name: /Begin Your Journey/i }).click();
     await page.locator('#v094Next').click();
     await expect(page.locator('#v094NameError')).toHaveText('Please enter a traveler name.');
-    await expect(page.getByRole('heading', { name: 'Who reaches Ashmere?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What name shall you carry?' })).toBeVisible();
     await expect(page.locator('#v094Name')).toHaveAttribute('aria-invalid', 'true');
   });
 
@@ -1287,9 +1308,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await page.getByRole('button', { name: /The Old Road/i }).click();
-    // The global transition curtain delays the underlying click and covers the
-    // scene during its reveal. Wait until it is fully clear before staging step 4.
-    await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+    // The transition shows the local raster title mark and destination label before
+    // handing control to the road screen; then it releases the UI.
+    const curtain = page.locator('#legend-scene-curtain');
+    await expect(curtain).toHaveClass(/is-covering/);
+    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
+    await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
     )).toBe(true);
     await page.evaluate(() => {
@@ -1708,19 +1733,75 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.exp100-head')).toContainText(/something followed you out/i);
   });
 
-  test('Ashmere navigation and destination symbols use local SVG sprite artwork', async ({ page }) => {
+  test('Ashmere hub destinations use the dedicated local service icon artwork', async ({ page }) => {
     await startFreshCharacter(page, 'IconArtQA');
     const destinationIcons = page.locator('.ash100-destinations .ash100-destination-icon');
     await expect(destinationIcons).toHaveCount(7);
-    const spriteIcons = page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg');
-    await expect(spriteIcons.first()).toBeVisible();
-    await expect(spriteIcons).toHaveCount(4);
-    const iconReferences = await page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg use').evaluateAll(nodes =>
-      nodes.map(node => node.getAttribute('href') || node.getAttribute('xlink:href') || '')
-    );
-    expect(iconReferences).toHaveLength(4);
-    expect(iconReferences.every(ref => ref.startsWith('assets/ui/icons/legend-ui-icons-v1.svg#icon-'))).toBe(true);
-    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(3);
+    const iconImages = page.locator('.ash100-destinations .ash100-destination-icon .ash099-asset-icon img');
+    await expect(iconImages).toHaveCount(7);
+    const iconSources = await iconImages.evaluateAll(nodes => nodes.map(node => node.getAttribute('src') || ''));
+    expect(iconSources.every(src => src.startsWith('assets/generated/ui/icons/service-'))).toBe(true);
+    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
+    await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
+  });
+
+  test('traveler creation shapes a soul with an unnamed presence and raster LEGEND wordmark', async ({ page }) => {
+    await openTitle(page);
+    await page.locator('#newPrimary').click();
+    await expect(page.locator('.v140-creation')).toBeVisible();
+    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-presence-mark')).toHaveAttribute('src', /skills\/icons\/veil\.webp/);
+    await expect(page.locator('.v140-presence-glyph')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/memory|name|soul/i);
+    await page.locator('#v094Name').fill('SoulMemoryQA');
+    await page.locator('#v094Next').click();
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/outline|shape/i);
+    await expect(page.locator('.v094-choice-grid')).toBeVisible();
+    await expect(page.locator('.v140-presence-frame')).toBeVisible();
+    await expect(page.locator('.v140-guide-portrait')).toHaveCount(0);
+
+    await page.locator('[data-gender="unspoken"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-personality="kind"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-origin]').first().click();
+    await page.locator('#v094Next').click();
+    await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-keepsake="Old Map"]').click();
+    await page.locator('#v094Next').click();
+
+    await expect(page.getByRole('heading', { name: 'SoulMemoryQA', exact: true })).toBeVisible();
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/name|shape|feeling/i);
+    await expect(page.getByRole('button', { name: /Let Me Wake/i })).toBeVisible();
+    await expect(page.locator('.v140-creation')).not.toContainText(/Captain Oric|the Veil/i);
+  });
+
+  test('Oric finds the traveler beneath the dead lantern and the voice teaches ACT', async ({ page }) => {
+    await startFreshCharacter(page, 'OricOpeningQA', { stopAtIntro: true });
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Your answer to Captain Oric' })).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
+    await page.locator('[data-oric-response="honest"]').click();
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await expect(page.locator('.rpg-battle')).toContainText('Blackroot Wolf');
+    await expect(page.locator('#skill')).toContainText('Awaken');
+    await expect(page.locator('#strike')).toBeDisabled();
+    await page.locator('#skill').click();
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+  });
+
+  test('the opening can be skipped to Ashmere after the required ACT awakening', async ({ page }) => {
+    await startFreshCharacter(page, 'SkipOpeningQA', { stopAtIntro: true });
+    await page.locator('[data-oric-response="peaceful"]').click();
+    await expect(page.locator('.rpg-battle')).toBeVisible();
+    await page.locator('#skill').click();
+    await expect(page.getByRole('heading', { name: 'Oric saw what you did.' })).toBeVisible();
+    await page.getByRole('button', { name: 'Go straight to Ashmere' }).click();
+    await expect(page.locator('.ash100-town')).toBeVisible();
   });
 
   test('Trading Post uses Buy and Sell tabs with illustrated goods', async ({ page }) => {

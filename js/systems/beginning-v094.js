@@ -124,6 +124,7 @@
       return;
     }
     S().savePlayer?.(pl);
+    if (typeof window.LegendRoadOpeningV140?.start === 'function') return window.LegendRoadOpeningV140.start(pl);
     renderIntro(pl);
   }
   function enterAshmere(pl){const fresh=S().loadPlayer?.()||pl;fresh.flags=fresh.flags||{};fresh.flags.introV094Complete=true;fresh.flags.tutorialStep='people';fresh.town='Ashmere';S().savePlayer?.(fresh);if(window.LegendAshmereV099?.renderAshmere)return window.LegendAshmereV099.renderAshmere();if(window.LegendRuntimeV120?.returnToAshmere)return window.LegendRuntimeV120.returnToAshmere();window.LegendGameBootstrap?.continueGame?.();}

@@ -1,4 +1,4 @@
-// LEGEND v0.9.x - Ashmere Town Hub Controller
+// LEGEND v0.20.38 - Ashmere hub service-art wiring
 // Owns Ashmere directly: RPG town terminal, direct routes, no title reload for town returns.
 (() => {
   const RT = () => window.LegendRuntimeV120 || {};
@@ -71,6 +71,7 @@
         background: bg,
         imageMarkup: img,
         regionShopArt,
+        serviceArt,
         icon,
         shell,
         bind

@@ -8,6 +8,12 @@
 
 The product title is **LEGEND: The Awakening**. “The Unquiet Road” is a retired working subtitle and should not be used as current branding. The production title screen is being shaped as a fantasy RPG main menu: panoramic local art, the Awakening wordmark, a framed dark-fantasy menu panel, one obvious Continue/Begin action, and quieter New Traveler, Profile, Settings, and Credits options. Keep the production game playable and separate from the isolated Phaser reboot experiment.
 
+## Implementation direction update — 2026-10-19
+
+The active combined draft is `feature/immersive-traveler-creation-v140` / PR #27. It preserves the anonymous soul-shaping creator and raster wordmark, then starts the player outside Ashmere beneath the dead lantern. Captain Oric asks whether the traveler is friend or foe, and the selected answer changes the conversation. A Blackroot Wolf ambushes Oric; the unknown speaker says “Awaken,” and the production ACT command wins the scripted one-HP encounter. The player can follow the tracks into the existing five-stage Old Road, which now teaches route choice, marker inspection, search, travel, waystation rest and secured return, or skip to Ashmere after the encounter. The title menu now includes News & Roadmap.
+
+The branch is a preview, not a release. Its final-head Playwright suite, desktop/mobile visual review, Pages deploy and deployed smoke check must pass before merge. The player-facing voice remains **???**. Do not name it as the Veil or state/imply the traveler's hidden L4 nature before an owner-approved reveal plan.
+
 ## North star
 
 The opening should feel like stepping into a living dark-fantasy RPG world. The player should not feel as though they are filling out a sequence of website forms before the game begins. The title screen should establish a world already in motion; character creation should let the player discover who they are through choices, objects, scenes, and consequences.
