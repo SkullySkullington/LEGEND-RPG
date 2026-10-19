@@ -98,7 +98,7 @@ Pass shared dependencies through small context objects or explicit function argu
 - [x] Extract outcome markup and Return-button binding into `js/systems/road/road-results-view-v100.js`; keep return policy injected from the road controller.
 - [x] Move expedition-stage panel composition and camp/search/travel input binding into `js/systems/road/road-expedition-screen-v100.js`; preserve public `renderExpedition()` as a facade delegate.
 - [x] Centralize v100 expedition state defaults, score/equipment rules, inventory increments, display labels, and Bell quest objective updates in `js/systems/road/road-state-v100.js`.
-- [x] Move reusable Old Road stage descriptions and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; retain route/state-dependent clue variants in the controller.
+- [x] Move reusable Old Road stage descriptions, route-specific camp-scene text, stage-indexed travel beats, and base point-of-interest definitions into `js/content/roads/old-road-v100.js`; route choice and state stay in services while narrative copy stays in content data.
 - [x] Make v100 the sole active road path and remove its v087 fallback/interceptor.
 - [x] Remove legacy save-key import, the runtime’s duplicate persistence fallback, `xpUntil` from new travelers, and `roadV087`/`xpUntil` fields from normalized active saves. The v100 progression rules are now authoritative.
 - [ ] Browser-smoke-test active v100 flows and confirm XP, level-up, token rewards, audio, and return-to-Ashmere.
