@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.36 — The Awakening RPG title refresh.** The production title uses the approved local Ashmere panorama and Awakening wordmark inside a framed dark-fantasy RPG menu. Continue/Begin is the clear primary action, with New Traveler (when a save exists), Profile, Settings, and Credits as quieter menu options.
+**v0.20.37 — Distinct Old Road enemy behaviors.** Road Goblins, Blackroot Wolves, and Lantern Wisps now follow different readable intent patterns in combat, while retaining the four-command battle UI and existing save/reward rules. The current production title remains the framed dark-fantasy RPG menu with a clear Continue/Begin action.
 
 ## Development Roadmap
 

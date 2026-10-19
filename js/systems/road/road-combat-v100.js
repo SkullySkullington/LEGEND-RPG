@@ -46,9 +46,20 @@
     });
 
 
+const ENEMY_INTENT_PATTERNS = Object.freeze({
+ // Goblins feint past a guard, take a quick strike, then commit to a heavy blow.
+ raider: Object.freeze(['guardbreak','attack','heavy']),
+ // Wolves press forward twice before briefly committing to a heavier lunge.
+ predator: Object.freeze(['attack','heavy','attack']),
+ // Wisps telegraph a strange surge, then try to break a steady guard.
+ flicker: Object.freeze(['heavy','guardbreak','attack'])
+});
+const LEGACY_INTENT_PATTERN = Object.freeze(['heavy','attack','guardbreak']);
+
 function enemyIntent(enemy){
- const n=Number(enemy.turn||0)%3;
- return n===0?'heavy':n===1?'attack':'guardbreak';
+ const pattern = ENEMY_INTENT_PATTERNS[enemy.behavior] || LEGACY_INTENT_PATTERN;
+ const turn = Math.max(0, Math.floor(Number(enemy.turn || 0)));
+ return pattern[turn % pattern.length];
 }
 function classTechnique(pl){
  const moves={
