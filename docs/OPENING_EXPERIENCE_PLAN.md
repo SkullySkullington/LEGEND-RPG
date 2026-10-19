@@ -11,16 +11,18 @@ The world should be uneasy but humane. Ashmere is a warm refuge; roads carry unc
 
 ## First-session flow
 
-### 1. Outside Ashmere — create a traveler
+### 1. Between Memory and Waking — shape a traveler
 
-**In PR #27 (v0.20.38 presentation slice; CI and deployed verification pending):** retain the existing seven-step record builder, visible choices, class portrait art and save contracts, but place the form in a scene with Captain Oric's portrait and changing dialogue. The same slice adds a skippable three-beat arrival briefing and gives the existing shared transition curtain a scene-art background, raster wordmark and location title.
+**In PR #27 (v0.20.39 presentation slice; CI and deployed verification pending):** retain the existing seven-step record builder, visible choices, class portrait art and save contracts, but place the form in a dreamlike space where an unidentifiable presence speaks only as **???**. The presence is the Veil at the author/story-design level, but that identity is never shown or named in the player-facing UI. Creation should feel like shaping the soul the player will inhabit and choosing, recognizing or recalling fragments of its memories. The same slice retains Oric's arrival briefing after this sequence and gives the shared transition curtain scene art, raster branding and a location title.
 
-Oric speaks like a tired watch captain rather than a narrator explaining the mythology. He asks what to enter in the ledger, what instinct carried the traveler, what past they choose to share, what they can do, and what keepsake survived the fog. He does not claim to know the traveler's history and does not suggest a hidden explanation for the dead lantern or the traveler's existence.
+The presence does not interview the player about a settled biography. A name gathers around silence; a shape appears in still water; a feeling survives when its scene is lost; a place rises without a complete face; hands remember a skill; a keepsake persists. Its words can be intimate, ambiguous and evocative, but must not confirm which memories are objectively true, identify itself as the Veil, or state or imply the traveler's hidden L4 nature. Once the player chooses **Let Me Wake**, Oric—not the presence—guides the arrival into Ashmere.
 
 Acceptance:
-- The local LEGEND: The Awakening raster wordmark is shown, with Ashmere road art behind the creator.
-- Every creation step has an in-world line from Oric; the current choice cards and validation stay usable.
-- Portraits, progress and controls are readable at desktop and narrow mobile sizes; reduced-motion preferences are respected.
+- The local LEGEND: The Awakening raster wordmark is shown, with moody scene art behind the creator.
+- The speaker's visible name is exactly **???** at every creation step and the final review; no NPC portrait appears in this sequence, and the local Veil skill glyph is treated as an abstract, half-seen mark rather than an explanation.
+- The prompts frame form, feeling, origin, calling and keepsake as soul-shaping/memory fragments, without declaring the traveler's origin false or revealing L4.
+- After the player chooses **Let Me Wake**, Captain Oric begins the separate, skippable arrival briefing.
+- Progress, existing choice IDs, class portraits and validation remain usable at desktop and narrow mobile widths; reduced-motion preferences are respected.
 - Existing save keys and player-record fields remain compatible.
 
 ### 2. Ashmere gate — teach the world's language
@@ -108,7 +110,7 @@ Dungeons can uncover traces of the old war and the agreements between kingdoms a
 
 ## Implementation order
 
-1. **Traveler creation + hub service art** — in PR #27; initial three-beat Oric briefing and first illustrated transition curtain are included. Require Playwright and deployed smoke validation before merge.
+1. **Traveler creation + hub service art** — in PR #27; the creator is voiced by an anonymous presence shown only as ???, and a three-beat Oric briefing follows awakening. The first illustrated transition curtain and dedicated hub art are included. Require Playwright and deployed smoke validation before merge.
 2. **Full first-session dialogue tutorial** — add replayable conversations and small choices for Oric, Mara, Brenn and Sella, building on the short arrival briefing.
 3. **Scene/loading polish** — deepen the shared location transition into dedicated screen/loading art where useful; verify asset fallbacks, timing, skip paths and reduced-motion behavior.
 4. **First dungeon vertical slice** — three-to-five-room loop with one encounter, one decision, one find and persistent return consequences.
