@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - Old Road action resolution.
+/* LEGEND v0.20.38 - Old Road action resolution.
  * Owns expedition kickoff, travel/search decisions, pressure changes, road checks,
  * resource finds, and random encounter selection. Narrative copy lives in the road
  * content catalog; rendering, persistence, progression data and combat are injected.
@@ -47,7 +47,7 @@ function startExpedition(){
  save(pl);
  return lanternWard
   ?'You light the crafted Wisp Lantern Wick before leaving. Its pale flame steadies your nerves; opening Road Pressure rises by only 3 instead of 8. The wick is spent.'
-  :'You leave Ashmere with a clear route and a reason to come back.';
+  :(pl.flags?.openingRoadV140?.phase==='road'&&!pl.flags.openingRoadV140.completed?'Oric heads back to warn the gate. You follow the tracks beyond the fork, looking for what brought the wolf so close.':'You leave Ashmere with a clear route and a reason to come back.');
 }
 function resolveChoice(kind){
  const pl=p();if(!pl)return;const s=ensure(pl),stageBefore=s.stage,area=areaForStage(stageBefore);
@@ -72,6 +72,10 @@ function resolveChoice(kind){
    s.pressure=clamp(s.pressure+(aptitude>=3?1:5),0,100);
    pl.stats=pl.stats||{};pl.stats.resourcesFound=Number(pl.stats.resourcesFound||0)+1;save(pl);
    return renderExpedition(f.title+': '+f.text+' You recover '+itemName(f.item)+' ×'+amount+'. You can keep exploring here or travel onward.');
+ }
+ if(kind==='push'){
+  const gate=window.LegendRoadOpeningV140?.travelGate?.(pl,s,stageBefore);
+  if(gate?.allowed===false)return renderExpedition(gate.message);
  }
  const openingRoute=stageBefore===0?s.routeChoice:null;
  const travelPressure=openingRoute==='ridge'?4:openingRoute==='reeds'?16:12;
