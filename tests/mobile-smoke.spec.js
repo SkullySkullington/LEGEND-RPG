@@ -192,6 +192,20 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     await expectNoHorizontalOverflow(page);
   });
 
+  test('Blackroot Tracks field contract accepts mobile taps and fits the viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await startFreshCharacter(page, 'MobileTracksQA');
+    await tap(page, page.locator('.ash100-destinations').getByRole('button', { name: /Work Board/i }));
+
+    const card = page.locator('[data-job-open="tracks"]');
+    await expect(card).toContainText(/Trail reading/i);
+    await tap(page, card);
+    await expect(page.locator('.ash099-job-mode-track')).toBeVisible();
+    await tap(page, page.locator('[data-job-choice="0"]'));
+    await expect(page.locator('#jobResult')).toContainText(/You record the depth and stride/i);
+    await expectNoHorizontalOverflow(page);
+  });
+
   test('road-opening tutorial route and discovery fit mobile without overflow', async ({ page }) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
