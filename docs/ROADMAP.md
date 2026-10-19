@@ -38,6 +38,8 @@ The title screen now has an explicit RPG-menu direction. The broader [Game Reboo
 
 ## Next priorities
 
+**Baseline status (2026-10-19):** the production refactor is integrated. Main workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517) passed with 97 branch-local tests and a separate passing live GitHub Pages smoke test. The next work should target player-facing gameplay rather than another broad refactor.
+
 ### 1. Make road choices echo through the expedition
 
 **Goal:** A route decision should change what the player experiences later, not only adjust a number.
@@ -88,16 +90,24 @@ The title screen now has an explicit RPG-menu direction. The broader [Game Reboo
 
 **Goal:** Add variety while keeping the road exploration-first and touch-friendly.
 
-- Add a small number of distinct road events and enemy behaviors.
-- Reuse clear telegraphs and class techniques rather than adding a large menu of actions.
-- Keep encounter text concise and readable on mobile.
-- Test retreat, victory, defeat, and return paths.
+**First implementation slice: data-driven enemy behavior patterns.** The current Road Goblin, Blackroot Wolf, and Lantern Wisp share the same three-step telegraph rotation. Give each a distinct intent sequence using the existing `attack`, `heavy`, and `guardbreak` actions, while preserving the four-command combat UI and existing reward/save contracts.
+
+- [ ] Add explicit behavior IDs to the three existing enemy records; keep behavior definitions in `road-combat-v100.js`.
+- [ ] Make the initial and subsequent intent telegraphs follow the selected enemy pattern; unknown behavior IDs retain the legacy rotation.
+- [ ] Add combat-contract coverage for the first telegraph and next-turn transition for every pattern.
+- [ ] Update the production smoke assertion to exercise a deterministic enemy; retain all victory, defeat, retreat, and return checks.
+- [ ] Verify the merged build with the full `main` workflow and live GitHub Pages smoke test.
+
+Follow-on work can add new road event templates and enemy types once the first behavior slice is verified.
 
 ### 5. Stabilize and validate
 
-- Run the full regression suite on Desktop Chrome and focused touch-critical smoke tests on Mobile Safari and Mobile Chrome. Use the full browser matrix for deliberate cross-browser sweeps; investigate failures before release.
-- Verify the visible version, page title, data version, and cache-busting references agree.
-- Playtest the full first-session loop on desktop first, then confirm the critical creation, town, road, and combat flows at mobile width.
+**Automated release gate verified 2026-10-19:** the main CI suite and dedicated deployed-site smoke test both pass on commit `8006281` (workflow [#1498](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39258094517)). The gate remains mandatory after future gameplay changes.
+
+- [x] Run the current regression suite on Desktop Chrome and focused touch-critical smoke tests on Mobile Safari and Mobile Chrome; the last run passed 97 tests, with the separate live deployment smoke passing 1/1.
+- [x] Verify the visible version, page title, data version, and cache-busting references agree in the deployed smoke.
+- [ ] Playtest the full first-session loop over a longer desktop session, then manually confirm critical creation, town, road, and combat flows at mobile width.
+- [ ] Verify audible output and run a deliberate full Firefox browser matrix when scheduled.
 - Preserve existing save keys and avoid account/cloud-save changes unless explicitly prioritized.
 
 ## Guardrails
