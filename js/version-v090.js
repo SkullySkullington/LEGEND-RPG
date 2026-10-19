@@ -1,7 +1,7 @@
-// LEGEND v0.20.39 — anonymous soul-shaping creation and Ashmere service-art presentation.
+// LEGEND v0.20.40 — anonymous soul-shaping creation and Ashmere service-art presentation.
 // Existing saves remain compatible; this file only synchronizes runtime identity.
 (() => {
   if (!window.LEGEND_DATA) return;
-  window.LEGEND_DATA.VERSION = 'v0.20.39';
+  window.LEGEND_DATA.VERSION = 'v0.20.40';
   window.LEGEND_DATA.TITLE = 'LEGEND: The Awakening';
 })();
