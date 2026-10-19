@@ -53,7 +53,14 @@ async function startFreshCharacter(page, name = 'QATraveler') {
   await page.locator('#v094Next').click();
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
   await page.getByRole('button', { name: /Begin the Road/i }).click();
-  await page.getByRole('button', { name: /Enter Ashmere/i }).click();
+  await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+  // Keep the town as a stable fixture for town-only tests. The dedicated road-opening
+  // spec exercises the actual ambush, ACT command, and first expedition end-to-end.
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    window.LegendRoadOpeningV140.complete(player, 'abandoned');
+    window.LegendAshmereV099.renderAshmere();
+  });
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
@@ -261,6 +268,16 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.title-gate-card')).toHaveCount(0);
     await expect(page.locator('#enterRealm')).toHaveCount(0);
     await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
+  });
+
+  test('title opens the in-game News & Roadmap and can return to the menu', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /News & Roadmap/i }).click();
+    await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
+    await page.getByRole('button', { name: 'Return to Title' }).click();
+    await expect(page.locator('.v120-title')).toBeVisible();
   });
 
   test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
@@ -744,8 +761,29 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.getByRole('button', { name: /Begin Your Journey/i }).click();
     await page.locator('#v094Next').click();
     await expect(page.locator('#v094NameError')).toHaveText('Please enter a traveler name.');
-    await expect(page.getByRole('heading', { name: 'Who reaches Ashmere?' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What should I call you?' })).toBeVisible();
     await expect(page.locator('#v094Name')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  test('new traveler begins in the Old Road opening, before entering Ashmere', async ({ page }) => {
+    await openTitle(page);
+    await page.getByRole('button', { name: /Begin Your Journey/i }).click();
+    await page.locator('#v094Name').fill('AshmereOpeningQA');
+    await page.locator('#v094Next').click();
+    await page.locator('[data-gender="unspoken"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-personality="kind"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-origin]').first().click();
+    await page.locator('#v094Next').click();
+    await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-keepsake="Old Map"]').click();
+    await page.locator('#v094Next').click();
+    await page.getByRole('button', { name: /Begin the Road/i }).click();
+    await expect(page.getByRole('heading', { name: 'Beneath the Dead Lantern' })).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Your answer to Captain Oric' })).toBeVisible();
+    await expect(page.locator('.ash100-town')).toHaveCount(0);
   });
 
   test('new traveler reaches Ashmere', async ({ page }) => {
