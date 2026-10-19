@@ -104,6 +104,7 @@ function toggleBattleSound(){
 
 function combatAction(enemy,action){
  const pl=p();if(!pl)return;const s=ensure(pl),w=weapon(pl),a=armor(pl);
+ if(enemy.openingEncounterV140&&action!=='skill')return combat(enemy,'???: “Awaken.” Use ACT to answer the voice.');
  if(action==='skill'&&Number(enemy.skillCooldown||0)>0)return combat(enemy,'Your class technique is recovering. Choose another command; this does not consume your turn.');
  const guarding=action==='guard';
  playBattleFx(action==='guard'?'guard':action==='item'||action==='poultice'?'heal':action==='skill'?'magic':action==='heavy'?'heavy':'swing');
