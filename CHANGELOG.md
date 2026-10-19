@@ -1,3 +1,14 @@
+## v0.20.38 — Veil-led opening and first road expedition (branch preview)
+- Reframe traveler creation as a conversation with the unidentified voice “???”; keep the existing identity options, origin/class/keepsake data, starting stats, inventory, and save key.
+- Open on the Old Road: Captain Oric finds the traveler beneath a dead lantern, the player chooses a response, and a Blackroot Wolf ambush triggers the voice’s “Awaken” prompt.
+- Use the production combat scene and ACT command for a guaranteed one-HP opening target; then connect directly into the production five-stage expedition.
+- Add contextual first-run instructions for the High Ridge/Reed Cut fork, a roadside discovery, searching, travel pressure, the waystation rest, and securing rewards on return to Ashmere.
+- Add a title-menu News & Roadmap screen linking to the existing development hub, devlog, and GitHub project. Existing travelers without the new opening flag continue through the established path.
+- Add desktop/mobile Playwright coverage for the opening, ACT handoff, first expedition, return, saved conversation resume, and News & Roadmap.
+- Verification status: branch-local Playwright and live deployment checks are pending; this preview is not merged or released.
+
+---
+
 ## v0.20.37 — Distinct Old Road enemy intent patterns
 - Give the Road Goblin, Blackroot Wolf, and Lantern Wisp separate, data-driven intent patterns using the existing Attack, Heavy Wind-up, and Guard Break telegraphs.
 - Let the chosen enemy's pattern determine the opening tell and subsequent combat turns, so players can learn different encounter rhythms without another command row.
