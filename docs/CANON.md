@@ -69,6 +69,16 @@ Long ago the monsters and the kingdoms fought a war, then reached an agreement, 
 - The first game spans Ashmere, the Old Road, Greyfen, Ironpass, Blackwood and the Ruined March. Only Ashmere, the Old Road and Greyfen exist in the game today.
 - The Pale Surveyor, Hollow Mile, Unreturned, Four Witnesses, Office of Measure, Seven-Wagon Dispatch, Aren Vey and Ivara are demoted legacy ideas. Do not build on them without the owner's re-approval.
 
+## Approved opening direction — the unnamed presence (owner-approved 2026-10-19)
+
+The presence speaking during traveler creation is **the Veil at the author/story-design level**. The player must see and hear only **"???"**: do not call it the Veil, give it an in-world name, show an identifiable character portrait, or explain what it is during creation. Its role is to invite the player to shape the soul they will inhabit and to choose, recognize, or recall fragments of that soul's memories.
+
+- The sequence should feel dreamlike and intimate: a name gathers around the silence; a shape appears in still water; a feeling persists after its scene is lost; a place or origin rises without a complete face; the hands remember a skill; a keepsake remains when the rest is unclear.
+- These prompts are deliberately ambiguous. They do not decide which memories are historically true, whether the chosen origin is inherited or lived, or what kind of being the traveler is.
+- The presence may speak about remembering, forgetting, fragments, identity and becoming. It must not state or conclusively imply that the traveler is an echo, was made by the Last Mercy, was touched by the Veil, or has a predetermined false past.
+- Captain Oric belongs after this sequence, when the traveler wakes and reaches the Ashmere arrival briefing. Keep the anonymous presence's artwork abstract, misted and unidentifiable; the interface label remains "???" at every creation step and the final review.
+- This is an approved opening-presentation direction, **not approval to reveal L4**. L4's hidden-knowledge rule remains in force until a separate owner-approved reveal plan decides how the traveler learns what they are.
+
 ## Established in the shipped game (v0.20.35)
 
 These are facts players can already see. Changing one means updating the game, its save flags and its tests.
@@ -108,3 +118,4 @@ These are facts players can already see. Changing one means updating the game, i
 - 2026-10-16: Owner direction added: the Veil makes echoes, the hostile monsters are Veil-touched echoes, and an old war ended in an agreement the Veil is breaking. Recorded as approved direction (not locked), with four conflicts listed for the owner to reconcile. The traveler draft is on hold.
 - 2026-10-19: Owner confirmed the echo rules. L5 (echoes are anything the Veil made or touched; the hostile monsters are Veil-touched echoes; humans stay ordinary), L6 (the Last Mercy wounded the Veil and the wound makes echoes) and L7 (an old war ended in an agreement the Veil is breaking) locked. The three conflicts listed on 2026-10-16 are resolved, and the monster bullet under Approved direction was updated to match L5.
 - 2026-10-19: The traveler draft is off hold.
+- 2026-10-19: Owner approved the traveler-creation voice as the Veil at the author/story-design level, shown to the player only as "???". Creation is framed as shaping a soul and recovering ambiguous memories; this does not reveal or imply the traveler's L4 nature, and Oric appears only after the sequence.
