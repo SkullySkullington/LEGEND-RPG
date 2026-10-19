@@ -1,4 +1,4 @@
-/* LEGEND v0.20.36 - traveler creation presentation.
+/* LEGEND v0.20.38 - Veil-led soul creation presentation.
  * Owns the reusable creation step markup and DOM binding. The creation controller
  * supplies the current state and callbacks; this module never writes player saves.
  */
@@ -26,10 +26,10 @@
 
   function renderName({ root, name = '', onBack, onSubmit }) {
     mount(root,
-      '<section class="v094-beginning-card"><div class="v094-kicker">Traveler Creation</div>' +
-      stepProgress(1, 'Start with the name you want the world to remember.') +
-      '<h1>Who reaches Ashmere?</h1><p>You wake under a dead lantern with road mud on your boots. Give the town a name to remember.</p>' +
-      '<div class="v094-field"><label for="v094Name">Traveler Name</label>' +
+      '<section class="v094-beginning-card v094-veil-creation"><div class="v094-kicker">A VOICE IN THE VEIL · ???</div>' +
+      stepProgress(1, 'Begin with the name this soul will carry into the world.') +
+      '<h1>What should I call you?</h1><p class="v094-veil-line"><strong>???</strong> “I can feel a soul stirring in the dark. I cannot give it a name. That part must come from you.”</p><p>Something of you remains, even if the road has taken the memory of it. What name answers when the voice calls?</p>' +
+      '<div class="v094-field"><label for="v094Name">A name to remember</label>' +
       '<input id="v094Name" maxlength="24" placeholder="Name, no spaces" value="' + escapeHtml(name) + '">' +
       '<p id="v094NameError" role="alert" style="display:none;color:#ffb4a9;margin:8px 0 0"></p></div>' +
       actionButtons({ back: true, next: true, label: 'Choose Identity' }) + '</section>');
@@ -63,7 +63,7 @@
     mount(root,
       '<section class="v094-beginning-card v094-choice-scene"><div class="v094-kicker">' + escapeHtml(kicker) + '</div>' +
       stepProgress(step, progress) + '<h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(description) + '</p>' +
-      '<aside class="v094-scene-note"><span>FIELD NOTE · THE OLD ROAD</span><p>' + escapeHtml(scene) + '</p></aside>' +
+      '<aside class="v094-scene-note"><span>THE VOICE IN THE VEIL · ???</span><p>' + escapeHtml(scene) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
       actionButtons({ back: true, next: true, label: nextLabel }) + '</section>');
@@ -87,9 +87,9 @@
 
   function renderConfirmation({ root, name, gender, personality, origin, className, keepsake, onBack, onBegin }) {
     mount(root,
-      '<section class="v094-beginning-card"><div class="v094-kicker">Your Story So Far</div>' +
-      stepProgress(7, 'One last look before your first steps onto the Old Road.') +
-      '<h2>' + escapeHtml(name) + '</h2><p>A ' + escapeHtml(personality.label.toLowerCase()) + ' traveler wakes beneath a dead lantern. The road is quiet. Someone is coming.</p>' +
+      '<section class="v094-beginning-card v094-veil-creation"><div class="v094-kicker">THE MEMORY TAKES SHAPE</div>' +
+      stepProgress(7, 'Your memories have not returned. Your first choices have.') +
+      '<h2>' + escapeHtml(name) + '</h2><p class="v094-veil-line"><strong>???</strong> “There you are. A name, a way of meeting the world, a life, a calling, a thing you could not leave behind. Not a whole past—only a beginning.”</p><p>A ' + escapeHtml(personality.label.toLowerCase()) + ' soul stirs beneath the dead lantern. The voice falls quiet. Something moves along the road.</p>' +
       '<div class="v094-summary"><div><span>Gender</span><strong>' + escapeHtml(gender.label) + ' (' + escapeHtml(gender.pronouns) + ')</strong></div>' +
       '<div><span>Personality</span><strong>' + escapeHtml(personality.label) + '</strong></div>' +
       '<div><span>Origin</span><strong>' + escapeHtml(origin) + '</strong></div>' +
