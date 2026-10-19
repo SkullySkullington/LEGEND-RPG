@@ -1,4 +1,4 @@
-// LEGEND v0.20.36 - Active Old Road Expedition Controller
+// LEGEND v0.20.38 - Active Old Road Expedition Controller
 // Mobile-first expedition loop. Meaningful choices replace visible D20 gates.
 (() => {
 const RT=()=>window.LegendRuntimeV120||{}, ROADS=()=>window.LegendRoadsV100||{}, A=()=>window.LegendAssetsV090||{}, root=()=>document.getElementById('root');
@@ -125,6 +125,16 @@ function combat(enemy,note=''){
  return renderExpedition('A road encounter begins, but the combat module did not load. Return to Ashmere and refresh before another attempt.');
 }
 
+function startOpeningEncounter(){
+  const pl=p();if(!pl)return;
+  stopBattleMusic();roadDiscovery.hide();
+  const s=ensure(pl);
+  s.stage=0;s.pressure=0;s.poiUsed={};s.searchUsed={};s.readUsed={};s.routeChoice=null;
+  s.discoveryOpen=false;s.discoveryStage=null;
+  save(pl);
+  const enemy={id:'opening-blackroot-wolf-v140',behavior:'predator',name:'Blackroot Wolf',hp:1,maxHp:1,damage:[0,0],reward:'fur',text:'A Blackroot Wolf bursts from the ditch and catches Captain Oric off guard.',turn:0,intent:'guardbreak',openingEncounterV140:true};
+  return combat(enemy,window.LegendRoadOpeningV140?.battleText?.(pl)||'??? whispers: “Awaken.” Use ACT to answer.');
+}
 function returnToTownFromRoad(){
   const player=p();
   if(player){player.town='Ashmere';save(player);}
@@ -168,5 +178,5 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  clamp,
  returnToAshmere:ret
 });
-window.LegendRoadControllerV100={start,renderHub:renderExpedition,renderExpedition};
+window.LegendRoadControllerV100={start,startOpeningEncounter,renderHub:renderExpedition,renderExpedition};
 })();
