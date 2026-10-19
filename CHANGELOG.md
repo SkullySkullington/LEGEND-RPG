@@ -3,7 +3,9 @@
 - Retain current class portraits, choice IDs, creation callbacks, starting-record builder, and the existing save contract; this is a presentation pass, not a player-record migration.
 - Use the committed raster LEGEND wordmark in the title and traveler creator instead of the SVG wordmark.
 - Render Ashmere/Greyfen destination cards, route strip, and town navigation with dedicated local service-icon art, in consistent contained image wells.
-- Add regression coverage for the new creation scene and local service icon mapping; update the roadmap and opening/tutorial/story plan.
+- Add a skippable three-beat Oric arrival tutorial, with a scene title, portrait dialogue, and explicit first goals.
+- Give each creator step a short entrance transition; enhance road/travel curtain transitions with the raster wordmark, local Ashmere road art, and a readable location label. Reduced-motion preferences disable the new motion.
+- Add Playwright smoke coverage for creator dialogue, skip/continue behavior, illustrated transition branding, and local service icon mapping; update the roadmap and opening/tutorial/story plan.
 - **Verification is pending in PR #27.** Do not treat v0.20.38 as released until final-head Playwright CI, deployment, and the deployed smoke check pass.
 
 ---
