@@ -43,3 +43,16 @@
 @media(min-width:760px){.opening-road-v140-choices{grid-template-columns:repeat(3,minmax(0,1fr))}.opening-road-v140-choice{min-height:118px}.opening-road-v140-choice strong{line-height:1.35}}
 @media(max-width:560px){.opening-road-v140{padding:10px;place-items:start center}.opening-road-v140-card{margin:8px auto;padding:22px 16px}.opening-road-v140-card h1{font-size:clamp(2.1rem,12vw,3.1rem)}.opening-road-v140-actions{display:grid}.opening-road-v140-primary,.opening-road-v140-secondary{width:100%}.opening-road-v140-guide{padding:12px;gap:9px}.opening-road-v140-guide-mark{flex-basis:29px;width:29px;height:29px}}
 @media(prefers-reduced-motion:reduce){.opening-road-v140-choice,.opening-road-v140-primary,.opening-road-v140-secondary{transition:none!important;transform:none!important}}
+
+/* Veil-led creation shares the opening's ink-and-antique-gold visual language. */
+.v094-veil-creation .v094-kicker{color:#dfc07b;letter-spacing:.19em}
+.v094-veil-creation .v094-stepper-top{color:#dfc07b}
+.v094-veil-creation .v094-scene-note{border-left-color:#c9a55e;background:rgba(0,0,0,.26)}
+.v094-veil-creation .v094-scene-note>span{color:#dfc07b;letter-spacing:.16em}
+.v094-veil-creation .v094-veil-line{max-width:800px;margin:18px 0;padding:12px 16px;border-left:2px solid rgba(229,190,110,.55);background:rgba(0,0,0,.22);color:#f3e5c2;line-height:1.7}
+.v094-veil-creation .v094-veil-line strong{display:block;margin-bottom:3px;color:#dfc07b;font-size:.66rem;letter-spacing:.17em}
+.v094-veil-creation .v094-field label{color:#e5c780}
+.v094-veil-creation .v094-choice{border-radius:3px;background:linear-gradient(180deg,rgba(19,28,20,.96),rgba(4,9,6,.97));border-color:rgba(229,190,110,.26)}
+.v094-veil-creation .v094-choice.is-selected{border-color:#dfc07b;background:linear-gradient(180deg,rgba(48,42,27,.95),rgba(9,14,9,.98));box-shadow:0 0 22px rgba(229,190,110,.1)}
+.v094-veil-creation .v094-choice strong{color:#f2e3be}
+.v094-veil-creation .v094-btn.primary{background:linear-gradient(180deg,#f6d995,#c99a42);border-color:#e8c878;color:#261c08}
