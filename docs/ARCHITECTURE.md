@@ -101,15 +101,15 @@ The active code uses versioned classic scripts loaded in order by `index.html`; 
 | `js/systems/account/account-profile-view-v09x.js` | 120 lines | Profile screen markup and local DOM event binding for traveler and cloud slots | Own account/profile presentation; invoke injected callbacks for navigation, profile updates, and cloud-slot intent |
 | `js/systems/account/cloud-traveler-slots-v09x.js` | 88 lines | Supabase cloud traveler slot list/save/load/delete, readiness checks, and slot error handling | Own cloud-slot CRUD and keep the account UI from embedding remote persistence rules |
 | `js/systems/account/account-auth-v09x.js` | 166 lines | Supabase readiness/session/sign-in/sign-up/sign-out and profile-metadata callbacks for auth flows | Own remote auth calls and profile-metadata effects; delegate panel markup and DOM binding to the focused auth view |
-| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer/onRender` | Town screens read/write current player state; the render hook restores the town shell when necessary. |
+| `js/systems/ashmere-controller-v099.js` | `LegendRuntimeV120.loadPlayer/savePlayer` | Town state uses explicit navigation/render routes; the legacy text-matching repair callback has been retired. |
 | `js/systems/region-controller-v100.js` | 53 lines | Regional map wiring, back-to-town routing, and stable `LegendRegionsV100` facade | Preserve public `render/unlock/travel` API and delegate transactions to the focused service |
 | `js/systems/region-service-v100.js` | 79 lines | Region prerequisite checks, token unlocks, travel fares, region mutation, memories, and save orchestration | Own region-changing rules separately from rendering/controller wiring |
 | `js/systems/region-view-v100.js` | 108 lines | Region cards, unlock/travel affordances, map layout, wallet display, and action binding | Own map presentation; take current player/region data and intent callbacks as injected dependencies |
 
 | `js/systems/road-controller-v100.js` | Runtime load/save/return | Expedition stage, pressure, combat results, and town return depend on the bridge. |
-| `js/core/game-runtime-v120.js` | Delegates player load/save to `LegendStorage` | Also owns pending-return session state, title continue-click fallback, mutation-observer hooks, and return-to-town recovery. |
+| `js/core/game-runtime-v120.js` | Delegates player load/save to `LegendStorage` | Owns pending-return session state, title continue-click fallback, and bounded return-to-town recovery without a document-wide observer. |
 
-The static caller inventory is complete enough to guide the next review, but it is not yet proof that the runtime return/MutationObserver hook can be simplified. v087 no longer registers the hook or rewrites click handlers. Keep the hook until title, traveler creation, town, expedition, combat, and return flows have been browser-smoke-tested.
+The legacy Ashmere text-matching repair callback and its document-wide MutationObserver have been removed after the caller inventory and browser journeys were reviewed. Keep the pending-return session key and bounded startup fallback; manual/deployed-site validation remains a separate release check.
 
 ## Critical runtime APIs
 

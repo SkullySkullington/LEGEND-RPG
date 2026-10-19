@@ -14,7 +14,7 @@ The reboot prototype under `prototypes/reboot/` is not the target. Do not replac
 - `js/systems/road/road-decisions-v100.js` now owns the initial route fork and the moved-cairn side-story choice mutations; discovery keeps an adapter for the existing road facade.
 - `js/systems/road/road-discovery-v100.js` is now the discovery facade; `road-discovery-view-v100.js` owns clue/route/cairn panel markup, `road-poi-catalog-v100.js` resolves contextual clue records, `road-decisions-v100.js` applies branch choices, and `road-poi-outcomes-v100.js` settles clue evidence/rewards.
 - `js/systems/road-controller-v087.js`: retired and deleted from the active project; v100 is now the only road controller.
-- `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains as the return/navigation bridge while its observer/recovery behavior awaits browser verification.
+- `js/core/game-runtime-v120.js` delegates player persistence to `LegendStorage`; it remains the return/navigation bridge with explicit pending-return session state and bounded startup fallback, without a document-wide render observer.
 - `js/systems/region-controller-v100.js` keeps the public regional facade and UI wiring; `js/systems/region-view-v100.js` owns the map UI, and `js/systems/region-service-v100.js` owns unlock/travel checks and mutations.
 - `js/game.js` shrank from 325 to about 101 lines after extracting the active title controller into `js/screens/title-screen-v120.js`; menu markup lives in `js/screens/title-screen-view-v120.js`, auxiliary gate/credits flows live in `js/screens/title-extras-v120.js`, and ambience/effects remain in `js/systems/title-audio-v120.js`.
 - `js/systems/account-v09x.js`: 5.1 KB / 114-line account facade for async auth/cloud orchestration and bootstrap callbacks; profile markup is in `js/systems/account/account-profile-view-v09x.js`, profile metadata persistence is in `js/systems/account/account-profile-store-v09x.js`, auth UI/service is in `js/systems/account/account-auth-v09x.js`, and cloud-slot CRUD is in `js/systems/account/cloud-traveler-slots-v09x.js`. Player saves remain owned by `LegendStorage`.
@@ -124,7 +124,7 @@ Pass shared dependencies through small context objects or explicit function argu
 ### 4. Reduce shared UI/runtime coupling
 - [x] Introduce focused title and settings screen boundaries with navigation injected through `LegendGameBootstrap`.
 - Create a broader shared navigation contract only after town, traveler-creation, and road call sites have been fully mapped.
-- Replace broad document-wide event interception only when every affected caller is understood.
+- [ ] Verify removal of the legacy Ashmere text-matching render observer under full Playwright regression; keep pending-return recovery and manual/deployed-site checks explicit.
 - Keep scene-transition behavior and focus/keyboard interactions intact.
 - [x] Inventory active production script escape helpers and consolidate the identical HTML escaping mapping in `js/core/html-utils-v120.js`; URL validation and arbitrary-HTML sanitization remain separate concerns.
 

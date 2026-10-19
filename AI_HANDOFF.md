@@ -21,9 +21,9 @@ Current architectural boundaries:
 - `docs/ADDING_FEATURES.md`, `docs/ARCHITECTURE.md`, `docs/REFACTOR_PLAN.md`, and `docs/SAVE_DATA_CONTRACT.md` describe feature insertion points and compatibility rules.
 
 Validation status (updated 2026-10-19):
-- GitHub Actions [run #1489](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39245185505) passed on PR head `d4da54d20c`: 93 passed, 0 failed, 1 skipped in about 3.2 minutes.
-- This branch-local Playwright run verified the Inn cost/affordability checks, expedition gold/XP/level-up/Token settlement and return, and the pure route-aware road-content resolver, alongside existing dialogue, side-contract, Dry Crossing, kickoff, combat, progression, audio-contract, and mobile-compatibility coverage.
-- The deployed GitHub Pages smoke step is skipped on pull-request runs, so this result does not verify the live site. A previous live smoke attempt failed before reaching the game with `ERR_TUNNEL_CONNECTION_FAILED`; it made no character changes and did not modify storage.
+- GitHub Actions [run #1490](https://github.com/TDTRIA/LEGEND-RPG/actions/runs/39245873309) passed on PR head `7ffa70a500`: 93 passed, 0 failed, 1 skipped. It verifies the Inn cost/affordability checks, expedition gold/XP/level-up/Token settlement and return, route-aware road-content resolver, dialogue, side-contract, Dry Crossing, kickoff, combat, progression, audio-contract, and mobile-compatibility coverage.
+- The current draft additionally removes `LegendRuntimeV120.onRender` and the Ashmere text-matching observer; its new return-bridge regression must pass in the workflow for the current head before that change is considered validated.
+- The deployed GitHub Pages smoke step is skipped on pull-request runs, so these results do not verify the live site. A previous live smoke attempt failed before reaching the game with `ERR_TUNNEL_CONNECTION_FAILED`; it made no character changes and did not modify storage.
 - Keep PR #17 as a draft and do not merge or deploy without the owner's direction. Manual desktop/mobile review, deployed-build navigation, and audible-output verification remain pending.
 
 ## Current narrative direction — 2026-10-15

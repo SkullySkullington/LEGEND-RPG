@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const dataSource = fs.readFileSync(path.join(__dirname, '../js/data.js'), 'utf8');
 const runtimeSource = fs.readFileSync(path.join(__dirname, '../js/core/game-runtime-v120.js'), 'utf8');
+const townControllerSource = fs.readFileSync(path.join(__dirname, '../js/systems/ashmere-controller-v099.js'), 'utf8');
 const titleScreenSource = fs.readFileSync(path.join(__dirname, '../js/screens/title-screen-v120.js'), 'utf8');
 const indexSource = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
@@ -68,6 +69,33 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(runtimeSource).not.toContain('LegendTownControllerV080');
     expect(runtimeSource).not.toContain('legend-v080-return-ashmere');
     expect(runtimeSource).toContain('legend-awakening-return-to-town-v1');
+  });
+
+  test('runtime return bridge works without a document-wide town render observer', async ({ page }) => {
+    expect(runtimeSource).not.toContain('MutationObserver');
+    expect(runtimeSource).not.toContain('onRender');
+    expect(townControllerSource).not.toContain('Ashmere Menu');
+    expect(townControllerSource).not.toContain('onRender');
+
+    await startFreshCharacter(page, 'ReturnBridgeQA');
+    await page.evaluate(() => {
+      window.LegendGameBootstrap.title();
+      window.LegendRuntimeV120.returnToAshmere();
+    });
+    await expect(page.locator('.ash100-town')).toBeVisible();
+
+    const api = await page.evaluate(() => ({
+      returnToAshmere: typeof window.LegendRuntimeV120.returnToAshmere,
+      handlePendingReturn: typeof window.LegendRuntimeV120.handlePendingReturn,
+      onRender: typeof window.LegendRuntimeV120.onRender,
+      pendingReturn: sessionStorage.getItem('legend-awakening-return-to-town-v1')
+    }));
+    expect(api).toEqual({
+      returnToAshmere: 'function',
+      handlePendingReturn: 'function',
+      onRender: 'undefined',
+      pendingReturn: null
+    });
   });
 
   test('active script graph excludes retired runtime and road assets', () => {

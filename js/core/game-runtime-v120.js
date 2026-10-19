@@ -70,28 +70,10 @@
     setTimeout(attempt, 0);
   }
 
-  function onRender(fn){
-    const run = () => {
-      try{ fn(); }catch(err){ console.warn('LegendRuntimeV120 render hook failed:', err); }
-      try{ handlePendingReturn(); }catch(err){ console.warn('LegendRuntimeV120 return hook failed:', err); }
-    };
-    if(document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', () => {
-        run();
-        autoResumePendingReturn();
-        const observer = new MutationObserver(() => requestAnimationFrame(run));
-        observer.observe(document.body,{childList:true,subtree:true});
-      });
-    } else {
-      run();
-      autoResumePendingReturn();
-      const observer = new MutationObserver(() => requestAnimationFrame(run));
-      observer.observe(document.body,{childList:true,subtree:true});
-    }
-  }
+
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoResumePendingReturn);
   else autoResumePendingReturn();
 
-  window.LegendRuntimeV120 = { loadPlayer, savePlayer, returnToAshmere, continueFromTitle, handlePendingReturn, onRender };
+  window.LegendRuntimeV120 = { loadPlayer, savePlayer, returnToAshmere, continueFromTitle, handlePendingReturn };
 })();

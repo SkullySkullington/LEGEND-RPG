@@ -175,8 +175,5 @@
     }
   });
   function startRoad(){if(window.LegendRoadControllerV100?.start)return window.LegendRoadControllerV100.start();screen(head('Town Gate','Old Road','The expedition system could not load.',roadBg(),'road'),'<p>Return to the title and refresh before trying again.</p>');}
-  function intercept(){const text=document.body?.innerText||'';if(/Ashmere Menu|Ashmere • First Town/.test(text)&&!document.querySelector('.ash099'))renderAshmere();}
   window.LegendAshmereV099={renderAshmere,route};
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',intercept);else intercept();
-  const rt=RT(); if(rt.onRender)rt.onRender(intercept);
 })();
