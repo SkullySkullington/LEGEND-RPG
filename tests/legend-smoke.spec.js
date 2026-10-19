@@ -52,7 +52,7 @@ async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await page.locator('[data-keepsake="Old Map"]').click();
   await page.locator('#v094Next').click();
   await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /Begin the Road/i }).click();
+  await page.getByRole('button', { name: /Let Me Wake/i }).click();
   if (options.stopAtIntro) {
     await expect(page.locator('.v140-creation')).toBeVisible();
     return;
@@ -1730,22 +1730,42 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
   });
 
-  test('traveler creation uses Captain Oric dialogue and the raster LEGEND wordmark', async ({ page }) => {
+  test('traveler creation shapes a soul with an unnamed presence and raster LEGEND wordmark', async ({ page }) => {
     await openTitle(page);
     await page.locator('#newPrimary').click();
     await expect(page.locator('.v140-creation')).toBeVisible();
     await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
-    await expect(page.locator('.v140-guide-portrait')).toHaveAttribute('src', /captain-oric\.webp/);
-    await expect(page.locator('.v140-dialogue-box')).toContainText('CAPTAIN ORIC');
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/watch ledger/i);
-    await page.locator('#v094Name').fill('OricGuideQA');
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-presence-mark')).toHaveAttribute('src', /skills\/icons\/veil\.webp/);
+    await expect(page.locator('.v140-presence-glyph')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/memory|name|soul/i);
+    await page.locator('#v094Name').fill('SoulMemoryQA');
     await page.locator('#v094Next').click();
-    await expect(page.locator('.v140-dialogue-box')).toContainText(/ledger/i);
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/outline|shape/i);
     await expect(page.locator('.v094-choice-grid')).toBeVisible();
-    await expect(page.locator('.v140-guide-portrait')).toBeVisible();
+    await expect(page.locator('.v140-presence-frame')).toBeVisible();
+    await expect(page.locator('.v140-guide-portrait')).toHaveCount(0);
+
+    await page.locator('[data-gender="unspoken"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-personality="kind"]').click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-origin]').first().click();
+    await page.locator('#v094Next').click();
+    await page.getByRole('button', { name: /Ranger Better road sense, scouting, and fleeing/i }).click();
+    await page.locator('#v094Next').click();
+    await page.locator('[data-keepsake="Old Map"]').click();
+    await page.locator('#v094Next').click();
+
+    await expect(page.getByRole('heading', { name: 'SoulMemoryQA', exact: true })).toBeVisible();
+    await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
+    await expect(page.locator('.v140-dialogue-box')).toContainText(/chosen|remembered/i);
+    await expect(page.getByRole('button', { name: /Let Me Wake/i })).toBeVisible();
+    await expect(page.locator('.v140-creation')).not.toContainText(/Captain Oric|the Veil/i);
   });
 
-  test('Oric guides the arrival briefing through three in-world dialogue beats', async ({ page }) => {
+  test('Oric guides the arrival briefing after the soul-shaping sequence', async ({ page }) => {
     await startFreshCharacter(page, 'OricIntroQA', { stopAtIntro: true });
     await expect(page.locator('.v094-beginning-card h2')).toHaveText('Under a Dead Lantern');
     await expect(page.locator('.v140-dialogue-box')).toContainText(/Captain Oric/i);
