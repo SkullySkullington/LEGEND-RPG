@@ -20,7 +20,7 @@
         '<aside class="v140-guide-pane" aria-label="Your guide at the Ashmere gate">' +
           '<div class="v140-guide-portrait-frame"><img class="v140-guide-portrait" src="' + escapeHtml(portrait) + '" alt="Captain Oric, Ashmere watch captain" decoding="async" onerror="this.onerror=null;this.style.display=\'none\'">' +
           '<span>ASHMERE WATCH</span></div>' +
-          '<section class="v140-dialogue-box" role="region" aria-label="Captain Oric dialogue">' +
+          '<section class="v140-dialogue-box" role="region" aria-live="polite" aria-label="Captain Oric dialogue">' +
             '<div class="v140-dialogue-speaker"><strong>CAPTAIN ORIC</strong><span>GATE CAPTAIN</span></div>' +
             '<p>' + escapeHtml(guideText) + '</p>' +
             '<small>THE OLD ROAD · ENTRY QUESTIONS</small>' +
@@ -121,18 +121,60 @@
   }
 
   function renderIntro({ root, onEnter }) {
-    mount(root,
-      '<section class="v094-beginning-card"><div class="v094-kicker">The Road to Ashmere</div>' +
-      '<h2>The bell rings once.</h2><div class="v094-intro-lines">' +
-      '<p>You wake beneath a dead lantern with no memory of the last mile.</p>' +
-      '<p>Behind you, the Old Road has folded into fog. Ahead, Ashmere burns with tired yellow light.</p>' +
-      '<p>A guard sees your face, then the mud on your boots. He does not ask where you came from.</p>' +
-      '<p>Inside the gate, three choices matter first: speak to the townsfolk, prepare supplies, and only then test the road.</p></div>' +
-      '<div class="v094-summary"><div><span>First Goal</span><strong>Talk in Town Square</strong></div>' +
-      '<div><span>Then</span><strong>Prepare at Inn / Shops</strong></div>' +
-      '<div><span>Then</span><strong>Travel the Old Road</strong></div></div>' +
-      actionButtons({ back: false, next: true, label: 'Enter Ashmere' }) + '</section>', { step: 7, guideText: 'First, speak to the townsfolk. Mara keeps the archive and may know why the bell rang. Prepare at the inn or shops before taking the Old Road. You choose when you are ready.' });
-    root?.querySelector('#v094Next')?.addEventListener('click', () => onEnter?.());
+    const scenes = [
+      {
+        kicker: 'THE LAST MILE',
+        title: 'Under a Dead Lantern',
+        lines: [
+          'You wake beneath a dead lantern with no memory of the last mile.',
+          'Mud darkens your boots. Behind you, the Old Road folds into fog; ahead, Ashmere glows with tired yellow light.'
+        ],
+        dialogue: "Easy now. Captain Oric, Ashmere watch. I won't pretend I know where you came from. I only know you were found beneath a lantern that should have been lit."
+      },
+      {
+        kicker: "THE GATEKEEPER'S LEDGER",
+        title: 'A Bell, Once',
+        lines: [
+          'Mara Vell heard the town bell ring once when you arrived. She says that should not be possible.',
+          'Oric has no explanation. For now, the bell is a fact to investigate—not an answer.'
+        ],
+        dialogue: 'Mara keeps the archive. Ask what she heard and what she actually saw. Keep your own guesses separate from the record until there is evidence.'
+      },
+      {
+        kicker: 'FIRST STEPS',
+        title: 'Warm Lights. Open Roads.',
+        lines: [
+          'Ashmere offers a place to rest, provisions, gear, work, and people who know the road.',
+          'There is no required order for preparing. You decide when you are ready to leave.'
+        ],
+        dialogue: 'Speak with the townsfolk first. Sella can help with supplies, Brenn keeps the ledgers, and I can tell you what the watch knows. When ready, check the road board: the High Ridge is safer; the Reed Cut is riskier. The choice is yours.'
+      }
+    ];
+    let index = 0;
+    function renderBeat() {
+      const scene = scenes[index];
+      const goals = index === scenes.length - 1
+        ? '<div class="v094-summary"><div><span>First Goal</span><strong>Talk in Town Square</strong></div>' +
+          '<div><span>Then</span><strong>Prepare at Inn / Shops</strong></div>' +
+          '<div><span>When Ready</span><strong>Choose Your Road</strong></div></div>'
+        : '';
+      mount(root,
+        '<section class="v094-beginning-card v140-arrival-card"><div class="v094-kicker">' + escapeHtml(scene.kicker) + '</div>' +
+        '<h2>' + escapeHtml(scene.title) + '</h2><div class="v094-intro-lines">' +
+        scene.lines.map(line => '<p>' + escapeHtml(line) + '</p>').join('') +
+        '</div>' + goals +
+        actionButtons({ back: false, next: true, label: index === scenes.length - 1 ? 'Enter Ashmere' : 'Continue' }) +
+        '</section>', { step: 7, guideText: scene.dialogue });
+      root?.querySelector('#v094Next')?.addEventListener('click', () => {
+        if (index < scenes.length - 1) {
+          index += 1;
+          renderBeat();
+          return;
+        }
+        onEnter?.();
+      });
+    }
+    renderBeat();
   }
 
   window.LegendPlayerCreationViewV094 = Object.freeze({
