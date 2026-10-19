@@ -45,9 +45,9 @@
       {id:'study', title:'Old Stones Beside the Road', text:'Three stones lean together, each carved with a bell mark worn almost smooth.', skill:'lore', risk:'Low', success:'You understand enough to mark the place for Brenn.', fail:'The mark means nothing yet, but the silence around it does.'}
     ],
     enemies: [
-      {id:'goblin', name:'Road Goblin', hp:[24,38], damage:[3,8], reward:'fur', text:'A hunched goblin slips from behind a mile-marker, knife low and eyes bright.'},
-      {id:'wolf', name:'Blackroot Wolf', hp:[30,46], damage:[4,10], reward:'fur', text:'A lean wolf follows your shadow until the road narrows.'},
-      {id:'wisp', name:'Lantern Wisp', hp:[20,34], damage:[3,9], reward:'bellFragment', text:'A pale light leaves an old lantern and drifts across your path.'}
+      {id:'goblin', behavior:'raider', name:'Road Goblin', hp:[24,38], damage:[3,8], reward:'fur', text:'A hunched goblin slips from behind a mile-marker, knife low and eyes bright.'},
+      {id:'wolf', behavior:'predator', name:'Blackroot Wolf', hp:[30,46], damage:[4,10], reward:'fur', text:'A lean wolf follows your shadow until the road narrows.'},
+      {id:'wisp', behavior:'flicker', name:'Lantern Wisp', hp:[20,34], damage:[3,9], reward:'bellFragment', text:'A pale light leaves an old lantern and drifts across your path.'}
     ],
     finds: [
       {id:'cache', title:'Roadside Cache', text:'A loose stone hides old traveler supplies.', item:'food', amount:1},
