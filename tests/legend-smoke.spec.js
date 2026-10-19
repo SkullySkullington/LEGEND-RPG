@@ -238,7 +238,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(result.gold).toBe('47g');
   });
 
-  test('title background, wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
+  test('title background, raster wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
     const emblem = page.locator('.v136-corner-sigil');
@@ -248,7 +248,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(emblem).toBeVisible();
     await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
     await expect(logo).toBeVisible();
-    await expect(logo).toHaveAttribute('src', /logo_legend_awakening_wordmark\.svg/);
+    await expect(logo).toHaveAttribute('src', /logo_legend_main_v1\.png/);
     await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   });
