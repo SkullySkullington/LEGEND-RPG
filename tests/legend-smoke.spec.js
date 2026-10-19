@@ -1297,7 +1297,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
     await expect(curtain).toHaveClass(/is-covering/);
-    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\\.png/);
+    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
     await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
     await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
