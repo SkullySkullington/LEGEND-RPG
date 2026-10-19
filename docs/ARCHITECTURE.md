@@ -1,5 +1,5 @@
 # Production architecture audit
-Updated: 2026-10-16
+Updated: 2026-10-19
 
 This is a working map of the production browser game. It is not a map of `prototypes/reboot/`. The code uses classic browser scripts and shared `window` namespaces, so script order and global names must be treated as runtime contracts.
 
