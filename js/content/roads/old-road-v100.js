@@ -35,6 +35,10 @@
       4: 'The roots give way to an abandoned watch shelter. Its roof still holds, but something has scratched at the door from the outside.',
       5: 'The last road marker emerges from the mist. Greyfen begins beyond it, quiet enough that you can hear water moving under the stones.'
     },
+    routeFeedback: {
+      ridge: ' The High Ridge pays off: firm ground keeps the journey calm, and Road Pressure rises by only {pressure}.',
+      reeds: ' The Reed Cut narrows behind you. The strange light has drawn attention from deeper in the marsh; Road Pressure rises by {pressure}.'
+    },
     checks: [
       {id:'scout', title:'A Split in the Mud', text:'Cart tracks divide around a flooded ditch. One path is quiet. The other smells like smoke.', skill:'survival', risk:'Moderate', success:'You read the mud and avoid a bad crossing.', fail:'The soft ground grabs your boots and costs supplies.'},
       {id:'help', title:'A Wagon Wheel Turns Alone', text:'A trader crouches beside a broken wheel, watching the trees more than the axle.', skill:'strength', risk:'Low', success:'You help repair the wheel and earn a grateful rumor.', fail:'The repair takes too long and the road grows colder.'},
