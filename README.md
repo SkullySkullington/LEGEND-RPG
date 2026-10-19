@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.39 — Soul-shaping traveler creation and RPG presentation (PR #27; verification pending).** Character creation is now framed as shaping the soul the player will inhabit and recalling fragments of memory with a speaker shown only as **???**. The Veil is the behind-the-scenes authorial identity, never named on screen, and the traveler's hidden nature remains unrevealed. Captain Oric appears after awakening for the separate arrival tutorial. The raster LEGEND wordmark and dedicated Ashmere/Greyfen service-icon family remain part of this presentation slice. Existing choices and player records stay intact. PR #27 must pass CI and deployed smoke validation before release.
+**v0.20.40 — Road-first opening preview (PR #27; verification pending).** The current branch keeps the anonymous `???` soul-shaping creator, raster LEGEND wordmark, and dedicated Ashmere/Greyfen service art, then starts new travelers beneath the dead lantern outside Ashmere. Captain Oric's dialogue is choice-driven; a Blackroot Wolf ambush teaches the production ACT command as **Awaken**, then hands into the existing guided Old Road loop and its first secured return. The title menu also includes News & Roadmap. This is still a draft branch, not a release; existing save keys and player records remain the compatibility baseline.
 
 ## Development Roadmap
 
