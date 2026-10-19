@@ -9,58 +9,45 @@ LEGEND should feel like entering a dark-fantasy RPG world, not navigating a stac
 
 The world should be uneasy but humane. Ashmere is a warm refuge; roads carry uncertainty; the people causing harm are not automatically monsters. Art and dialogue must reinforce the same tone, and player actions should have understandable consequences.
 
-## First-session flow
+## First-session flow — road-first opening preview
+
+**Implementation status (PR #27 / v0.20.40):** this combined branch retains the v0.20.39 soul-shaping presentation and changes the post-creation flow. It is not released until final CI, visual review, deployment and the live smoke check succeed.
 
 ### 1. Between Memory and Waking — shape a traveler
 
-**In PR #27 (v0.20.39 presentation slice; CI and deployed verification pending):** retain the existing seven-step record builder, visible choices, class portrait art and save contracts, but place the form in a dreamlike space where an unidentifiable presence speaks only as **???**. The presence is the Veil at the author/story-design level, but that identity is never shown or named in the player-facing UI. Creation should feel like shaping the soul the player will inhabit and choosing, recognizing or recalling fragments of its memories. The same slice retains Oric's arrival briefing after this sequence and gives the shared transition curtain scene art, raster branding and a location title.
+The seven-step creator keeps the current record builder, option IDs, class portraits, starting inventory and save contract. A presence speaks only as **???**. Its prompts describe form, feeling, a half-remembered life, instinct and a keepsake. It may be the Veil at the author level, but player-facing text and imagery must not identify it as such or state/imply the traveler's hidden L4 nature.
 
-The presence does not interview the player about a settled biography. A name gathers around silence; a shape appears in still water; a feeling survives when its scene is lost; a place rises without a complete face; hands remember a skill; a keepsake persists. Its words can be intimate, ambiguous and evocative, but must not confirm which memories are objectively true, identify itself as the Veil, or state or imply the traveler's hidden L4 nature. Once the player chooses **Let Me Wake**, Oric—not the presence—guides the arrival into Ashmere.
+### 2. Beneath the Dead Lantern — meet Oric and awaken
 
-Acceptance:
-- The local LEGEND: The Awakening raster wordmark is shown, with moody scene art behind the creator.
-- The speaker's visible name is exactly **???** at every creation step and the final review; no NPC portrait appears in this sequence, and the local Veil skill glyph is treated as an abstract, half-seen mark rather than an explanation.
-- The prompts frame form, feeling, origin, calling and keepsake as soul-shaping/memory fragments, without declaring the traveler's origin false or revealing L4.
-- After the player chooses **Let Me Wake**, Captain Oric begins the separate, skippable arrival briefing.
-- Progress, existing choice IDs, class portraits and validation remain usable at desktop and narrow mobile widths; reduced-motion preferences are respected.
-- Existing save keys and player-record fields remain compatible.
+Choosing **Let Me Wake** saves the new traveler and begins outside Ashmere, on the Old Road. Captain Oric finds them under an unlit lantern and asks whether they are friend or foe. The player chooses a response—honest, peaceful or defiant—which is saved as a memory and changes Oric's follow-up dialogue.
 
-### 2. Ashmere gate — teach the world's language
+A Blackroot Wolf attacks Oric from the blind side. The unknown voice whispers **“Awaken.”** The production combat interface presents the ACT command with that label and makes it the only enabled action for this one-HP scripted encounter. It is a teaching encounter, not a replacement combat system; normal battle mechanics, enemy patterns, rewards and existing saves should remain unchanged. Afterward, Oric admits he has questions, warns the gate, and gives the player a choice: follow the tracks or go straight to Ashmere.
 
-When creation is confirmed, transition to Ashmere as a scene, not another settings form. Oric opens the gate and establishes three simple first-session goals: meet the townsfolk, prepare, then decide when to travel. The explanation should be brief and skippable.
+### 3. The first Old Road — learn the existing gameplay loop
 
-Use the portrait-and-dialogue presentation for the first essential interactions:
-- **Captain Oric:** gate rules, safety and practical warnings. He is not an all-knowing lore guide.
-- **Mara Vell, Archive Keeper:** the bell rang once when the traveler arrived, which should not be possible. She distinguishes what she observed from what she merely suspects.
-- **Old Brenn, Ledger Keeper:** how the town's records and practical obligations work; he introduces the value of comparing accounts and evidence.
-- **Sella Marr, inn cook and road provisioner:** rest, rations and preparation, taught through useful actions rather than exposition.
+The guided route uses the production five-stage expedition, not a mock scene. It teaches one step at a time:
 
-A dialogue panel should include a character portrait, speaker name, readable text area, explicit Continue/choice affordance, and a clear way to leave. Typewriter effects may be optional and instantly skippable; reduced-motion mode should display text immediately. Important dialogue should be replayable from a journal/people destination.
+1. Choose the safer High Ridge or the riskier Reed Cut at the fork.
+2. Use the road-scene **Look closer** hotspot and inspect the marker.
+3. Search the roadside for supplies, understanding that travel and searches can change Road Pressure.
+4. Travel through Lantern Ditch to Wayfarer's Camp, where **Rest by the Fire** spends a Camp Supply or Ration to recover health and lower pressure. Rest is explained but does not become a forced button if the player would rather continue.
+5. Continue through Blackroot Bend and Reedwatch Shelter to Greyfen Approach, then secure rewards by returning to Ashmere.
 
-### 3. Prepare — turn the town into a place
+The player can abandon the tutorial expedition without losing the traveler, or skip straight to Ashmere after the ambush. When an opening is in progress, **Continue Journey** resumes the current Oric conversation, scripted battle, aftermath or road scene rather than routing the player into town. After a secured return, the tutorial flag clears and the normal town/equipment/quest loop remains available.
 
-The first tutorial should guide the player through a small, coherent loop:
-1. Speak with the people in Town Square.
-2. Visit the inn for preparation/recovery, then inspect the market or forge if useful.
-3. Open the road board and compare the safer High Ridge against the riskier Reed Cut.
-4. Take the Old Road when ready; make the route choice and learn that it changes later narration and discoveries.
-5. Return to Ashmere and debrief with the townsfolk, using discoveries and rewards to unlock the next sensible action.
+### 4. News & Roadmap — set expectations honestly
 
-The Ashmere hub should favor illustrated destinations and location language. Remove mismatched icons, baked-in words, misaligned strokes and stray side lines rather than placing generic dashboard glyphs in new cards. Labels remain HTML and accessible. Loading/transition moments should bridge places with a short fade, location name and scene art; no long unskippable sequence should block play.
+The title menu's in-game **News & Roadmap** screen provides a place to announce changes and outline direction. Cards must distinguish shipped work from preview/in-progress/planned work. Links may open the maintained development updates, devlog and GitHub repository; they must not imply live multiplayer, promise dates, or represent planned systems as playable.
 
-### 4. The first mystery — prove, don't announce
+### Acceptance gates
 
-The player should see evidence before being told what it means. The opening uses the dead lantern and one impossible bell ring as unsettling details, not as a full explanation. The Greyfen crossing story then introduces a distinct, human problem: the Landing Warden reopened the lower crossing early under trade pressure. She is a sympathetic wrong-doer and the player chooses how to respond.
-
-Preserve the established evidence order:
-1. Bell-marked seal at Blackroot Bend.
-2. Greyfen Boundary Stone: an older bell-mark lies under a newer cut angled toward the reed bed.
-3. Reedwatch field note dated two days after the flood's retreat, already showing the newer cut.
-4. Brenn's ledger with two crossing entries rewritten in a later hand.
-5. An earlier weekly return changed from CLOSED pending inspection to OPEN, in darker ink and without initials.
-6. Mara's conclusion: the records establish a changed status, but do not yet identify the Landing Warden. The missing closure order is the next lead.
-
-Do not shortcut this chain into a convenient confession. Let the player's next evidence and dialogue choices do the work.
+- The unknown voice remains **???** through creation; hidden L4 nature stays unrevealed.
+- A new character begins on the Old Road, sees Oric dialogue choices, meets the Blackroot Wolf ambush, and wins using ACT / **Awaken**.
+- The actual expedition teaches fork → clue → search → travel → camp rest → secured return. The first-run gates must not lock existing saves or later expeditions.
+- A reload during the Oric scene or battle returns the player to the relevant opening beat.
+- News & Roadmap opens from the title, works at desktop/mobile widths, and returns to the title without changing the player save.
+- Existing save keys, player-record fields, class/keepsake data, route/quest IDs, enemy damage formulas, and ordinary combat remain compatible.
+- Final-head Playwright, desktop/mobile visual review, GitHub Pages deployment and deployed smoke check all pass before merge/release.
 
 ## Proposed long-form story arc
 
