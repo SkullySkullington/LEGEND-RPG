@@ -1,4 +1,4 @@
-// LEGEND v0.20.36 - Active title screen presentation and menu interaction.
+// LEGEND v0.20.38 - Active title screen presentation and menu interaction.
 // Rendering keeps the established CSS hooks; navigation/state are injected by the bootstrap.
 (() => {
   const titleAudio = window.LegendTitleAudioV120 || Object.freeze({
@@ -32,6 +32,7 @@
     const account = config.onAccount;
     const settings = config.onSettings;
     const credits = config.onCredits || openCredits;
+    const dispatches = config.onDispatches;
     applySettings();
     const player = loadPlayer();
     const name = player?.username || 'No Traveler';
@@ -68,6 +69,8 @@
     document.getElementById('account').onclick = () => titleTransition('Opening Traveler Profile...', account);
     document.getElementById('settings').onclick = () => titleTransition('Opening Options...', settings);
     document.getElementById('credits').onclick = credits;
+    const dispatchesButton = document.getElementById('dispatches');
+    if (dispatchesButton) dispatchesButton.onclick = () => titleTransition('Opening News & Roadmap...', dispatches);
   }
   
   const titleExtras = window.LegendTitleExtrasV120?.create({
