@@ -99,6 +99,13 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await expect(page.locator('#poiInspect')).toBeVisible();
     await page.locator('#poiInspect').click();
     await expect(page.locator('#search')).toBeEnabled();
+    const journalState = await page.evaluate(() => {
+      const player = window.LegendRuntimeV120.loadPlayer();
+      return player.flags.roadFieldJournalV150;
+    });
+    expect(journalState.visitedPlaces).toContain('South Fork');
+    expect(journalState.routes.some(entry => entry.title === 'High Ridge')).toBe(true);
+    expect(journalState.discoveries).toHaveLength(1);
     await page.locator('#exp150OpenJournal').click();
     await expect(fieldDialog.locator('.exp150-journal-entry')).toHaveCount(1);
     await expect(fieldDialog).toContainText('Clues & discoveries');
