@@ -69,7 +69,7 @@ async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
 
 
 async function enterOldRoadFromDeparture(page) {
-  await enterOldRoadFromDeparture(page);
+  await page.getByRole('button', { name: /The Old Road/i }).click();
   await expect(page.locator('.ash100-departure')).toBeVisible();
   const curtain = page.locator('#legend-scene-curtain');
   if (await curtain.count()) {
