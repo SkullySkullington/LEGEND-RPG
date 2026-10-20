@@ -34,7 +34,7 @@
     const classMods=data.classes?.[player.className]?.mod||{};
     const originBonus=data.origins?.[player.origin]?.bonus||{};
     const keepsakeBonus=data.keepsakes?.[player.keepsake]?.bonus||{};
-    const creationBonus=player.creationV094?.bonuses||player.creationV090?.bonuses||{};
+    const creationBonus={...(player.creationV090?.bonuses||{}),...(player.creationV094?.bonuses||{})};
     return Number(classMods[skill]||0)+Number(originBonus[skill]||0)+Number(keepsakeBonus[skill]||0)+Number(creationBonus[skill]||0);
   };
   const weapon=player=>(D().weapons||[]).find(item=>item.id===player.weapon)||{name:'Hands',min:1,max:3};
