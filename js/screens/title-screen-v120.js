@@ -26,7 +26,7 @@
     if (!config) return;
     const root = () => config.root || document.getElementById('root');
     const loadPlayer = config.loadPlayer || (() => null);
-    const buildVersion = config.buildVersion || (() => String(window.LEGEND_DATA?.VERSION || 'v0.20.36'));
+    const buildVersion = config.buildVersion || (() => String(window.LEGEND_DATA?.VERSION || 'v0.21.1'));
     const applySettings = config.applySettings || (() => {});
     const continueGame = config.onContinue;
     const newTraveler = config.onNewTraveler;
