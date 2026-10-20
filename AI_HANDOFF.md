@@ -1,6 +1,15 @@
 # AI Handoff — LEGEND: The Awakening
 
-Last updated: 2026-10-19. Read this file before changing code, and update it when project status changes.
+Last updated: 2026-10-20. Read this file before changing code, and update it when project status changes.
+
+
+## Current implementation preview — v0.21.0 (not merged)
+
+- Working branch: `feature/immersive-expeditions-hub-rework-v150`.
+- The expedition UI is being rebuilt in `js/systems/road/road-expedition-screen-v100.js` and `css/immersive-world-v150.css`. The screen now centers the live scene, gives the six-stop journey tracker a compact place, and exposes Road Map / Field Journal overlays while keeping existing road action handlers in control.
+- Field records live under `player.flags.roadFieldJournalV150`: `visitedPlaces`, `discoveries`, and `routes`. The existing save key and player record fields remain unchanged. New discovery entries are recorded by the existing POI outcome service; route history is recorded by the route decision service.
+- Ashmere's navigation moved directly below the hub panorama and destination/service icons are constrained within their artwork boxes. The title and transition wordmarks now display **LEGEND / THE AWAKENING** using HTML/CSS, with no SVG logo artwork.
+- Validation status: branch-local Playwright / GitHub Actions validation and a visual desktop/mobile review are still required. Do not merge or describe this preview as released until the latest CI is green and the visual review is complete.
 
 ## Canon — read first
 Story decisions made by the owner are recorded in [`docs/CANON.md`](docs/CANON.md). **If another document disagrees with a LOCKED item there, CANON.md wins.** Assistants may propose and draft story options but never lock a decision themselves, and must ask the owner before changing a locked item. As of 2026-10-16 the owner has locked: (L1) the Hollow Saint and the Last Mercy as the deepest threat, and (L2) the Greyfen crossing records were altered because of trade pressure, and (L3) the Landing Warden reopened the lower crossing, unsigned, under merchant pressure, and (L4) the traveler is an echo touched by the Veil before the Last Mercy could finish making them, who does not know it (hidden knowledge: do not state or imply it in dialogue or UI until the owner approves a reveal plan). Where older sections below call these "proposals only," CANON.md supersedes them for every locked item. Also locked on 2026-10-19: (L5) "echo" means anything the Veil made or touched, and the hostile monsters, including goblins and ogres, are Veil-touched echoes while human wrongdoers stay ordinary people; (L6) the Last Mercy wounded the Veil, and the wound makes echoes on its own; (L7) an old war between the monsters and the kingdoms ended in an agreement that the Veil is now breaking. The Veil is therefore canon, while the Five Arts, Strain and the Afterwake remain proposals. Locked is still not implemented, so keep the implementation-plan and verification rules in this file.
