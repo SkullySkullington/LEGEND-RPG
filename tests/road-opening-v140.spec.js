@@ -16,7 +16,8 @@ async function openTitle(page) {
   await page.reload();
   await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await expect(page.locator('.v120-title')).toBeVisible();
-  await expect(page.locator('.v120-title-hero .v120-legend-logo')).toHaveAttribute('src', /logo_legend_awakening_wordmark\.svg/);
+  await expect(page.locator('.v120-title-hero .v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
+  await expect(page.locator('.v120-title-hero .v120-legend-logo')).toHaveAttribute('alt', 'LEGEND: The Awakening');
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
 
