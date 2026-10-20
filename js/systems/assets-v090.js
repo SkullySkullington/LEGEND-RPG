@@ -1,4 +1,4 @@
-// LEGEND v0.20.38 - Stable local production asset manifest; title wordmark is raster artwork.
+// LEGEND v0.21.0 - Asset manifest; scene assets are local, corrected Runway raster wordmark is pending local packaging.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
