@@ -4,7 +4,7 @@
  */
 (() => {
   function create(context = {}) {
-    const { renderHeader, renderShell, escapeHtml, onReturn } = context;
+    const { renderHeader, renderShell, escapeHtml, onReturn, onReportToMara } = context;
     if (typeof renderHeader !== 'function' || typeof renderShell !== 'function' ||
         typeof escapeHtml !== 'function') return null;
     const header = renderHeader;
@@ -20,6 +20,14 @@
       const camps = (Array.isArray(journal.campReports) ? journal.campReports : []).filter(entry => Number(entry.trip || 0) === trip);
       const routeName = state.routeChoice === 'ridge' ? 'High Ridge' : state.routeChoice === 'reeds' ? 'Reed Cut' : 'Route unrecorded';
       const routeNote = routes.slice(-1)[0];
+      const canReportToMara = String(title || '') === 'Expedition Secured' &&
+        trip === 1 &&
+        String(player.currentRegion || 'Ashmere') === 'Ashmere' &&
+        player.flags?.firstRoadReturnSeen === true &&
+        player.flags?.firstRoadReturnMaraBriefed !== true;
+      const maraAction = canReportToMara
+        ? '<button class="exp100-dock-action" id="outcomeReportToMara" data-legend-scene-transition="Bringing the field report to Mara"><strong>Report to Mara</strong><span>Bring your route notes and discoveries to the town record keeper.</span></button>'
+        : '';
       const discoveryMarkup = discoveries.length
         ? discoveries.slice(-3).reverse().map(entry => '<li><strong>' + esc(entry.name || 'Road discovery') + '</strong><span>' + esc(entry.place || 'The Old Road') + '</span></li>').join('')
         : '<li><strong>No landmark recorded</strong><span>There is still more of this road to learn.</span></li>';
@@ -33,8 +41,9 @@
       shell(header(player, state, kicker || 'EXPEDITION COMPLETE', title, text) + report +
         '<section class="exp100-explore-dock exp100-outcome"><div class="exp100-route"><span>THE ROAD REMEMBERS</span><strong>' +
         esc(title) + '</strong><small>' + esc(text) +
-        '</small></div><div class="exp100-dock-actions"><button class="exp100-dock-action primary" id="outcomeReturn" data-legend-scene-transition="Reporting back to Ashmere"><strong>Return to Ashmere</strong><span>Leave the road and return to town.</span></button></div></section>');
+        '</small></div><div class="exp100-dock-actions"><button class="exp100-dock-action primary" id="outcomeReturn" data-legend-scene-transition="Reporting back to Ashmere"><strong>Return to Ashmere</strong><span>Leave the road and return to town.</span></button>' + maraAction + '</div></section>');
       document.getElementById('outcomeReturn')?.addEventListener('click', () => onReturn?.());
+       document.getElementById('outcomeReportToMara')?.addEventListener('click', () => onReportToMara?.());
     }
 
     return Object.freeze({ render });

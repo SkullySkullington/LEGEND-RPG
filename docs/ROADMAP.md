@@ -10,6 +10,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Correct the old “Roads of Ashmere” wording to **LEGEND / THE AWAKENING** in the Runway-edited raster wordmark and wire the PNG into title, traveler-memory, and scene-loading views; keep an HTML text fallback and do not use SVG wordmark artwork.
 - [x] Package the corrected Runway wordmark as a local transparent PNG, point all title/memory/loading views to it, and validate the committed binary.
 - [x] Add a route-reactive night-watch choice at waystations: trade one ration and a night for a pressure reduction, with the report saved in the Field Journal.
+- [x] Make the first secured expedition field report offer an optional direct handoff to Mara, so route discoveries can advance the next story objective without removing the normal return-to-town choice.
 - [x] Add a simple expedition clock: road legs advance time, dusk/night increase tension, and resting or keeping watch brings dawn.
 - [x] Make high Road Pressure change encounter selection and difficulty, including a stronger Lantern Wisp on a pressured Reed Cut.
 - [x] Add the first Bell Cellar dungeon slice beneath Ashmere: four room beats, gear/level-aware gate, a relic decision, a production-combat boss, tactical retreat, persistent rewards, and a +6 Defense Reinforced Buckle.

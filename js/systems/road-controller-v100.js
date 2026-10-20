@@ -155,11 +155,19 @@ function returnToTownFromRoad(){
   }
   ret();
 }
+function reportToMaraFromRoad(){
+  returnToTownFromRoad();
+  const player=p();
+  if(player && String(player.currentRegion||'Ashmere')==='Ashmere'){
+    return window.LegendAshmereV099?.route?.('mara');
+  }
+}
 const roadResultsView=window.LegendRoadResultsViewV100?.create({
   renderHeader:header,
   renderShell:shell,
   escapeHtml:esc,
-  onReturn:returnToTownFromRoad
+  onReturn:returnToTownFromRoad,
+   onReportToMara:reportToMaraFromRoad
 });
 const roadResults=window.LegendRoadResultsV100?.create({
   getPlayer:p,savePlayer:save,ensureState:ensure,addInventory:inv,clamp,setBellQuestObjective,

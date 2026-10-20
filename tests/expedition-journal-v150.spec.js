@@ -42,6 +42,46 @@ async function startFreshTraveler(page) {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
+test('first secured field report can be handed directly to Mara to advance the next story objective', async ({ page }) => {
+  await startFreshTraveler(page);
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.flags = player.flags || {};
+    player.flags.firstRoadReturnSeen = true;
+    player.flags.firstRoadReturnRoute = 'ridge';
+    player.flags.firstRoadReturnDiscovery = 'ridge-cairn';
+    player.flags.firstRoadReturnMaraBriefed = false;
+    player.flags.roadExpeditionV100 = {
+      ...(player.flags.roadExpeditionV100 || {}),
+      stage: 5, pressure: 12, trips: 1, routeChoice: 'ridge',
+      poiUsed: { 'ridge-cairn': true }
+    };
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendRoadControllerV100.outcome(
+      'Expedition Secured',
+      'You return with a route report and a landmark recorded.',
+      'FIELD REPORT'
+    );
+  });
+
+  await expect(page.getByRole('region', { name: 'Expedition field report' })).toContainText('High Ridge');
+  await expect(page.locator('#outcomeReportToMara')).toBeVisible();
+  await expect(page.locator('#outcomeReturn')).toBeVisible();
+
+  await page.locator('#outcomeReportToMara').click();
+  await expect(page.locator('.ash099-lines')).toContainText(/Ridgeway Cairn marks a dry line/i);
+  const handoff = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    return {
+      briefed: player.flags.firstRoadReturnMaraBriefed,
+      objective: player.questLog.find(item => item.startsWith('The Bell That Rang Once:'))
+    };
+  });
+  expect(handoff.briefed).toBe(true);
+  expect(handoff.objective).toMatch(/Blackroot Bend/i);
+});
+
+
 async function enterDeparture(page) {
   await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
     .getByRole('button', { name: /Routes/i }).click();
