@@ -31,7 +31,7 @@ async function createTravelerToLantern(page, name = 'VeilRoadQA') {
   await page.locator('#v094Next').click();
   await page.locator('[data-personality="kind"]').click();
   await expect(page.locator('.v094-scene-note span')).toContainText('MEMORY ECHO');
-  await expect(page.locator('.v094-dialogue-speaker strong')).toHaveText('???');
+  await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
   await page.locator('#v094Next').click();
   await page.locator('[data-origin]').first().click();
   await page.locator('#v094Next').click();
