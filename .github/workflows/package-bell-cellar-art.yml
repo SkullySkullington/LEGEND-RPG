@@ -1,0 +1,76 @@
+name: Package Bell Cellar environment art
+
+on:
+  push:
+    branches: [feature/immersive-expeditions-hub-rework-v150]
+    paths:
+      - '.github/workflows/package-bell-cellar-art.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Fetch generated Runway environment
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          async function main() {
+            const url = 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/fcbc6a8f-70e5-45ee-abaa-90a1afe5a747/1ab95a1f-207f-49ff-8495-4a2b7520ed3f/Create_a_single_wide_cinematic_environment_illustration_for_.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiODNiYjUzYjI2YjNhYTQ5NSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjY5MzU1NH0.IdgpDRGp5O9NWnF2wk4AD8Xkxmw9fKzrTXlRtbo4J7Y';
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Runway environment fetch failed with HTTP ' + response.status);
+            const bytes = Buffer.from(await response.arrayBuffer());
+            const signature = Buffer.from([137,80,78,71,13,10,26,10]);
+            if (!bytes.subarray(0,8).equals(signature)) throw new Error('Runway environment is not PNG.');
+            const width = bytes.readUInt32BE(16), height = bytes.readUInt32BE(20);
+            if (width < 1280 || height < 720 || width / height < 1.5 || width / height > 2) throw new Error('Unexpected environment dimensions.');
+            require('node:fs').writeFileSync(process.env.RUNNER_TEMP + '/bell-cellar-source.png', bytes);
+            console.log('Runway environment validated: ' + width + 'x' + height + '; source URL withheld.');
+          }
+          main().catch(error => { console.error(error.message); process.exitCode = 1; });
+          NODE
+
+      - name: Convert to optimized local WebP
+        run: |
+          python3 -m venv "$RUNNER_TEMP/webp-venv"
+          "$RUNNER_TEMP/webp-venv/bin/pip" install --quiet Pillow
+          "$RUNNER_TEMP/webp-venv/bin/python" <<'PY'
+          import os
+          from pathlib import Path
+          from PIL import Image
+          source = Path(os.environ["RUNNER_TEMP"]) / "bell-cellar-source.png"
+          target = Path("assets/generated/locations/bell-cellar-undercroft.webp")
+          target.parent.mkdir(parents=True, exist_ok=True)
+          image = Image.open(source).convert("RGB")
+          image.thumbnail((1920, 1080), Image.Resampling.LANCZOS)
+          image.save(target, "WEBP", quality=86, method=6)
+          check = Image.open(target)
+          if check.format != "WEBP" or check.width < 1280 or check.height < 720 or target.stat().st_size > 2 * 1024 * 1024:
+              raise SystemExit("Local Bell Cellar WebP validation failed.")
+          print(f"Local Bell Cellar environment: {check.width}x{check.height}, {target.stat().st_size} bytes.")
+          PY
+
+      - name: Upload temporary visual QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bell-cellar-environment-candidate
+          path: assets/generated/locations/bell-cellar-undercroft.webp
+          if-no-files-found: error
+          retention-days: 2
+
+      - name: Commit the local environment asset
+        run: |
+          git rm .github/workflows/package-bell-cellar-art.yml
+          git add assets/generated/locations/bell-cellar-undercroft.webp
+          git diff --cached --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Package local Bell Cellar environment art"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
