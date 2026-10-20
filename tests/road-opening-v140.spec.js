@@ -83,12 +83,26 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await expect(page.locator('#search')).toBeDisabled();
     await expect(page.locator('#push')).toBeDisabled();
 
+    await page.locator('#exp150OpenMap').click();
+    const fieldDialog = page.getByRole('dialog', { name: 'Road map or field journal' });
+    await expect(fieldDialog).toContainText('The road you know');
+    await expect(fieldDialog).toContainText('South Fork');
+    await fieldDialog.getByRole('button', { name: 'Return to the road' }).click();
+    await page.locator('#exp150OpenJournal').click();
+    await expect(fieldDialog).toContainText('What the road remembers');
+    await expect(fieldDialog).toContainText('No clues recorded yet');
+    await fieldDialog.getByRole('button', { name: 'Return to the road' }).click();
+
     await page.locator('#routeRidge').click();
     await expect(page.locator('#push')).toBeDisabled();
     await page.locator('.exp100-hotspot-find').click();
     await expect(page.locator('#poiInspect')).toBeVisible();
     await page.locator('#poiInspect').click();
     await expect(page.locator('#search')).toBeEnabled();
+    await page.locator('#exp150OpenJournal').click();
+    await expect(fieldDialog.locator('.exp150-journal-entry')).toHaveCount(1);
+    await expect(fieldDialog).toContainText('Clues & discoveries');
+    await fieldDialog.getByRole('button', { name: 'Return to the road' }).click();
     await page.locator('#search').click();
     await expect(page.locator('#push')).toBeEnabled();
     await page.locator('#push').click();
@@ -142,6 +156,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     expect(indexSource).toContain('js/screens/title-dispatches-v140.js');
     expect(indexSource.indexOf('js/systems/road-controller-v100.js')).toBeLessThan(indexSource.indexOf('js/systems/road-opening-v140.js'));
     expect(indexSource).toContain('css/opening-road-v140.css');
+    expect(indexSource).toContain('css/immersive-world-v150.css');
     expect(indexSource).toContain('css/title-dispatches-v140.css');
     expect(versionSource).toContain("SAVE_KEY: 'legend-roads-of-ashmere-v09'");
   });
