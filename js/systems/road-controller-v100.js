@@ -34,6 +34,7 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  clamp,
  bellRoadEvidence,
  getPointOfInterest:roadPoiCatalog?.resolve,
+ getAreaForStage:areaForStage,
  roadDecisions,
  renderExpedition,
  tone,
