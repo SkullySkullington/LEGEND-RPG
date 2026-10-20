@@ -205,12 +205,20 @@
     const narrative=flags.firstRoadReturnSeen
       ?'You have walked this road before. The trail will still test your pace, your preparation, and the choices you make at its first fork.'
       :'The lanterns at the gate are still in sight. Beyond them, every mark you record and every choice you make can become evidence for Ashmere.';
+
+    const orderEntry=(Array.isArray(pl.questLog)?pl.questLog:[])
+      .filter(item=>typeof item==='string'&&item.startsWith('The Bell That Rang Once:')).slice(-1)[0]||'';
+    const orderText=orderEntry?orderEntry.slice('The Bell That Rang Once:'.length).trim():'';
+    const orderMarkup=orderText
+      ?'<section class="ash100-departure-order" aria-label="Current field order"><span class="ash100-departure-label">OPEN FIELD ORDER</span><strong>The Bell That Rang Once</strong><p>'+esc(orderText)+'</p></section>'
+      :'';
     const minDamage=Number(weapon.min),maxDamage=Number(weapon.max);
     const force=Number.isFinite(minDamage)&&Number.isFinite(maxDamage)
       ?minDamage+'–'+maxDamage+' force':'Current weapon';
     const body=
       '<section class="ash100-departure" aria-label="Expedition departure briefing">'+
         '<div class="ash100-departure-intro"><span class="ash099-kicker">BEFORE THE MIST · TRIP '+trip+'</span><h2>Take one last look at what you carry.</h2><p>'+esc(narrative)+'</p></div>'+
+        orderMarkup+
         '<div class="ash100-departure-grid">'+
           '<section class="ash100-departure-card ash100-departure-vitals" aria-label="Traveler condition">'+
             '<span class="ash100-departure-label">TRAVELER CONDITION</span>'+

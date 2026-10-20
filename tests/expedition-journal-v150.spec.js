@@ -96,6 +96,12 @@ async function beginRoadExpedition(page) {
 
 test('Ashmere departure briefing links preparation to the road and warns without blocking travel', async ({ page }) => {
   await startFreshTraveler(page);
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.questLog = (player.questLog || []).filter(item => !String(item).startsWith('The Bell That Rang Once:'));
+    player.questLog.push('The Bell That Rang Once: Inspect the bell-marked seal at Blackroot Bend and return with your observations.');
+    window.LegendRuntimeV120.savePlayer(player);
+  });
   await enterDeparture(page);
 
   await expect(page.locator('.ash100-departure')).toContainText('TRAVELER CONDITION');
@@ -103,6 +109,8 @@ test('Ashmere departure briefing links preparation to the road and warns without
   await expect(page.locator('.ash100-departure')).toContainText('FIELD SUPPLIES');
   await expect(page.locator('.ash100-departure-fork')).toContainText('High Ridge');
   await expect(page.locator('.ash100-departure-fork')).toContainText('Reed Cut');
+  await expect(page.locator('.ash100-departure-order')).toContainText('Blackroot Bend');
+  await expect(page.locator('.ash100-departure-order')).toContainText('OPEN FIELD ORDER');
 
   await page.locator('#departureInn').click();
   await expect(page.locator('#ashBack')).toBeVisible();

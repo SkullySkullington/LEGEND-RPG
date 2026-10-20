@@ -16,6 +16,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Add the first Bell Cellar dungeon slice beneath Ashmere: four room beats, gear/level-aware gate, a relic decision, a production-combat boss, tactical retreat, persistent rewards, and a +6 Defense Reinforced Buckle.
 - [x] Add dedicated local Runway environment art for the Bell Cellar instead of reusing the Ashmere archive backdrop.
 - [x] Add an Ashmere departure briefing with current health, equipped weapon/armor, field supplies, low-kit advice, first-fork context, and direct inn/forge/workbench prep links before repeat expeditions.
+- [x] Surface the active “The Bell That Rang Once” objective in the departure briefing so the previous expedition’s evidence points the next trip toward its current story target.
 - [x] Run the full Playwright suite on the current draft head; automated checks cover title branding, loading transitions, route/discovery behavior, expedition persistence, and Bell Cellar gameplay.
 - [ ] Manually inspect desktop and mobile preview for scene hierarchy, focus states, small-screen overflow, and resting/crafting controls.
 - [ ] Verify field journal persistence after reload and across a second expedition, and confirm all legacy road, quest evidence, combat, reward, and save-compatibility checks pass.
