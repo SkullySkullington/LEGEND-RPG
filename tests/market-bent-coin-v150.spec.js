@@ -2,10 +2,9 @@ const { test, expect } = require('@playwright/test');
 
 test('Bent Coin keepsake improves individual and bulk market sale proceeds', async ({ page }) => {
   await page.goto('/');
-  const initial = await page.evaluate(() => {
+  const result = await page.evaluate(() => {
     const player = { username:'MarketQA', keepsake:'Bent Coin', gold:0, currentRegion:'Ashmere', inventory:{ wolfFang:2 } };
     const root = document.getElementById('root');
-    const esc = window.LegendHtmlV120.escapeHtml;
     const context = {
       getPlayer: () => player,
       savePlayer: () => {},
@@ -17,7 +16,7 @@ test('Bent Coin keepsake improves individual and bulk market sale proceeds', asy
       locationInterior: () => '',
       head: () => '',
       screen: (header, body) => { root.innerHTML = String(header || '') + String(body || ''); },
-      esc,
+      esc: window.LegendHtmlV120.escapeHtml,
       icon: () => '',
       canAfford: () => true,
       owned: (pl, id) => Number(pl.inventory?.[id] || 0),
@@ -30,29 +29,30 @@ test('Bent Coin keepsake improves individual and bulk market sale proceeds', asy
       regionShopArt: () => ''
     };
     window.LegendAshmereMarketV099.render(context, 'sell');
+    const itemPrice = Number(root.querySelector('[data-sell="wolfFang"]')?.dataset.value);
+    const bulkBefore = root.querySelector('#sellAllLoot')?.textContent || '';
+    root.querySelector('[data-sell="wolfFang"]')?.click();
+    const afterSingleGold = player.gold;
+    const afterSingleInventory = player.inventory.wolfFang;
+    const bulkAfterSingle = root.querySelector('#sellAllLoot')?.textContent || '';
+    root.querySelector('#sellAllLoot')?.click();
     return {
-      itemPrice: Number(root.querySelector('[data-sell="wolfFang"]')?.dataset.value),
-      sellAllLabel: root.querySelector('#sellAllLoot')?.textContent,
-      player,
-      context
+      itemPrice,
+      bulkBefore,
+      afterSingleGold,
+      afterSingleInventory,
+      bulkAfterSingle,
+      finalGold: player.gold,
+      finalInventory: player.inventory.wolfFang
     };
   });
-  expect(initial.itemPrice).toBe(13);
-  expect(initial.sellAllLabel).toContain('26g');
-
-  await page.locator('[data-sell="wolfFang"]').click();
-  const afterSingle = await page.evaluate(() => ({
-    gold: window.__marketQAPlayer?.gold,
-    button: document.querySelector('#sellAllLoot')?.textContent
-  }));
-  // The page fixture itself owns this player through the render closure; after one sale,
-  // the remaining one-item bulk price is also increased from 12g to 13g.
-  expect(afterSingle.button).toContain('13g');
-
-  const final = await page.evaluate(() => {
-    const root = document.getElementById('root');
-    root.querySelector('#sellAllLoot')?.click();
-    return root.textContent;
+  expect(result).toMatchObject({
+    itemPrice: 13,
+    afterSingleGold: 13,
+    afterSingleInventory: 1,
+    finalGold: 26,
+    finalInventory: 0
   });
-  expect(final).toContain('Purse');
+  expect(result.bulkBefore).toContain('26g');
+  expect(result.bulkAfterSingle).toContain('13g');
 });
