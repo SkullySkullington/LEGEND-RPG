@@ -519,3 +519,9 @@
 .title-v136-rpg .v136-menu-btn:active{
   transform:none!important;
 }
+
+
+/* The fixed title footer is decorative text; never let its empty box block menu input. */
+.title-v136-rpg .portal100-footer{
+  pointer-events:none!important;
+}
