@@ -226,8 +226,10 @@
       pl.gold = Number(pl.gold || 0) + gold;
       const bonus = typeof awardProgress === 'function' ? awardProgress(pl, 25 + Number(status.level || 1) * 5) : null;
       pl.inventory = pl.inventory || {};
-      if (firstClear) pl.inventory.reinforcedBuckle = Number(pl.inventory.reinforcedBuckle || 0) + 1;
-      else pl.inventory.roadHerb = Number(pl.inventory.roadHerb || 0) + 1;
+      if (firstClear) {
+        pl.inventory.reinforcedBuckle = Number(pl.inventory.reinforcedBuckle || 0) + 1;
+        run.reinforcedBuckleEquipped = true;
+      } else pl.inventory.roadHerb = Number(pl.inventory.roadHerb || 0) + 1;
       run.rewardClaimed = true;
       run.completed = true;
       run.failed = false;
@@ -239,7 +241,7 @@
       pl.stats.bellVaultClears = Number(pl.stats.bellVaultClears || 0) + 1;
       pl.stats.dungeonDelves = Number(pl.stats.dungeonDelves || 0) + 1;
       run.lastReport = 'Bell Cellar cleared. +' + gold + ' gold and +' + (25 + Number(status.level || 1) * 5) + ' bonus XP' +
-        (firstClear ? ', and a Reinforced Buckle for gear crafting.' : ', and a Road Herb.') +
+        (firstClear ? ', and a Reinforced Buckle (+6 Defense, automatically equipped).' : ', and a Road Herb.') +
         (run.tookFragment ? ' The fragment was taken from its cradle.' : ' The fragment remains undisturbed.');
       addDiscovery(pl, 'The Mirebound Reliquary', 'The sentinel has been defeated. ' + (run.tookFragment ? 'A loose bell fragment was carried out.' : 'The fragment remained in its cradle.'));
       save(pl);
@@ -318,7 +320,7 @@
       } else if (Number(run.room) === 3 && run.battleWon) {
         title = 'The Bell Chamber'; roomLabel = 'The reliquary'; roomNumber = 'ROOM 4 / 4';
         story = '<p>The sentinel collapses into waterlogged plates. The air is quiet, not empty; something in the old mechanism still seems to expect an answer.</p>' +
-          '<div class="bell-vault-treasure"><span>RECOVERED</span><h2>' + esc(run.tookFragment ? 'Bell Fragment' : 'Reliquary Stores') + '</h2><p>' + esc(run.tookFragment ? 'You took the loose fragment. It is recorded among your spoils.' : 'The fragment stays in place. A locked supply drawer is left exposed by the sentinel’s fall.') + '</p><small>+' + (25 + level * 5) + ' bonus XP · Gold scales with level · ' + (Number(run.clears || 0) === 0 ? 'First clear: Reinforced Buckle crafting material' : 'Repeat clear: Road Herb') + '</small></div>';
+          '<div class="bell-vault-treasure"><span>RECOVERED</span><h2>' + esc(run.tookFragment ? 'Bell Fragment' : 'Reliquary Stores') + '</h2><p>' + esc(run.tookFragment ? 'You took the loose fragment. It is recorded among your spoils.' : 'The fragment stays in place. A locked supply drawer is left exposed by the sentinel’s fall.') + '</p><small>+' + (25 + level * 5) + ' bonus XP · Gold scales with level · ' + (Number(run.clears || 0) === 0 ? 'First clear: Reinforced Buckle · +6 Defense, automatically equipped' : 'Repeat clear: Road Herb') + '</small></div>';
         choices = action('vaultCollect', 'Claim the relics and return', 'Collect a persistent reward, record the discovery, and report back to Ashmere.', 'Leaving the bell chamber', 'primary');
       }
       const body = '<section class="bell-vault-v100">' +
