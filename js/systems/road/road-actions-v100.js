@@ -31,6 +31,20 @@
     const p=getPlayer, save=savePlayer, ensure=ensureState, road=getRoadData;
     const score=getScore, inv=addInventory, rand=randomInt, clamp=clampValue;
     const areaForStage=getAreaForStage;
+    function fieldJournal(player){
+      player.flags=player.flags||{};
+      player.flags.roadFieldJournalV150=player.flags.roadFieldJournalV150||{visitedPlaces:[],discoveries:[],routes:[]};
+      const journal=player.flags.roadFieldJournalV150;
+      journal.visitedPlaces=Array.isArray(journal.visitedPlaces)?journal.visitedPlaces:[];
+      journal.discoveries=Array.isArray(journal.discoveries)?journal.discoveries:[];
+      journal.routes=Array.isArray(journal.routes)?journal.routes:[];
+      return journal;
+    }
+    function recordVisit(player,stage){
+      const area=areaForStage(stage),name=String(area?.name||'Old Road');
+      const journal=fieldJournal(player);
+      if(!journal.visitedPlaces.includes(name))journal.visitedPlaces.push(name);
+    }
 function startExpedition(){
  const pl=p();if(!pl)return null;
  const s=ensure(pl);
@@ -43,6 +57,7 @@ function startExpedition(){
  if(lanternWard)pl.inventory.wispLanternWick--;
  s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);
  s.trips=Number(s.trips||0)+1;
+ recordVisit(pl,0);
  pl.flags.firstRoadEvent=true;
  save(pl);
  return lanternWard
@@ -96,6 +111,7 @@ function eventCheck(skill,bonus){
  const pl=p();if(!pl)return;const s=ensure(pl),ev=pick(road().checks)||{title:'A Strange Silence',text:'The road goes quiet around you.',skill:'survival',success:'You keep your footing.',fail:'The silence costs time and nerves.'};
  const actual=ev.skill||skill,modifier=score(pl,actual)+Number(bonus||0),success=modifier>=0;
  s.stage=clamp(s.stage+1,0,5);
+ recordVisit(pl,s.stage);
  if(success){s.pressure=clamp(s.pressure-4,0,100);pl.stats=pl.stats||{};pl.stats.checksPassed=Number(pl.stats.checksPassed||0)+1;save(pl);return renderExpedition(ev.success+' Your '+skillLabel(actual).toLowerCase()+' helps you make steady progress.')}
  const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3+Math.max(0,-modifier));pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);pl.stats=pl.stats||{};pl.stats.checksFailed=Number(pl.stats.checksFailed||0)+1;save(pl);return renderExpedition(ev.fail+' You lose '+loss+' HP, but keep moving.');
 }
