@@ -8,7 +8,7 @@
   function mount(root, markup, options = {}) {
     if (!root) return;
     const assets = window.LegendAssetsV090 || {};
-    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png';
+    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.svg';
     const mode = options.mode === 'arrival' ? 'arrival' : 'creation';
     const isArrival = mode === 'arrival';
     const presenceMark = assets.skills?.veil || 'assets/generated/skills/icons/veil.webp';
