@@ -136,10 +136,14 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
         tutorialStep: player.flags.tutorialStep,
         roadToken: player.inventory.roadToken,
         discoveries: player.stats.pointsOfInterest,
-        campsMade: player.stats.campsMade
+        campsMade: player.stats.campsMade,
+        visitedPlaces: player.flags.roadFieldJournalV150?.visitedPlaces || [],
+        journalRoutes: player.flags.roadFieldJournalV150?.routes || []
       };
     });
     expect(saved).toMatchObject({ completed: true, tutorialStep: 'people', roadToken: 1, discoveries: 1, campsMade: 1 });
+    expect(saved.visitedPlaces).toEqual(['South Fork', 'Lantern Ditch', "Wayfarer's Camp", 'Blackroot Bend', 'Reedwatch Shelter', 'Greyfen Approach']);
+    expect(saved.journalRoutes.some(entry => entry.title === 'High Ridge')).toBe(true);
     await page.getByRole('button', { name: /Return to Ashmere/i }).click();
     await expect(page.locator('.ash100-town')).toBeVisible();
     expect(errors).toEqual([]);
