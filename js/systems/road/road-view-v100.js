@@ -74,9 +74,17 @@ function handleHotspotAction(btn){
   roadDiscovery.reveal(stage);
   if(!wrap||wrap.querySelector('.exp100-discovery-beat'))return;
   const markup=roadDiscovery.pointOfInterestPanel(pl,s,stage);
-  const anchor=wrap.querySelector('.exp100-route-choice, .exp100-poi-done')||wrap.querySelector('.exp100-head');
-  if(!markup||!anchor)return;
-  anchor.insertAdjacentHTML('afterend',markup);
+  if(!markup)return;
+  const interactions=wrap.querySelector('.exp150-interactions');
+  if(interactions){
+   const anchor=interactions.querySelector('.exp100-route-choice, .exp100-poi-done, .exp100-moved-cairn');
+   if(anchor)anchor.insertAdjacentHTML('afterend',markup);
+   else interactions.insertAdjacentHTML('afterbegin',markup);
+  }else{
+   const anchor=wrap.querySelector('.exp100-route-choice, .exp100-poi-done')||wrap.querySelector('.exp100-head');
+   if(!anchor)return;
+   anchor.insertAdjacentHTML('afterend',markup);
+  }
   const leave=wrap.querySelector('#poiLeave');
   if(leave)leave.addEventListener('click',()=>{
    roadDiscovery.hide();
