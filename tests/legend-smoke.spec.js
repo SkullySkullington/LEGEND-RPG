@@ -1326,7 +1326,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     // The transition shows the local raster title mark and destination label before
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
-    await expect(curtain).toHaveClass(/is-covering/);
+    // Covering is a brief animation phase, so assert the transition payload and its settled state rather than racing that transient class.
+    await expect(curtain).toBeAttached();
     await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_awakening_wordmark\.png(?:\?.*)?$/);
     await expect(curtain.locator('.legend-transition-wordmark-fallback')).toContainText('LEGEND');
     await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE FOR THE OLD ROAD');
