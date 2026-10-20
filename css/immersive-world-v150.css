@@ -560,3 +560,19 @@
     padding:0!important;
   }
 }
+
+
+/* Waystation choices: atmospheric route-aware copy and a distinct watch option. */
+.exp150-camp-atmosphere{
+  margin:13px 0 14px;padding:12px 14px;border-left:2px solid rgba(215,184,106,.72);
+  background:linear-gradient(100deg,rgba(215,184,106,.09),rgba(8,14,10,.15));
+}
+.exp150-camp-atmosphere p{margin:5px 0 7px!important;color:#e1dbc8!important;font:400 .95rem/1.5 Georgia,"Times New Roman",serif!important}
+.exp150-camp-atmosphere small{display:block;color:#c0a86e;font-size:.75rem;line-height:1.45}
+.exp150-world-page .exp100-camp-actions.exp150-camp-actions{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.exp150-world-page .exp150-camp-actions .exp100-choice{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.exp150-world-page .exp150-camp-actions .exp100-choice em{margin-top:auto;padding-top:10px}
+.exp150-world-page .exp150-camp-actions .exp150-watch-choice{border-color:rgba(215,184,106,.35);background:linear-gradient(145deg,rgba(50,43,25,.65),rgba(10,17,12,.85))}
+.exp150-world-page .exp150-camp-actions .exp100-choice:disabled{opacity:.5;cursor:not-allowed}
+.exp150-world-page .exp150-camp-actions .exp100-choice:focus-visible{outline:2px solid #e6cd85;outline-offset:3px}
+@media(max-width:720px){.exp150-world-page .exp100-camp-actions.exp150-camp-actions{grid-template-columns:1fr}}
