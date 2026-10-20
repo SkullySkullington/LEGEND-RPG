@@ -611,3 +611,19 @@
 .exp150-return-report-columns li span{color:#aab5a4;font-size:.73rem;line-height:1.45}
 .exp150-return-report-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:9px;padding-top:11px;border-top:1px solid rgba(215,184,106,.12);color:#98a48e;font-size:.67rem;font-weight:750;letter-spacing:.04em}
 @media(max-width:620px){.exp150-return-report-columns{grid-template-columns:1fr}}
+
+
+/* Road clock: the player feels the light change as each leg passes. */
+.exp150-road-clock{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:5px 12px;margin:12px 0;padding:12px 15px;border:1px solid rgba(201,181,120,.18);background:linear-gradient(105deg,rgba(22,32,23,.94),rgba(7,11,8,.82));color:#d7ddce;transition:background .25s ease,border-color .25s ease}
+.exp150-clock-symbol{display:grid;grid-row:span 2;place-items:center;width:32px;height:32px;border:1px solid rgba(201,181,120,.3);border-radius:50%;color:#d6bd7a;background:rgba(201,181,120,.06);font-size:1.08rem}
+.exp150-clock-main{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 12px}
+.exp150-clock-main strong{color:#efe3c6;font-size:.75rem;font-weight:850;letter-spacing:.06em}
+.exp150-clock-main span{color:#b8b99f;font:500 .95rem Georgia,"Times New Roman",serif}
+.exp150-road-clock p{grid-column:2;margin:0;color:#aab5a3;font-size:.72rem;line-height:1.45}
+.exp150-road-clock.golden-hour{border-color:rgba(223,170,91,.3);background:linear-gradient(105deg,rgba(59,43,25,.7),rgba(8,12,8,.87))}
+.exp150-road-clock.golden-hour .exp150-clock-symbol,.exp150-road-clock.dusk .exp150-clock-symbol{color:#f0c77a;border-color:rgba(240,199,122,.45)}
+.exp150-road-clock.dusk{border-color:rgba(185,139,90,.35);background:linear-gradient(105deg,rgba(45,32,34,.94),rgba(7,10,9,.9))}
+.exp150-road-clock.night,.exp150-road-clock.deep-night{border-color:rgba(118,131,159,.32);background:linear-gradient(105deg,rgba(14,21,33,.96),rgba(4,8,11,.95))}
+.exp150-road-clock.night .exp150-clock-symbol,.exp150-road-clock.deep-night .exp150-clock-symbol{color:#c1cde1;border-color:rgba(140,160,197,.42);background:rgba(89,111,158,.09)}
+.exp150-road-clock.dawn{border-color:rgba(172,165,136,.28);background:linear-gradient(105deg,rgba(37,39,32,.94),rgba(9,12,9,.92))}
+@media(max-width:540px){.exp150-road-clock{grid-template-columns:28px minmax(0,1fr);gap:4px 9px;padding:11px}.exp150-clock-symbol{width:27px;height:27px}.exp150-clock-main{gap:4px 8px}.exp150-clock-main span{font-size:.88rem}.exp150-road-clock p{font-size:.69rem}}
