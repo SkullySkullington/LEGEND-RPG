@@ -1,7 +1,8 @@
-/* LEGEND v0.20.40 — in-game development dispatches and roadmap preview */
+/* LEGEND v0.21.1 — in-game development dispatches and roadmap preview */
 (() => {
   const esc = window.LegendHtmlV120?.escapeHtml || (value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])));
   const updates = [
+    {version:'v0.21.1',title:'Your memories now shape a real starting build',status:'Preview · validation pending',text:'Identity, personality, origin, class, and keepsake choices now use dedicated art and plainly stated effects. Those effects carry into road checks, class techniques, starting supplies, and the Bent Coin market bonus. Read the Blackroot Tracks is a new trail-reading contract on the Work Board.'},
     {version:'v0.20.40',title:'The first journey begins on the road',status:'Opening pass · preview',text:'The Veil-led memory flow leads into Oric finding the traveler beneath a dead lantern, a scripted ACT awakening, and a guided first expedition in the production road systems.'},
     {version:'v0.20.37',title:'Road encounters gain distinct rhythms',status:'Shipped',text:'Road Goblins, Blackroot Wolves, and Lantern Wisps now use different readable attack patterns. Watch the intent, then choose how to respond.'},
     {version:'v0.20.35',title:'A more cinematic title screen',status:'Shipped',text:'The production menu uses committed Ashmere artwork, the Awakening wordmark, and a framed RPG menu while preserving Continue and accessibility options.'},
@@ -17,7 +18,7 @@
   }
   function render(config = {}) {
     const root = config.root;
-    const buildVersion = config.buildVersion || 'v0.20.40';
+    const buildVersion = config.buildVersion || 'v0.21.1';
     const onBack = config.onBack;
     if (!root) return false;
     root.innerHTML =
