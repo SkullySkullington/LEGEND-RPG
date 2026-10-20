@@ -591,3 +591,23 @@
 .exp150-map-discovery small{display:block;margin-top:4px;color:#c0a86e;font-size:.64rem;line-height:1.4}
 .exp150-map-discovery p{margin:5px 0 0;color:#aab5a4;font-size:.77rem;line-height:1.5}
 .exp150-map-discovery-empty{margin:0;padding:10px 0;color:#899782;font-size:.76rem;line-height:1.5}
+
+
+/* Return debrief: turn saved route history into a meaningful expedition payoff. */
+.exp150-return-report{margin:14px 0 17px;padding:clamp(15px,2.5vw,24px);border:1px solid rgba(215,184,106,.28);border-radius:8px;background:radial-gradient(ellipse at 100% 0,rgba(215,184,106,.07),transparent 45%),linear-gradient(145deg,rgba(20,30,21,.96),rgba(5,10,7,.97));color:#e7e2cf}
+.exp150-return-report-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-bottom:13px;border-bottom:1px solid rgba(215,184,106,.16)}
+.exp150-return-report-head span,.exp150-return-report-route small{color:#c8ad6d;font-size:.61rem;font-weight:850;letter-spacing:.16em}
+.exp150-return-report-head strong{font:500 1.2rem Georgia,"Times New Roman",serif;color:#f0e5c9}
+.exp150-return-report-route{padding:14px 0;border-bottom:1px solid rgba(215,184,106,.12)}
+.exp150-return-report-route strong{display:block;margin-top:5px;color:#efe3c2;font:500 1.65rem Georgia,"Times New Roman",serif}
+.exp150-return-report-route p{margin:7px 0 0;color:#afb9a8;font-size:.8rem;line-height:1.55}
+.exp150-return-report-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:14px 0}
+.exp150-return-report-columns section{min-width:0}
+.exp150-return-report-columns h3{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;color:#d9d8c5;font-size:.78rem;font-weight:800}
+.exp150-return-report-columns h3 b{display:grid;place-items:center;width:23px;height:23px;border:1px solid rgba(215,184,106,.3);border-radius:50%;color:#d7bd7c;font-size:.67rem}
+.exp150-return-report-columns ul{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.exp150-return-report-columns li{display:flex;flex-direction:column;gap:3px;padding:9px 10px;border-left:2px solid rgba(215,184,106,.3);background:rgba(255,255,255,.018)}
+.exp150-return-report-columns li strong{color:#eee4cc;font:500 .95rem Georgia,"Times New Roman",serif}
+.exp150-return-report-columns li span{color:#aab5a4;font-size:.73rem;line-height:1.45}
+.exp150-return-report-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:9px;padding-top:11px;border-top:1px solid rgba(215,184,106,.12);color:#98a48e;font-size:.67rem;font-weight:750;letter-spacing:.04em}
+@media(max-width:620px){.exp150-return-report-columns{grid-template-columns:1fr}}
