@@ -11,6 +11,7 @@
 
   function titleTransition(message, action){
     titleAudio.playUi('confirm');
+    if (window.__legendSceneTransitionBypass) return action();
     const wrap = document.querySelector('.title-wrap');
     if(!wrap) return action();
     wrap.classList.add('title-is-opening');
