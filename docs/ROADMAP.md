@@ -7,12 +7,14 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Establish a scene-first expedition shell with compact route progress, visible health / Road Pressure, and contextual route, discovery, search, travel, and camp actions.
 - [x] Add Road Map and Field Journal overlays; record visited stops, route choices, and inspected discoveries in `flags.roadFieldJournalV150` without changing the existing save key.
 - [x] Move Ashmere navigation beneath its panorama and constrain service art to fixed icon geometry.
-- [x] Correct the old “Roads of Ashmere” wording to **LEGEND / THE AWAKENING** in a Runway-edited raster wordmark and wire it into title, traveler-memory, and scene-loading views; package it as a local PNG before release.
+- [x] Correct the old “Roads of Ashmere” wording to **LEGEND / THE AWAKENING** in the Runway-edited raster wordmark and wire the PNG into title, traveler-memory, and scene-loading views; keep an HTML text fallback and do not use SVG wordmark artwork.
+- [ ] Copy the generated Runway PNG into `assets/ui/logos/logo_legend_awakening_wordmark.png`, point `logo.main` to that local path, and verify the committed binary before release.
 - [x] Add a route-reactive night-watch choice at waystations: trade one ration and a night for a pressure reduction, with the report saved in the Field Journal.
 - [x] Add a simple expedition clock: road legs advance time, dusk/night increase tension, and resting or keeping watch brings dawn.
 - [x] Make high Road Pressure change encounter selection and difficulty, including a stronger Lantern Wisp on a pressured Reed Cut.
 - [x] Add the first Bell Cellar dungeon slice beneath Ashmere: four room beats, gear/level-aware gate, a relic decision, a production-combat boss, tactical retreat, persistent rewards, and a +6 Defense Reinforced Buckle.
-- [ ] Run the full desktop/mobile Playwright suite and inspect the preview manually for scene hierarchy, route / discovery behavior, focus states, small-screen overflow, and resting/crafting controls.
+- [x] Run the full Playwright suite on the current draft head; automated checks cover title branding, loading transitions, route/discovery behavior, expedition persistence, and Bell Cellar gameplay.
+- [ ] Manually inspect desktop and mobile preview for scene hierarchy, focus states, small-screen overflow, and resting/crafting controls.
 - [ ] Verify field journal persistence after reload and across a second expedition, and confirm all legacy road, quest evidence, combat, reward, and save-compatibility checks pass.
 - [ ] Merge only after CI is green and the visual review is approved by the owner.
 
