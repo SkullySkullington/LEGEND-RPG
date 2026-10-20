@@ -163,3 +163,45 @@ test('waystation watch spends one ration, lowers pressure, and persists its camp
   expect(persisted.food).toBe(1);
   expect(persisted.reports.some(item=>item.routeName==='Reed Cut'&&item.pressureAfter===36)).toBe(true);
 });
+
+
+test('late-night Reed Cut pressure summons a stronger Lantern Wisp', async ({ page }) => {
+  await startFreshTraveler(page);
+  await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
+    .getByRole('button', { name: /Routes/i }).click();
+  await page.getByRole('button', { name: /The Old Road/i }).click();
+
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.inventory = player.inventory || {};
+    player.inventory.food = Math.max(2, Number(player.inventory.food || 0));
+    player.flags = player.flags || {};
+    player.flags.roadExpeditionV100 = {
+      stage: 2, pressure: 70, trips: 4, events: 0, finds: 0, battles: 0,
+      routeChoice: 'reeds', poiUsed: {}, searchUsed: {}, readUsed: {}, campWatchUsed: {},
+      roadClockHour: 21
+    };
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendRoadControllerV100.renderHub();
+  });
+
+  await expect(page.locator('.exp150-road-clock')).toContainText('Night');
+  await expect(page.locator('.exp150-road-clock')).toContainText('Something may be following close behind');
+  await page.locator('#push').click();
+  await expect(page.locator('.rpg-battle')).toBeVisible();
+  await expect(page.locator('.rpg-battle')).toContainText('Lantern Wisp');
+  await expect(page.locator('.rpg-dialogue')).toContainText('The Reed Cut has carried your noise into the marsh');
+
+  const consequence = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    const state = player.flags.roadExpeditionV100;
+    return {
+      tier: state.lastEncounterTier,
+      enemy: state.lastEncounterEnemy,
+      pressure: state.lastEncounterPressure,
+      hour: state.roadClockHour,
+      day: player.day
+    };
+  });
+  expect(consequence).toMatchObject({ tier: 'severe', enemy: 'Lantern Wisp', pressure: 82, hour: 0 });
+});
