@@ -475,3 +475,20 @@
   .exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head h1{font-size:clamp(2rem,8vw,3rem)!important}
   .exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head p{font-size:.87rem!important}
 }
+
+
+/* CSS-only corner sigil: keep the title identity free of SVG logo artwork. */
+.title-v136-rpg .v136-corner-sigil.v150-corner-sigil{
+  display:block!important;box-sizing:border-box!important;overflow:visible!important;
+  border:1px solid rgba(233,200,126,.52)!important;border-radius:50%!important;
+  background:radial-gradient(circle,rgba(215,184,106,.13),rgba(5,10,7,.48) 67%)!important;
+  color:#e8ca84;object-fit:initial!important;
+}
+.title-v136-rpg .v136-corner-sigil.v150-corner-sigil:before{
+  content:"";position:absolute;inset:8px;border:1px solid rgba(233,200,126,.7);
+  transform:rotate(45deg);border-radius:2px;box-shadow:0 0 13px rgba(215,184,106,.1);
+}
+.title-v136-rpg .v136-corner-sigil.v150-corner-sigil:after{
+  content:"✦";position:absolute;inset:0;display:grid;place-items:center;
+  color:#f0d99a;font-size:15px;line-height:1;text-shadow:0 0 12px rgba(215,184,106,.48);
+}
