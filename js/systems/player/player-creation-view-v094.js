@@ -22,7 +22,7 @@
       : '<div class="v140-guide-portrait-frame v140-presence-frame" aria-hidden="true"><div class="v140-presence-haze"></div><div class="v140-presence-ring"></div><img class="v140-presence-mark" src="' + escapeHtml(presenceMark) + '" alt="" decoding="async"><span class="v140-presence-glyph">???</span><small class="v140-presence-caption">MEMORY · SHAPE · SELF</small></div>';
     root.innerHTML = '<main class="v094-beginning v140-creation v140-' + mode + '" data-creation-step="' + step + '">' +
       '<div class="v094-beginning-bg" aria-hidden="true"></div>' +
-      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async">' +
+      '<header class="v140-creation-brand"><span class="v150-logo-lockup"><img src="' + escapeHtml(logo) + '" alt="" aria-hidden="true" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="v150-wordmark-fallback" hidden><strong>LEGEND</strong><em>THE AWAKENING</em></span></span>' +
       '<span>' + (isArrival ? 'THE GATE IS OPEN' : 'BETWEEN MEMORY AND WAKING') + '</span></header>' +
       '<div class="v140-creation-layout">' +
         '<aside class="v140-guide-pane" aria-label="' + (isArrival ? 'Captain Oric at the Ashmere gate' : 'An unnamed voice in the darkness') + '">' +
