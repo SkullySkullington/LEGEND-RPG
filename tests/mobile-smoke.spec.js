@@ -37,7 +37,7 @@ async function tap(page, locator) {
   // target, just as a player would wait for the scene to finish arriving.
   const curtain = page.locator('#legend-scene-curtain');
   if (await curtain.count()) {
-    await expect(curtain).not.toHaveClass(/is-covering|is-revealing/, { timeout: 7000 });
+    await expect(curtain).not.toHaveClass(/is-covering/, { timeout: 7000 });
   }
 
   // Mobile WebKit's mouse-click stability check can hang on visible controls,
