@@ -57,13 +57,10 @@ test('first secured field report can be handed directly to Mara to advance the n
       poiUsed: { 'ridge-cairn': true }
     };
     window.LegendRuntimeV120.savePlayer(player);
-    window.LegendRoadControllerV100.outcome(
-      'Expedition Secured',
-      'You return with a route report and a landmark recorded.',
-      'FIELD REPORT'
-    );
+    window.LegendRoadControllerV100.renderExpedition();
   });
 
+  await page.locator('#finish').click();
   await expect(page.getByRole('region', { name: 'Expedition field report' })).toContainText('High Ridge');
   await expect(page.locator('#outcomeReportToMara')).toBeVisible();
   await expect(page.locator('#outcomeReturn')).toBeVisible();
