@@ -60,7 +60,9 @@
     const s=ensure(pl),stage=clamp(Number(s.stage||0),0,5),overlay=document.getElementById('exp150Modal');
     const content=document.getElementById('exp150ModalContent');
     if(!overlay||!content)return;
+    const returnFocus=document.activeElement;
     content.innerHTML=(kind==='map'?mapPanel(pl,s,stage):journalPanel(pl))+'<button type="button" class="exp150-modal-close" id="exp150ModalClose">Return to the road</button>';
+    overlay.querySelector('[role="dialog"]')?.setAttribute('aria-label',kind==='map'?'Road map':'Field journal');
     overlay.hidden=false;
     overlay.classList.add('is-open');
     document.body.classList.add('exp150-modal-open');
@@ -69,10 +71,19 @@
       overlay.hidden=true;
       overlay.classList.remove('is-open');
       document.body.classList.remove('exp150-modal-open');
+      if(returnFocus&&typeof returnFocus.focus==='function'&&returnFocus.isConnected)returnFocus.focus();
     };
     document.getElementById('exp150ModalClose')?.addEventListener('click',close,{once:true});
     overlay.onclick=event=>{if(event.target===overlay)close();};
-    overlay.onkeydown=event=>{if(event.key==='Escape')close();};
+    overlay.onkeydown=event=>{
+      if(event.key==='Escape'){event.preventDefault();close();return;}
+      // This dialog currently has one action. Keep keyboard focus inside it until
+      // additional interactive controls are deliberately added to the modal.
+      if(event.key==='Tab'){
+        event.preventDefault();
+        document.getElementById('exp150ModalClose')?.focus();
+      }
+    };
   }
   function renderExpedition(note=''){
     const pl=p();if(!pl)return;
