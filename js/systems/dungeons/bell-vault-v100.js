@@ -128,6 +128,7 @@
       pl.flags[RUN_KEY] = {
         active: true, room: 0, clears, attempts, failed: false, completed: false,
         inBattle: false, battleWon: false, tookFragment: false, enemyWeakened: false,
+        reinforcedBuckleEquipped: prior.reinforcedBuckleEquipped === true,
         rewardClaimed: false, startedDay: Number(pl.day || 1), records: Array.isArray(prior.records) ? prior.records : []
       };
       save(pl);
