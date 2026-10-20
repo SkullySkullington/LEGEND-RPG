@@ -20,6 +20,17 @@ A richer Runway raster atlas was generated for this pass (task `4c3eb3ce-0e48-48
 
 The creator's review screen now summarizes the actual starting advantages from personality, origin, class, and keepsake. The underlying mechanics already compose class modifiers, origin bonuses, keepsake bonuses, and personality bonuses into road/combat skill scores; origin and keepsake starting items and gold are also retained. Identity/pronoun selections explicitly remain free of stat penalties.
 
+## Traveler creation art and choice benefits — v0.21.1
+
+- Local traveler choice art atlas: `assets/generated/creation/creation-choice-atlas.svg` (25 illustrated tiles arranged as a 5×5 atlas) covers identity, personality, origins, and keepsakes. Existing local class portraits remain in use for all six classes.
+- Class, origin, keepsake, and personality effects are described on each choice card and surfaced again on the pre-waking review. Identity / pronoun forms have no gameplay penalty.
+- A Runway raster atlas concept was generated, but the signed preview download could not be imported in this pass. Production runtime intentionally uses a committed local atlas and does not depend on the temporary Runway URL.
+- Regression coverage verifies atlas image loading, displayed effects, saved character bonuses, and combined score contributions. The Bent Coin's +12% sale-value keepsake bonus is now applied to both individual market sales and bulk sale totals.
+
+## Additional Work Board activity — v0.21.1
+
+The current feature branch also integrates **Read the Blackroot Tracks**, a survival-based trail-reading contract. Its best response records print depth, stride, and direction before disturbing the evidence. It uses the existing job reward/progression path, pays 52g base (75g for a Perfect grade), and has browser regression coverage for its card, interaction, and payout.
+
 ## Follow-up generation — v0.20.15
 
 The original 25-image production set is already committed locally (see the import report and manifest above). A follow-up Runway pass is in progress for the two remaining polish gaps identified by the roadmap:
