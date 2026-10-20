@@ -98,3 +98,44 @@ test('first secured road return unlocks the Bell Cellar, with gear-sensitive roo
   await page.getByRole('button', { name: /The Bell Cellar/i }).click();
   await expect(page.locator('#vaultBegin')).toBeVisible();
 });
+
+test('claiming the first Bell Cellar clear equips the Reinforced Buckle for +6 Defense', async ({ page }) => {
+  await createTraveler(page);
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.flags.firstRoadReturnSeen = true;
+    player.flags.bellVaultV100 = {
+      active: true, room: 3, battleWon: true, tookFragment: false, clears: 0,
+      attempts: 1, inBattle: false, rewardClaimed: false, records: []
+    };
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendAshmereV099.route('dungeon');
+  });
+
+  await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Bell Chamber');
+  await page.locator('#vaultCollect').click();
+  await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Cellar Remembers');
+  await expect(page.locator('.bell-vault-v100')).toContainText('Reinforced Buckle (+6 Defense, automatically equipped)');
+
+  const upgrade = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    const rules = window.LegendRoadStateV100.create({
+      getData: () => window.LEGEND_DATA,
+      clamp: (value, min, max) => Math.max(min, Math.min(max, value))
+    });
+    return {
+      defense: rules.armor(player).defense,
+      armorName: rules.armor(player).name,
+      buckleCount: player.inventory.reinforcedBuckle,
+      equipped: player.flags.bellVaultV100.reinforcedBuckleEquipped,
+      clears: player.flags.bellVaultV100.clears
+    };
+  });
+  expect(upgrade).toMatchObject({
+    defense: 6,
+    armorName: 'No Armor + Reinforced Buckle',
+    buckleCount: 1,
+    equipped: true,
+    clears: 1
+  });
+});
