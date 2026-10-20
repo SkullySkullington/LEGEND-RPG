@@ -38,6 +38,7 @@
       journal.visitedPlaces=Array.isArray(journal.visitedPlaces)?journal.visitedPlaces:[];
       journal.discoveries=Array.isArray(journal.discoveries)?journal.discoveries:[];
       journal.routes=Array.isArray(journal.routes)?journal.routes:[];
+      journal.campReports=Array.isArray(journal.campReports)?journal.campReports:[];
       return journal;
     }
     function recordVisit(player,stage){
@@ -52,6 +53,7 @@ function startExpedition(){
  s.poiUsed={};
  s.searchUsed={};
  s.readUsed={};
+ s.campWatchUsed={};
  s.routeChoice=null;
  const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;
  if(lanternWard)pl.inventory.wispLanternWick--;
