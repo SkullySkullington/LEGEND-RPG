@@ -162,7 +162,7 @@
       player.inventory[supply]=Math.max(0,Number(player.inventory?.[supply]||0)-1);
       const healed=Math.min(Math.max(0,Number(player.maxHp||1)-Number(player.hp||1)),Math.max(1,Math.ceil(Number(player.maxHp||1)*.2)));
       player.hp=Number(player.hp||0)+healed;player.fatigue=Math.max(0,Number(player.fatigue||0)-20);
-      state.pressure=clamp(state.pressure-12,0,100);player.day=Number(player.day||1)+1;
+      state.pressure=clamp(state.pressure-12,0,100);player.day=Number(player.day||1)+1;state.roadClockHour=6;
       player.stats=player.stats||{};player.stats.campsMade=Number(player.stats.campsMade||0)+1;save(player);
       renderExpedition('You rest at '+area.name+', recover '+healed+' health, and let the road quiet down.');
     });
@@ -181,7 +181,7 @@
       const pressureBefore=clamp(Number(state.pressure||0),0,100);
       const pressureAfter=clamp(pressureBefore-18,0,100);
       player.inventory.food=Math.max(0,Number(player.inventory.food||0)-1);
-      state.pressure=pressureAfter;
+      state.pressure=pressureAfter;state.roadClockHour=6;
       state.campWatchUsed[stageKey]=true;
       player.day=Number(player.day||1)+1;
       player.stats=player.stats||{};
