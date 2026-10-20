@@ -101,20 +101,47 @@ test('first secured road return unlocks the Bell Cellar, with gear-sensitive roo
   await expect(page.locator('#vaultBegin')).toBeVisible();
 });
 
-test('claiming the first Bell Cellar clear equips the Reinforced Buckle for +6 Defense', async ({ page }) => {
+test('winning a Bell Cellar boss fight returns to the treasure room and equips the Reinforced Buckle', async ({ page }) => {
   await createTraveler(page);
   await page.evaluate(() => {
     const player = window.LegendRuntimeV120.loadPlayer();
     player.flags.firstRoadReturnSeen = true;
     player.flags.bellVaultV100 = {
-      active: true, room: 3, battleWon: true, tookFragment: false, clears: 0,
-      attempts: 1, inBattle: false, rewardClaimed: false, records: []
+      active: true, room: 2, battleWon: false, tookFragment: false, clears: 0,
+      attempts: 1, inBattle: true, rewardClaimed: false, records: []
     };
     window.LegendRuntimeV120.savePlayer(player);
-    window.LegendAshmereV099.route('dungeon');
+    window.LegendRoadControllerV100.startDungeonEncounter({
+      id: 'bell-vault-test-sentinel',
+      name: 'Mirebound Sentinel',
+      behavior: 'flicker',
+      hp: 1,
+      maxHp: 1,
+      damage: [1, 1],
+      reward: 'roadHerb',
+      turn: 0,
+      intent: 'attack'
+    }, 'The sentinel exposes a vulnerable seam.');
   });
 
-  await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Bell Chamber');
+  await expect(page.locator('.rpg-battle')).toBeVisible();
+  await expect(page.locator('.rpg-battle')).toContainText('Mirebound Sentinel');
+  await page.locator('#strike').click();
+
+  await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Bell Chamber', { timeout: 12000 });
+  const won = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    const run = player.flags.bellVaultV100;
+    return {
+      room: run.room,
+      active: run.active,
+      inBattle: run.inBattle,
+      battleWon: run.battleWon,
+      victories: player.stats.dungeonVictories
+    };
+  });
+  expect(won).toMatchObject({ room: 3, active: true, inBattle: false, battleWon: true, victories: 1 });
+
   await page.locator('#vaultCollect').click();
   await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Cellar Remembers');
   await expect(page.locator('.bell-vault-v100')).toContainText('Reinforced Buckle (+6 Defense, automatically equipped)');
