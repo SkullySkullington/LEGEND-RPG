@@ -55,6 +55,9 @@ function startExpedition(){
  s.readUsed={};
  s.campWatchUsed={};
  s.routeChoice=null;
+ s.roadClockHour=15;
+ s.lastEncounterTier=null;
+ s.lastEncounterEnemy=null;
  const lanternWard=Number(pl.inventory?.wispLanternWick||0)>0;
  if(lanternWard)pl.inventory.wispLanternWick--;
  s.pressure=clamp(s.pressure+(lanternWard?3:8),0,100);
@@ -94,6 +97,9 @@ function resolveChoice(kind){
  if(kind==='push'){
   const gate=window.LegendRoadOpeningV140?.travelGate?.(pl,s,stageBefore);
   if(gate?.allowed===false)return renderExpedition(gate.message);
+  const clockTotal=clamp(Number(s.roadClockHour??15),0,23)+3;
+  pl.day=Math.max(1,Number(pl.day||1)+Math.floor(clockTotal/24));
+  s.roadClockHour=clockTotal%24;
  }
  const openingRoute=stageBefore===0?s.routeChoice:null;
  const travelPressure=openingRoute==='ridge'?4:openingRoute==='reeds'?16:12;
