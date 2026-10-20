@@ -8,7 +8,7 @@
   function mount(root, markup, options = {}) {
     if (!root) return;
     const assets = window.LegendAssetsV090 || {};
-    const logo = assets.logo?.main || 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/829ddbad-fc3f-41bf-9608-da9d1f301524/eabf3688-a5f1-4942-8df7-dbb7fa967585/Make_a_careful__near_identical_edit_of__existing_logo_for_th.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMTJkYTc3MzYxMmM2NmVkZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjYyNDA1NH0.3yik4_Px4ebuv5daDg_OGg_2tdSnvLkQKue24frd_qg';
+    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark';
     const mode = options.mode === 'arrival' ? 'arrival' : 'creation';
     const isArrival = mode === 'arrival';
     const presenceMark = assets.skills?.veil || 'assets/generated/skills/icons/veil.webp';

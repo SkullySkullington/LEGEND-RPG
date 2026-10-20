@@ -14,7 +14,7 @@
     el = document.createElement('div');
     el.id = 'legend-scene-curtain';
     el.setAttribute('aria-hidden', 'true');
-    const logoSrc = window.LegendAssetsV090?.logo?.main || 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/829ddbad-fc3f-41bf-9608-da9d1f301524/eabf3688-a5f1-4942-8df7-dbb7fa967585/Make_a_careful__near_identical_edit_of__existing_logo_for_th.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMTJkYTc3MzYxMmM2NmVkZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjYyNDA1NH0.3yik4_Px4ebuv5daDg_OGg_2tdSnvLkQKue24frd_qg';
+    const logoSrc = window.LegendAssetsV090?.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark';
     el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="' + logoSrc + '" alt="" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="legend-transition-wordmark-fallback" hidden><strong>LEGEND</strong><em>THE AWAKENING</em></span><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><div class="legend-transition-loader" aria-hidden="true"><i></i></div><small class="legend-transition-caption">PREPARING THE NEXT SCENE</small></div>';
     document.body.appendChild(el);
     return el;

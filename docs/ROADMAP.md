@@ -8,7 +8,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Add Road Map and Field Journal overlays; record visited stops, route choices, and inspected discoveries in `flags.roadFieldJournalV150` without changing the existing save key.
 - [x] Move Ashmere navigation beneath its panorama and constrain service art to fixed icon geometry.
 - [x] Correct the old “Roads of Ashmere” wording to **LEGEND / THE AWAKENING** in the Runway-edited raster wordmark and wire the PNG into title, traveler-memory, and scene-loading views; keep an HTML text fallback and do not use SVG wordmark artwork.
-- [ ] Copy the generated Runway PNG into `assets/ui/logos/logo_legend_awakening_wordmark.png`, point `logo.main` to that local path, and verify the committed binary before release.
+- [x] Package the corrected Runway wordmark as a local transparent PNG, point all title/memory/loading views to it, and validate the committed binary.
 - [x] Add a route-reactive night-watch choice at waystations: trade one ration and a night for a pressure reduction, with the report saved in the Field Journal.
 - [x] Add a simple expedition clock: road legs advance time, dusk/night increase tension, and resting or keeping watch brings dawn.
 - [x] Make high Road Pressure change encounter selection and difficulty, including a stronger Lantern Wisp on a pressured Reed Cut.

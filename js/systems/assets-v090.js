@@ -1,9 +1,9 @@
-// LEGEND v0.21.0 - Asset manifest; scene assets are local, corrected Runway raster wordmark is pending local packaging.
+// LEGEND v0.21.0 - Asset manifest; scene assets are local, corrected Runway raster wordmark is committed locally.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
-      main: 'https://dnznrvs05pmza.cloudfront.net/sam3_image_segmentation/c2935761-d349-4a01-9ac7-72e572241db2/5dfb1342-7065-4f61-886b-efd30ae3795b.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNDU4OTRlNGI5ZTgzMWE4MSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjY4MDc3OX0.OMwi3GXEoQjeqhk-H6a9buWqGKC2Z8q-9uBGO1WqsO4',
+      main: 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark',
       emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
       emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
