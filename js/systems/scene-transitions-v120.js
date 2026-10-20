@@ -10,11 +10,12 @@
     el = document.createElement('div');
     el.id = 'legend-scene-curtain';
     el.setAttribute('aria-hidden','true');
-    el.innerHTML = '<div class="legend-transition-scene"><span class="legend-transition-wordmark v150-transition-wordmark" aria-hidden="true"><b>LEGEND</b><i>THE AWAKENING</i></span><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><small class="legend-transition-caption">A TURNING IN THE TALE</small></div>';
+    el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="assets/ui/logos/logo_legend_awakening_wordmark.svg" alt="" decoding="async"><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><div class="legend-transition-loader" aria-hidden="true"><i></i></div><small class="legend-transition-caption">PREPARING THE NEXT SCENE</small></div>';
     document.body.appendChild(el);
     return el;
   }
   function destinationLabel(target) {
+    if (target.dataset.legendSceneTransition) return target.dataset.legendSceneTransition;
     if (target.matches('[data-ash-view="road"]')) return 'Leaving Ashmere';
     if (target.matches('[data-travel]')) return 'Crossing the realm';
     if (target.matches('[data-unlock]')) return 'Opening a new road';
@@ -23,7 +24,7 @@
   }
   document.addEventListener('click', event => {
     if (window.__legendSceneTransitionBypass || busy || event.defaultPrevented) return;
-    const target = event.target?.closest?.('[data-ash-view="road"],[data-travel],[data-unlock]');
+    const target = event.target?.closest?.('[data-legend-scene-transition],[data-ash-view="road"],[data-travel],[data-unlock]');
     if (!target || target.disabled || reduced()) return;
     if (target.dataset.legendTransitioning === '1') return;
     event.preventDefault();
@@ -35,19 +36,33 @@
     curtain.classList.remove('is-revealing');
     curtain.classList.add('is-covering');
     const delay = 290;
+    const waitForSceneAssets = () => {
+      const images = Array.from(document.getElementById('root')?.querySelectorAll('img') || []).filter(img => !img.complete);
+      const paint = new Promise(resolve => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
+      const assets = Promise.all(images.map(img => new Promise(resolve => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      })));
+      const safety = new Promise(resolve => window.setTimeout(resolve, 1600));
+      return Promise.race([Promise.all([assets, paint]), safety]);
+    };
     window.setTimeout(() => {
-      target.dataset.legendTransitioning = '1';
-      window.__legendSceneTransitionBypass = true;
-      try { target.click(); } finally {
-        window.__legendSceneTransitionBypass = false;
-        delete target.dataset.legendTransitioning;
-      }
-      curtain.classList.remove('is-covering');
-      curtain.classList.add('is-revealing');
-      window.setTimeout(() => {
-        curtain.classList.remove('is-revealing');
-        busy = false;
-      }, 380);
+      const advance = async () => {
+        target.dataset.legendTransitioning = '1';
+        window.__legendSceneTransitionBypass = true;
+        try { target.click(); } finally {
+          window.__legendSceneTransitionBypass = false;
+          delete target.dataset.legendTransitioning;
+        }
+        await waitForSceneAssets();
+        curtain.classList.remove('is-covering');
+        curtain.classList.add('is-revealing');
+        window.setTimeout(() => {
+          curtain.classList.remove('is-revealing');
+          busy = false;
+        }, 380);
+      };
+      void advance();
     }, delay);
   }, true);
   const root = document.getElementById('root');
