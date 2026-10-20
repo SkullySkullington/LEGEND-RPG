@@ -2,6 +2,16 @@
 
 This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priorities are ordered by player impact, not by a fixed release date. Preserve the current region system, loader sequence, save keys, and player compatibility unless a deliberate migration is approved.
 
+## Active presentation preview — v0.21.0 (feature branch; review pending)
+
+- [x] Establish a scene-first expedition shell with compact route progress, visible health / Road Pressure, and contextual route, discovery, search, travel, and camp actions.
+- [x] Add Road Map and Field Journal overlays; record visited stops, route choices, and inspected discoveries in `flags.roadFieldJournalV150` without changing the existing save key.
+- [x] Move Ashmere navigation beneath its panorama and constrain service art to fixed icon geometry.
+- [x] Replace the outdated title / transition wordmark presentation with **LEGEND / THE AWAKENING**, using HTML/CSS typography and a CSS-only sigil rather than SVG logo art.
+- [ ] Run the full desktop/mobile Playwright suite and inspect the preview manually for scene hierarchy, route / discovery behavior, focus states, small-screen overflow, and resting/crafting controls.
+- [ ] Verify field journal persistence after reload and across a second expedition, and confirm all legacy road, quest evidence, combat, reward, and save-compatibility checks pass.
+- [ ] Merge only after CI is green and the visual review is approved by the owner.
+
 ## Current priority — identity, presentation, and RPG feel
 
 - [x] Confirm the product title as **LEGEND: The Awakening**; retire “The Unquiet Road” as a visible subtitle.
