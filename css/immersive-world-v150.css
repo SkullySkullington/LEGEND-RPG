@@ -45,8 +45,8 @@
   display:block;
   font-family:Georgia,"Times New Roman",serif;
   font-weight:600;
-  font-size:clamp(3.6rem,8.9vw,6.4rem);
-  letter-spacing:.105em;
+  font-size:clamp(3.6rem,7.2vw,5.4rem);
+  letter-spacing:.09em;white-space:nowrap;word-break:keep-all;
   line-height:.84;
   color:#f1e6cb;
   text-shadow:0 2px 0 #564426,0 5px 0 #17140d,0 12px 35px rgba(0,0,0,.92),0 0 42px rgba(215,184,106,.16);
@@ -69,7 +69,7 @@
 }
 @media(max-width:760px){
   .title-v136-rpg .v150-legend-wordmark{margin:0 0 14px}
-  .title-v136-rpg .v150-wordmark-main{font-size:clamp(3.05rem,14vw,4.4rem);letter-spacing:.08em}
+  .title-v136-rpg .v150-wordmark-main{font-size:clamp(3.05rem,12vw,4.2rem);letter-spacing:.075em}
   .title-v136-rpg .v150-wordmark-rule{margin:13px 0 8px}
   .title-v136-rpg .v150-wordmark-sub{font-size:.76rem;letter-spacing:.25em}
 }
