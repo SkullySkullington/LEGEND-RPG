@@ -265,14 +265,13 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     const emblem = page.locator('.v136-corner-sigil');
     await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\.webp/);
     await expect.poll(() => backdrop.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    const logo = page.locator('.v150-legend-wordmark');
+    const logo = page.locator('.v150-logo-lockup');
     await expect(emblem).toBeVisible();
     await expect(emblem).toHaveClass(/v150-corner-sigil/);
     await expect(logo).toBeVisible();
-    await expect(logo.locator('.v150-wordmark-main')).toHaveText('LEGEND');
-    await expect(logo.locator('.v150-wordmark-sub')).toHaveText('THE AWAKENING');
+    await expect(logo).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
     await expect(logo).not.toContainText(/Roads of Ashmere/i);
-    await expect(page.locator('.v120-legend-logo')).toHaveCount(0);
     await expect(page.locator('.v136-corner-sigil img')).toHaveCount(0);
   });
 
@@ -289,9 +288,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('.v150-legend-wordmark')).toBeVisible();
-    await expect(page.locator('.v150-wordmark-main')).toHaveText('LEGEND');
-    await expect(page.locator('.v150-wordmark-sub')).toHaveText('THE AWAKENING');
+    await expect(page.locator('.v150-logo-lockup')).toBeVisible();
+    await expect(page.locator('.v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
     await expect(page.locator('#legendTitleAccessibleName')).toHaveText('LEGEND: The Awakening');
     await expect(page.locator('.v120-title-hero h2')).toHaveCount(0);
     await expect(page.locator('.v120-title-hero')).toContainText('Monsters press against the borders');
@@ -1316,8 +1315,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
     await expect(curtain).toHaveClass(/is-covering/);
-    await expect(curtain.locator('.legend-transition-wordmark b')).toHaveText('LEGEND');
-    await expect(curtain.locator('.legend-transition-wordmark i')).toHaveText('THE AWAKENING');
+    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /\.png\?/);
+    await expect(curtain.locator('.legend-transition-wordmark-fallback')).toContainText('LEGEND');
     await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
     await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
@@ -1763,7 +1762,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await openTitle(page);
     await page.locator('#newPrimary').click();
     await expect(page.locator('.v140-creation')).toBeVisible();
-    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(page.locator('.v140-creation-brand .v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
     await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
     await expect(page.locator('.v140-presence-mark')).toHaveAttribute('src', /skills\/icons\/veil\.webp/);
     await expect(page.locator('.v140-presence-glyph')).toHaveText('???');
