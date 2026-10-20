@@ -242,3 +242,19 @@
   animation:none!important;transition:none!important;opacity:1!important;transform:none!important;filter:none!important
  }
 }
+
+
+/* Raster wordmark safety net: never show the retired Roads of Ashmere lockup. */
+.v150-logo-lockup{display:flex;justify-content:center;align-items:center;width:100%;min-width:0}
+.v150-logo-lockup .v150-legend-logo{display:block;max-width:min(100%,620px);max-height:clamp(105px,20vw,205px);object-fit:contain}
+.v150-wordmark-fallback,.legend-transition-wordmark-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;color:#e8c879;text-shadow:0 3px 18px #000b;line-height:1}
+.v150-wordmark-fallback[hidden],.legend-transition-wordmark-fallback[hidden]{display:none}
+.v150-wordmark-fallback strong,.legend-transition-wordmark-fallback strong{font:700 clamp(2.7rem,7vw,5.3rem)/.9 Georgia,"Times New Roman",serif;letter-spacing:.12em}
+.v150-wordmark-fallback em,.legend-transition-wordmark-fallback em{margin-top:5px;font:700 clamp(.7rem,1.7vw,1.15rem)/1.2 system-ui,sans-serif;letter-spacing:.38em;font-style:normal}
+.v140-creation-brand .v150-logo-lockup{width:auto;max-width:min(240px,52vw)}
+.v140-creation-brand .v150-legend-logo{max-height:54px;max-width:100%}
+.v140-creation-brand .v150-wordmark-fallback strong{font-size:1.55rem;letter-spacing:.08em}
+.v140-creation-brand .v150-wordmark-fallback em{font-size:.45rem;letter-spacing:.19em}
+.legend-transition-wordmark-fallback{width:min(300px,74vw);min-height:64px}
+.legend-transition-wordmark-fallback strong{font-size:clamp(2rem,6vw,3.2rem)}
+.legend-transition-wordmark-fallback em{font-size:.58rem;letter-spacing:.26em}
