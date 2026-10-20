@@ -33,7 +33,7 @@
     const mode=j.mode||'timing';
     const zoneStart=34+Math.floor(Math.random()*16);
     const zoneWidth=18;
-    const choices=['signal','ledger','triage','route'].includes(mode);
+    const choices=['signal','ledger','triage','route','track'].includes(mode);
     const sequence=Array.isArray(j.sequence)?j.sequence.slice():[];
     let challengeMarkup='';
     if(mode==='timing'){
