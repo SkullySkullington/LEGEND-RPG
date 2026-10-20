@@ -148,7 +148,7 @@
           ? 'The old marks resolve into a warning: the keeper answers disturbance, not sound. You find a way to cross the next chamber quietly.'
           : 'The marks will not arrange themselves into a sentence. You preserve a charcoal copy, but the delay catches in your shoulders.';
       } else {
-        success = equipmentScore >= 8;
+        success = equipmentScore >= 38;
         note = success
           ? 'Your equipped ' + String(w.name || 'weapon') + ' finds the weak seam. The gate opens without a fight over every inch.'
           : 'Your ' + String(w.name || 'weapon') + ' slips against the iron. The gate opens, but the recoil bruises your arm.';
