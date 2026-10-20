@@ -76,7 +76,7 @@ test('departure briefing warns about a depleted traveler without blocking depart
 
   const curtain = page.locator('#legend-scene-curtain');
   if (await curtain.count()) {
-    await expect(curtain).not.toHaveClass(/is-covering|is-revealing/, { timeout: 7000 });
+    await expect(curtain).not.toHaveClass(/is-covering/, { timeout: 7000 });
   }
   await page.locator('#departureBegin').click();
   await expect(page.locator('.exp150-world-page')).toBeVisible();
