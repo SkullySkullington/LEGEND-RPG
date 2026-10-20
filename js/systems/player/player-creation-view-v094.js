@@ -42,8 +42,8 @@
 
   function actionButtons({ back = false, next = true, label = 'Continue' } = {}) {
     return '<div class="v094-actions">' +
-      (next ? '<button class="v094-btn primary" id="v094Next" type="button">' + escapeHtml(label) + '</button>' : '') +
-      (back ? '<button class="v094-btn" id="v094Back" type="button">Back</button>' : '') +
+      (next ? '<button class="v094-btn primary" id="v094Next" data-legend-scene-transition="A memory returns" type="button">' + escapeHtml(label) + '</button>' : '') +
+      (back ? '<button class="v094-btn" id="v094Back" data-legend-scene-transition="Returning to an earlier memory" type="button">Back</button>' : '') +
       '</div>';
   }
 
@@ -90,13 +90,25 @@
     root, step, kicker, title, description, items, key, selected,
     classPortraits, nextLabel, progress, scene, onSelect, onBack, onNext
   }) {
+    const baseGuide = ({ gender: 'Something is taking shape where the dark was. Is it the form you remember, or the form you choose now?', personality: 'A feeling can survive the memory that made it. Which one still calls to you?', origin: 'A place takes shape, but its edges are blurred. Was it home, refuge, or only a story you needed?', class: 'Your hands remember before your mind does. Steel, bow, spell, or guile. What movement finds you first?', keepsake: 'One thing remained when the rest fell quiet. Did you carry it—or did it carry you?' })[key] || scene;
+    const selectedItem = items.find(item => String(item.id) === String(selected));
+    const selectedLabel = String(selectedItem?.label || selectedItem?.id || selected || '');
+    const echoGuide = selectedItem ? ({
+      gender: 'The silhouette steadies around ' + selectedLabel + '. It feels familiar, but no face comes with the memory.',
+      personality: 'The feeling returns before its cause: ' + selectedLabel + '. Something in you recognizes it.',
+      origin: selectedLabel + ' comes into focus, though its edges will not hold still. You can keep the memory without understanding it.',
+      class: 'Your hands answer with ' + selectedLabel.toLowerCase() + ' before your mind can explain why.',
+      keepsake: 'The ' + selectedLabel + ' settles into your palm like something you once promised to keep. The memory stays incomplete.'
+    })[key] || baseGuide : baseGuide;
+    const fragmentLabel = selectedItem ? 'MEMORY ECHO · ' + selectedLabel.toUpperCase() : 'FRAGMENT · MEMORY';
+    const fragmentText = selectedItem?.text || scene;
     mount(root,
       '<section class="v094-beginning-card v094-choice-scene"><div class="v094-kicker">' + escapeHtml(kicker) + '</div>' +
       stepProgress(step, progress) + '<h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(description) + '</p>' +
-      '<aside class="v094-scene-note"><span>FRAGMENT · MEMORY</span><p>' + escapeHtml(scene) + '</p></aside>' +
+      '<aside class="v094-scene-note' + (selectedItem ? ' is-remembered' : '') + '"><span>' + escapeHtml(fragmentLabel) + '</span><p>' + escapeHtml(fragmentText) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'Something is taking shape where the dark was. Is it the form you remember, or the form you choose now?', personality: 'A feeling can survive the memory that made it. Which one still calls to you?', origin: 'A place takes shape, but its edges are blurred. Was it home, refuge, or only a story you needed?', class: 'Your hands remember before your mind does. Steel, bow, spell, or guile. What movement finds you first?', keepsake: 'One thing remained when the rest fell quiet. Did you carry it—or did it carry you?' })[key] || scene, mode: 'creation' });
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: echoGuide, mode: 'creation' });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
