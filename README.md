@@ -6,7 +6,7 @@ The project is now in its **full RPG development phase**. The old recovery/remak
 
 ## Current Build
 
-**v0.20.40 — Road-first opening preview (PR #27; verification pending).** The current branch keeps the anonymous `???` soul-shaping creator, raster LEGEND wordmark, and dedicated Ashmere/Greyfen service art, then starts new travelers beneath the dead lantern outside Ashmere. Captain Oric's dialogue is choice-driven; a Blackroot Wolf ambush teaches the production ACT command as **Awaken**, then hands into the existing guided Old Road loop and its first secured return. The title menu also includes News & Roadmap. This is still a draft branch, not a release; existing save keys and player records remain the compatibility baseline.
+**v0.21.0 — Immersive world-interface preview (feature branch; not merged).** The current preview rebuilds the expedition presentation around the live road scene, compact journey tracker, contextual actions, and focused Road Map / Field Journal views. A persistent `flags.roadFieldJournalV150` record stores visited stops, route decisions, and investigated discoveries while retaining the existing save key, player record, road action handlers, combat, pressure, search, camp/rest, crafting, and secured return. Ashmere navigation now sits directly below the town panorama, with constrained service-art boxes. The title and scene-transition wordmarks use the current **LEGEND / THE AWAKENING** identity without SVG logo artwork. Browser regression validation is pending on the review branch.
 
 ## Development Roadmap
 
