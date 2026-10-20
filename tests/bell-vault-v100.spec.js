@@ -138,4 +138,16 @@ test('claiming the first Bell Cellar clear equips the Reinforced Buckle for +6 D
     equipped: true,
     clears: 1
   });
+
+  await page.locator('#vaultRetry').click();
+  await expect(page.locator('#vaultDescend')).toBeVisible();
+  const retainedDefense = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    const rules = window.LegendRoadStateV100.create({
+      getData: () => window.LEGEND_DATA,
+      clamp: (value, min, max) => Math.max(min, Math.min(max, value))
+    });
+    return rules.armor(player).defense;
+  });
+  expect(retainedDefense).toBe(6);
 });
