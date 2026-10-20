@@ -7,6 +7,7 @@ async function createTravelerInAshmere(page) {
     sessionStorage.clear();
   });
   await page.reload();
+  await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await expect(page.locator('.v120-title')).toBeVisible();
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill('DepartureQA');
@@ -73,6 +74,10 @@ test('departure briefing warns about a depleted traveler without blocking depart
     await expect(page.locator(shortcut)).toBeEnabled();
   }
 
+  const curtain = page.locator('#legend-scene-curtain');
+  if (await curtain.count()) {
+    await expect(curtain).not.toHaveClass(/is-covering|is-revealing/, { timeout: 7000 });
+  }
   await page.locator('#departureBegin').click();
   await expect(page.locator('.exp150-world-page')).toBeVisible();
 });
