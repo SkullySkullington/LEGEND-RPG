@@ -58,6 +58,7 @@ test('first secured road return unlocks the Bell Cellar, with gear-sensitive roo
   await expect(page.getByRole('button', { name: /The Bell Cellar/i })).toBeVisible();
   await page.getByRole('button', { name: /The Bell Cellar/i }).click();
   await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Bell Cellar');
+  await expect(page.locator('.bell-vault-banner')).toHaveAttribute('style', /bell-cellar-undercroft\.webp/);
   await page.locator('#vaultBegin').click();
   await expect(page.locator('.bell-vault-room-heading')).toContainText('ROOM 1 / 4');
   await page.locator('#vaultDescend').click();

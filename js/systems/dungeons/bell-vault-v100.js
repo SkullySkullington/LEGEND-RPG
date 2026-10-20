@@ -103,7 +103,7 @@
         { level: Math.max(1, Number(player.level || 1)), xp: Number(player.xp || 0), next: 100, progressPercent: 0 };
     }
     function titleMarkup(pl, title, subtitle) {
-      const art = 'assets/generated/locations/ashmere-archive.webp';
+      const art = 'assets/generated/locations/bell-cellar-undercroft.webp';
       return '<div class="bell-vault-banner" style="--bell-vault-scene:url(\'' + art + '\')">' +
         '<div class="bell-vault-overline">ASHMERE · BELOW THE ARCHIVE</div>' +
         '<h1>' + esc(title) + '</h1><p>' + esc(subtitle) + '</p></div>';
