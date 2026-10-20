@@ -95,3 +95,68 @@ test('expedition map and field journal preserve keyboard focus and recorded disc
   expect(savedJournal.discoveries.some(entry => entry.key === 'fork-marker' && entry.name === 'The Split Milestone')).toBe(true);
   expect(savedJournal.visitedPlaces).toContain('South Fork');
 });
+
+
+test('waystation watch spends one ration, lowers pressure, and persists its camp report', async ({ page }) => {
+  await startFreshTraveler(page);
+  await page.evaluate(() => {
+    const player=window.LegendRuntimeV120.loadPlayer();
+    player.inventory=player.inventory||{};
+    player.inventory.food=2;
+    player.inventory.camp=1;
+    player.inventory.roadHerb=0;
+    player.inventory.clothScrap=0;
+    player.flags=player.flags||{};
+    player.flags.roadExpeditionV100={
+      stage:2,pressure:54,trips:3,events:0,finds:0,battles:0,
+      routeChoice:'reeds',poiUsed:{},searchUsed:{},readUsed:{},campWatchUsed:{}
+    };
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendRoadControllerV100.renderHub();
+  });
+
+  await expect(page.locator('.exp150-camp-atmosphere')).toContainText(/Water ticks beneath the roots/i);
+  await expect(page.locator('.exp150-camp-atmosphere')).toContainText(/birds have stopped calling/i);
+  const dayBefore=await page.evaluate(()=>Number(window.LegendRuntimeV120.loadPlayer().day||1));
+  await page.locator('#campWatch').click();
+  await expect(page.locator('.exp150-expedition-head')).toContainText(/Road Pressure falls by 18/i);
+  await expect(page.locator('#campWatch')).toBeDisabled();
+  await expect(page.locator('#campWatch')).toContainText(/Watch Kept/i);
+
+  const after=await page.evaluate(()=>{
+    const player=window.LegendRuntimeV120.loadPlayer();
+    const state=player.flags.roadExpeditionV100;
+    const journal=player.flags.roadFieldJournalV150;
+    return {
+      food:Number(player.inventory.food),pressure:Number(state.pressure),day:Number(player.day),
+      used:state.campWatchUsed?.['2']===true,
+      report:journal?.campReports?.[journal.campReports.length-1]||null,
+      watches:Number(player.stats?.roadWatchesKept||0)
+    };
+  });
+  expect(after.food).toBe(1);
+  expect(after.pressure).toBe(36);
+  expect(after.day).toBe(dayBefore+1);
+  expect(after.used).toBe(true);
+  expect(after.watches).toBe(1);
+  expect(after.report).toMatchObject({place:'Wayfarer\'s Camp',routeName:'Reed Cut',pressureBefore:54,pressureAfter:36});
+  expect(after.report.note).toMatch(/Water shifts in the reeds/i);
+
+  await page.locator('#exp150OpenJournal').click();
+  const dialog=page.getByRole('dialog',{name:'Field journal'});
+  await expect(dialog).toContainText(/Camp reports/i);
+  await expect(dialog).toContainText(/Reed Cut/i);
+  await expect(dialog).toContainText(/Water shifts in the reeds/i);
+  await page.reload();
+  const persisted=await page.evaluate(()=>{
+    const player=window.LegendRuntimeV120.loadPlayer();
+    return {
+      used:player.flags.roadExpeditionV100.campWatchUsed?.['2']===true,
+      food:Number(player.inventory.food),
+      reports:player.flags.roadFieldJournalV150?.campReports||[]
+    };
+  });
+  expect(persisted.used).toBe(true);
+  expect(persisted.food).toBe(1);
+  expect(persisted.reports.some(item=>item.routeName==='Reed Cut'&&item.pressureAfter===36)).toBe(true);
+});
