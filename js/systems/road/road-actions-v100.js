@@ -119,9 +119,36 @@ function eventCheck(skill,bonus){
  const loss=Math.min(Math.max(0,Number(pl.hp||1)-1),3+Math.max(0,-modifier));pl.hp=Number(pl.hp||1)-loss;s.pressure=clamp(s.pressure+5,0,100);pl.stats=pl.stats||{};pl.stats.checksFailed=Number(pl.stats.checksFailed||0)+1;save(pl);return renderExpedition(ev.fail+' You lose '+loss+' HP, but keep moving.');
 }
 function battleEvent(){
- const pl=p();if(!pl)return;const s=ensure(pl),base=pick(road().enemies);if(!base)return eventCheck('survival',2);
- const enemy={...base,hp:rand(base.hp?.[0]||20,base.hp?.[1]||35)};enemy.maxHp=enemy.hp;
- s.battles=Number(s.battles||0)+1;save(pl);combat(enemy);
+ const pl=p();if(!pl)return;
+ const s=ensure(pl),catalog=road().enemies||[],pressure=Number(s.pressure||0),route=s.routeChoice;
+ if(!catalog.length)return eventCheck('survival',2);
+ // Pressure changes both who finds the traveler and how dangerous the encounter is.
+ let base=null;
+ if(pressure>=82&&route==='reeds')base=catalog.find(enemy=>enemy.id==='wisp')||null;
+ if(pressure>=82&&!base)base=catalog.find(enemy=>enemy.id==='wolf')||null;
+ if(pressure>=72&&!base&&route==='reeds')base=catalog.find(enemy=>enemy.id==='wolf')||null;
+ base=base||pick(catalog);
+ const tier=pressure>=82?'severe':pressure>=72?'high':'rising';
+ const hpScale=tier==='severe'?1.3:tier==='high'?1.16:1;
+ const damageBonus=tier==='severe'?2:tier==='high'?1:0;
+ const rolledHp=rand(base.hp?.[0]||20,base.hp?.[1]||35);
+ const enemy={...base,hp:Math.ceil(rolledHp*hpScale),pressureTier:tier,damage:[Math.max(1,Number(base.damage?.[0]||3)+damageBonus),Math.max(2,Number(base.damage?.[1]||8)+damageBonus)]};
+ enemy.maxHp=enemy.hp;
+ let encounterNote='';
+ if(tier==='severe'){
+  encounterNote=route==='reeds'
+   ?'The Reed Cut has carried your noise into the marsh. A Lantern Wisp gathers itself from the blue glimmer; its presence is stronger in the rising dark. Read its intent and guard the heavy surge.'
+   :'Your trail has drawn something relentless out of the dark. Road Pressure is critical: the encounter is stronger than an ordinary road attack.';
+ }else if(tier==='high'){
+  encounterNote=route==='reeds'
+   ?'Water moves on both sides of the road. Something circles through the reeds before choosing its moment; this encounter is sharpened by the pressure you have carried.'
+   :'You hear the creature before you see it. Your trail is easy to follow now, and the encounter is more dangerous than it would have been in daylight.';
+ }else{
+  encounterNote='A shape breaks from the roadside as pressure builds behind you. The road has noticed your pace.';
+ }
+ s.battles=Number(s.battles||0)+1;
+ s.lastEncounterPressure=pressure;s.lastEncounterTier=tier;s.lastEncounterEnemy=enemy.name;
+ save(pl);combat(enemy,encounterNote);
 }
 
     return Object.freeze({start: startExpedition, resolveChoice});
