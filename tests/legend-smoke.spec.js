@@ -67,6 +67,18 @@ async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
+
+async function enterOldRoadFromDeparture(page) {
+  await enterOldRoadFromDeparture(page);
+  await expect(page.locator('.ash100-departure')).toBeVisible();
+  const curtain = page.locator('#legend-scene-curtain');
+  if (await curtain.count()) {
+    await expect(curtain).not.toHaveClass(/is-covering|is-revealing/, { timeout: 7000 });
+  }
+  await page.locator('#departureBegin').click();
+  await expect(page.locator('.exp150-world-page')).toBeVisible();
+}
+
 test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('News & Roadmap opens from the title and returns without changing the save', async ({ page }) => {
     await openTitle(page);
@@ -655,7 +667,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
       .getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#push').click();
     await expect(page.locator('.exp100-combat')).toBeVisible();
 
@@ -941,7 +953,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       rt.savePlayer(pl);
     });
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('.exp100-head')).toBeVisible();
     await page.locator('#push').click();
     await expect(page.locator('.exp100-combat')).toBeVisible();
@@ -1223,7 +1235,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
     await startFreshCharacter(page, 'ForkQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     const expeditionHeading = page.locator('.exp100-scene-live + .exp100-head');
     await expect(expeditionHeading).toBeVisible();
     await expect.poll(() => expeditionHeading.evaluate(el => getComputedStyle(el).marginTop)).toBe('0px');
@@ -1249,7 +1261,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('High Ridge keeps the next stretch calmer than the Reed Cut', async ({ page }) => {
     await startFreshCharacter(page, 'RidgeQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 8/i);
     await page.locator('#push').click();
@@ -1267,7 +1279,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('first secured expedition records its route and advances the Bell quest through Blackroot Bend', async ({ page }) => {
     await startFreshCharacter(page, 'StoryRidgeQA');
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.evaluate(() => {
       const rt = window.LegendRuntimeV120;
@@ -1310,7 +1322,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(afterMara.objective).toMatch(/Blackroot Bend/i);
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     // The transition shows the local raster title mark and destination label before
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
@@ -1381,7 +1393,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('first Reed Cut return preserves its own clue and directs the player to Mara', async ({ page }) => {
     await startFreshCharacter(page, 'StoryReedQA');
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeReeds').click();
     await page.evaluate(() => {
       const rt = window.LegendRuntimeV120;
@@ -1418,7 +1430,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.locator('[data-contract-accept="movedCairn"]').click();
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
@@ -1474,7 +1486,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.ash099-lines')).toContainText(/You recorded both alignments/i);
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
@@ -1699,7 +1711,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(inventory.wispLanternWick).toBe(1);
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await expect(page.getByRole('button', { name: /The Old Road/i })).toBeVisible();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('.exp100-head')).toBeVisible();
     await expect(page.locator('.exp100-head')).toContainText(/opening Road Pressure rises by only 3 instead of 8/i);
     const after=await page.evaluate(() => {
@@ -1714,7 +1726,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('road discovery stays hidden until the player notices it', async ({ page }) => {
     await startFreshCharacter(page, 'DiscoveryQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('#poiInspect')).toHaveCount(0);
     await expect(page.locator('.exp100-hotspot-find')).toContainText('Look closer');
     await page.locator('.exp100-hotspot-find').click();
@@ -1727,7 +1739,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('route choice changes the later waystation scene text', async ({ page }) => {
     await startFreshCharacter(page, 'RouteEchoQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeReeds').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
