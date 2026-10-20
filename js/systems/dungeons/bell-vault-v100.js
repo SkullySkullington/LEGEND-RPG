@@ -51,7 +51,6 @@
     run.failed = true;
     run.battleWon = false;
     run.lastRoom = 2;
-    run.attempts += 1;
     player.stats = player.stats || {};
     player.stats.bellVaultWithdrawals = Number(player.stats.bellVaultWithdrawals || 0) + 1;
     globalSave(player);
