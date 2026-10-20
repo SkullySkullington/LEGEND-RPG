@@ -525,3 +525,38 @@
 .title-v136-rpg .portal100-footer{
   pointer-events:none!important;
 }
+
+
+/* Keep the desktop title composition inside a single viewport.
+   The legacy shell's padding plus a full-height main row caused scroll-and-footer overlap. */
+.title-v136-rpg{
+  height:100svh!important;
+  min-height:100svh!important;
+  padding:0!important;
+}
+@media(max-height:740px) and (min-width:761px){
+  .title-v136-rpg .v120-title-main{
+    padding-top:65px!important;
+    padding-bottom:34px!important;
+  }
+  .title-v136-rpg .v120-title-hero{padding:12px 18px!important}
+  .title-v136-rpg .v150-wordmark-main{
+    font-size:clamp(3rem,6vw,4rem)!important;
+    line-height:.82!important;
+  }
+  .title-v136-rpg .v150-wordmark-rule{margin:11px 0 7px!important}
+  .title-v136-rpg .v150-legend-wordmark{margin-bottom:12px!important}
+  .title-v136-rpg .v120-title-hero>p{font-size:.82rem!important;line-height:1.28!important}
+  .title-v136-rpg .v120-traveler-line{margin-bottom:7px!important;padding:6px!important}
+  .title-v136-rpg .v136-menu-heading{margin-bottom:5px!important}
+  .title-v136-rpg .v136-menu-list{gap:2px!important}
+  .title-v136-rpg .v136-menu-btn{min-height:36px!important}
+  .title-v136-rpg .v136-menu-primary{min-height:44px!important}
+}
+@media(max-width:760px){
+  .title-v136-rpg{
+    height:auto!important;
+    min-height:100svh!important;
+    padding:0!important;
+  }
+}
