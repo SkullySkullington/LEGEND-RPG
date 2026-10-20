@@ -8,6 +8,7 @@ This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priori
 - [x] Add Road Map and Field Journal overlays; record visited stops, route choices, and inspected discoveries in `flags.roadFieldJournalV150` without changing the existing save key.
 - [x] Move Ashmere navigation beneath its panorama and constrain service art to fixed icon geometry.
 - [x] Replace the outdated title / transition wordmark presentation with **LEGEND / THE AWAKENING**, using HTML/CSS typography and a CSS-only sigil rather than SVG logo art.
+- [x] Add a route-reactive night-watch choice at waystations: trade one ration and a night for a pressure reduction, with the report saved in the Field Journal.
 - [ ] Run the full desktop/mobile Playwright suite and inspect the preview manually for scene hierarchy, route / discovery behavior, focus states, small-screen overflow, and resting/crafting controls.
 - [ ] Verify field journal persistence after reload and across a second expedition, and confirm all legacy road, quest evidence, combat, reward, and save-compatibility checks pass.
 - [ ] Merge only after CI is green and the visual review is approved by the owner.
