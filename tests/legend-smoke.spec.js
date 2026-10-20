@@ -1968,6 +1968,21 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
 test('Credits dialog opens accessibly and closes with Escape', async ({ page }) => {
   await openTitle(page);
+  const titleLayout = await page.evaluate(() => {
+    const root = document.querySelector('.title-v136-rpg');
+    const footer = root?.querySelector('.portal100-footer');
+    const credits = root?.querySelector('#credits');
+    if (!root || !footer || !credits) return null;
+    return {
+      documentHeight: document.documentElement.scrollHeight,
+      viewportHeight: window.innerHeight,
+      footerTop: footer.getBoundingClientRect().top,
+      creditsBottom: credits.getBoundingClientRect().bottom
+    };
+  });
+  expect(titleLayout).not.toBeNull();
+  expect(titleLayout.documentHeight).toBeLessThanOrEqual(titleLayout.viewportHeight + 1);
+  expect(titleLayout.footerTop).toBeGreaterThan(titleLayout.creditsBottom);
   await page.getByRole('button', { name: 'Credits' }).click();
   const dialog = page.getByRole('dialog', { name: 'LEGEND' });
   await expect(dialog).toBeVisible();
