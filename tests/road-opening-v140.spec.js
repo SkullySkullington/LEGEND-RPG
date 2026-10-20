@@ -148,6 +148,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     expect(saved.journalRoutes.some(entry => entry.title === 'High Ridge')).toBe(true);
     await page.getByRole('button', { name: /Return to Ashmere/i }).click();
     await expect(page.locator('.ash100-town')).toBeVisible();
+    await expect(page.getByRole('button', { name: /The Bell Cellar/i })).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -170,6 +171,8 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     expect(indexSource.indexOf('js/systems/road-controller-v100.js')).toBeLessThan(indexSource.indexOf('js/systems/road-opening-v140.js'));
     expect(indexSource).toContain('css/opening-road-v140.css');
     expect(indexSource).toContain('css/immersive-world-v150.css');
+    expect(indexSource).toContain('css/bell-vault-v100.css');
+    expect(indexSource).toContain('js/systems/dungeons/bell-vault-v100.js');
     expect(indexSource).toContain('css/title-dispatches-v140.css');
     expect(versionSource).toContain("SAVE_KEY: 'legend-roads-of-ashmere-v09'");
   });
