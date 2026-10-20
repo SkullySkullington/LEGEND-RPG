@@ -34,7 +34,7 @@
           <section class="v120-title-hero" aria-labelledby="legendTitleAccessibleName">
             <h1 class="v120-title-accessible-name" id="legendTitleAccessibleName">LEGEND: The Awakening</h1>
             <div class="portal100-kicker">A DARK FANTASY RPG</div>
-            <div class="v150-legend-wordmark" aria-hidden="true"><span class="v150-wordmark-main">LEGEND</span><span class="v150-wordmark-rule"></span><span class="v150-wordmark-sub">THE AWAKENING</span></div>
+            <img class="v120-legend-logo v150-legend-logo" src="${esc(logoImage || 'assets/ui/logos/logo_legend_awakening_wordmark.svg')}" alt="LEGEND: The Awakening" decoding="async" fetchpriority="high" loading="eager">
             <p>Monsters press against the borders. Old magic stirs beneath a wounded realm.</p>
             <div class="v120-divider"><span></span><b>THE BORDERLANDS ARE WAKING</b><span></span></div>
             <div class="v120-traveler-line">
