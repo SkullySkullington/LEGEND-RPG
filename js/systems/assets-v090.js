@@ -3,7 +3,7 @@
 (() => {
   window.LegendAssetsV090 = {
     logo: {
-      main: 'assets/ui/logos/logo_legend_awakening_wordmark.svg',
+      main: 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/829ddbad-fc3f-41bf-9608-da9d1f301524/eabf3688-a5f1-4942-8df7-dbb7fa967585/Make_a_careful__near_identical_edit_of__existing_logo_for_th.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMTJkYTc3MzYxMmM2NmVkZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MjYyNDA1NH0.3yik4_Px4ebuv5daDg_OGg_2tdSnvLkQKue24frd_qg',
       emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
       emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
