@@ -12,6 +12,7 @@
       clamp: clampInput,
       bellRoadEvidence,
       getPointOfInterest,
+      getAreaForStage,
       clearVisibleDiscovery,
       renderExpedition,
       tone
@@ -79,8 +80,7 @@
      journal.visitedPlaces=Array.isArray(journal.visitedPlaces)?journal.visitedPlaces:[];
      journal.discoveries=Array.isArray(journal.discoveries)?journal.discoveries:[];
      journal.routes=Array.isArray(journal.routes)?journal.routes:[];
-     const place=String(getPointOfInterest(stage)?.place||point.place||'The Old Road');
-     if(!journal.visitedPlaces.includes(place))journal.visitedPlaces.push(place);
+     const place=String((typeof getAreaForStage==='function'?getAreaForStage(stage)?.name:'')||point.place||'The Old Road');
      if(!journal.discoveries.some(entry=>entry.key===point.key)){
       journal.discoveries.push({key:point.key,name:String(point.name||'Road discovery'),kind:String(point.kind||'Discovery'),place:place,note:String(note||point.text||'You investigated a feature of the road.'),stage:stage,route:String(s.routeChoice||''),day:Number(pl.day||1)});
      }
