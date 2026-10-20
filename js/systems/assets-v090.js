@@ -28,6 +28,9 @@
       greyfenMarshWalkway: 'assets/generated/locations/greyfen-marsh-walkway.webp',
       oldRoadScene: 'assets/locations/roads/old_road_exploration_v1.svg'
     },
+    creation: {
+      atlas: 'assets/generated/creation/creation-choice-atlas.svg?v=0.21.1-traveler-choice-art'
+    },
     classes: {
       Adventurer: 'assets/generated/classes/class-adventurer.webp',
       Warrior: 'assets/generated/classes/class-warrior.webp',
