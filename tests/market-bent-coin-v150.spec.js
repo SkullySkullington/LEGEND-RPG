@@ -36,14 +36,22 @@ test('Bent Coin keepsake improves individual and bulk market sale proceeds', asy
     const afterSingleInventory = player.inventory.wolfFang;
     const bulkAfterSingle = root.querySelector('#sellAllLoot')?.textContent || '';
     root.querySelector('#sellAllLoot')?.click();
+    const finalGold = player.gold;
+    const finalInventory = player.inventory.wolfFang;
+    player.keepsake = 'Rusty Charm';
+    player.gold = 0;
+    player.inventory.wolfFang = 2;
+    window.LegendAshmereMarketV099.render(context, 'sell');
     return {
       itemPrice,
       bulkBefore,
       afterSingleGold,
       afterSingleInventory,
       bulkAfterSingle,
-      finalGold: player.gold,
-      finalInventory: player.inventory.wolfFang
+      finalGold,
+      finalInventory,
+      normalUnitPrice: Number(root.querySelector('[data-sell="wolfFang"]')?.dataset.value),
+      normalBulkTotal: root.querySelector('#sellAllLoot')?.textContent || ''
     };
   });
   expect(result).toMatchObject({
@@ -55,4 +63,6 @@ test('Bent Coin keepsake improves individual and bulk market sale proceeds', asy
   });
   expect(result.bulkBefore).toContain('26g');
   expect(result.bulkAfterSingle).toContain('13g');
+  expect(result.normalUnitPrice).toBe(12);
+  expect(result.normalBulkTotal).toContain('24g');
 });
