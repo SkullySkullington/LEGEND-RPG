@@ -5,6 +5,7 @@
 - Apply the Bent Coin keepsake's +12% sale-value bonus to individual market sales and bulk-sale totals, rather than merely describing a bonus that the market ignores.
 - Add the Read the Blackroot Tracks field contract to the Ashmere Work Board with a survival-based evidence-reading decision, 52g base pay, the existing 75g Perfect-grade payout, and a chance to earn a Road Herb.
 - Add browser regression coverage for choice-art loading, shown effects, persisted creator bonuses, combined Force checks, Bent Coin single/bulk sale values, and the Blackroot Tracks activity/reward.
+- Preserve legacy `creationV090` skill-check bonuses while allowing newer `creationV094` choices to override the same stat, with regression coverage for existing saves.
 - Keep the existing save key and player record shape. Do not treat this preview as released until final-head Playwright CI, browser/layout QA, and owner-approved promotion to `main` are complete.
 
 ## v0.21.0 — Immersive expeditions and Ashmere hub presentation (preview; review pending)
