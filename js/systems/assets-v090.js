@@ -3,7 +3,7 @@
 (() => {
   window.LegendAssetsV090 = {
     logo: {
-      main: 'assets/ui/logos/logo_legend_main_v1.png',
+      main: 'assets/ui/logos/logo_legend_awakening_wordmark.svg',
       emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
       emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
