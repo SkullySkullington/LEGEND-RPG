@@ -22,7 +22,7 @@
     return String(regionId || 'Ashmere') === 'Greyfen' ? greyfenWorkJobs : workJobs;
   }
 
-  function jobModeName(mode){return ({timing:'Timing challenge',signal:'Read the signal',ledger:'Solve the clue',sequence:'Memory sequence',triage:'Worksite decision',route:'Route choice'}[mode]||'Field task');}
+  function jobModeName(mode){return ({timing:'Timing challenge',signal:'Read the signal',ledger:'Solve the clue',sequence:'Memory sequence',triage:'Worksite decision',route:'Route choice',track:'Trail reading'}[mode]||'Field task');}
 
   window.LegendAshmereJobCatalogV099 = Object.freeze({ forRegion, jobModeName });
 })();
