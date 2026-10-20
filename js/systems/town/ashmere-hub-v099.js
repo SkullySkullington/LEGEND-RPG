@@ -48,6 +48,7 @@
     shell(`
       <section class="ash100-town ${isGreyfen?'ash100-town-greyfen':'ash100-town-ashmere'}">
         <div class="ash100-hero">${img(bg(),townName+' at dusk')}<div class="ash100-hero-copy"><div class="ash099-kicker">${isGreyfen?'THE LOWLANDS · GREYFEN':'ROADS OF ASHMERE'}</div><h1>${townName}</h1><p>${isGreyfen?'Built on drowned stone, held together by lanterns, and full of old boundary marks.':'Warm lights. Open roads. A place to return to.'}</p></div></div>
+        ${terminalNav(pl, icon, serviceArt)}
         <div class="ash100-route-dock">${currentRouteCard(g, icon, esc, serviceArt)}</div>
         <section class="ash100-status" aria-label="Traveler status">
           <div class="ash100-status-traveler"><span>${esc(pl.username||'Traveler')}</span><small>${esc(pl.className||'Wanderer')} · Day ${Number(pl.day||1)}</small></div>
@@ -58,7 +59,6 @@
           <div class="ash100-section-head"><div><div class="ash099-kicker">${isGreyfen?'LOWLAND DISTRICT':'ASHMERE'}</div><h2>${isGreyfen?'Find your footing':'Where next?'}</h2></div></div>
           <div class="ash100-destinations">${destinations}</div>
         </section>
-        ${terminalNav(pl, icon, serviceArt)}
       </section>`);
     bind();
   }
