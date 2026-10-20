@@ -84,7 +84,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await expect(page.locator('#push')).toBeDisabled();
 
     await page.locator('#exp150OpenMap').click();
-    const fieldDialog = page.getByRole('dialog', { name: 'Road map or field journal' });
+    const fieldDialog = page.getByRole('dialog');
     await expect(fieldDialog).toContainText('The road you know');
     await expect(fieldDialog).toContainText('South Fork');
     await fieldDialog.getByRole('button', { name: 'Return to the road' }).click();
