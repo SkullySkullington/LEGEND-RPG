@@ -19,12 +19,14 @@
     if (target.matches('[data-ash-view="road"]')) return 'Leaving Ashmere';
     if (target.matches('[data-travel]')) return 'Crossing the realm';
     if (target.matches('[data-unlock]')) return 'Opening a new road';
+    const labels = {home:'Returning to Ashmere',people:'Meeting the townsfolk',inn:'Entering the inn',trader:'Opening the market',smith:'Entering the forge',work:'Opening the work board',crossing:'Approaching the crossing',craft:'Opening the workshop',sheet:'Reviewing your traveler',archive:'Opening the field journal',routes:'Opening the route board',quests:'Reviewing local contracts',regions:'Opening the road network',dungeon:'Descending beneath the bell',profile:'Opening traveler records'};
+    if (target.dataset.ashView) return labels[target.dataset.ashView] || 'The road turns';
     if (target.closest('.rpg-battle,.exp100-combat')) return 'Into the fray';
     return 'The road turns';
   }
   document.addEventListener('click', event => {
     if (window.__legendSceneTransitionBypass || busy || event.defaultPrevented) return;
-    const target = event.target?.closest?.('[data-legend-scene-transition],[data-ash-view="road"],[data-travel],[data-unlock]');
+    const target = event.target?.closest?.('[data-legend-scene-transition],[data-ash-view],[data-travel],[data-unlock]');
     if (!target || target.disabled || reduced()) return;
     if (target.dataset.legendTransitioning === '1') return;
     event.preventDefault();
