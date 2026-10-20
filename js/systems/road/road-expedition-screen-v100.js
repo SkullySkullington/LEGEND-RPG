@@ -87,7 +87,7 @@
     const journal=journalFor(pl),discoveryCount=journal.discoveries.length;
     const nextArea=areaForStage(Math.min(5,stage+1));
     const roadMood=s.pressure>=65?'The mist closes around the road. Something has found your trail.':s.pressure>=40?'The birds have gone quiet. Footsteps pace you somewhere beyond the reeds.':'Rain beads on the old stones. A lantern flickers far beyond the bend.';
-    const sceneText=area.text||roadMood;
+    const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
     const sceneMarkup=typeof scene==='function'?scene(stage,stage<5):header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText);
     let choices=stage>=5
       ? '<button class="exp150-action primary" id="finish"><span class="exp150-action-symbol">↩</span><span><strong>Return to Ashmere</strong><small>Secure what you found and bring the road report home.</small></span><b>→</b></button>'
@@ -95,9 +95,9 @@
     const pressureNote=s.pressure>=65?'The road is closing in. A dangerous encounter may follow.':s.pressure>=40?'Your trail is growing easier to follow. Consider slowing down or finding shelter.':'You have a little room to breathe, but the road never stays quiet for long.';
     const status=Number(pl.hp||0)/maxHpSafe(pl);
     const markup=sceneMarkup+
-      '<div class="exp150-world-page"><header class="exp150-expedition-head"><div class="exp150-title-group"><span class="exp150-kicker">OLD ROAD · EXPEDITION</span><h1>'+esc(area.name)+'</h1><p>'+esc(openingLesson?'Oric is waiting for you to read the road before moving on.':'Every mile offers a clue, a cost, or a choice.')+'</p></div><div class="exp150-vitals">'+statusMetric('Health',Number(pl.hp||0)+' / '+Number(pl.maxHp||0),status*100,'health')+statusMetric('Road Pressure',Number(s.pressure||0)+'%',s.pressure,'pressure')+'</div><div class="exp150-utility-actions"><button type="button" id="exp150OpenMap"><span>⌖</span>Road Map</button><button type="button" id="exp150OpenJournal"><span>✧</span>Field Journal <i>'+discoveryCount+'</i></button></div></header>'+
+      '<div class="exp150-world-page"><header class="exp150-expedition-head"><div class="exp150-title-group exp100-head"><span class="exp150-kicker">OLD ROAD · EXPEDITION</span><h1>'+esc(area.name)+'</h1><p class="'+(note?'has-result':'')+'">'+esc(sceneText)+'</p></div><div class="exp150-vitals">'+statusMetric('Health',Number(pl.hp||0)+' / '+Number(pl.maxHp||0),status*100,'health')+statusMetric('Road Pressure',Number(s.pressure||0)+'%',s.pressure,'pressure')+'</div><div class="exp150-utility-actions"><button type="button" id="exp150OpenMap"><span>⌖</span>Road Map</button><button type="button" id="exp150OpenJournal"><span>✧</span>Field Journal <i>'+discoveryCount+'</i></button></div></header>'+
       trackerMarkup(pl,s,stage)+
-      '<div class="exp150-main-grid"><section class="exp150-scene-column"><section class="exp150-narrative"><div><span class="exp150-kicker">'+esc(area.type||'ROAD SCENE')+'</span><p>'+esc(sceneText)+'</p></div>'+(note?'<div class="exp150-result-note" role="status">'+esc(note)+'</div>':'')+'</section>'+
+      '<div class="exp150-main-grid"><section class="exp150-scene-column">'+
       (guide?'<div class="exp150-guide">'+guide+'</div>':'')+
       '<div class="exp150-interactions">'+roadDiscovery.routeChoicePanel(s,stage)+roadDiscovery.pointOfInterestPanel(pl,s,stage)+roadDiscovery.movedCairnDecisionPanel(pl,s,stage)+'</div>'+
       (atCamp?campActions(pl,s):'')+
