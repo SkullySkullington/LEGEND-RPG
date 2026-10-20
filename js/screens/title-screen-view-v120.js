@@ -1,4 +1,4 @@
-/* LEGEND v0.21.0 - active title menu view with the HTML/CSS wordmark.
+/* LEGEND v0.21.1 - active title menu view with the HTML/CSS wordmark.
  * Owns the main title screen markup and CSS/accessibility hooks.
  * Title state and all menu actions are passed in; audio and navigation stay outside.
  */
