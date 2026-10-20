@@ -130,6 +130,8 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await expect(page.locator('.exp100-head h1')).toHaveText('Greyfen Approach');
     await page.locator('#finish').click();
     await expect(page.getByRole('heading', { name: 'Expedition Secured' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Expedition field report' })).toContainText('High Ridge');
+    await expect(page.getByRole('region', { name: 'Expedition field report' })).toContainText('The Split Milestone');
 
     const saved = await page.evaluate(() => {
       const player = window.LegendRuntimeV120.loadPlayer();
