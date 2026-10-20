@@ -449,3 +449,29 @@
 @media(prefers-reduced-motion:reduce){
  .title-v136-rpg .v150-legend-wordmark,.exp100:has(.exp150-world-page) > .exp100-wrap > .exp100-scene-live img{animation:none}
 }
+
+
+/* Keep the legacy semantic hook without inheriting the old floating-card geometry. */
+.exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head{
+  position:static!important;inset:auto!important;margin:0!important;padding:0!important;
+  min-width:0;border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;backdrop-filter:none!important;overflow:visible!important;
+}
+.exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head h1{
+  margin:5px 0 7px!important;font:500 clamp(2rem,4.5vw,3.4rem)/1.02 Georgia,"Times New Roman",serif!important;
+  letter-spacing:-.025em!important;color:#f0ead7!important;text-shadow:none!important;
+}
+.exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head p{
+  max-width:680px!important;margin:0!important;padding:0!important;border:0!important;
+  background:transparent!important;color:#b6c0b2!important;font-size:.94rem!important;line-height:1.52!important;
+}
+.exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head p.has-result{
+  max-width:820px!important;margin-top:8px!important;padding:9px 12px!important;
+  border-left:2px solid #d7b86a!important;border-radius:0 6px 6px 0!important;
+  background:linear-gradient(90deg,rgba(215,184,106,.105),transparent)!important;color:#e3d4a8!important;
+  font-size:.86rem!important;line-height:1.5!important;
+}
+@media(max-width:720px){
+  .exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head h1{font-size:clamp(2rem,8vw,3rem)!important}
+  .exp100:has(.exp150-world-page) .exp150-expedition-head .exp100-head p{font-size:.87rem!important}
+}
