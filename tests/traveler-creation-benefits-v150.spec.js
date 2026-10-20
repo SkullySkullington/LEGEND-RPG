@@ -16,15 +16,18 @@ test('every traveler choice has its own art and gameplay effects are visible and
 
   await expect(page.locator('.v094-choice[data-gender]')).toHaveCount(4);
   await expect(page.locator('.v094-choice-art img')).toHaveCount(4);
+  await expect.poll(() => page.locator('.v094-choice-art img').evaluateAll(imgs => imgs.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
   await choose(page, '[data-gender="woman"]');
 
   await expect(page.locator('.v094-choice[data-personality]')).toHaveCount(5);
   await expect(page.locator('.v094-choice-art img')).toHaveCount(5);
+  await expect.poll(() => page.locator('.v094-choice-art img').evaluateAll(imgs => imgs.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
   await expect(page.locator('.v094-choice[data-personality="bold"]')).toContainText('+1 Force');
   await choose(page, '[data-personality="bold"]');
 
   await expect(page.locator('.v094-choice[data-origin]')).toHaveCount(6);
   await expect(page.locator('.v094-choice-art img')).toHaveCount(6);
+  await expect.poll(() => page.locator('.v094-choice-art img').evaluateAll(imgs => imgs.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
   await expect(page.locator('.v094-choice[data-origin="Wandering Cook"]')).toContainText('+3 rations');
   await expect(page.locator('.v094-choice[data-origin="Debt-Bound Thief"]')).toContainText('+40 starting gold');
   await choose(page, '[data-origin="Lost Squire"]');
@@ -37,6 +40,7 @@ test('every traveler choice has its own art and gameplay effects are visible and
 
   await expect(page.locator('.v094-choice[data-keepsake]')).toHaveCount(6);
   await expect(page.locator('.v094-choice-art img')).toHaveCount(6);
+  await expect.poll(() => page.locator('.v094-choice-art img').evaluateAll(imgs => imgs.every(img => img.complete && img.naturalWidth > 0))).toBe(true);
   await expect(page.locator('.v094-choice[data-keepsake="Bent Coin"]')).toContainText('+12% sale value');
   await expect(page.locator('.v094-choice[data-keepsake="Cooked Ration"]')).toContainText('+5 rations');
   await choose(page, '[data-keepsake="Rusty Charm"]');
