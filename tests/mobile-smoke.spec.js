@@ -6,6 +6,14 @@ const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
 if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
 const version = versionMatch[1];
 
+
+async function enterOldRoadFromDeparture(page) {
+  await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+  await expect(page.locator('.ash100-departure')).toBeVisible();
+  await tap(page, page.locator('#departureBegin'));
+  await expect(page.locator('.exp150-world-page')).toBeVisible();
+}
+
 async function openTitle(page) {
   await page.goto('/');
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
@@ -165,7 +173,7 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileRoadQA');
     await tap(page, page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }));
-    await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('#routeRidge')).toBeVisible();
     await tap(page, page.locator('#routeRidge'));
     await tap(page, page.locator('#push'));
@@ -188,7 +196,7 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
       rt.savePlayer(pl);
     });
     await tap(page, page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }));
-    await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+    await enterOldRoadFromDeparture(page);
     await tap(page, page.locator('#routeRidge'));
     await tap(page, page.locator('#push'));
     await expect(page.locator('.exp100-combat')).toBeVisible();
