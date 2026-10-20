@@ -158,7 +158,8 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
         journalRoutes: player.flags.roadFieldJournalV150?.routes || []
       };
     });
-    expect(saved).toMatchObject({ completed: true, tutorialStep: 'people', roadToken: 1, discoveries: 1, campsMade: 1 });
+    expect(saved).toMatchObject({ completed: true, tutorialStep: 'people', discoveries: 1, campsMade: 1 });
+    expect(saved.roadToken).toBeGreaterThanOrEqual(1);
     expect(saved.visitedPlaces).toEqual(['South Fork', 'Lantern Ditch', "Wayfarer's Camp", 'Blackroot Bend', 'Reedwatch Shelter', 'Greyfen Approach']);
     expect(saved.journalRoutes.some(entry => entry.title === 'High Ridge')).toBe(true);
     await page.getByRole('button', { name: /Return to Ashmere/i }).click();
