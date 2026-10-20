@@ -63,7 +63,7 @@ function render(pl, enemy, note = '', w, a, technique) {
   '</div>'+
   '<div class="rpg-battle-utilities"><span>OTHER MOVES</span><button class="rpg-utility-command" id="heavy" type="button"'+disabledForOpening+'>Heavy Strike <small>Risky · high damage</small></button>'+
    '<button class="rpg-utility-command" id="poultice" type="button" '+(openingEncounter||Number(pl.inventory?.roadPoultice||0)<1||Number(pl.hp||0)>=Number(pl.maxHp||1)?'disabled':'')+'>Road Poultice <small>'+Number(pl.inventory?.roadPoultice||0)+' in pack</small></button>'+
-   '<button class="rpg-utility-command rpg-retreat" id="flee" type="button"'+disabledForOpening+'>Retreat <small>Abandon this encounter</small></button></div>'+
+   '<button class="rpg-utility-command rpg-retreat" id="flee" data-legend-scene-transition="Retreating from the encounter" type="button"'+disabledForOpening+'>Retreat <small>Abandon this encounter</small></button></div>'+
   '<p class="rpg-battle-footnote">'+(openingEncounter?'The voice leaves no time to understand. Use ACT to answer it.':esc(technique.text)+' Armor softens incoming blows; the heavy wind-up can be guarded against or disrupted.')+'</p></section>');
  const button=(id,fn)=>{const el=document.getElementById(id);if(el)el.onclick=fn;};
  button('strike',()=>onCommand?.(enemy,'attack'));
