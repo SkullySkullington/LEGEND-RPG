@@ -24,6 +24,14 @@ async function tap(page, locator) {
   await expect(locator).toBeVisible();
   await expect(locator).toBeEnabled();
 
+  // A scene transition intentionally covers controls while destination assets
+  // settle. Wait for the curtain to clear before checking the physical touch hit
+  // target, just as a player would wait for the scene to finish arriving.
+  const curtain = page.locator('#legend-scene-curtain');
+  if (await curtain.count()) {
+    await expect(curtain).not.toHaveClass(/is-covering|is-revealing/, { timeout: 7000 });
+  }
+
   // Mobile WebKit's mouse-click stability check can hang on visible controls,
   // even with transforms disabled. Touch projects should send an actual tap.
   const touchDevice = await page.evaluate(() =>
