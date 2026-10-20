@@ -259,7 +259,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(result.gold).toBe('47g');
   });
 
-  test('title background, raster wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
+  test('title background, current LEGEND wordmark, and CSS Awakening sigil render without SVG logo artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
     const emblem = page.locator('.v136-corner-sigil');
@@ -289,7 +289,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('.v120-legend-logo')).toBeVisible();
+    await expect(page.locator('.v150-legend-wordmark')).toBeVisible();
+    await expect(page.locator('.v150-wordmark-main')).toHaveText('LEGEND');
+    await expect(page.locator('.v150-wordmark-sub')).toHaveText('THE AWAKENING');
     await expect(page.locator('#legendTitleAccessibleName')).toHaveText('LEGEND: The Awakening');
     await expect(page.locator('.v120-title-hero h2')).toHaveCount(0);
     await expect(page.locator('.v120-title-hero')).toContainText('Monsters press against the borders');
@@ -1314,7 +1316,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
     await expect(curtain).toHaveClass(/is-covering/);
-    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(curtain.locator('.legend-transition-wordmark b')).toHaveText('LEGEND');
+    await expect(curtain.locator('.legend-transition-wordmark i')).toHaveText('THE AWAKENING');
     await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
     await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
