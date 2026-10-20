@@ -26,7 +26,7 @@
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
-            <div><span>ASHMERE · THE OLD ROAD</span></div>
+            <div><span>LEGEND · THE AWAKENING</span></div>
           </div>
           <img class="v136-corner-sigil" src="assets/ui/icons/awakening-sigil.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
         </header>
@@ -34,7 +34,7 @@
           <section class="v120-title-hero" aria-labelledby="legendTitleAccessibleName">
             <h1 class="v120-title-accessible-name" id="legendTitleAccessibleName">LEGEND: The Awakening</h1>
             <div class="portal100-kicker">A DARK FANTASY RPG</div>
-            <img class="v120-legend-logo" src="${esc(logoImage || 'assets/ui/logos/logo_legend_main_v1.png')}" alt="" aria-hidden="true" decoding="async" onerror="this.style.display='none'">
+            <div class="v150-legend-wordmark" aria-hidden="true"><span class="v150-wordmark-main">LEGEND</span><span class="v150-wordmark-rule"></span><span class="v150-wordmark-sub">THE AWAKENING</span></div>
             <p>Monsters press against the borders. Old magic stirs beneath a wounded realm.</p>
             <div class="v120-divider"><span></span><b>THE BORDERLANDS ARE WAKING</b><span></span></div>
             <div class="v120-traveler-line">
