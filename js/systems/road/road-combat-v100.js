@@ -155,7 +155,7 @@ function combatAction(enemy,action){
  if(action!=='skill')enemy.skillCooldown=Math.max(0,Number(enemy.skillCooldown||0)-1);
  note+=(guarding?' Your guard turns the blow aside.':' '+enemy.name+' hits you for '+incoming+' damage.')+(action==='heavy'?' Your heavy swing leaves you exposed.':'');
  if(incoming>0)playBattleFx('hit');
- if(pl.hp<=0){pl.hp=1;s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);stopBattleMusic();return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
+ if(pl.hp<=0){pl.hp=1;if(enemy.dungeonV100&&typeof context.onDungeonEncounterDefeat==='function'){save(pl);stopBattleMusic();return context.onDungeonEncounterDefeat(pl,enemy)}s.stage=0;s.poiUsed={};s.pressure=clamp(s.pressure+12,0,100);save(pl);stopBattleMusic();return outcome('Driven Back','The road overwhelms you. You make it back alive, badly wounded, and the expedition is cut short.','Defeat')}
  save(pl);combat(enemy,note);
 }
 function win(enemy){
@@ -170,6 +170,7 @@ function win(enemy){
   if(typeof context.onOpeningEncounterWin==='function')return context.onOpeningEncounterWin(pl,enemy,progress);
   return outcome('Oric is still standing','The opening creature falls, but the story handoff did not load. Your victory and rewards are saved.','OPENING ENCOUNTER');
  }
+ if(enemy.dungeonV100){pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;pl.stats.dungeonVictories=Number(pl.stats.dungeonVictories||0)+1;save(pl);if(typeof context.onDungeonEncounterWin==='function')return context.onDungeonEncounterWin(pl,enemy,progress);return outcome('The Sentinel Falls','The cellar encounter is won and its combat rewards are saved.','DUNGEON ENCOUNTER')}
  s.stage=clamp(s.stage+1,0,5);s.pressure=clamp(s.pressure-8,0,100);pl.stats=pl.stats||{};pl.stats.monstersDefeated=Number(pl.stats.monstersDefeated||0)+1;pl.stats.roadVictories=Number(pl.stats.roadVictories||0)+1;
  save(pl);renderExpedition(enemy.name+' defeated. You recover '+itemName(enemy.reward||'fur')+'. '+(progress?'XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'. ':'')+'You continue along the Old Road.');
 }
