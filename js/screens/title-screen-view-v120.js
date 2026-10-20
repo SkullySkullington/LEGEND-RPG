@@ -28,7 +28,7 @@
           <div class="portal100-brand">
             <div><span>LEGEND · THE AWAKENING</span></div>
           </div>
-          <img class="v136-corner-sigil" src="assets/ui/icons/awakening-sigil.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
+          <span class="v136-corner-sigil v150-corner-sigil" aria-hidden="true"></span>
         </header>
         <main class="v120-title-main">
           <section class="v120-title-hero" aria-labelledby="legendTitleAccessibleName">
