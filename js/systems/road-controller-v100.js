@@ -170,6 +170,7 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  escapeHtml:esc,
  shell,
  header,
+ scene,
  roadDiscovery,
  bindHotspotDelegation,
  savePlayer:save,
