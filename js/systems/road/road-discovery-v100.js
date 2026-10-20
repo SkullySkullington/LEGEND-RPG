@@ -14,6 +14,7 @@
       clamp: clampValue,
       bellRoadEvidence,
       getPointOfInterest,
+      getAreaForStage,
       roadDecisions,
       renderExpedition,
       tone,
@@ -43,6 +44,7 @@
       clamp,
       bellRoadEvidence,
       getPointOfInterest: pointOfInterest,
+      getAreaForStage,
       clearVisibleDiscovery: () => { visibleDiscoveryStage = null; },
       renderExpedition,
       tone
