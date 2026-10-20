@@ -45,6 +45,16 @@ async function createTravelerToLantern(page, name = 'VeilRoadQA') {
 }
 
 test.describe('LEGEND v' + version + ' road-born opening', () => {
+  test('title logo fallback keeps the correct title if the raster cannot load', async ({ page }) => {
+    await openTitle(page);
+    await page.locator('.v120-legend-logo').evaluate(img => img.dispatchEvent(new Event('error')));
+    const fallback = page.locator('.v120-title-hero .v150-wordmark-fallback');
+    await expect(fallback).toBeVisible();
+    await expect(fallback).toContainText('LEGEND');
+    await expect(fallback).toContainText('THE AWAKENING');
+    await expect(page.locator('.v120-title-hero')).not.toContainText('Roads of Ashmere');
+  });
+
   test('the title News & Roadmap opens a real screen and returns to the title', async ({ page }) => {
     await openTitle(page);
     await expect(page.getByRole('button', { name: /News & Roadmap/i })).toBeVisible();
