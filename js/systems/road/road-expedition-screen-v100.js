@@ -52,12 +52,18 @@
   }
   function mapPanel(pl,s,stage){
     const journal=journalFor(pl),visited=new Set(journal.visitedPlaces),route=s.routeChoice;
-    return '<div class="exp150-map-sheet"><div class="exp150-map-intro"><span class="exp150-kicker">FIELD MAP · OLD ROAD</span><h2>The road you know</h2><p>Known places are recorded as you travel. Unvisited stretches stay uncertain until you reach them.</p></div><div class="exp150-map-line">'+Array.from({length:6},(_,i)=>{
-      const stop=areaForStage(i),name=String(stop.name||('Road '+(i+1))),isCurrent=i===stage,isVisited=visited.has(name)||i<stage;
+    const discoveries=[...journal.discoveries].slice().reverse();
+    const discoveryMarkup=discoveries.length?discoveries.map(item=>{
+      const routeName=item.route==='ridge'?'High Ridge':item.route==='reeds'?'Reed Cut':'Unrecorded route';
+      return '<article class="exp150-map-discovery"><span class="exp150-map-discovery-pin" aria-hidden="true">✧</span><div><strong>'+esc(item.name||'Road discovery')+'</strong><small>'+esc(item.place||'The Old Road')+' · Day '+esc(String(item.day||1))+' · '+esc(routeName)+'</small><p>'+esc(item.note||'A landmark recorded in your field journal.')+'</p></div></article>';
+    }).join(''):'<p class="exp150-map-discovery-empty">No landmarks marked yet. Investigate a point of interest along the road to add its mark here.</p>';
+    return '<div class="exp150-map-sheet"><div class="exp150-map-intro"><span class="exp150-kicker">FIELD MAP · OLD ROAD</span><h2>The road you know</h2><p>Places take shape as you reach them. Investigated landmarks stay marked here on future journeys.</p></div><div class="exp150-map-line">'+Array.from({length:6},(_,i)=>{
+      const stop=areaForStage(i),name=String(stop.name||('Road '+(i+1))),isCurrent=i===stage,isVisited=visited.has(name)||i<stage,isKnown=visited.has(name)||i<=stage;
+      const label=isKnown?name:'Uncharted stretch';
       const status=isCurrent?'You are here':isVisited?'Visited':'Unexplored';
-      const detail=i===0&&route?(route==='ridge'?'Route chosen: High Ridge':'Route chosen: Reed Cut'):i===0&&!route?'The fork is still ahead':stop.type||'Road location';
-      return '<div class="exp150-map-stop '+(isCurrent?'is-current ':'')+(isVisited?'is-visited':'')+'"><span class="exp150-map-dot">'+(isVisited?'✓':String(i+1))+'</span><div><strong>'+esc(name)+'</strong><small>'+esc(detail)+'</small></div><em>'+status+'</em></div>';
-    }).join('')+'</div><div class="exp150-map-legend"><span><i class="visited"></i> Visited</span><span><i class="current"></i> Current stop</span><span><i class="unknown"></i> Unknown</span></div></div>';
+      const detail=!isKnown?'No reliable mark yet':i===0&&route?(route==='ridge'?'Route chosen: High Ridge':'Route chosen: Reed Cut'):stop.type||'Road location';
+      return '<div class="exp150-map-stop '+(isCurrent?'is-current ':'')+(isVisited?'is-visited ':'')+(!isKnown?'is-unknown':'')+'"><span class="exp150-map-dot">'+(isVisited&&!isCurrent?'✓':isCurrent?'✦':'·')+'</span><div><strong>'+esc(label)+'</strong><small>'+esc(detail)+'</small></div><em>'+status+'</em></div>';
+    }).join('')+'</div><div class="exp150-map-legend"><span><i class="visited"></i> Visited</span><span><i class="current"></i> Current stop</span><span><i class="unknown"></i> Uncharted</span></div><section class="exp150-map-discoveries"><div class="exp150-map-discoveries-heading"><span>MARKS FOUND</span><strong>'+discoveries.length+'</strong></div><div class="exp150-map-discovery-list">'+discoveryMarkup+'</div></section></div>';
   }
   function journalPanel(pl){
     const journal=journalFor(pl);
