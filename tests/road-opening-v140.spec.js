@@ -16,6 +16,7 @@ async function openTitle(page) {
   await page.reload();
   await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await expect(page.locator('.v120-title')).toBeVisible();
+  await expect(page.locator('.v120-title-hero .v120-legend-logo')).toHaveAttribute('src', /logo_legend_awakening_wordmark\\.svg/);
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
 }
 
@@ -45,6 +46,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await openTitle(page);
     await expect(page.getByRole('button', { name: /News & Roadmap/i })).toBeVisible();
     await page.getByRole('button', { name: /News & Roadmap/i }).click();
+    await expect(page.locator('#legend-scene-curtain')).toContainText('PREPARING THE NEXT SCENE');
     await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
