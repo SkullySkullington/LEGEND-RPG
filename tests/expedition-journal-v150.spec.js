@@ -76,6 +76,9 @@ test('expedition map and field journal preserve keyboard focus and recorded disc
   const mapDialog = page.getByRole('dialog', { name: 'Road map' });
   await expect(mapDialog).toBeVisible();
   await expect(mapDialog).toContainText('The road you know');
+  await expect(mapDialog).toContainText('The Split Milestone');
+  await expect(mapDialog.locator('.exp150-map-discovery')).toHaveCount(1);
+  await expect(mapDialog).not.toContainText('Lantern Ditch');
   const mapClose = page.getByRole('button', { name: 'Return to the road' });
   await mapClose.click();
   await expect(mapDialog).toBeHidden();
