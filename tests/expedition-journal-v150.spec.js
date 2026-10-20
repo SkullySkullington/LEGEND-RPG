@@ -72,7 +72,7 @@ test('Ashmere departure briefing links preparation to the road and warns without
 
   await page.evaluate(() => {
     const player = window.LegendRuntimeV120.loadPlayer();
-    player.hp = Math.round(player.maxHp * 0.4);
+    player.hp = Math.round(player.maxHp * 0.35);
     player.inventory = player.inventory || {};
     player.inventory.food = 0;
     player.inventory.camp = 0;
@@ -82,7 +82,7 @@ test('Ashmere departure briefing links preparation to the road and warns without
     window.LegendRuntimeV120.savePlayer(player);
     window.LegendAshmereV099.route('road');
   });
-  await expect(page.locator('#departureHealth')).toContainText(/40%/);
+  await expect(page.locator('#departureHealth')).toContainText(/35%/);
   await expect(page.locator('#departureAdvice')).toContainText(/health is critically low/i);
   await expect(page.locator('#departureAdvice')).toContainText(/no food or camp supplies/i);
   await expect(page.locator('#departureBegin')).toBeEnabled();
