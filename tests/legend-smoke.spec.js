@@ -265,13 +265,15 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     const emblem = page.locator('.v136-corner-sigil');
     await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\.webp/);
     await expect.poll(() => backdrop.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    const logo = page.locator('.v120-legend-logo');
+    const logo = page.locator('.v150-legend-wordmark');
     await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
+    await expect(emblem).toHaveClass(/v150-corner-sigil/);
     await expect(logo).toBeVisible();
-    await expect(logo).toHaveAttribute('src', /logo_legend_main_v1\.png/);
-    await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect(logo.locator('.v150-wordmark-main')).toHaveText('LEGEND');
+    await expect(logo.locator('.v150-wordmark-sub')).toHaveText('THE AWAKENING');
+    await expect(logo).not.toContainText(/Roads of Ashmere/i);
+    await expect(page.locator('.v120-legend-logo')).toHaveCount(0);
+    await expect(page.locator('.v136-corner-sigil img')).toHaveCount(0);
   });
 
   test('game opens directly on the actual title menu without the redundant Ashmere Gate screen', async ({ page }) => {
@@ -1743,6 +1745,15 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(iconSources.every(src => src.startsWith('assets/generated/ui/icons/service-'))).toBe(true);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
+    const iconBounds = await iconImages.evaluateAll(nodes => nodes.map(img => {
+      const icon = img.closest('.ash100-destination-icon');
+      const a = icon.getBoundingClientRect();
+      const b = img.getBoundingClientRect();
+      return { within: b.width <= a.width + 1 && b.height <= a.height + 1, iconWidth: a.width, imageWidth: b.width };
+    }));
+    expect(iconBounds.every(item => item.within)).toBe(true);
+    const navImmediatelyAfterHero = await page.locator('.ash100-hero').evaluate(hero => hero.nextElementSibling?.classList.contains('ash099-topnav'));
+    expect(navImmediatelyAfterHero).toBe(true);
   });
 
   test('traveler creation shapes a soul with an unnamed presence and raster LEGEND wordmark', async ({ page }) => {
@@ -1928,6 +1939,12 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await startFreshCharacter(page, 'MobileQA');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
     expect(overflow).toBe(false);
+    const navOrder = await page.evaluate(() => {
+      const nav = document.querySelector('.ash099-topnav');
+      const destinations = document.querySelector('.ash100-destinations');
+      return !!nav && !!destinations && !!(nav.compareDocumentPosition(destinations) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(navOrder).toBe(true);
     const routes = page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i });
     const box = await routes.boundingBox();
     expect(box).not.toBeNull();
