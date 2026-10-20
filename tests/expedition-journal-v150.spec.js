@@ -42,13 +42,61 @@ async function startFreshTraveler(page) {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
-test('expedition map and field journal preserve keyboard focus and recorded discoveries', async ({ page }) => {
-  await startFreshTraveler(page);
-
+async function enterDeparture(page) {
   await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
     .getByRole('button', { name: /Routes/i }).click();
   await page.getByRole('button', { name: /The Old Road/i }).click();
+  await expect(page.locator('.ash100-departure')).toBeVisible();
+}
+
+async function beginRoadExpedition(page) {
+  await page.locator('#departureBegin').click();
   await expect(page.locator('.exp150-world-page')).toBeVisible();
+}
+
+test('Ashmere departure briefing links preparation to the road and warns without blocking travel', async ({ page }) => {
+  await startFreshTraveler(page);
+  await enterDeparture(page);
+
+  await expect(page.locator('.ash100-departure')).toContainText('TRAVELER CONDITION');
+  await expect(page.locator('.ash100-departure')).toContainText('EQUIPPED LOADOUT');
+  await expect(page.locator('.ash100-departure')).toContainText('FIELD SUPPLIES');
+  await expect(page.locator('.ash100-departure-fork')).toContainText('High Ridge');
+  await expect(page.locator('.ash100-departure-fork')).toContainText('Reed Cut');
+
+  await page.locator('#departureInn').click();
+  await expect(page.locator('#ashBack')).toBeVisible();
+  await page.locator('#ashBack').click();
+  await expect(page.locator('.ash100-town')).toBeVisible();
+  await enterDeparture(page);
+
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.hp = Math.round(player.maxHp * 0.4);
+    player.inventory = player.inventory || {};
+    player.inventory.food = 0;
+    player.inventory.camp = 0;
+    player.inventory.potion = 0;
+    player.inventory.roadHerb = 0;
+    player.inventory.clothScrap = 0;
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendAshmereV099.route('road');
+  });
+  await expect(page.locator('#departureHealth')).toContainText(/40%/);
+  await expect(page.locator('#departureAdvice')).toContainText(/health is critically low/i);
+  await expect(page.locator('#departureAdvice')).toContainText(/no food or camp supplies/i);
+  await expect(page.locator('#departureBegin')).toBeEnabled();
+
+  await beginRoadExpedition(page);
+  await expect(page.locator('.exp150-world-page')).toContainText('FIELD SUPPLIES');
+});
+
+
+test('expedition map and field journal preserve keyboard focus and recorded discoveries', async ({ page }) => {
+  await startFreshTraveler(page);
+
+  await enterDeparture(page);
+  await beginRoadExpedition(page);
 
   await page.locator('#routeRidge').click();
   await expect(page.locator('.exp150-world-page')).toContainText(/High Ridge chosen|choose the High Ridge/i);
@@ -167,9 +215,8 @@ test('waystation watch spends one ration, lowers pressure, and persists its camp
 
 test('late-night Reed Cut pressure summons a stronger Lantern Wisp', async ({ page }) => {
   await startFreshTraveler(page);
-  await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
-    .getByRole('button', { name: /Routes/i }).click();
-  await page.getByRole('button', { name: /The Old Road/i }).click();
+  await enterDeparture(page);
+  await beginRoadExpedition(page);
 
   await page.evaluate(() => {
     const player = window.LegendRuntimeV120.loadPlayer();

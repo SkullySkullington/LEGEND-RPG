@@ -627,3 +627,69 @@
 .exp150-road-clock.night .exp150-clock-symbol,.exp150-road-clock.deep-night .exp150-clock-symbol{color:#c1cde1;border-color:rgba(140,160,197,.42);background:rgba(89,111,158,.09)}
 .exp150-road-clock.dawn{border-color:rgba(172,165,136,.28);background:linear-gradient(105deg,rgba(37,39,32,.94),rgba(9,12,9,.92))}
 @media(max-width:540px){.exp150-road-clock{grid-template-columns:28px minmax(0,1fr);gap:4px 9px;padding:11px}.exp150-clock-symbol{width:27px;height:27px}.exp150-clock-main{gap:4px 8px}.exp150-clock-main span{font-size:.88rem}.exp150-road-clock p{font-size:.69rem}}
+
+
+/* Expedition departure: make preparation feel like part of the journey, not a menu detour. */
+.ash100-departure{display:grid;gap:14px;margin-top:16px;color:#e8e5d6}
+.ash100-departure-intro{padding:15px 17px;border:1px solid rgba(215,184,106,.23);border-radius:11px;background:linear-gradient(112deg,rgba(32,40,29,.94),rgba(8,13,10,.98))}
+.ash100-departure-intro h2{margin:6px 0 7px;color:#f1e7cc;font:500 clamp(1.45rem,3vw,2rem)/1.15 Georgia,"Times New Roman",serif}
+.ash100-departure-intro p{max-width:68ch;margin:0;color:#b8c3b4;font-size:.87rem;line-height:1.6}
+.ash100-departure-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ash100-departure-card{min-width:0;padding:14px;border:1px solid rgba(215,184,106,.16);border-radius:10px;background:linear-gradient(150deg,rgba(19,29,21,.96),rgba(8,13,10,.98))}
+.ash100-departure-label{display:block;color:#c8ad6d;font-size:.61rem;font-weight:850;letter-spacing:.15em;line-height:1.4}
+.ash100-departure-healthline{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:3px 8px;margin:12px 0 9px}
+.ash100-departure-healthline strong{font:500 1.14rem Georgia,"Times New Roman",serif;color:#f1e7cc}
+.ash100-departure-healthline span{font-size:.69rem;color:#a5b09f}
+.ash100-departure-healthbar{height:8px;overflow:hidden;border-radius:999px;background:#202b22}
+.ash100-departure-healthbar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#8c9b56,#d5c67b)}
+.ash100-departure-healthcopy{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:.7rem;color:#9eaa9c}
+.ash100-departure-healthcopy strong{color:#e4dcc1;font-variant-numeric:tabular-nums}
+.ash100-departure-vitals p{margin:11px 0 0;color:#aab5a6;font-size:.73rem;line-height:1.5}
+.ash100-departure-equipment{display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:9px;margin-top:12px}
+.ash100-departure-token{display:grid;place-items:center;width:31px;height:31px;border:1px solid rgba(215,184,106,.22);border-radius:7px;background:rgba(215,184,106,.055);color:#ddc47c;font-size:1rem}
+.ash100-departure-equipment small,.ash100-departure-equipment strong,.ash100-departure-equipment em{display:block;overflow-wrap:anywhere}
+.ash100-departure-equipment small{color:#8fa08e;font-size:.57rem;letter-spacing:.12em}
+.ash100-departure-equipment strong{margin-top:3px;color:#eae2cb;font-size:.79rem;line-height:1.35}
+.ash100-departure-equipment em{margin-top:2px;color:#b2bba9;font-size:.67rem;font-style:normal;line-height:1.4}
+.ash100-departure-supply{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid rgba(215,184,106,.085);font-size:.77rem;color:#b4bdae}
+.ash100-departure-supply:first-of-type{margin-top:7px}
+.ash100-departure-supply:last-child{border:0}
+.ash100-departure-supply strong{color:#f1e7cc;font-variant-numeric:tabular-nums}
+.ash100-departure-advice{display:grid;grid-template-columns:minmax(140px,.5fr) minmax(0,1fr);align-items:start;gap:12px;padding:13px 15px;border:1px solid rgba(150,205,160,.17);border-left:3px solid #869b65;border-radius:8px;background:rgba(16,25,17,.88)}
+.ash100-departure-advice.has-advice{border-color:rgba(215,184,106,.28);border-left-color:#d7b86a;background:linear-gradient(105deg,rgba(55,43,22,.42),rgba(12,18,13,.96))}
+.ash100-departure-advice>div strong{display:block;margin-top:5px;color:#ede2c5;font:500 1rem/1.3 Georgia,"Times New Roman",serif}
+.ash100-departure-advice ul{display:grid;gap:5px;margin:0;padding-left:18px;color:#c0c8b7;font-size:.77rem;line-height:1.5}
+.ash100-departure-advice li::marker{color:#d7b86a}
+.ash100-departure-advice p{margin:0;color:#b4c1b1;font-size:.78rem;line-height:1.55}
+.ash100-departure-fork{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(2,minmax(0,1fr));gap:10px;padding:14px;border:1px solid rgba(215,184,106,.12);border-radius:9px;background:rgba(9,15,11,.8)}
+.ash100-departure-fork>div strong{display:block;margin:5px 0;color:#ede3c8;font:500 1.02rem Georgia,"Times New Roman",serif}
+.ash100-departure-fork>div p{margin:0;color:#909d8e;font-size:.69rem;line-height:1.45}
+.ash100-departure-fork article{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:10px;border-left:1px solid rgba(215,184,106,.16)}
+.ash100-departure-fork article b{color:#dbc681;font-size:.78rem}
+.ash100-departure-fork article span{color:#aeb9a9;font-size:.72rem;line-height:1.5}
+.ash100-departure-actions{display:grid;gap:10px}
+.ash100-departure-launch{display:grid!important;grid-template-columns:30px minmax(0,1fr);align-items:center;column-gap:11px;min-height:72px;padding:14px 16px!important;text-align:left}
+.ash100-departure-launch>span{grid-row:1/3;display:grid;place-items:center;width:29px;height:29px;border-radius:7px;background:rgba(215,184,106,.12);color:#e1c978;font-size:1.12rem}
+.ash100-departure-launch strong{display:block;color:#f1e6c6;font-size:.98rem}
+.ash100-departure-launch small{display:block;margin-top:3px;color:#aeb6a4;font-size:.73rem;line-height:1.4}
+.ash100-departure-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ash100-departure-shortcuts button{min-width:0;min-height:43px;padding:9px 11px;text-align:center;font-size:.75rem;line-height:1.35}
+.ash100-departure button:focus-visible{outline:2px solid #ecd38a!important;outline-offset:3px}
+@media(max-width:760px){
+  .ash100-departure-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ash100-departure-supplies{grid-column:1/-1}
+  .ash100-departure-fork{grid-template-columns:1fr 1fr}
+  .ash100-departure-fork>div{grid-column:1/-1}
+}
+@media(max-width:520px){
+  .ash100-departure-intro{padding:13px}
+  .ash100-departure-grid{grid-template-columns:1fr}
+  .ash100-departure-supplies{grid-column:auto}
+  .ash100-departure-card{padding:12px}
+  .ash100-departure-advice{grid-template-columns:1fr;gap:7px}
+  .ash100-departure-fork{grid-template-columns:1fr}
+  .ash100-departure-fork article{border-left:0;border-top:1px solid rgba(215,184,106,.16);padding:10px 0 0}
+  .ash100-departure-shortcuts{grid-template-columns:1fr}
+  .ash100-departure-launch{min-height:68px}
+}
+@media(prefers-reduced-motion:reduce){.ash100-departure *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

@@ -50,7 +50,7 @@
       ),
       '<div class="ash099-cards">' +
         '<button class="ash099-btn ash099-card" data-ash-view="road">' + icon('road') +
-        '<strong>The Old Road</strong><small>Start a five-stage expedition with encounters, finds, and a safe return path.</small><em>Begin expedition</em></button>' +
+        '<strong>The Old Road</strong><small>Review your loadout and supplies, then enter a six-stop expedition with route choices and a safe return path.</small><em>Prepare to depart</em></button>' +
         '<button class="ash099-btn ash099-card" data-ash-view="regions">' + icon('regions') +
         '<strong>Road Network</strong><small>View known regions, spend Road Tokens to unlock new lands, and travel between places.</small><em>Open map</em></button>' +
         '<button class="ash099-btn ash099-card" data-ash-view="quests">' + icon('quest') +
