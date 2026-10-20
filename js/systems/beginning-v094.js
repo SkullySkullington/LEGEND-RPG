@@ -60,7 +60,7 @@
   function renderCreationStep(id,flow){
     const catalog=window.LegendPlayerCreationStepsV094;
     if(typeof catalog?.get!=='function')return creationViewUnavailable();
-    const definition=catalog.get(id,{data:D(),genderOptions,personalityOptions});
+    const definition=catalog.get(id,{data:D(),genderOptions,personalityOptions,assets:window.LegendAssetsV090});
     if(!definition)return creationViewUnavailable();
     renderChoiceStep({...definition,...flow});
   }
@@ -76,6 +76,14 @@
   function renderConfirm(){
     const view=window.LegendPlayerCreationViewV094;
     if(typeof view?.renderConfirmation!=='function')return creationViewUnavailable();
+    const catalog=window.LegendPlayerCreationStepsV094;
+    const context={data:D(),genderOptions,personalityOptions,assets:window.LegendAssetsV090};
+    const benefits={
+      personality:catalog?.get('personality',context)?.items?.find(item=>item.id===state.personality),
+      origin:catalog?.get('origin',context)?.items?.find(item=>item.id===state.origin),
+      class:catalog?.get('class',context)?.items?.find(item=>item.id===state.className),
+      keepsake:catalog?.get('keepsake',context)?.items?.find(item=>item.id===state.keepsake)
+    };
     view.renderConfirmation({
       root:ROOT(),
       name:state.name,
@@ -84,6 +92,7 @@
       origin:state.origin,
       className:state.className,
       keepsake:state.keepsake,
+      benefits,
       onBack:renderKeepsake,
       onBegin:createTraveler
     });
