@@ -36,7 +36,15 @@
         '<div class="v094-beginning-shell">' + markup + '</div>' +
       '</div></main>';
     root.querySelectorAll('.v140-creation img').forEach(img => {
-      img.addEventListener('error', () => img.remove(), { once: true });
+      img.addEventListener('error', () => {
+        const art = img.closest('.v094-choice-art');
+        if (art) {
+          img.remove();
+          art.classList.add('is-fallback');
+        } else {
+          img.remove();
+        }
+      }, { once: true });
     });
   }
 
@@ -87,11 +95,11 @@
         const artCell = key !== 'class' && Array.isArray(item.artCell) ? item.artCell : null;
         const atlas = item.artSource || '';
         const atlasArt = atlas && artCell
-          ? '<span class="v094-choice-art" aria-hidden="true"><img src="' + escapeHtml(atlas) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" style="left:-' + (Number(artCell[0]) * 100) + '%;top:-' + (Number(artCell[1]) * 100) + '%" onerror="this.remove();this.parentNode.classList.add(\\'is-fallback\\')"><span>' + escapeHtml(iconFallbacks[item.id] || '✧') + '</span></span>'
+          ? '<span class="v094-choice-art" aria-hidden="true"><img src="' + escapeHtml(atlas) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" style="left:-' + (Number(artCell[0]) * 100) + '%;top:-' + (Number(artCell[1]) * 100) + '%" ><span>' + escapeHtml(iconFallbacks[item.id] || '✧') + '</span></span>'
           : '';
         return '<button class="v094-choice' + (active ? ' is-selected' : '') + ((classPortrait || atlasArt) ? ' v094-choice-has-art' : '') +
           '" data-' + key + '="' + escapeHtml(item.id) + '" aria-pressed="' + active + '">' +
-          (classPortrait ? '<img class="v094-class-art" src="' + escapeHtml(classPortrait) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" onerror="this.style.display=\\'none\\'">' : atlasArt) +
+          (classPortrait ? '<img class="v094-class-art" src="' + escapeHtml(classPortrait) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" >' : atlasArt) +
           '<strong>' + escapeHtml(item.label) + '</strong><span>' + escapeHtml(item.text || '') + '</span>' +
           (item.tag ? '<em>' + escapeHtml(item.tag) + '</em>' : '') +
           (item.effect ? '<small class="v094-choice-effect">' + escapeHtml(item.effect) + '</small>' : '') +
