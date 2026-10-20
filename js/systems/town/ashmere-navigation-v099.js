@@ -27,6 +27,7 @@
       trader: () => renderFeature('renderTrader'),
       smith: () => renderFeature('renderSmith'),
       work: () => renderFeature('renderWorkBoard'),
+      dungeon: () => renderFeature('renderBellVault'),
       crossing: () => renderFeature('renderDryCrossing'),
       craft: () => renderFeature('renderCrafting'),
       sheet: () => renderFeature('renderSheet'),
