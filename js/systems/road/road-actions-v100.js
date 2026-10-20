@@ -99,6 +99,7 @@ function resolveChoice(kind){
  if(s.pressure>=65){s.discoveryOpen=false;s.discoveryStage=null;save(pl);return battleEvent()}
  const roadSense=score(pl,'survival')+score(pl,'strength');
  s.stage=clamp(s.stage+1,0,5);
+ recordVisit(pl,s.stage);
  s.discoveryOpen=false;s.discoveryStage=null;
  const destination=areaForStage(s.stage);
  const routeFeedback=road().routeFeedback?.[openingRoute]||'';
