@@ -1,3 +1,11 @@
+## v0.21.0 — Immersive expeditions and Ashmere hub presentation (preview; review pending)
+- Rebuild the expedition presentation around the live road scene, compact six-stop journey tracker, health and Road Pressure meters, contextual route/search/travel decisions, and focused Road Map / Field Journal overlays.
+- Persist visited stops, route choices, and investigated discoveries in `flags.roadFieldJournalV150`. The existing save key, player stats, inventory, quest/evidence records, route/search mechanics, pressure, combat, waystation rest/crafting, rewards, and secured return remain the gameplay authorities.
+- Move Ashmere service navigation directly beneath the town panorama. Clamp service icon artwork to its icon box and tighten destination-card layout to prevent oversized art.
+- Replace the stale title wordmark presentation with **LEGEND / THE AWAKENING** and a CSS-only sigil in the title and scene-transition curtain; no SVG is used for the logo treatment.
+- Add desktop/mobile assertions for the new wordmark, hub nav placement and icon bounds, the expedition map, and field journal.
+- **Status: preview branch only.** Automated CI and manual browser review are pending. Do not merge until both pass and the interface has been reviewed at desktop and mobile sizes.
+
 ## v0.20.40 — Road-first opening and guided first expedition (PR #27; verification pending)
 - Keep the v0.20.39 anonymous soul-shaping creator, raster wordmark, dedicated service art, and scene-transition presentation as the visual foundation.
 - After **Let Me Wake**, begin beneath the dead lantern outside Ashmere. Captain Oric asks whether the traveler is friend or foe and offers three response tones; the selected response is saved as a memory and changes his aftermath dialogue.
