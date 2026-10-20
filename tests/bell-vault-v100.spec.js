@@ -15,7 +15,7 @@ async function createTraveler(page) {
   await openTitle(page);
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
-  await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('alt', 'LEGEND: The Awakening');
+  await expect(page.locator('.v140-creation-brand .v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
   await page.locator('#v094Name').fill('VaultExplorerQA');
   await page.locator('#v094Next').click();
   await page.locator('[data-gender="unspoken"]').click();
