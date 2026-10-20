@@ -86,6 +86,7 @@ function combat(enemy,note=''){
 }
 function retreat(enemy){
  const pl=p();if(!pl)return;
+ if(enemy.dungeonV100&&typeof context.onDungeonEncounterRetreat==='function'){stopBattleMusic();return context.onDungeonEncounterRetreat(pl,enemy)}
  const s=ensure(pl);
  stopBattleMusic();
  s.pressure=clamp(s.pressure-8,0,100);
