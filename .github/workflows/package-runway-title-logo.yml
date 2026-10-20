@@ -1,0 +1,67 @@
+name: Package corrected Runway title logo
+
+on:
+  push:
+    branches: [feature/immersive-expeditions-hub-rework-v150]
+    paths:
+      - '.github/workflows/package-runway-title-logo.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  package-raster-logo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+
+      - name: Fetch and validate the existing Runway PNG
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+
+          async function main() {
+            const manifest = fs.readFileSync('js/systems/assets-v090.js', 'utf8');
+            const match = manifest.match(/main:\s*'([^']+)'/);
+            if (!match) throw new Error('The title logo source is missing from the asset manifest.');
+            const url = new URL(match[1]);
+            if (url.protocol !== 'https:' || !url.pathname.endsWith('.png')) {
+              throw new Error('Expected the current Runway raster PNG source.');
+            }
+
+            const response = await fetch(url, { redirect: 'follow' });
+            if (!response.ok) throw new Error('The existing Runway raster image could not be retrieved (HTTP ' + response.status + ').');
+            const bytes = Buffer.from(await response.arrayBuffer());
+            const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+            if (bytes.length < 1024 || bytes.length > 12 * 1024 * 1024) {
+              throw new Error('The logo image size is outside the expected 1 KiB–12 MiB range.');
+            }
+            if (!bytes.subarray(0, 8).equals(pngSignature)) throw new Error('The Runway output is not a PNG file.');
+            if (bytes.toString('ascii', 12, 16) !== 'IHDR') throw new Error('The PNG header is malformed.');
+            const width = bytes.readUInt32BE(16);
+            const height = bytes.readUInt32BE(20);
+            if (width < 400 || height < 80 || width / height < 1.4 || width / height > 8) {
+              throw new Error('Unexpected logo dimensions: ' + width + 'x' + height + '.');
+            }
+
+            const output = path.join(process.env.RUNNER_TEMP, 'legend-title-logo.png');
+            fs.writeFileSync(output, bytes);
+            console.log('Validated Runway PNG: ' + width + 'x' + height + ', ' + bytes.length + ' bytes. Source URL withheld.');
+          }
+          main().catch(error => {
+            console.error(error.message);
+            process.exitCode = 1;
+          });
+          NODE
+
+      - name: Save short-lived packaging artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: runway-title-logo-candidate
+          path: ${{ runner.temp }}/legend-title-logo.png
+          if-no-files-found: error
+          retention-days: 2
