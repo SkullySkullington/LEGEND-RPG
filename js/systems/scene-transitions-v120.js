@@ -51,27 +51,36 @@
     if (typeof action !== 'function') return;
     if (busy || reduced()) return action();
     busy = true;
+    const startedAt = Date.now();
     const curtain = overlay();
     const location = curtain.querySelector('.legend-transition-location');
     if (location) location.textContent = String(label || 'The road turns').toUpperCase();
     curtain.classList.remove('is-revealing');
     curtain.classList.add('is-covering');
-    window.setTimeout(async () => {
-      try {
-        await action();
-        await waitForSceneAssets();
-      } catch (error) {
-        // Reveal the destination even when a screen handler throws, rather than
-        // leaving the loading curtain permanently covering the playable UI.
-      } finally {
+
+    // Render the destination behind the curtain synchronously. This preserves
+    // the existing navigation/save contract: handlers and tests can observe
+    // the new screen immediately, while the player only sees it after the
+    // entrance assets have had a chance to settle.
+    try {
+      const result = action();
+      if (result && typeof result.then === 'function') result.catch(() => {});
+    } catch (error) {
+      // Always uncover the game, even when a screen handler throws.
+    }
+
+    void (async () => {
+      await waitForSceneAssets();
+      const minimumCoverMs = Math.max(0, 290 - (Date.now() - startedAt));
+      window.setTimeout(() => {
         curtain.classList.remove('is-covering');
         curtain.classList.add('is-revealing');
         window.setTimeout(() => {
           curtain.classList.remove('is-revealing');
           busy = false;
         }, 380);
-      }
-    }, 290);
+      }, minimumCoverMs);
+    })();
   }
 
   document.addEventListener('click', event => {
