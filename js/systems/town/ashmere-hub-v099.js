@@ -33,7 +33,7 @@
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
     const townCard = destination => {
       const { view, title, desc, cta, iconKey, featured = false, shopKey } = destination;
-      const serviceKeys = { inn: 'inn', trader: 'market', smith: 'blacksmith', people: 'traveler', work: 'jobBoard', road: 'map', regions: 'gatehouse', route: 'map' };
+      const serviceKeys = { inn: 'inn', trader: 'market', smith: 'blacksmith', people: 'traveler', work: 'jobBoard', road: 'map', dungeon: 'map', regions: 'gatehouse', route: 'map' };
       const serviceIcon = serviceKeys[iconKey] && typeof serviceArt === 'function' ? serviceArt(serviceKeys[iconKey], '') : '';
       const shopIcon = !serviceIcon && shopKey && typeof regionShopArt === 'function' ? regionShopArt(shopKey) : '';
       return `<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${serviceIcon||shopIcon||icon(iconKey)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
