@@ -63,7 +63,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
-    await expect(page.locator('.dispatches-v140-card')).toHaveCount(7);
+    await expect(page.locator('.dispatches-v140-card')).toHaveCount(8);
     await page.getByRole('button', { name: 'Return to Title' }).click();
     await expect(page.locator('.v120-title')).toBeVisible();
   });
