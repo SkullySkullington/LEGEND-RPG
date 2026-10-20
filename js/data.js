@@ -1,4 +1,4 @@
-// LEGEND v0.20.39 — anonymous soul-shaping creation and dedicated Ashmere service icon art.
+// LEGEND v0.21.0 — immersive road screen, persistent field journal, and Ashmere hub polish.
 window.LEGEND_DATA = {
   VERSION: 'v0.21.0',
   SAVE_KEY: 'legend-roads-of-ashmere-v09',
