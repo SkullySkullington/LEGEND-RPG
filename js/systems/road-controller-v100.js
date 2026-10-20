@@ -117,7 +117,9 @@ function roadCombatContext(){
   tone,
   toggleSound:()=>roadAudio().toggleSound?.(),
   awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
-  onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress)
+  onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress),
+  onDungeonEncounterWin:(player,enemy,progress)=>window.LegendBellVaultV100?.afterCombatWin?.(player,enemy,progress),
+  onDungeonEncounterDefeat:(player,enemy)=>window.LegendBellVaultV100?.afterCombatDefeat?.(player,enemy)
  };
 }
 function combat(enemy,note=''){
@@ -136,6 +138,10 @@ function startOpeningEncounter(){
   save(pl);
   const enemy={id:'opening-blackroot-wolf-v140',behavior:'predator',name:'Blackroot Wolf',hp:1,maxHp:1,damage:[0,0],reward:'fur',text:'A Blackroot Wolf bursts from the ditch and catches Captain Oric off guard.',turn:0,intent:'guardbreak',openingEncounterV140:true};
   return combat(enemy,window.LegendRoadOpeningV140?.battleText?.(pl)||'??? whispers: “Awaken.” Use ACT to answer.');
+}
+function startDungeonEncounter(enemy,note=''){
+ const pl=p();if(!pl||!enemy)return;
+ return combat(Object.assign({},enemy,{dungeonV100:true}),note);
 }
 function returnToTownFromRoad(){
   const player=p();
@@ -181,5 +187,5 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  clamp,
  returnToAshmere:ret
 });
-window.LegendRoadControllerV100={start,startOpeningEncounter,renderHub:renderExpedition,renderExpedition};
+window.LegendRoadControllerV100={start,startOpeningEncounter,startDungeonEncounter,renderHub:renderExpedition,renderExpedition};
 })();
