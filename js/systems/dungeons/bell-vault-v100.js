@@ -40,7 +40,8 @@
     player.stats = player.stats || {};
     player.stats.bellVaultVictories = Number(player.stats.bellVaultVictories || 0) + 1;
     globalSave(player);
-    return reopenVault();
+    const transition = window.LegendSceneTransitionsV120?.transitionTo;
+    return typeof transition === 'function' ? transition('The bell chamber falls silent', reopenVault) : reopenVault();
   }
 
   function afterCombatDefeat(player, enemy) {
@@ -54,7 +55,22 @@
     player.stats = player.stats || {};
     player.stats.bellVaultWithdrawals = Number(player.stats.bellVaultWithdrawals || 0) + 1;
     globalSave(player);
-    return reopenVault();
+    const transition = window.LegendSceneTransitionsV120?.transitionTo;
+    return typeof transition === 'function' ? transition('Driven back from the bell chamber', reopenVault) : reopenVault();
+  }
+
+  function afterCombatRetreat(player, enemy) {
+    if (!player) return;
+    const run = runFor(player);
+    run.inBattle = false;
+    run.active = false;
+    run.failed = false;
+    run.lastRoom = 2;
+    run.retreats = Number(run.retreats || 0) + 1;
+    player.stats = player.stats || {};
+    player.stats.dungeonRetreats = Number(player.stats.dungeonRetreats || 0) + 1;
+    globalSave(player);
+    return window.LegendAshmereV099?.renderAshmere?.();
   }
 
   function create(context = {}) {
@@ -340,5 +356,5 @@
     return Object.freeze({ render });
   }
 
-  window.LegendBellVaultV100 = Object.freeze({ create, afterCombatWin, afterCombatDefeat });
+  window.LegendBellVaultV100 = Object.freeze({ create, afterCombatWin, afterCombatDefeat, afterCombatRetreat });
 })();
