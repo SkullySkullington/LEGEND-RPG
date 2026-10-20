@@ -9,6 +9,7 @@ test('every traveler choice has its own art and gameplay effects are visible and
   await page.goto('/');
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
   await page.reload();
+  await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill('MemoryQA');
   await page.locator('#v094Next').click();
