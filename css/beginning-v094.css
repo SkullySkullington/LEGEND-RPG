@@ -235,3 +235,21 @@
 .v140-creation:not(.v140-arrival) .v140-guide-pane{align-self:center}
 .v140-creation:not(.v140-arrival) .v140-guide-portrait-frame{border-color:rgba(174,166,214,.34)}
 @media(prefers-reduced-motion:reduce){.v140-creation:not(.v140-arrival) .v140-presence-haze{animation:none!important}}
+
+
+/* v0.21.1 — illustrated choices and explicit starting-benefit review */
+.v094-choice-art{position:relative;display:block!important;flex:0 0 auto;width:clamp(64px,7vw,94px);aspect-ratio:1;margin:0 0 12px;overflow:hidden;border:1px solid rgba(255,211,105,.24);border-radius:14px;background:radial-gradient(circle at 50% 35%,rgba(125,255,173,.13),rgba(0,0,0,.6));box-shadow:inset 0 0 20px rgba(0,0,0,.42)}
+.v094-choice-art>img{position:absolute;width:500%;height:500%;max-width:none;object-fit:fill;display:block}
+.v094-choice-art>span{display:none!important;position:absolute;inset:0;align-items:center;justify-content:center;color:#f2d79a;font:700 2.8rem/1 Georgia,serif}
+.v094-choice-art.is-fallback>span{display:flex!important}
+.v094-choice-effect{display:block;margin-top:9px;color:#d5e4d9;font-size:.78rem;line-height:1.45;font-weight:500}
+.v094-choice em{line-height:1.45;white-space:normal}
+.v094-choice-has-art{min-height:220px}
+.v094-choice-has-art .v094-choice-prompt{margin-top:auto}
+.v094-confirm-benefits{margin:18px 0;padding:16px;border:1px solid rgba(255,211,105,.18);border-radius:16px;background:rgba(0,0,0,.24)}
+.v094-confirm-benefits h3{margin:0 0 12px;color:#ffd369;font-size:1rem;letter-spacing:.06em;text-transform:uppercase}
+.v094-confirm-benefit{display:grid;grid-template-columns:minmax(70px,.5fr) minmax(120px,1fr);gap:4px 12px;padding:11px 0;border-top:1px solid rgba(255,255,255,.08)}
+.v094-confirm-benefit>span{color:#9ab8a5;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+.v094-confirm-benefit>strong{color:#eaffef}
+.v094-confirm-benefit>p{grid-column:1/-1;margin:0;color:#c8d9ce;font-size:.84rem;line-height:1.45}
+@media(max-width:640px){.v094-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.v094-choice{padding:12px;min-height:190px}.v094-choice-art{width:68px}.v094-choice-effect{font-size:.74rem}.v094-confirm-benefit{grid-template-columns:1fr;gap:4px}}
