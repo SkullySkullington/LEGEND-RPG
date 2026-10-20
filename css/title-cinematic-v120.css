@@ -238,7 +238,7 @@
  .legend-transition-caption{font-size:.48rem;letter-spacing:.20em}
 }
 @media(prefers-reduced-motion:reduce){
- #legend-scene-curtain,#legend-scene-curtain span,.legend-transition-scene,.legend-scene-arriving,.v140-creation .v094-beginning-card,.v140-creation .v140-dialogue-box{
+ #legend-scene-curtain,#legend-scene-curtain span,.legend-transition-scene,.legend-transition-loader i,.legend-scene-arriving,.v140-creation .v094-beginning-card,.v140-creation .v140-dialogue-box{
   animation:none!important;transition:none!important;opacity:1!important;transform:none!important;filter:none!important
  }
 }
