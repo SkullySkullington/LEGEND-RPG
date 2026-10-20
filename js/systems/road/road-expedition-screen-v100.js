@@ -118,6 +118,8 @@
     const searchLocked=openingLesson&&stage===0&&(!s.routeChoice||!discoveryFound);
     const journal=journalFor(pl),discoveryCount=journal.discoveries.length;
     const nextArea=areaForStage(Math.min(5,stage+1));
+    const clock=roadTimeOfDay(s.roadClockHour,s.pressure);
+    const clockMarkup='<aside class="exp150-road-clock '+clock.period+'" aria-label="Expedition time and road conditions"><span class="exp150-clock-symbol" aria-hidden="true">'+(clock.period==='deep-night'||clock.period==='night'?'☾':clock.period==='dusk'||clock.period==='golden-hour'?'◐':'☼')+'</span><div class="exp150-clock-main"><strong>Day '+Number(pl.day||1)+' · '+esc(clock.timeLabel)+'</strong><span>'+esc(clock.label)+' on the Old Road</span></div><p>'+esc(clock.light)+' '+esc(clock.tension)+'</p></aside>';
     const roadMood=s.pressure>=65?'The mist closes around the road. Something has found your trail.':s.pressure>=40?'The birds have gone quiet. Footsteps pace you somewhere beyond the reeds.':'Rain beads on the old stones. A lantern flickers far beyond the bend.';
     const sceneText=(stage===2&&s.routeChoice&&note)?note+' '+area.text:(note||area.text||roadMood);
     const sceneMarkup=typeof scene==='function'?scene(stage,true):header(pl,s,'OLD ROAD EXPEDITION',area.name,sceneText);
@@ -126,7 +128,7 @@
       : '<button class="exp150-action primary" id="push" data-legend-scene-transition="Onward along the Old Road" '+(travelLocked?'disabled aria-disabled="true"':'')+'><span class="exp150-action-symbol">➜</span><span><strong>'+(travelLocked?'Complete the first road lesson':'Travel On')+'</strong><small>'+(travelLocked?esc(travelGate.message):'Continue toward '+esc(nextArea.name))+'</small></span><b>→</b></button><button class="exp150-action" id="search" '+(searchDone||searchLocked?'disabled aria-disabled="true"':'')+'><span class="exp150-action-symbol">⌕</span><span><strong>'+(searchDone?'Nothing left to search':searchLocked?'Inspect the marker first':'Search the roadside')+'</strong><small>'+(searchDone?'You have searched this stretch':searchLocked?'A clue may reveal something useful':'Look for supplies and useful traces')+'</small></span><b>+</b></button><button class="exp150-action" id="careful"><span class="exp150-action-symbol">◉</span><span><strong>Read the Road</strong><small>Study the ground and lower Road Pressure.</small></span><b>↗</b></button>';
     const pressureNote=s.pressure>=65?'The road is closing in. A dangerous encounter may follow.':s.pressure>=40?'Your trail is growing easier to follow. Consider slowing down or finding shelter.':'You have a little room to breathe, but the road never stays quiet for long.';
     const status=Number(pl.hp||0)/maxHpSafe(pl);
-    const markup=sceneMarkup+
+    const markup=sceneMarkup+clockMarkup+
       '<header class="exp150-expedition-head exp100-head"><div class="exp150-title-group"><span class="exp150-kicker">OLD ROAD · EXPEDITION</span><h1>'+esc(area.name)+'</h1><p class="'+(note?'has-result':'')+'">'+esc(sceneText)+'</p></div><div class="exp150-vitals">'+statusMetric('Health',Number(pl.hp||0)+' / '+Number(pl.maxHp||0),status*100,'health')+statusMetric('Road Pressure',Number(s.pressure||0)+'%',s.pressure,'pressure')+'</div><div class="exp150-utility-actions"><button type="button" id="exp150OpenMap"><span>⌖</span>Road Map</button><button type="button" id="exp150OpenJournal"><span>✧</span>Field Journal <i>'+discoveryCount+'</i></button></div></header><div class="exp150-world-page">'+
       trackerMarkup(pl,s,stage)+
       '<div class="exp150-main-grid"><section class="exp150-scene-column">'+
@@ -195,6 +197,14 @@
       save(player);
       renderExpedition('You keep watch at '+area.name+'. One ration is gone; the darkness offers no clear answer, but you notice the trail settling. Road Pressure falls by 18.');
     });
+  }
+  function roadTimeOfDay(hour,pressure){
+    const clock=Math.max(0,Math.min(23,Math.floor(Number(hour??15))));
+    const period=clock<5?'deep-night':clock<7?'dawn':clock<11?'morning':clock<15?'afternoon':clock<18?'golden-hour':clock<21?'dusk':'night';
+    const label=clock<5?'Deep Night':clock<7?'First Light':clock<11?'Morning':clock<15?'Afternoon':clock<18?'Last Daylight':clock<21?'Dusk':'Night';
+    const light=clock<5?'The lanterns are the only reliable points of light.':clock<7?'A thin line of dawn touches the highest stones.':clock<11?'The road is visible again, though the mist has not lifted.':clock<15?'Pale daylight reaches the old road in broken patches.':clock<18?'Long shadows stretch across the road ahead.':clock<21?'The last daylight drains from the low ground.':'The dark has settled; movement beyond the lanternlight is hard to read.';
+    const tension=Number(pressure||0)>=65?'Every sound travels too far. Something may be following close behind.':Number(pressure||0)>=40?'A second set of footsteps seems to keep pace just beyond sight.':'For now, you can hear your own footsteps and the weather.';
+    return {hour:clock,period,label,timeLabel:(clock%12||12)+':00 '+(clock<12?'AM':'PM'),light,tension};
   }
   function maxHpSafe(pl){return Math.max(1,Number(pl.maxHp||1));}
   return Object.freeze({render:renderExpedition});
