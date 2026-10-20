@@ -12,6 +12,14 @@ The runtime manifest now points to local files in `js/systems/assets-v090.js`; i
 
 **Remaining before treating the pack as fully visually signed off:** review every town interior and crop at desktop and 390px mobile widths, inspect the nine individual icon crops in-game at small sizes, verify contrast and loading behavior, and finish the Playwright suite. The title art and sprite-sheet grid were checked separately; the entire pack has not yet received a full visual QA pass.
 
+## Traveler creation choice art — v0.21.1
+
+The traveler creator now has a dedicated local choice-art atlas at `assets/generated/creation/creation-choice-atlas.svg`. Its 5×5 grid provides distinct illustrated-style glyph tiles for all four identity forms, five personality instincts, six origins, and six keepsakes. The six existing local class portraits remain the class-card art. Runtime uses this committed local file rather than an expiring hosted preview URL.
+
+A richer Runway raster atlas was generated for this pass (task `4c3eb3ce-0e48-484e-a8d6-e77d0385a438`). It has **not** been imported into the repository: the hosted download failed in the available browser session, so the runtime deliberately remains on the local atlas and does not depend on the temporary signed URL. Replacing the glyph atlas with packaged, validated raster crops remains a visual-quality follow-up, not a runtime dependency.
+
+The creator's review screen now summarizes the actual starting advantages from personality, origin, class, and keepsake. The underlying mechanics already compose class modifiers, origin bonuses, keepsake bonuses, and personality bonuses into road/combat skill scores; origin and keepsake starting items and gold are also retained. Identity/pronoun selections explicitly remain free of stat penalties.
+
 ## Follow-up generation — v0.20.15
 
 The original 25-image production set is already committed locally (see the import report and manifest above). A follow-up Runway pass is in progress for the two remaining polish gaps identified by the roadmap:
