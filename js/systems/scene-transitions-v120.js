@@ -71,7 +71,7 @@
 
     void (async () => {
       await waitForSceneAssets();
-      const minimumCoverMs = Math.max(0, 290 - (Date.now() - startedAt));
+      const minimumCoverMs = Math.max(0, 650 - (Date.now() - startedAt));
       window.setTimeout(() => {
         curtain.classList.remove('is-covering');
         curtain.classList.add('is-revealing');
