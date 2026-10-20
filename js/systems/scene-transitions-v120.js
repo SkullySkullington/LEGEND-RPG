@@ -10,7 +10,7 @@
     el = document.createElement('div');
     el.id = 'legend-scene-curtain';
     el.setAttribute('aria-hidden','true');
-    el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="assets/ui/logos/logo_legend_main_v1.png" alt="" decoding="async"><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><small class="legend-transition-caption">A TURNING IN THE TALE</small></div>';
+    el.innerHTML = '<div class="legend-transition-scene"><span class="legend-transition-wordmark v150-transition-wordmark" aria-hidden="true"><b>LEGEND</b><i>THE AWAKENING</i></span><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><small class="legend-transition-caption">A TURNING IN THE TALE</small></div>';
     document.body.appendChild(el);
     return el;
   }
