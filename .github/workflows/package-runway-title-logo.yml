@@ -5,52 +5,117 @@ on:
     branches: [feature/immersive-expeditions-hub-rework-v150]
     paths:
       - '.github/workflows/package-runway-title-logo.yml'
+      - 'js/systems/assets-v090.js'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   package-raster-logo:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Check out feature branch
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Fetch and validate the existing Runway PNG
+      - name: Fetch transparent Runway PNG, validate, and package locally
         shell: bash
         run: |
           node <<'NODE'
           const fs = require('node:fs');
           const path = require('node:path');
+          const { spawnSync } = require('node:child_process');
 
-          async function main() {
-            const manifest = fs.readFileSync('js/systems/assets-v090.js', 'utf8');
-            const match = manifest.match(/main:\s*'([^']+)'/);
-            if (!match) throw new Error('The title logo source is missing from the asset manifest.');
-            const url = new URL(match[1]);
-            if (url.protocol !== 'https:' || !url.pathname.endsWith('.png')) {
-              throw new Error('Expected the current Runway raster PNG source.');
-            }
-
-            const response = await fetch(url, { redirect: 'follow' });
-            if (!response.ok) throw new Error('The existing Runway raster image could not be retrieved (HTTP ' + response.status + ').');
-            const bytes = Buffer.from(await response.arrayBuffer());
-            const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
-            if (bytes.length < 1024 || bytes.length > 12 * 1024 * 1024) {
-              throw new Error('The logo image size is outside the expected 1 KiB–12 MiB range.');
-            }
-            if (!bytes.subarray(0, 8).equals(pngSignature)) throw new Error('The Runway output is not a PNG file.');
-            if (bytes.toString('ascii', 12, 16) !== 'IHDR') throw new Error('The PNG header is malformed.');
+          function demand(condition, message) {
+            if (!condition) throw new Error(message);
+          }
+          function checkPng(bytes, label) {
+            const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+            demand(bytes.length >= 1024 && bytes.length < 12 * 1024 * 1024, label + ': image size is outside policy.');
+            demand(bytes.subarray(0, 8).equals(signature), label + ': invalid PNG signature.');
+            demand(bytes.toString('ascii', 12, 16) === 'IHDR', label + ': missing PNG IHDR.');
             const width = bytes.readUInt32BE(16);
             const height = bytes.readUInt32BE(20);
-            if (width < 400 || height < 80 || width / height < 1.4 || width / height > 8) {
-              throw new Error('Unexpected logo dimensions: ' + width + 'x' + height + '.');
-            }
+            const colorType = bytes[25];
+            const hasAlpha = colorType === 4 || colorType === 6 || bytes.includes(Buffer.from('tRNS'));
+            demand(hasAlpha, label + ': PNG does not have a transparency channel.');
+            demand(width >= 400 && height >= 80 && width / height >= 1.4 && width / height <= 8,
+              label + ': unexpected aspect or dimensions ' + width + 'x' + height + '.');
+            return { width, height, colorType };
+          }
+          async function main() {
+            const manifestPath = 'js/systems/assets-v090.js';
+            const manifest = fs.readFileSync(manifestPath, 'utf8');
+            const match = manifest.match(/main:\s*'(https:\/\/[^']+)'/);
+            demand(match, 'The current Runway image source is missing.');
+            const url = new URL(match[1]);
+            demand(url.protocol === 'https:' && url.pathname.endsWith('.png') &&
+              url.pathname.includes('sam3_image_segmentation'), 'Expected the transparent Runway segmentation PNG.');
 
-            const output = path.join(process.env.RUNNER_TEMP, 'legend-title-logo.png');
-            fs.writeFileSync(output, bytes);
-            console.log('Validated Runway PNG: ' + width + 'x' + height + ', ' + bytes.length + ' bytes. Source URL withheld.');
+            const response = await fetch(url, { redirect: 'follow' });
+            demand(response.ok, 'Unable to retrieve the existing Runway PNG (HTTP ' + response.status + ').');
+            let bytes = Buffer.from(await response.arrayBuffer());
+            const originalMeta = checkPng(bytes, 'Runway output');
+            const tempInput = path.join(process.env.RUNNER_TEMP, 'runway-title-logo-source.png');
+            const tempOutput = path.join(process.env.RUNNER_TEMP, 'runway-title-logo-optimized.png');
+            fs.writeFileSync(tempInput, bytes);
+
+            const hasMagick = spawnSync('magick', ['-version'], { stdio: 'ignore' }).status === 0;
+            if (hasMagick) {
+              const resize = spawnSync('magick', [tempInput, '-trim', '+repage', '-resize', '2400x',
+                '-define', 'png:compression-level=9', tempOutput], { encoding: 'utf8' });
+              demand(resize.status === 0 && fs.existsSync(tempOutput), 'Image optimization failed.');
+              bytes = fs.readFileSync(tempOutput);
+            }
+            const meta = checkPng(bytes, 'Packaged logo');
+            const localPath = 'assets/ui/logos/logo_legend_awakening_wordmark.png';
+            fs.mkdirSync(path.dirname(localPath), { recursive: true });
+            fs.writeFileSync(localPath, bytes);
+
+            const localUrl = localPath + '?v=0.21.0-local-raster-wordmark';
+            const updateText = (file, updater, label) => {
+              const before = fs.readFileSync(file, 'utf8');
+              const after = updater(before);
+              demand(after !== before, 'Expected branding replacement was not made in ' + label + '.');
+              fs.writeFileSync(file, after);
+            };
+            updateText(manifestPath, text => text
+              .replace(/main:\s*'https:\/\/[^']+'/, "main: '" + localUrl + "'")
+              .replace('corrected Runway raster wordmark is pending local packaging', 'corrected Runway raster wordmark is committed locally'),
+              'assets manifest');
+            updateText('js/screens/title-screen-view-v120.js', text =>
+              text.replace(/logoImage \|\| 'https:\/\/[^']+'/, "logoImage || '" + localUrl + "'"),
+              'title screen view');
+            updateText('js/systems/player/player-creation-view-v094.js', text =>
+              text.replace(/assets\.logo\?\.main \|\| 'https:\/\/[^']+'/, "assets.logo?.main || '" + localUrl + "'"),
+              'traveler memory view');
+            updateText('js/systems/scene-transitions-v120.js', text =>
+              text.replace(/window\.LegendAssetsV090\?\.logo\?\.main \|\| 'https:\/\/[^']+'/, "window.LegendAssetsV090?.logo?.main || '" + localUrl + "'"),
+              'scene transition');
+            updateText('index.html', text => text
+              .replace(/js\/systems\/assets-v090\.js\?v=[^"'\\s]+/, 'js/systems/assets-v090.js?v=0.21.0-local-raster-wordmark')
+              .replace(/js\/screens\/title-screen-view-v120\.js\?v=[^"'\\s]+/, 'js/screens/title-screen-view-v120.js?v=0.21.0-local-raster-wordmark')
+              .replace(/js\/systems\/player\/player-creation-view-v094\.js\?v=[^"'\\s]+/, 'js/systems/player/player-creation-view-v094.js?v=0.21.0-local-raster-wordmark')
+              .replace(/js\/systems\/scene-transitions-v120\.js\?v=[^"'\\s]+/, 'js/systems/scene-transitions-v120.js?v=0.21.0-local-raster-wordmark'),
+              'index');
+            updateText('tests/legend-smoke.spec.js', text =>
+              text.replaceAll('/\\.png\\?/', '/logo_legend_awakening_wordmark\\.png(?:\\?.*)?$/'),
+              'logo smoke test');
+            updateText('docs/TITLE_SCREEN_ASSETS.md', text => text
+              .replace('- Runway-edited raster wordmark — text must read exactly `LEGEND` / `THE AWAKENING`; the active branch currently references the generated PNG through a temporary signed URL.',
+                '- `assets/ui/logos/logo_legend_awakening_wordmark.png` — local transparent Runway raster wordmark; exact visible title is `LEGEND` / `THE AWAKENING`.')
+              .replace('- **Release gate:** the corrected Runway PNG is not yet checked into the repository. Its temporary signed URL is not a durable asset path; package it at `assets/ui/logos/logo_legend_awakening_wordmark.png` and point `logo.main` to that local file before merging.',
+                '- The corrected Runway PNG is committed locally; title, traveler-memory, and transition views use it with an HTML text fallback. No signed external asset URL is required.'),
+              'title asset docs');
+            updateText('docs/ROADMAP.md', text =>
+              text.replace('- [ ] Copy the generated Runway PNG into `assets/ui/logos/logo_legend_awakening_wordmark.png`, point `logo.main` to that local path, and verify the committed binary before release.',
+                '- [x] Package the corrected Runway wordmark as a local transparent PNG, point all title/memory/loading views to it, and validate the committed binary.'),
+              'roadmap');
+
+            console.log('Logo source validated: ' + originalMeta.width + 'x' + originalMeta.height +
+              '; packaged ' + meta.width + 'x' + meta.height + ', ' + bytes.length + ' bytes. URLs withheld.');
           }
           main().catch(error => {
             console.error(error.message);
@@ -58,10 +123,21 @@ jobs:
           });
           NODE
 
-      - name: Save short-lived packaging artifact
+      - name: Save packaged raster as a temporary artifact
         uses: actions/upload-artifact@v4
         with:
-          name: runway-title-logo-candidate
-          path: ${{ runner.temp }}/legend-title-logo.png
+          name: runway-title-logo-transparent-packaged
+          path: assets/ui/logos/logo_legend_awakening_wordmark.png
           if-no-files-found: error
           retention-days: 2
+
+      - name: Commit local asset and remove packaging helper
+        shell: bash
+        run: |
+          git rm .github/workflows/package-runway-title-logo.yml
+          git add assets/ui/logos/logo_legend_awakening_wordmark.png js/systems/assets-v090.js js/screens/title-screen-view-v120.js js/systems/player/player-creation-view-v094.js js/systems/scene-transitions-v120.js index.html tests/legend-smoke.spec.js docs/TITLE_SCREEN_ASSETS.md docs/ROADMAP.md
+          git diff --cached --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Package corrected Runway raster wordmark locally"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
