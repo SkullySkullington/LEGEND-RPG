@@ -38,7 +38,7 @@
             <p>Monsters press against the borders. Old magic stirs beneath a wounded realm.</p>
             <div class="v120-divider"><span></span><b>THE BORDERLANDS ARE WAKING</b><span></span></div>
             <div class="v120-traveler-line">
-              <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '✦'}</span>
+              <span class="v120-avatar" aria-hidden="true">${player ? esc(String(name).slice(0,1)).toUpperCase() : '<img src="assets/generated/ui/icons/service-traveler.webp" alt="" loading="lazy" decoding="async">'}</span>
               <div><small>${player ? 'CURRENT TRAVELER' : 'YOUR STORY BEGINS HERE'}</small><strong>${player ? esc(name) : 'No journey has begun'}</strong><span>${player ? `${esc(cls)} · Day ${day} · ${tokens} Road Tokens` : 'Create a traveler and discover what the road remembers.'}</span></div>
             </div>
             <nav class="v120-title-actions v136-rpg-menu" aria-label="Main menu">
