@@ -51,7 +51,8 @@
       const xpGained = Math.max(0, Number(progress.gained || 0));
       const levelsGained = Math.max(0, Number(progress.levels || 0));
       const levelNow = Math.max(1, Number(player.level || 1));
-      const levelBefore = Math.max(1, Number(enemy.combatStartLevel || levelNow) || levelNow);
+      const fallbackLevelBefore = Math.max(1, levelNow - levelsGained);
+      const levelBefore = Math.max(1, Number(enemy.combatStartLevel ?? fallbackLevelBefore) || fallbackLevelBefore);
       const gold = Math.max(0, Number(goldGained || 0));
       const levelMarkup = levelsGained
         ? '<div class="v152-result-level-note"><span aria-hidden="true">✦</span><div><strong>NEW LEVEL REACHED</strong><p>Level ' + levelBefore + ' → level ' + levelNow + '. Your growth choices are ready.</p></div></div>'

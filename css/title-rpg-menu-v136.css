@@ -92,3 +92,15 @@
 .a11y-reduced-motion .title-v136-rpg .v120-title-backdrop,
 .a11y-reduced-motion .title-v136-rpg .v120-title-hero{animation:none!important;transition:none!important;transform:none!important;will-change:auto!important}
 .a11y-reduced-motion .title-v136-rpg .v136-menu-btn{transition:none!important}
+
+ 
+/* Lock the desktop title scene to the viewport so animated content cannot
+   grow the document past a short laptop viewport. Mobile retains internal scroll. */
+.title-v136-rpg{
+  height:100svh!important;
+  min-height:100svh!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:760px){
+  .title-v136-rpg{height:100svh!important;min-height:100svh!important;overflow:auto!important}
+}
