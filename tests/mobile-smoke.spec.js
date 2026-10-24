@@ -18,6 +18,7 @@ async function openTitle(page) {
   await page.goto('/');
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
   await page.reload();
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   await page.addStyleTag({ content: `
     *, *::before, *::after {
       animation: none !important;

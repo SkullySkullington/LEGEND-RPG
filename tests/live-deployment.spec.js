@@ -15,8 +15,8 @@ function expectedAsset(regex, label) {
 }
 
 const expectedRefs = {
-  data: expectedAsset(/<script src="([^"]*js\/data\.js[^"]*)"/, 'data script URL'),
-  town: expectedAsset(/<script src="([^"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
+  data: expectedAsset(/<script\b[^>]*\bsrc="([^"]*js\/data\.js[^"]*)"/, 'data script URL'),
+  town: expectedAsset(/<script\b[^>]*\bsrc="([^"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
   workCss: expectedAsset(/<link rel="stylesheet" href="([^"]*ashmere-workshops-v100\.css[^"]*)"/, 'workshop stylesheet URL')
 };
 
@@ -88,6 +88,7 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
 
       }
     ` });
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     const titleBounds = await page.locator('.v120-title-hero').boundingBox();
     expect(titleBounds && titleBounds.width, 'Desktop title panel should render').toBeGreaterThan(450);
 

@@ -1,4 +1,4 @@
-/* LEGEND v0.21.0 — shared branded transitions for the playable route.
+/* LEGEND v0.22.0 — slower branded transitions for the playable route.
  * Navigation stays owned by existing screens; this layer gives destinations one
  * loading curtain and waits for scene images to settle before revealing them.
  */
@@ -71,14 +71,14 @@
 
     void (async () => {
       await waitForSceneAssets();
-      const minimumCoverMs = Math.max(0, 650 - (Date.now() - startedAt));
+      const minimumCoverMs = Math.max(0, 1450 - (Date.now() - startedAt));
       window.setTimeout(() => {
         curtain.classList.remove('is-covering');
         curtain.classList.add('is-revealing');
         window.setTimeout(() => {
           curtain.classList.remove('is-revealing');
           busy = false;
-        }, 380);
+        }, 580);
       }, minimumCoverMs);
     })();
   }

@@ -19,6 +19,7 @@ async function openTitle(page) {
     sessionStorage.clear();
   });
   await page.reload();
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   // The game's ember/fog/CTA animations are decorative; disable them in test contexts
   // so WebKit touch targets do not remain perpetually "unstable" during clicks.
   await page.addStyleTag({ content: `
@@ -169,6 +170,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       }));
     });
     await page.reload();
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
     await expect(page.locator('#continue')).toHaveCount(0);
@@ -190,6 +192,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       }));
     });
     await page.reload();
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     const player = await page.evaluate(() => window.LegendRuntimeV120.loadPlayer());
     expect(player.username).toBe('NormalizeQA');
@@ -291,6 +294,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.goto('/');
     await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
     await page.reload();
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.locator('.title-gate-card')).toHaveCount(0);
     await expect(page.locator('#enterRealm')).toHaveCount(0);
@@ -617,6 +621,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await expect(page.locator('.v120-title')).toBeVisible();
     await page.reload();
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.locator('#continue')).toContainText(/Return to Ashmere/i);
     await page.locator('#continue').click();
@@ -1083,6 +1088,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       completed: after.completed
     });
     await page.reload();
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   });
 
   test('Side contracts track post-acceptance battles and secured returns', async ({ page }) => {
@@ -1199,6 +1205,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('[data-contract-turnin="maraSafeReturn"]')).toHaveCount(0);
 
     await page.reload();
+
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     const persisted = await page.evaluate(() => {
       const player = window.LegendRuntimeV120.loadPlayer();
@@ -1470,6 +1478,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(turnedIn.herbs).toBeGreaterThanOrEqual(1);
 
     await page.reload();
+
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     await expect(page.locator('.v120-title')).toBeVisible();
     const persisted = await page.evaluate(() => {
       const pl = window.LegendRuntimeV120.loadPlayer();
@@ -1675,6 +1685,8 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(filed.objective).toMatch(/Find the missing closure order/i);
 
     await page.reload();
+
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     const persisted=await page.evaluate(() => {
       const pl=window.LegendRuntimeV120.loadPlayer();
       return {

@@ -1,3 +1,11 @@
+## v0.22.0 — Realm boot sequence, game-client title screen, and cinematic transitions
+
+- Add a real browser boot sequence before the title menu. The progress readout follows script load/error events, then checks the game manifest, core screen/runtime APIs, saved-traveler presence, and opening-scene artwork before revealing the realm. This is a static browser game, so the sequence reports loading and linking systems rather than claiming that production files are compiled at runtime.
+- Defer the classic script graph in document order so the boot layer can render while the browser loads and initializes the game systems; preserve dependency order for the existing global modules and Supabase client.
+- Extend the shared scene curtain's readable cover time and fade-out, while preserving the reduced-motion bypass and existing synchronous navigation/save contracts.
+- Reframe the production title menu as a realm-client screen with a lightweight realm atlas, named destinations, expedition/delve framing, and current traveler status. Keep the atmospheric landscape dominant and collapse the side atlas on narrower screens.
+- Add Playwright coverage for the boot minimum duration and transition visibility. Existing save keys and traveler records are unchanged.
+
 ## v0.21.1 — Traveler creation and immersive expedition loop (merged to `main`; automated verification passed)
 
 - Add a dedicated local 5×5 traveler-choice art atlas for every identity form, personality, origin, and keepsake; preserve the six existing class portraits. The actual title-screen logo remains a local raster wordmark, not an SVG logo.
