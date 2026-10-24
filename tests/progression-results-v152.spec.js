@@ -134,4 +134,30 @@ test.describe('LEGEND level-up and road results v0.23.0', () => {
     await page.locator('#v152CombatReturn').click();
     expect(await page.evaluate(() => window.__resultCallbacks.counts())).toEqual({ continued: 1, returned: 1 });
   });
+
+  test('legacy traveler saves receive safe default growth values', async ({ page }) => {
+    const result = await page.evaluate(() => {
+      const normalizer = window.LegendPlayerNormalizerV120.create({
+        getData: () => window.LEGEND_DATA
+      });
+      const player = normalizer.normalize({
+        username: 'Legacy Save',
+        level: 3,
+        xp: 45,
+        hp: 44,
+        maxHp: 60
+      });
+      return {
+        attributes: player.attributesV152,
+        pending: player.pendingStatPointsV152,
+        level: player.level,
+        xp: player.xp,
+        hp: player.hp,
+        maxHp: player.maxHp
+      };
+    });
+    expect(result.attributes).toEqual({ might: 0, agility: 0, arcana: 0, endurance: 0, insight: 0, fortune: 0 });
+    expect(result.pending).toBe(0);
+    expect(result).toMatchObject({ level: 3, xp: 45, hp: 44, maxHp: 60 });
+  });
 });
