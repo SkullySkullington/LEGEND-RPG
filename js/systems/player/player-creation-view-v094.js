@@ -80,14 +80,6 @@
   }
 
   function choiceMarkup(items, key, selected, classPortraits) {
-    const iconFallbacks = {
-      woman:'♙', man:'♟', nonbinary:'◇', unspoken:'✧',
-      kind:'✦', grim:'⬟', bold:'⚔', clever:'✒', quiet:'◉',
-      'Lost Squire':'⚔', 'Runaway Apprentice':'✧', 'Debt-Bound Thief':'◈',
-      "Archivist's Child":'▤', 'Wandering Cook':'♨', 'Failed Monster Hunter':'⌁',
-      'Rusty Charm':'✥', 'Old Map':'⌖', 'Bent Coin':'◉', 'Cracked Tablet':'▦',
-      'Dull Knife':'†', 'Cooked Ration':'♨'
-    };
     return '<div class="v094-choice-grid ' + (key === 'class' ? 'v094-class-grid' : '') + '">' +
       items.map(item => {
         const active = selected === item.id;
