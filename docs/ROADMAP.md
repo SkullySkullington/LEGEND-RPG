@@ -1,44 +1,21 @@
-# LEGEND: The Awakening — Development Roadmap
+## Active production slice — v0.22.0 (PR branch; verification pending)
 
-This is the active roadmap for LEGEND: The Awakening, a dark-fantasy RPG. Priorities are ordered by player impact, not by a fixed release date. Preserve the current region system, loader sequence, save keys, and player compatibility unless a deliberate migration is approved.
+- [x] Add a full-screen startup curtain that presents staged world/system initialization while the deferred production script graph is loading, then yields to the first mounted game scene.
+- [x] Evolve the title into a realm entrance: preserve the landscape and raster wordmark; show the current region, illustrated route previews for the Old Road and Greyfen, and a first-delve status strip.
+- [x] Extend loading curtains with destination-specific local artwork, contextual captions, a longer minimum cover, and a slower reveal.
+- [x] Add regression coverage for startup lifecycle, loading duration, title realm overview, and production script order.
+- [ ] Pass full Playwright CI, deployed smoke, and desktop/mobile visual/accessibility review before merge.
 
-## Active presentation preview — v0.21.0 (feature branch; review pending)
+## Next production priority — rebuild expedition play feel
 
-- [x] Establish a scene-first expedition shell with compact route progress, visible health / Road Pressure, and contextual route, discovery, search, travel, and camp actions.
-- [x] Add Road Map and Field Journal overlays; record visited stops, route choices, and inspected discoveries in `flags.roadFieldJournalV150` without changing the existing save key.
-- [x] Move Ashmere navigation beneath its panorama and constrain service art to fixed icon geometry.
-- [x] Correct the old “Roads of Ashmere” wording to **LEGEND / THE AWAKENING** in the Runway-edited raster wordmark and wire the PNG into title, traveler-memory, and scene-loading views; keep an HTML text fallback and do not use SVG wordmark artwork.
-- [x] Package the corrected Runway wordmark as a local transparent PNG, point all title/memory/loading views to it, and validate the committed binary.
-- [x] Add a route-reactive night-watch choice at waystations: trade one ration and a night for a pressure reduction, with the report saved in the Field Journal.
-- [x] Make the first secured expedition field report offer an optional direct handoff to Mara, so route discoveries can advance the next story objective without removing the normal return-to-town choice.
-- [x] Add a simple expedition clock: road legs advance time, dusk/night increase tension, and resting or keeping watch brings dawn.
-- [x] Make high Road Pressure change encounter selection and difficulty, including a stronger Lantern Wisp on a pressured Reed Cut.
-- [x] Add the first Bell Cellar dungeon slice beneath Ashmere: four room beats, gear/level-aware gate, a relic decision, a production-combat boss, tactical retreat, persistent rewards, and a +6 Defense Reinforced Buckle.
-- [x] Add dedicated local Runway environment art for the Bell Cellar instead of reusing the Ashmere archive backdrop.
-- [x] Add an Ashmere departure briefing with current health, equipped weapon/armor, field supplies, low-kit advice, first-fork context, and direct inn/forge/workbench prep links before repeat expeditions.
-- [x] Surface the active “The Bell That Rang Once” objective in the departure briefing so the previous expedition’s evidence points the next trip toward its current story target.
-- [x] Run the full Playwright suite on the current draft head; automated checks cover title branding, loading transitions, route/discovery behavior, expedition persistence, and Bell Cellar gameplay.
-- [ ] Manually inspect desktop and mobile preview for scene hierarchy, focus states, small-screen overflow, and resting/crafting controls.
-- [ ] Verify field journal persistence after reload and across a second expedition, and confirm all legacy road, quest evidence, combat, reward, and save-compatibility checks pass.
-- [ ] Merge only after CI is green and the visual review is approved by the owner.
+This is the next gameplay milestone, not a claim that all expeditions are complete. Keep the current Old Road and Bell Cellar playable while rebuilding the moment-to-moment journey into a stronger RPG loop.
 
-## Current priority — identity, presentation, and RPG feel
+- [ ] Audit every expedition and dungeon entry point: departure, route fork, discovery, encounter, camp/retreat, reward, and return.
+- [ ] Give each outing a distinctive scene identity with local atmosphere/art, intentional entrances, readable interactive landmarks, route consequences, and encounters that fit the environment.
+- [ ] Make decisions change later parts of a trip, not merely add one line of narration or adjust a pressure number; make supplies, camps, and risk trade-offs matter.
+- [ ] Keep combat, gear, leveling, discoveries, and the Field Journal connected, with secure rewards/retreats and persistence tests.
+- [ ] Build and validate one complete outing at a time before reusing that structure in more regions. Avoid menu-only mockups or a broad engine swap as a substitute for enjoyable play.
 
-- [x] Confirm the product title as **LEGEND: The Awakening**; retire “The Unquiet Road” as a visible subtitle.
-- [x] Keep the production Ashmere panorama; use the corrected Runway raster wordmark for the title and traveler-creation scenes (local asset packaging remains a release check).
-- [x] Replace the landing-page-style title hero with a framed RPG menu and clear Continue/Begin hierarchy.
-- [ ] Manually review the production title and new traveler-creation scene at desktop and mobile sizes, including focus states, portrait crops and reduced motion.
-- The isolated Phaser proof remains a separate experiment. Do not migrate production gameplay or introduce new systems just to solve the title-screen visual direction.
-
-## Active opening preview — v0.20.40 / PR #27
-
-- [x] Preserve the anonymous soul-shaping creator and raster wordmark; keep the speaker visibly `???` and do not reveal the traveler's hidden nature.
-- [x] Start new travelers on the Old Road outside Ashmere; add choice-driven Oric dialogue, a scripted Blackroot Wolf ambush, and an ACT-only tutorial victory.
-- [x] Reuse the production expedition and guide the first route decision, landmark inspection, roadside search, waystation rest, and secured return.
-- [x] Add a title-menu News & Roadmap screen.
-- [ ] Pass the final-head desktop/mobile Playwright suite, inspect the actual browser flow at desktop and 390px width, then verify deploy and live smoke before merging.
-
-This is branch work only until those checks pass; `main` and existing saves remain untouched.
 
 ## Current foundation
 
