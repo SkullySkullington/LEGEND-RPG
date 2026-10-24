@@ -61,8 +61,21 @@
     function chooseRoadRoute(route){
      const pl=p();if(!pl)return;const s=ensure(pl);
      if(Number(s.stage)!==0||s.routeChoice)return renderExpedition('The fork has already been settled for this expedition.');
-     if(route==='ridge'){s.routeChoice='ridge';s.pressure=clamp(s.pressure-8,0,100);save(pl);return renderExpedition('You choose the High Ridge. The ground firms beneath your boots, and the road feels a little less watchful. Road Pressure falls by 8.');}
-     s.routeChoice='reeds';inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+10,0,100);save(pl);return renderExpedition('You slip into the Reed Cut and pluck a Bell Fragment from the mud beside the blue light. Something stirs deeper in the reeds. +1 Bell Fragment; Road Pressure rises by 10.');
+     if(route!=='ridge'&&route!=='reeds')return renderExpedition('That route is not available.');
+     pl.flags=pl.flags||{};
+     pl.flags.roadFieldJournalV150=pl.flags.roadFieldJournalV150||{visitedPlaces:[],discoveries:[],routes:[]};
+     const journal=pl.flags.roadFieldJournalV150;
+     journal.visitedPlaces=Array.isArray(journal.visitedPlaces)?journal.visitedPlaces:[];
+     journal.discoveries=Array.isArray(journal.discoveries)?journal.discoveries:[];
+     journal.routes=Array.isArray(journal.routes)?journal.routes:[];
+     const routeTitle=route==='ridge'?'High Ridge':'Reed Cut';
+     const routeNote=route==='ridge'?'Chose firmer, calmer ground; the road feels a little less watchful.':'Followed the strange blue light through the reeds; the trail is riskier, but a Bell Fragment was recovered.';
+     s.routeChoice=route;
+     if(!journal.routes.some(entry=>entry.trip===Number(s.trips||0)&&entry.place==='South Fork')){
+      journal.routes.push({trip:Number(s.trips||0),place:'South Fork',title:routeTitle,note:routeNote,day:Number(pl.day||1)});
+     }
+     if(route==='ridge'){s.pressure=clamp(s.pressure-8,0,100);save(pl);return renderExpedition('You choose the High Ridge. The ground firms beneath your boots, and the road feels a little less watchful. Road Pressure falls by 8.');}
+     inv(pl,'bellFragment',1);s.pressure=clamp(s.pressure+10,0,100);save(pl);return renderExpedition('You slip into the Reed Cut and pluck a Bell Fragment from the mud beside the blue light. Something stirs deeper in the reeds. +1 Bell Fragment; Road Pressure rises by 10.');
     }
 
     return Object.freeze({ chooseMovedCairnDecision, chooseRoadRoute });

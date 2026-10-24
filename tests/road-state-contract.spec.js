@@ -62,6 +62,32 @@ test.describe('LegendRoadStateV100 compatibility contract', () => {
     expect(result).toBe(6);
   });
 
+  test('preserves legacy creation bonuses while newer choices take precedence', async ({ page }) => {
+    const result = await page.evaluate(() => {
+      const data = { classes: {}, origins: {}, keepsakes: {}, weapons: [], armors: [], itemNames: {} };
+      const rules = window.LegendRoadStateV100.create({
+        getData: () => data,
+        clamp: (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value))
+      });
+      const legacy = {
+        className: 'Unknown', origin: 'Unknown', keepsake: 'Unknown',
+        creationV090: { bonuses: { lore: 2, luck: 2 } },
+        creationV094: { bonuses: {} }
+      };
+      const updated = {
+        ...legacy,
+        creationV094: { bonuses: { luck: 1 } }
+      };
+      return {
+        legacyLore: rules.score(legacy, 'lore'),
+        legacyLuck: rules.score(legacy, 'luck'),
+        updatedLuck: rules.score(updated, 'luck')
+      };
+    });
+
+    expect(result).toEqual({ legacyLore: 2, legacyLuck: 2, updatedLuck: 1 });
+  });
+
   test('preserves equipment fallbacks, inventory increments, and display labels', async ({ page }) => {
     const result = await page.evaluate(() => {
       const data = {

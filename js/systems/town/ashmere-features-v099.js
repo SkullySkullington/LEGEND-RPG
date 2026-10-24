@@ -192,6 +192,19 @@
         '<p>Traveler records are unavailable. Return to town and refresh before trying again.</p>');
     }
 
+    function renderBellVault() {
+      const vault = window.LegendBellVaultV100;
+      if (vault?.create) {
+        const instance = vault.create({
+          getPlayer, savePlayer, getData, escapeHtml: esc, head, screen, locationInterior,
+          awardProgress, renderTown, itemName
+        });
+        if (instance?.render) return instance.render();
+      }
+      screen(head('ASHMERE · BELOW THE BELL', 'The Bell Cellar', 'The cellar service did not load. Return to town and refresh before trying again.', locationInterior('archive'), 'archive'),
+        '<p>The cellar is unavailable. Your traveler and saved progress are safe.</p>');
+    }
+
     function renderArchive() {
       const records = window.LegendAshmereRecordsV099;
       if (records?.renderArchive) {
@@ -216,6 +229,7 @@
       renderNPC,
       renderInn,
       renderWorkBoard,
+      renderBellVault,
       renderTrader,
       renderCrafting,
       renderSmith,

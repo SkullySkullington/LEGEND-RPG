@@ -67,6 +67,18 @@ async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
   await expect(page.locator('.ash100-town')).toBeVisible();
 }
 
+
+async function enterOldRoadFromDeparture(page) {
+  await page.getByRole('button', { name: /The Old Road/i }).click();
+  await expect(page.locator('.ash100-departure')).toBeVisible();
+  const curtain = page.locator('#legend-scene-curtain');
+  if (await curtain.count()) {
+    await expect(curtain).not.toHaveClass(/is-covering/, { timeout: 7000 });
+  }
+  await page.locator('#departureBegin').click();
+  await expect(page.locator('.exp150-world-page')).toBeVisible();
+}
+
 test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('News & Roadmap opens from the title and returns without changing the save', async ({ page }) => {
     await openTitle(page);
@@ -74,7 +86,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
-    await expect(page.locator('.dispatches-v140-card')).toHaveCount(7);
+    await expect(page.locator('.dispatches-v140-card')).toHaveCount(8);
     await page.getByRole('button', { name: 'Return to Title' }).click();
     await expect(page.locator('.v120-title')).toBeVisible();
   });
@@ -259,19 +271,20 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(result.gold).toBe('47g');
   });
 
-  test('title background, raster wordmark and Awakening sigil load from committed artwork', async ({ page }) => {
+  test('title background, current LEGEND wordmark, and CSS Awakening sigil render without SVG logo artwork', async ({ page }) => {
     await openTitle(page);
     const backdrop = page.locator('.v120-title-backdrop');
     const emblem = page.locator('.v136-corner-sigil');
     await expect(backdrop).toHaveAttribute('src', /title-ashmere-road\.webp/);
     await expect.poll(() => backdrop.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    const logo = page.locator('.v120-legend-logo');
+    const logo = page.locator('.v150-logo-lockup');
     await expect(emblem).toBeVisible();
-    await expect(emblem).toHaveAttribute('src', /awakening-sigil\.svg/);
+    await expect(emblem).toHaveClass(/v150-corner-sigil/);
     await expect(logo).toBeVisible();
-    await expect(logo).toHaveAttribute('src', /logo_legend_main_v1\.png/);
-    await expect.poll(() => emblem.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
-    await expect.poll(() => logo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect(logo).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
+    await expect(logo).not.toContainText(/Roads of Ashmere/i);
+    await expect(page.locator('.v136-corner-sigil img')).toHaveCount(0);
   });
 
   test('game opens directly on the actual title menu without the redundant Ashmere Gate screen', async ({ page }) => {
@@ -287,7 +300,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('title screen presents the Awakening direction with no duplicate traveler card', async ({ page }) => {
     await openTitle(page);
     await expect(page.locator('.v120-title')).toBeVisible();
-    await expect(page.locator('.v120-legend-logo')).toBeVisible();
+    await expect(page.locator('.v150-logo-lockup')).toBeVisible();
+    await expect(page.locator('.v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
     await expect(page.locator('#legendTitleAccessibleName')).toHaveText('LEGEND: The Awakening');
     await expect(page.locator('.v120-title-hero h2')).toHaveCount(0);
     await expect(page.locator('.v120-title-hero')).toContainText('Monsters press against the borders');
@@ -652,7 +667,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' })
       .getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#push').click();
     await expect(page.locator('.exp100-combat')).toBeVisible();
 
@@ -938,7 +953,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
       rt.savePlayer(pl);
     });
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('.exp100-head')).toBeVisible();
     await page.locator('#push').click();
     await expect(page.locator('.exp100-combat')).toBeVisible();
@@ -1220,7 +1235,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('Old Road fork offers a persistent risk-reward route choice', async ({ page }) => {
     await startFreshCharacter(page, 'ForkQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     const expeditionHeading = page.locator('.exp100-scene-live + .exp100-head');
     await expect(expeditionHeading).toBeVisible();
     await expect.poll(() => expeditionHeading.evaluate(el => getComputedStyle(el).marginTop)).toBe('0px');
@@ -1246,7 +1261,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('High Ridge keeps the next stretch calmer than the Reed Cut', async ({ page }) => {
     await startFreshCharacter(page, 'RidgeQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await expect(page.locator('.exp100-head')).toContainText(/Road Pressure falls by 8/i);
     await page.locator('#push').click();
@@ -1264,7 +1279,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('first secured expedition records its route and advances the Bell quest through Blackroot Bend', async ({ page }) => {
     await startFreshCharacter(page, 'StoryRidgeQA');
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.evaluate(() => {
       const rt = window.LegendRuntimeV120;
@@ -1307,13 +1322,15 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(afterMara.objective).toMatch(/Blackroot Bend/i);
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     // The transition shows the local raster title mark and destination label before
     // handing control to the road screen; then it releases the UI.
     const curtain = page.locator('#legend-scene-curtain');
-    await expect(curtain).toHaveClass(/is-covering/);
-    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
-    await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE');
+    // Covering is a brief animation phase, so assert the transition payload and its settled state rather than racing that transient class.
+    await expect(curtain).toBeAttached();
+    await expect(curtain.locator('.legend-transition-wordmark')).toHaveAttribute('src', /logo_legend_awakening_wordmark\.png(?:\?.*)?$/);
+    await expect(curtain.locator('.legend-transition-wordmark-fallback')).toContainText('LEGEND');
+    await expect(curtain.locator('.legend-transition-location')).toHaveText('LEAVING ASHMERE FOR THE OLD ROAD');
     await expect.poll(() => curtain.evaluate(el =>
       !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
     )).toBe(true);
@@ -1377,7 +1394,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('first Reed Cut return preserves its own clue and directs the player to Mara', async ({ page }) => {
     await startFreshCharacter(page, 'StoryReedQA');
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeReeds').click();
     await page.evaluate(() => {
       const rt = window.LegendRuntimeV120;
@@ -1414,7 +1431,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await page.locator('[data-contract-accept="movedCairn"]').click();
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
@@ -1470,7 +1487,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect(page.locator('.ash099-lines')).toContainText(/You recorded both alignments/i);
 
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeRidge').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
@@ -1695,7 +1712,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(inventory.wispLanternWick).toBe(1);
     await page.evaluate(() => window.LegendAshmereV099.route('routes'));
     await expect(page.getByRole('button', { name: /The Old Road/i })).toBeVisible();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('.exp100-head')).toBeVisible();
     await expect(page.locator('.exp100-head')).toContainText(/opening Road Pressure rises by only 3 instead of 8/i);
     const after=await page.evaluate(() => {
@@ -1710,7 +1727,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('road discovery stays hidden until the player notices it', async ({ page }) => {
     await startFreshCharacter(page, 'DiscoveryQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('#poiInspect')).toHaveCount(0);
     await expect(page.locator('.exp100-hotspot-find')).toContainText('Look closer');
     await page.locator('.exp100-hotspot-find').click();
@@ -1723,7 +1740,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('route choice changes the later waystation scene text', async ({ page }) => {
     await startFreshCharacter(page, 'RouteEchoQA');
     await page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }).click();
-    await page.getByRole('button', { name: /The Old Road/i }).click();
+    await enterOldRoadFromDeparture(page);
     await page.locator('#routeReeds').click();
     await page.locator('#push').click();
     await page.locator('.exp100-hotspot-find').click();
@@ -1743,13 +1760,23 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(iconSources.every(src => src.startsWith('assets/generated/ui/icons/service-'))).toBe(true);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
+    const iconBounds = await iconImages.evaluateAll(nodes => nodes.map(img => {
+      const icon = img.closest('.ash100-destination-icon');
+      const a = icon.getBoundingClientRect();
+      const b = img.getBoundingClientRect();
+      return { within: b.width <= a.width + 1 && b.height <= a.height + 1, iconWidth: a.width, imageWidth: b.width };
+    }));
+    expect(iconBounds.every(item => item.within)).toBe(true);
+    const navImmediatelyAfterHero = await page.locator('.ash100-hero').evaluate(hero => hero.nextElementSibling?.classList.contains('ash099-topnav'));
+    expect(navImmediatelyAfterHero).toBe(true);
   });
 
   test('traveler creation shapes a soul with an unnamed presence and raster LEGEND wordmark', async ({ page }) => {
     await openTitle(page);
     await page.locator('#newPrimary').click();
     await expect(page.locator('.v140-creation')).toBeVisible();
-    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /logo_legend_main_v1\.png/);
+    await expect(page.locator('.v140-creation-brand .v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
+    await expect(page.locator('.v140-creation-brand img')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
     await expect(page.locator('.v140-dialogue-speaker strong')).toHaveText('???');
     await expect(page.locator('.v140-presence-mark')).toHaveAttribute('src', /skills\/icons\/veil\.webp/);
     await expect(page.locator('.v140-presence-glyph')).toHaveText('???');
@@ -1928,6 +1955,12 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await startFreshCharacter(page, 'MobileQA');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
     expect(overflow).toBe(false);
+    const navOrder = await page.evaluate(() => {
+      const nav = document.querySelector('.ash099-topnav');
+      const destinations = document.querySelector('.ash100-destinations');
+      return !!nav && !!destinations && !!(nav.compareDocumentPosition(destinations) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(navOrder).toBe(true);
     const routes = page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i });
     const box = await routes.boundingBox();
     expect(box).not.toBeNull();
@@ -1948,6 +1981,21 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
 
 test('Credits dialog opens accessibly and closes with Escape', async ({ page }) => {
   await openTitle(page);
+  const titleLayout = await page.evaluate(() => {
+    const root = document.querySelector('.title-v136-rpg');
+    const footer = root?.querySelector('.portal100-footer');
+    const credits = root?.querySelector('#credits');
+    if (!root || !footer || !credits) return null;
+    return {
+      documentHeight: document.documentElement.scrollHeight,
+      viewportHeight: window.innerHeight,
+      footerTop: footer.getBoundingClientRect().top,
+      creditsBottom: credits.getBoundingClientRect().bottom
+    };
+  });
+  expect(titleLayout).not.toBeNull();
+  expect(titleLayout.documentHeight).toBeLessThanOrEqual(titleLayout.viewportHeight + 1);
+  expect(titleLayout.footerTop).toBeGreaterThan(titleLayout.creditsBottom);
   await page.getByRole('button', { name: 'Credits' }).click();
   const dialog = page.getByRole('dialog', { name: 'LEGEND' });
   await expect(dialog).toBeVisible();

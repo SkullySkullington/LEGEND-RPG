@@ -9,6 +9,7 @@
     const save = player => context.savePlayer(player);
     const A = () => context.getAssets?.() || {};
     const D = () => context.getData?.() || {};
+    const salePrice = (player, baseValue) => Math.max(0, Math.round(Number(baseValue || 0) * (1 + Math.max(0, Number(D().keepsakes?.[player?.keepsake]?.sellBonus || 0)))));
     const {
       itemIcon, itemName, gold, locationInterior, head, screen, esc, icon,
       canAfford, owned, note, canCraft, needsMarkup, armorArt, weaponName, armorName, regionShopArt
@@ -19,7 +20,7 @@ function renderTrader(tab='buy'){
     const greyfen=String(pl.currentRegion||'Ashmere')==='Greyfen';
     const goods=[['food','Rations',60,'A day’s food for the road.'],['potion','Healing Potion',120,'Restore your strength in a fight.'],['camp','Camp Supplies',90,'Prepare a safe stop beyond the gate.'],['clothScrap','Cloth Scrap',34,'Material for field medicine.'],['oil','Lamp Oil',70,'Fuel for lanterns and preparations.']];
     const sellables=[['wolfFang',12],['tornHide',8],['roadHerb',10],['wispAsh',22],['goblinTrinket',16],['blackrootThorn',14],['woodScrap',7],['peatBrick',6],['clothScrap',9],['ore',24],['tradeBundle',72],['brokenBellShard',60]];
-    const sellAllValue=sellables.reduce((sum,[k,v])=>sum+(owned(pl,k)*v),0);
+    const sellAllValue=sellables.reduce((sum,[k,v])=>sum+(owned(pl,k)*salePrice(pl,v)),0);
     const itemCard=(k,name,price,desc,action,disabled,tail)=>{
       const art=itemIcon(k)||A().items?.roadToken||'';
       const thumb=art?'<img class="ash099-market-art" src="'+esc(art)+'" alt="" aria-hidden="true" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'">':'<span class="ash099-market-art ash099-market-art-fallback" aria-hidden="true">✦</span>';
@@ -27,7 +28,7 @@ function renderTrader(tab='buy'){
     };
     const content=tab==='buy'
       ?goods.map(([k,n,cost,desc])=>itemCard(k,n,cost,desc,'buy',!canAfford(pl,cost),'You own '+owned(pl,k))).join('')
-      :sellables.filter(([k])=>owned(pl,k)>0).map(([k,value])=>itemCard(k,itemName(k),value,'A road find, ready to trade.','sell',false,'You own '+owned(pl,k))).join('');
+      :sellables.filter(([k])=>owned(pl,k)>0).map(([k,value])=>itemCard(k,itemName(k),salePrice(pl,value),'A road find, ready to trade.', 'sell',false,'You own '+owned(pl,k)+(pl.keepsake==='Bent Coin'?' · keepsake bonus applied':''))).join('');
     const noLoot=tab==='sell'&&!sellables.some(([k])=>owned(pl,k)>0)?'<div class="ash099-empty-state">No road finds to sell yet.<small>Bring back herbs, hides, fangs, and fragments to stock the market.</small></div>':'';
     screen(head('Market',greyfen?'Marsh Market':'Trading Post',greyfen?'Trade the marsh’s finds for what you need to cross the water.':'Buy what you need. Sell what the road has left behind.',locationInterior('market'),'trader'),
       '<section class="ash099-market-console">'+
@@ -42,7 +43,7 @@ function renderTrader(tab='buy'){
   }
   function buyItem(k,cost){const pl=p();if(Number(pl.gold||0)<cost)return note('Not enough gold.');pl.gold-=cost;pl.inventory[k]=Number(pl.inventory[k]||0)+1;save(pl);renderTrader('buy');}
   function sellItem(k,value){const pl=p();if(owned(pl,k)<=0)return note('Nothing to sell.');pl.inventory[k]-=1;pl.gold=Number(pl.gold||0)+value;save(pl);renderTrader('sell');}
-  function sellAllLoot(sellables){const pl=p();let total=0;sellables.forEach(([k,v])=>{const qty=owned(pl,k);if(qty>0){total+=qty*v;pl.inventory[k]=0;}});if(total<=0)return note('No sellable road loot.');pl.gold=Number(pl.gold||0)+total;save(pl);renderTrader('sell');}
+  function sellAllLoot(sellables){const pl=p();let total=0;sellables.forEach(([k,v])=>{const qty=owned(pl,k);if(qty>0){total+=qty*salePrice(pl,v);pl.inventory[k]=0;}});if(total<=0)return note('No sellable road loot.');pl.gold=Number(pl.gold||0)+total;save(pl);renderTrader('sell');}
 
     return renderTrader(argument);
   }

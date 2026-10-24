@@ -1,0 +1,46 @@
+/* LEGEND v0.21.0 — The Bell Cellar, compact dark-fantasy dungeon UI. */
+.bell-vault-v100{position:relative;isolation:isolate;overflow:hidden;margin:12px 0 26px;border:1px solid rgba(218,187,111,.28);border-radius:16px;background:linear-gradient(145deg,#111a14,#070b09 76%);color:#e8e6d8;box-shadow:0 24px 60px rgba(0,0,0,.34)}
+.bell-vault-banner{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:245px;padding:clamp(20px,4vw,38px);overflow:hidden;background:linear-gradient(90deg,rgba(3,8,6,.93),rgba(4,10,7,.62) 57%,rgba(4,8,6,.30)),linear-gradient(0deg,rgba(3,7,5,.94),transparent 70%),var(--bell-vault-scene) center 48%/cover,#080d09;border-bottom:1px solid rgba(218,187,111,.27)}
+.bell-vault-banner:after{content:"";position:absolute;inset:10px;border:1px solid rgba(218,187,111,.12);pointer-events:none}
+.bell-vault-overline,.bell-vault-room-heading>span{color:#d0b56f;font-size:.65rem;font-weight:850;letter-spacing:.2em;text-transform:uppercase}
+.bell-vault-banner h1{position:relative;z-index:1;margin:10px 0 7px;color:#f2e8cb;font:500 clamp(2.1rem,5.5vw,4rem)/.98 Georgia,"Times New Roman",serif;letter-spacing:-.025em;text-shadow:0 3px 20px #000}
+.bell-vault-banner p{position:relative;z-index:1;max-width:650px;margin:0;color:#d7d8c8;font-size:.92rem;line-height:1.55;text-shadow:0 2px 10px #000}
+.bell-vault-body{padding:clamp(16px,3vw,30px)}
+.bell-vault-room-heading{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:15px;padding-bottom:13px;border-bottom:1px solid rgba(218,187,111,.15)}
+.bell-vault-room-heading>strong{color:#ede4cc;font:500 1rem Georgia,"Times New Roman",serif}
+.bell-vault-room-heading>em{margin-left:auto;color:#899988;font-size:.61rem;font-style:normal;font-weight:800;letter-spacing:.13em}
+.bell-vault-body>p{max-width:780px;color:#bdc6b9;font-size:.91rem;line-height:1.7}
+.bell-vault-room-card,.bell-vault-clue,.bell-vault-treasure{margin:18px 0;padding:16px;border:1px solid rgba(218,187,111,.19);background:linear-gradient(125deg,rgba(44,50,34,.46),rgba(6,12,8,.46))}
+.bell-vault-room-card>span,.bell-vault-clue>span,.bell-vault-treasure>span{color:#d0b56f;font-size:.63rem;font-weight:850;letter-spacing:.15em}
+.bell-vault-room-card h2,.bell-vault-treasure h2{margin:8px 0;color:#e9dfc5;font:500 1.5rem Georgia,"Times New Roman",serif}
+.bell-vault-room-card p,.bell-vault-clue small,.bell-vault-treasure p{display:block;margin:5px 0 0;color:#a7b3a4;font-size:.8rem;line-height:1.55}
+.bell-vault-clue strong{display:block;margin:7px 0 2px;color:#eee5d0;font:500 1.15rem Georgia,"Times New Roman",serif}
+.bell-vault-loadout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:18px 0}
+.bell-vault-loadout>div,.bell-vault-footer>div{min-width:0;padding:12px;border:1px solid rgba(152,173,143,.17);background:rgba(24,34,25,.46)}
+.bell-vault-loadout span,.bell-vault-footer span{display:block;color:#9aaa96;font-size:.59rem;font-weight:850;letter-spacing:.13em}
+.bell-vault-loadout strong{display:block;margin-top:6px;overflow-wrap:anywhere;color:#e7dfc8;font-size:.87rem}
+.bell-vault-loadout small{display:block;margin-top:4px;color:#cbb87f;font-size:.68rem;line-height:1.35}
+.bell-vault-choice-intro,.bell-vault-after-note{padding:10px 13px;border-left:2px solid rgba(208,181,111,.58);background:rgba(208,181,111,.05);color:#c9c6b1!important;font-size:.8rem!important}
+.bell-vault-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 20px}
+.bell-vault-choice{display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:112px;padding:15px;border:1px solid rgba(148,171,138,.24);border-radius:7px;background:linear-gradient(140deg,rgba(33,45,33,.78),rgba(8,13,9,.94));color:#e7e4d4;text-align:left;cursor:pointer;transition:border-color .16s ease,transform .16s ease}
+.bell-vault-choice:hover,.bell-vault-choice:focus-visible{border-color:#e2c779;outline:2px solid rgba(226,199,121,.35);outline-offset:2px;transform:translateY(-1px)}
+.bell-vault-choice.primary{border-color:rgba(226,199,121,.48);background:linear-gradient(140deg,rgba(66,54,29,.92),rgba(13,17,11,.97))}
+.bell-vault-choice strong{color:#f0e4c6;font:500 1.1rem/1.25 Georgia,"Times New Roman",serif}
+.bell-vault-choice span{margin-top:7px;color:#abb8a7;font-size:.78rem;line-height:1.5}
+.bell-vault-choice em{margin-top:auto;padding-top:12px;color:#c5ad70;font-size:.65rem;font-style:normal;font-weight:850;letter-spacing:.07em}
+.bell-vault-secondary{min-height:43px;padding:10px 13px;border:1px solid rgba(152,173,143,.18);border-radius:6px;background:rgba(4,9,6,.5);color:#c2cabb;font-size:.77rem;font-weight:750;cursor:pointer}
+.bell-vault-secondary:hover,.bell-vault-secondary:focus-visible{border-color:#c9b475;color:#f2e6c6;outline:2px solid rgba(226,199,121,.3);outline-offset:2px}
+.bell-vault-keeper-card{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:16px;align-items:center;margin:18px 0;padding:14px;border:1px solid rgba(181,144,90,.24);background:linear-gradient(110deg,rgba(38,43,29,.8),rgba(8,13,9,.94))}
+.bell-vault-keeper-card img{display:block;width:100%;max-height:160px;object-fit:contain;filter:drop-shadow(0 10px 20px #0009)}
+.bell-vault-keeper-card span{color:#c9ad68;font-size:.63rem;font-weight:850;letter-spacing:.15em}
+.bell-vault-keeper-card h2{margin:6px 0;color:#f1e4c6;font:500 1.55rem/1.1 Georgia,"Times New Roman",serif}
+.bell-vault-keeper-card p{margin:6px 0;color:#aeb9a8;font-size:.8rem;line-height:1.55}
+.bell-vault-treasure{padding:18px;border-color:rgba(213,186,109,.34);background:radial-gradient(ellipse at 95% 0,rgba(215,185,95,.09),transparent 40%),linear-gradient(125deg,rgba(52,43,25,.65),rgba(6,12,8,.5))}
+.bell-vault-treasure small{display:block;margin-top:14px;color:#c3b17b;font-size:.73rem;line-height:1.5}
+.bell-vault-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:18px 0}
+.bell-vault-summary span{padding:10px;border:1px solid rgba(152,173,143,.15);color:#9aaa96;font-size:.6rem;font-weight:850;letter-spacing:.1em}
+.bell-vault-summary strong{padding:10px;color:#f0e4c6;background:rgba(24,34,25,.46);font-size:.9rem}
+.bell-vault-footer{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-top:15px;border-top:1px solid rgba(218,187,111,.14)}
+.bell-vault-footer strong{display:block;margin-top:6px;overflow-wrap:anywhere;color:#e4dec9;font-size:.75rem;line-height:1.4}
+@media(max-width:680px){.bell-vault-banner{min-height:190px}.bell-vault-actions{grid-template-columns:1fr}.bell-vault-loadout{grid-template-columns:1fr}.bell-vault-loadout>div{display:grid;grid-template-columns:75px minmax(0,1fr);column-gap:8px}.bell-vault-loadout strong{margin-top:0}.bell-vault-loadout small{grid-column:2}.bell-vault-keeper-card{grid-template-columns:100px minmax(0,1fr);gap:12px}.bell-vault-keeper-card h2{font-size:1.2rem}.bell-vault-footer{grid-template-columns:repeat(2,minmax(0,1fr))}.bell-vault-room-heading>em{width:100%;margin-left:0}}
+@media(prefers-reduced-motion:reduce){.bell-vault-choice{transition:none}.bell-vault-choice:hover{transform:none}}

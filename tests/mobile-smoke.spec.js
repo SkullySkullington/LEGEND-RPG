@@ -6,6 +6,14 @@ const versionMatch = dataSource.match(/VERSION:\s*['"]v([^'"]+)['"]/);
 if (!versionMatch) throw new Error('Could not read LEGEND_DATA.VERSION from js/data.js');
 const version = versionMatch[1];
 
+
+async function enterOldRoadFromDeparture(page) {
+  await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+  await expect(page.locator('.ash100-departure')).toBeVisible();
+  await tap(page, page.locator('#departureBegin'));
+  await expect(page.locator('.exp150-world-page')).toBeVisible();
+}
+
 async function openTitle(page) {
   await page.goto('/');
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
@@ -23,6 +31,14 @@ async function openTitle(page) {
 async function tap(page, locator) {
   await expect(locator).toBeVisible();
   await expect(locator).toBeEnabled();
+
+  // A scene transition intentionally covers controls while destination assets
+  // settle. Wait for the curtain to clear before checking the physical touch hit
+  // target, just as a player would wait for the scene to finish arriving.
+  const curtain = page.locator('#legend-scene-curtain');
+  if (await curtain.count()) {
+    await expect(curtain).not.toHaveClass(/is-covering/, { timeout: 7000 });
+  }
 
   // Mobile WebKit's mouse-click stability check can hang on visible controls,
   // even with transforms disabled. Touch projects should send an actual tap.
@@ -157,7 +173,7 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await startFreshCharacter(page, 'MobileRoadQA');
     await tap(page, page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }));
-    await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+    await enterOldRoadFromDeparture(page);
     await expect(page.locator('#routeRidge')).toBeVisible();
     await tap(page, page.locator('#routeRidge'));
     await tap(page, page.locator('#push'));
@@ -180,7 +196,7 @@ test.describe('LEGEND mobile compatibility smoke tests', () => {
       rt.savePlayer(pl);
     });
     await tap(page, page.getByRole('navigation', { name: 'Ashmere terminal navigation' }).getByRole('button', { name: /Routes/i }));
-    await tap(page, page.getByRole('button', { name: /The Old Road/i }));
+    await enterOldRoadFromDeparture(page);
     await tap(page, page.locator('#routeRidge'));
     await tap(page, page.locator('#push'));
     await expect(page.locator('.exp100-combat')).toBeVisible();

@@ -222,6 +222,9 @@
 }
 .legend-transition-rule{display:block;width:min(190px,50vw);height:1px;background:linear-gradient(90deg,transparent,rgba(222,187,106,.9),transparent);box-shadow:0 0 14px #c9a34d35}
 .legend-transition-caption{color:#c5b78f;font:700 .55rem/1.6 system-ui,sans-serif;letter-spacing:.27em;text-transform:uppercase;text-shadow:0 2px 10px #000}
+.legend-transition-loader{position:relative;display:block;width:min(220px,56vw);height:2px;overflow:hidden;background:rgba(215,184,106,.15);box-shadow:0 0 12px rgba(215,184,106,.08)}
+.legend-transition-loader i{position:absolute;top:0;bottom:0;left:-38%;width:38%;background:linear-gradient(90deg,transparent,#f3d78e,transparent);animation:legendSceneLoading .95s ease-in-out infinite}
+@keyframes legendSceneLoading{from{transform:translateX(0)}to{transform:translateX(370%)}}
 .legend-scene-arriving{opacity:0;transform:translateY(9px) scale(.998);filter:brightness(.68) saturate(.88);transition:opacity .48s ease,transform .48s ease,filter .48s ease}
 .legend-scene-arriving.legend-scene-arrived{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}
 .v140-creation .v094-beginning-card{animation:v140SceneEnter .46s cubic-bezier(.18,.7,.22,1) both}
@@ -235,7 +238,23 @@
  .legend-transition-caption{font-size:.48rem;letter-spacing:.20em}
 }
 @media(prefers-reduced-motion:reduce){
- #legend-scene-curtain,#legend-scene-curtain span,.legend-transition-scene,.legend-scene-arriving,.v140-creation .v094-beginning-card,.v140-creation .v140-dialogue-box{
+ #legend-scene-curtain,#legend-scene-curtain span,.legend-transition-scene,.legend-transition-loader i,.legend-scene-arriving,.v140-creation .v094-beginning-card,.v140-creation .v140-dialogue-box{
   animation:none!important;transition:none!important;opacity:1!important;transform:none!important;filter:none!important
  }
 }
+
+
+/* Raster wordmark safety net: never show the retired Roads of Ashmere lockup. */
+.v150-logo-lockup{display:flex;justify-content:center;align-items:center;width:100%;min-width:0}
+.v150-logo-lockup .v150-legend-logo{display:block;max-width:min(100%,620px);max-height:clamp(105px,20vw,205px);object-fit:contain}
+.v150-wordmark-fallback,.legend-transition-wordmark-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;color:#e8c879;text-shadow:0 3px 18px #000b;line-height:1}
+.v150-wordmark-fallback[hidden],.legend-transition-wordmark-fallback[hidden]{display:none}
+.v150-wordmark-fallback strong,.legend-transition-wordmark-fallback strong{font:700 clamp(2.7rem,7vw,5.3rem)/.9 Georgia,"Times New Roman",serif;letter-spacing:.12em}
+.v150-wordmark-fallback em,.legend-transition-wordmark-fallback em{margin-top:5px;font:700 clamp(.7rem,1.7vw,1.15rem)/1.2 system-ui,sans-serif;letter-spacing:.38em;font-style:normal}
+.v140-creation-brand .v150-logo-lockup{width:auto;max-width:min(240px,52vw)}
+.v140-creation-brand .v150-legend-logo{max-height:54px;max-width:100%}
+.v140-creation-brand .v150-wordmark-fallback strong{font-size:1.55rem;letter-spacing:.08em}
+.v140-creation-brand .v150-wordmark-fallback em{font-size:.45rem;letter-spacing:.19em}
+.legend-transition-wordmark-fallback{width:min(300px,74vw);min-height:64px}
+.legend-transition-wordmark-fallback strong{font-size:clamp(2rem,6vw,3.2rem)}
+.legend-transition-wordmark-fallback em{font-size:.58rem;letter-spacing:.26em}

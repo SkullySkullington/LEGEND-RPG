@@ -8,7 +8,7 @@
   function mount(root, markup, options = {}) {
     if (!root) return;
     const assets = window.LegendAssetsV090 || {};
-    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_main_v1.png';
+    const logo = assets.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark';
     const mode = options.mode === 'arrival' ? 'arrival' : 'creation';
     const isArrival = mode === 'arrival';
     const presenceMark = assets.skills?.veil || 'assets/generated/skills/icons/veil.webp';
@@ -22,7 +22,7 @@
       : '<div class="v140-guide-portrait-frame v140-presence-frame" aria-hidden="true"><div class="v140-presence-haze"></div><div class="v140-presence-ring"></div><img class="v140-presence-mark" src="' + escapeHtml(presenceMark) + '" alt="" decoding="async"><span class="v140-presence-glyph">???</span><small class="v140-presence-caption">MEMORY · SHAPE · SELF</small></div>';
     root.innerHTML = '<main class="v094-beginning v140-creation v140-' + mode + '" data-creation-step="' + step + '">' +
       '<div class="v094-beginning-bg" aria-hidden="true"></div>' +
-      '<header class="v140-creation-brand"><img src="' + escapeHtml(logo) + '" alt="LEGEND: The Awakening" decoding="async">' +
+      '<header class="v140-creation-brand"><span class="v150-logo-lockup" role="img" aria-label="LEGEND: The Awakening"><img src="' + escapeHtml(logo) + '" alt="" aria-hidden="true" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="v150-wordmark-fallback" hidden><strong>LEGEND</strong><em>THE AWAKENING</em></span></span>' +
       '<span>' + (isArrival ? 'THE GATE IS OPEN' : 'BETWEEN MEMORY AND WAKING') + '</span></header>' +
       '<div class="v140-creation-layout">' +
         '<aside class="v140-guide-pane" aria-label="' + (isArrival ? 'Captain Oric at the Ashmere gate' : 'An unnamed voice in the darkness') + '">' +
@@ -36,14 +36,22 @@
         '<div class="v094-beginning-shell">' + markup + '</div>' +
       '</div></main>';
     root.querySelectorAll('.v140-creation img').forEach(img => {
-      img.addEventListener('error', () => img.remove(), { once: true });
+      img.addEventListener('error', () => {
+        const art = img.closest('.v094-choice-art');
+        if (art) {
+          img.remove();
+          art.classList.add('is-fallback');
+        } else {
+          img.remove();
+        }
+      }, { once: true });
     });
   }
 
   function actionButtons({ back = false, next = true, label = 'Continue' } = {}) {
     return '<div class="v094-actions">' +
-      (next ? '<button class="v094-btn primary" id="v094Next" type="button">' + escapeHtml(label) + '</button>' : '') +
-      (back ? '<button class="v094-btn" id="v094Back" type="button">Back</button>' : '') +
+      (next ? '<button class="v094-btn primary" id="v094Next" data-legend-scene-transition="A memory returns" type="button">' + escapeHtml(label) + '</button>' : '') +
+      (back ? '<button class="v094-btn" id="v094Back" data-legend-scene-transition="Returning to an earlier memory" type="button">Back</button>' : '') +
       '</div>';
   }
 
@@ -72,16 +80,29 @@
   }
 
   function choiceMarkup(items, key, selected, classPortraits) {
-    const stateKey = key === 'class' ? 'className' : key;
+    const iconFallbacks = {
+      woman:'♙', man:'♟', nonbinary:'◇', unspoken:'✧',
+      kind:'✦', grim:'⬟', bold:'⚔', clever:'✒', quiet:'◉',
+      'Lost Squire':'⚔', 'Runaway Apprentice':'✧', 'Debt-Bound Thief':'◈',
+      "Archivist's Child":'▤', 'Wandering Cook':'♨', 'Failed Monster Hunter':'⌁',
+      'Rusty Charm':'✥', 'Old Map':'⌖', 'Bent Coin':'◉', 'Cracked Tablet':'▦',
+      'Dull Knife':'†', 'Cooked Ration':'♨'
+    };
     return '<div class="v094-choice-grid ' + (key === 'class' ? 'v094-class-grid' : '') + '">' +
       items.map(item => {
         const active = selected === item.id;
-        const portrait = key === 'class' ? classPortraits?.[item.id] : '';
-        return '<button class="v094-choice' + (active ? ' is-selected' : '') + (portrait ? ' v094-choice-has-art' : '') +
+        const classPortrait = key === 'class' ? classPortraits?.[item.id] : '';
+        const artCell = key !== 'class' && Array.isArray(item.artCell) ? item.artCell : null;
+        const atlas = item.artSource || '';
+        const atlasArt = atlas && artCell
+          ? '<span class="v094-choice-art" aria-hidden="true"><img src="' + escapeHtml(atlas) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" style="left:-' + (Number(artCell[0]) * 100) + '%;top:-' + (Number(artCell[1]) * 100) + '%" ><span>' + escapeHtml(iconFallbacks[item.id] || '✧') + '</span></span>'
+          : '';
+        return '<button class="v094-choice' + (active ? ' is-selected' : '') + ((classPortrait || atlasArt) ? ' v094-choice-has-art' : '') +
           '" data-' + key + '="' + escapeHtml(item.id) + '" aria-pressed="' + active + '">' +
-          (portrait ? '<img class="v094-class-art" src="' + escapeHtml(portrait) + '" alt="" aria-hidden="true" onerror="this.style.display=\'none\'">' : '') +
+          (classPortrait ? '<img class="v094-class-art" src="' + escapeHtml(classPortrait) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" >' : atlasArt) +
           '<strong>' + escapeHtml(item.label) + '</strong><span>' + escapeHtml(item.text || '') + '</span>' +
           (item.tag ? '<em>' + escapeHtml(item.tag) + '</em>' : '') +
+          (item.effect ? '<small class="v094-choice-effect">' + escapeHtml(item.effect) + '</small>' : '') +
           '<small class="v094-choice-prompt">' + (active ? 'Selected · change any time' : 'Tap to choose') + '</small></button>';
       }).join('') + '</div>';
   }
@@ -90,13 +111,25 @@
     root, step, kicker, title, description, items, key, selected,
     classPortraits, nextLabel, progress, scene, onSelect, onBack, onNext
   }) {
+    const baseGuide = ({ gender: 'Something is taking shape where the dark was. Is it the form you remember, or the form you choose now?', personality: 'A feeling can survive the memory that made it. Which one still calls to you?', origin: 'A place takes shape, but its edges are blurred. Was it home, refuge, or only a story you needed?', class: 'Your hands remember before your mind does. Steel, bow, spell, or guile. What movement finds you first?', keepsake: 'One thing remained when the rest fell quiet. Did you carry it—or did it carry you?' })[key] || scene;
+    const selectedItem = items.find(item => String(item.id) === String(selected));
+    const selectedLabel = String(selectedItem?.label || selectedItem?.id || selected || '');
+    const echoGuide = selectedItem ? ({
+      gender: 'The silhouette steadies around ' + selectedLabel + '. It feels familiar, but no face comes with the memory.',
+      personality: 'The feeling returns before its cause: ' + selectedLabel + '. Something in you recognizes it.',
+      origin: selectedLabel + ' comes into focus, though its edges will not hold still. You can keep the memory without understanding it.',
+      class: 'Your hands answer with ' + selectedLabel.toLowerCase() + ' before your mind can explain why.',
+      keepsake: 'The ' + selectedLabel + ' settles into your palm like something you once promised to keep. The memory stays incomplete.'
+    })[key] || baseGuide : baseGuide;
+    const fragmentLabel = selectedItem ? 'MEMORY ECHO · ' + selectedLabel.toUpperCase() : 'FRAGMENT · MEMORY';
+    const fragmentText = selectedItem?.text || scene;
     mount(root,
       '<section class="v094-beginning-card v094-choice-scene"><div class="v094-kicker">' + escapeHtml(kicker) + '</div>' +
       stepProgress(step, progress) + '<h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(description) + '</p>' +
-      '<aside class="v094-scene-note"><span>FRAGMENT · MEMORY</span><p>' + escapeHtml(scene) + '</p></aside>' +
+      '<aside class="v094-scene-note' + (selectedItem ? ' is-remembered' : '') + '"><span>' + escapeHtml(fragmentLabel) + '</span><p>' + escapeHtml(fragmentText) + '</p></aside>' +
       choiceMarkup(items, key, selected, classPortraits) +
       '<p id="v094ChoiceError" role="alert" class="v094-choice-error" hidden>Please choose an option to continue.</p>' +
-      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: ({ gender: 'Something is taking shape where the dark was. Is it the form you remember, or the form you choose now?', personality: 'A feeling can survive the memory that made it. Which one still calls to you?', origin: 'A place takes shape, but its edges are blurred. Was it home, refuge, or only a story you needed?', class: 'Your hands remember before your mind does. Steel, bow, spell, or guile. What movement finds you first?', keepsake: 'One thing remained when the rest fell quiet. Did you carry it—or did it carry you?' })[key] || scene, mode: 'creation' });
+      actionButtons({ back: true, next: true, label: nextLabel }) + '</section>', { step, guideText: echoGuide, mode: 'creation' });
 
     root?.querySelectorAll('[data-' + key + ']').forEach(button => {
       button.addEventListener('click', () => onSelect?.(button.dataset[key]));
@@ -115,7 +148,7 @@
     });
   }
 
-  function renderConfirmation({ root, name, gender, personality, origin, className, keepsake, onBack, onBegin }) {
+  function renderConfirmation({ root, name, gender, personality, origin, className, keepsake, benefits = {}, onBack, onBegin }) {
     mount(root,
       '<section class="v094-beginning-card v140-soul-confirmation"><div class="v094-kicker">The Shape You Chose</div>' +
       stepProgress(7, 'Fragments of memory gather around the self you have chosen.') +
@@ -125,6 +158,13 @@
       '<div><span>Memory</span><strong>' + escapeHtml(origin) + '</strong></div>' +
       '<div><span>Calling</span><strong>' + escapeHtml(className) + '</strong></div>' +
       '<div><span>Fragment</span><strong>' + escapeHtml(keepsake) + '</strong></div></div>' +
+      '<section class="v094-confirm-benefits" aria-label="Starting advantages"><h3>What your memories give you</h3>' +
+      ['personality','origin','class','keepsake'].map(key => {
+        const item = benefits[key];
+        if (!item) return '';
+        const labels = { personality:'Instinct', origin:'Past', class:'Calling', keepsake:'Keepsake' };
+        return '<div class="v094-confirm-benefit"><span>' + labels[key] + '</span><strong>' + escapeHtml(item.label) + '</strong><p>' + escapeHtml(item.effect || item.tag || item.text || '') + '</p></div>';
+      }).join('') + '</section>' +
       actionButtons({ back: true, next: true, label: 'Let Me Wake' }) + '</section>', { step: 7, mode: 'creation', guideText: 'There. A name, a shape, a feeling to follow. A beginning, not the whole of you. When you are ready, open your eyes.' });
     root?.querySelector('#v094Back')?.addEventListener('click', () => onBack?.());
     root?.querySelector('#v094Next')?.addEventListener('click', () => onBegin?.());

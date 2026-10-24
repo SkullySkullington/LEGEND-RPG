@@ -16,7 +16,7 @@
         { view: 'regions', title: 'Road Network', desc: 'Return to Ashmere or travel between lands you have unlocked.', cta: 'Travel', iconKey: 'regions', featured: currentView === 'regions' }
       ];
     }
-    return [
+    const destinations = [
       { view: 'inn', title: 'Ashmere Inn', desc: 'Rest, recover, buy supplies, and hear what travelers are saying.', cta: 'Rest & prepare', iconKey: 'inn', shopKey: 'ashmereInn', featured: currentView === 'inn' },
       { view: 'trader', title: 'Market', desc: 'Buy essentials, sell road loot, and turn discoveries into gold.', cta: 'Trade', iconKey: 'trader', shopKey: 'ashmereTrader', featured: false },
       { view: 'smith', title: 'Forge & Workshop', desc: 'Upgrade weapons and armor, then use the crafting bench for road finds.', cta: 'Gear & craft', iconKey: 'smith', shopKey: 'ashmereForge', featured: false },
@@ -25,6 +25,10 @@
       { view: 'road', title: 'Old Road Gate', desc: 'Begin the expedition; find clues, face danger, and bring proof home.', cta: 'Begin expedition', iconKey: 'road', featured: currentView === 'road' },
       { view: 'regions', title: 'Road Network', desc: 'Unlock new regions with Road Tokens, then travel between places you know for gold.', cta: 'Open map', iconKey: 'regions', featured: currentView === 'regions' }
     ];
+    if (flags.firstRoadReturnSeen) destinations.splice(5, 0, {
+      view: 'dungeon', title: 'The Bell Cellar', desc: 'A sealed stair beneath the archive. Explore the rooms below, face the sentinel, and bring a relic home.', cta: 'Descend', iconKey: 'dungeon', featured: currentView === 'dungeon'
+    });
+    return destinations;
   }
 
   window.LegendAshmereDestinationCatalogV099 = Object.freeze({ forRegion });

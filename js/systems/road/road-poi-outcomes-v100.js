@@ -12,6 +12,7 @@
       clamp: clampInput,
       bellRoadEvidence,
       getPointOfInterest,
+      getAreaForStage,
       clearVisibleDiscovery,
       renderExpedition,
       tone
@@ -73,6 +74,16 @@
       note='The Greyfen boundary mark matches the older bell-mark at Blackroot, but a newer cut turns toward the reed bed. The stone shows that someone altered the marker; it does not say who. +10 gold; Road Pressure falls by 5.';
      }
      else {pl.gold=Number(pl.gold||0)+10;s.pressure=clamp(s.pressure-5,0,100);pl.flags=pl.flags||{};pl.flags.greyfenRouteRecorded=true;note='You copy the scratched route marks into your journal. The safer line is recorded, and you find 10 gold wedged behind the stone.';}
+     pl.flags=pl.flags||{};
+     pl.flags.roadFieldJournalV150=pl.flags.roadFieldJournalV150||{visitedPlaces:[],discoveries:[],routes:[]};
+     const journal=pl.flags.roadFieldJournalV150;
+     journal.visitedPlaces=Array.isArray(journal.visitedPlaces)?journal.visitedPlaces:[];
+     journal.discoveries=Array.isArray(journal.discoveries)?journal.discoveries:[];
+     journal.routes=Array.isArray(journal.routes)?journal.routes:[];
+     const place=String((typeof getAreaForStage==='function'?getAreaForStage(stage)?.name:'')||point.place||'The Old Road');
+     if(!journal.discoveries.some(entry=>entry.key===point.key)){
+      journal.discoveries.push({key:point.key,name:String(point.name||'Road discovery'),kind:String(point.kind||'Discovery'),place:place,note:String(note||point.text||'You investigated a feature of the road.'),stage:stage,route:String(s.routeChoice||''),trip:Number(s.trips||0),day:Number(pl.day||1)});
+     }
      pl.stats=pl.stats||{};pl.stats.pointsOfInterest=Number(pl.stats.pointsOfInterest||0)+1;save(pl);
      tone('success');renderExpedition(note);
     }

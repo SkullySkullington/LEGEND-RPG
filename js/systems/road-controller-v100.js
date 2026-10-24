@@ -34,6 +34,7 @@ const roadDiscovery=window.LegendRoadDiscoveryV100.create({
  clamp,
  bellRoadEvidence,
  getPointOfInterest:roadPoiCatalog?.resolve,
+ getAreaForStage:areaForStage,
  roadDecisions,
  renderExpedition,
  tone,
@@ -116,7 +117,10 @@ function roadCombatContext(){
   tone,
   toggleSound:()=>roadAudio().toggleSound?.(),
   awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
-  onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress)
+  onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress),
+  onDungeonEncounterWin:(player,enemy,progress)=>window.LegendBellVaultV100?.afterCombatWin?.(player,enemy,progress),
+  onDungeonEncounterDefeat:(player,enemy)=>window.LegendBellVaultV100?.afterCombatDefeat?.(player,enemy),
+  onDungeonEncounterRetreat:(player,enemy)=>window.LegendBellVaultV100?.afterCombatRetreat?.(player,enemy)
  };
 }
 function combat(enemy,note=''){
@@ -136,6 +140,10 @@ function startOpeningEncounter(){
   const enemy={id:'opening-blackroot-wolf-v140',behavior:'predator',name:'Blackroot Wolf',hp:1,maxHp:1,damage:[0,0],reward:'fur',text:'A Blackroot Wolf bursts from the ditch and catches Captain Oric off guard.',turn:0,intent:'guardbreak',openingEncounterV140:true};
   return combat(enemy,window.LegendRoadOpeningV140?.battleText?.(pl)||'??? whispers: “Awaken.” Use ACT to answer.');
 }
+function startDungeonEncounter(enemy,note=''){
+ const pl=p();if(!pl||!enemy)return;
+ return combat(Object.assign({},enemy,{dungeonV100:true}),note);
+}
 function returnToTownFromRoad(){
   const player=p();
   if(player){player.town='Ashmere';save(player);}
@@ -147,11 +155,19 @@ function returnToTownFromRoad(){
   }
   ret();
 }
+function reportToMaraFromRoad(){
+  returnToTownFromRoad();
+  const player=p();
+  if(player && String(player.currentRegion||'Ashmere')==='Ashmere'){
+    return window.LegendAshmereV099?.route?.('mara');
+  }
+}
 const roadResultsView=window.LegendRoadResultsViewV100?.create({
   renderHeader:header,
   renderShell:shell,
   escapeHtml:esc,
-  onReturn:returnToTownFromRoad
+  onReturn:returnToTownFromRoad,
+   onReportToMara:reportToMaraFromRoad
 });
 const roadResults=window.LegendRoadResultsV100?.create({
   getPlayer:p,savePlayer:save,ensureState:ensure,addInventory:inv,clamp,setBellQuestObjective,
@@ -170,6 +186,7 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  escapeHtml:esc,
  shell,
  header,
+ scene,
  roadDiscovery,
  bindHotspotDelegation,
  savePlayer:save,
@@ -179,5 +196,5 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  clamp,
  returnToAshmere:ret
 });
-window.LegendRoadControllerV100={start,startOpeningEncounter,renderHub:renderExpedition,renderExpedition};
+window.LegendRoadControllerV100={start,startOpeningEncounter,startDungeonEncounter,renderHub:renderExpedition,renderExpedition};
 })();

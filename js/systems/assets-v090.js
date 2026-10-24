@@ -1,9 +1,9 @@
-// LEGEND v0.20.38 - Stable local production asset manifest; title wordmark is raster artwork.
+// LEGEND v0.21.0 - Asset manifest; scene assets are local, corrected Runway raster wordmark is committed locally.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
-      main: 'assets/ui/logos/logo_legend_main_v1.png',
+      main: 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark',
       emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
       emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
     },
@@ -27,6 +27,9 @@
       greyfenArchive: 'assets/generated/locations/greyfen-archive.webp',
       greyfenMarshWalkway: 'assets/generated/locations/greyfen-marsh-walkway.webp',
       oldRoadScene: 'assets/locations/roads/old_road_exploration_v1.svg'
+    },
+    creation: {
+      atlas: 'assets/generated/creation/creation-choice-atlas.svg?v=0.21.1-traveler-choice-art'
     },
     classes: {
       Adventurer: 'assets/generated/classes/class-adventurer.webp',

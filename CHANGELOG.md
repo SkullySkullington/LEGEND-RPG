@@ -1,3 +1,21 @@
+## v0.21.1 — Traveler creation and field contracts (preview; final validation pending)
+
+- Add a dedicated local 5×5 traveler-choice art atlas for every identity form, personality, origin, and keepsake; preserve the six existing class portraits. The actual title-screen logo remains a local raster wordmark, not an SVG logo.
+- Show meaningful starting effects on each choice card and the final review. The current stat model continues combining class, origin, keepsake, and personality bonuses; origin/keepsake starting gold and inventory remain intact.
+- Apply the Bent Coin keepsake's +12% sale-value bonus to individual market sales and bulk-sale totals, rather than merely describing a bonus that the market ignores.
+- Add the Read the Blackroot Tracks field contract to the Ashmere Work Board with a survival-based evidence-reading decision, 52g base pay, the existing 75g Perfect-grade payout, and a chance to earn a Road Herb.
+- Add browser regression coverage for choice-art loading, shown effects, persisted creator bonuses, combined Force checks, Bent Coin single/bulk sale values, and the Blackroot Tracks activity/reward.
+- Preserve legacy `creationV090` skill-check bonuses while allowing newer `creationV094` choices to override the same stat, with regression coverage for existing saves.
+- Keep the existing save key and player record shape. Do not treat this preview as released until final-head Playwright CI, browser/layout QA, and owner-approved promotion to `main` are complete.
+
+## v0.21.0 — Immersive expeditions and Ashmere hub presentation (preview; review pending)
+- Rebuild the expedition presentation around the live road scene, compact six-stop journey tracker, health and Road Pressure meters, contextual route/search/travel decisions, and focused Road Map / Field Journal overlays.
+- Persist visited stops, route choices, and investigated discoveries in `flags.roadFieldJournalV150`. The existing save key, player stats, inventory, quest/evidence records, route/search mechanics, pressure, combat, waystation rest/crafting, rewards, and secured return remain the gameplay authorities.
+- Move Ashmere service navigation directly beneath the town panorama. Clamp service icon artwork to its icon box and tighten destination-card layout to prevent oversized art.
+- Replace the stale title wordmark presentation with **LEGEND / THE AWAKENING** and a CSS-only sigil in the title and scene-transition curtain; no SVG is used for the logo treatment.
+- Add desktop/mobile assertions for the new wordmark, hub nav placement and icon bounds, the expedition map, and field journal.
+- **Status: preview branch only.** Automated CI and manual browser review are pending. Do not merge until both pass and the interface has been reviewed at desktop and mobile sizes.
+
 ## v0.20.40 — Road-first opening and guided first expedition (PR #27; verification pending)
 - Keep the v0.20.39 anonymous soul-shaping creator, raster wordmark, dedicated service art, and scene-transition presentation as the visual foundation.
 - After **Let Me Wake**, begin beneath the dead lantern outside Ashmere. Captain Oric asks whether the traveler is friend or foe and offers three response tones; the selected response is saved as a memory and changes his aftermath dialogue.

@@ -33,7 +33,7 @@
     const health=Math.max(0,Math.min(100,Math.round(Number(pl.hp||0)/Math.max(1,Number(pl.maxHp||1))*100)));
     const townCard = destination => {
       const { view, title, desc, cta, iconKey, featured = false, shopKey } = destination;
-      const serviceKeys = { inn: 'inn', trader: 'market', smith: 'blacksmith', people: 'traveler', work: 'jobBoard', road: 'map', regions: 'gatehouse', route: 'map' };
+      const serviceKeys = { inn: 'inn', trader: 'market', smith: 'blacksmith', people: 'traveler', work: 'jobBoard', road: 'map', dungeon: 'map', regions: 'gatehouse', route: 'map' };
       const serviceIcon = serviceKeys[iconKey] && typeof serviceArt === 'function' ? serviceArt(serviceKeys[iconKey], '') : '';
       const shopIcon = !serviceIcon && shopKey && typeof regionShopArt === 'function' ? regionShopArt(shopKey) : '';
       return `<button class="ash100-destination ${featured?'featured':''}" data-ash-view="${esc(view)}"><span class="ash100-destination-icon">${serviceIcon||shopIcon||icon(iconKey)}</span><span class="ash100-destination-copy"><strong>${esc(title)}</strong><small>${esc(desc)}</small></span><em>${esc(cta)}</em></button>`;
@@ -48,6 +48,7 @@
     shell(`
       <section class="ash100-town ${isGreyfen?'ash100-town-greyfen':'ash100-town-ashmere'}">
         <div class="ash100-hero">${img(bg(),townName+' at dusk')}<div class="ash100-hero-copy"><div class="ash099-kicker">${isGreyfen?'THE LOWLANDS · GREYFEN':'ROADS OF ASHMERE'}</div><h1>${townName}</h1><p>${isGreyfen?'Built on drowned stone, held together by lanterns, and full of old boundary marks.':'Warm lights. Open roads. A place to return to.'}</p></div></div>
+        ${terminalNav(pl, icon, serviceArt)}
         <div class="ash100-route-dock">${currentRouteCard(g, icon, esc, serviceArt)}</div>
         <section class="ash100-status" aria-label="Traveler status">
           <div class="ash100-status-traveler"><span>${esc(pl.username||'Traveler')}</span><small>${esc(pl.className||'Wanderer')} · Day ${Number(pl.day||1)}</small></div>
@@ -58,7 +59,6 @@
           <div class="ash100-section-head"><div><div class="ash099-kicker">${isGreyfen?'LOWLAND DISTRICT':'ASHMERE'}</div><h2>${isGreyfen?'Find your footing':'Where next?'}</h2></div></div>
           <div class="ash100-destinations">${destinations}</div>
         </section>
-        ${terminalNav(pl, icon, serviceArt)}
       </section>`);
     bind();
   }

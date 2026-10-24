@@ -34,11 +34,15 @@
     const classMods=data.classes?.[player.className]?.mod||{};
     const originBonus=data.origins?.[player.origin]?.bonus||{};
     const keepsakeBonus=data.keepsakes?.[player.keepsake]?.bonus||{};
-    const creationBonus=player.creationV094?.bonuses||player.creationV090?.bonuses||{};
+    const creationBonus={...(player.creationV090?.bonuses||{}),...(player.creationV094?.bonuses||{})};
     return Number(classMods[skill]||0)+Number(originBonus[skill]||0)+Number(keepsakeBonus[skill]||0)+Number(creationBonus[skill]||0);
   };
   const weapon=player=>(D().weapons||[]).find(item=>item.id===player.weapon)||{name:'Hands',min:1,max:3};
-  const armor=player=>(D().armors||[]).find(item=>item.id===player.armor)||{name:'None',defense:0};
+  const armor=player=>{
+    const base=(D().armors||[]).find(item=>item.id===player.armor)||{name:'None',defense:0};
+    const buckleEquipped=player.flags?.bellVaultV100?.reinforcedBuckleEquipped===true;
+    return buckleEquipped?{...base,name:String(base.name||'Armor')+' + Reinforced Buckle',defense:Number(base.defense||0)+6}:base;
+  };
   const hpPercent=player=>clamp(Math.round(Number(player.hp||0)/Math.max(1,Number(player.maxHp||1))*100),0,100);
   const itemName=id=>D().itemNames?.[id]||({food:'Rations',camp:'Camp Supplies',roadToken:'Road Tokens',potion:'Healing Potions',fur:'Furs',bellFragment:'Bell Fragments',log:'Logs'}[id]||id);
   const skillLabel=skill=>({survival:'Roadsense',strength:'Force',lore:'Lore',luck:'Fortune',thieving:'Guile',craft:'Craft'}[skill]||skill).toUpperCase();
