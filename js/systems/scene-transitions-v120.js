@@ -69,6 +69,7 @@
   }
 
   function transitionCaption(label) {
+    if (/news|roadmap|dispatch/i.test(String(label || ''))) return 'OPENING THE REALM CHRONICLE';
     if (/bell chamber|cellar|dungeon/i.test(String(label || ''))) return 'DESCENDING INTO THE BELL CELLAR';
     if (/old road|road|expedition|field/i.test(String(label || ''))) return 'PREPARING THE FRONTIER SCENE';
     if (/greyfen|marsh|crossing|travel/i.test(String(label || ''))) return 'READING THE LOWLAND ROUTE';
