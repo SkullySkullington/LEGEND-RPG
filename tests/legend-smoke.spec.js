@@ -323,7 +323,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(await page.evaluate(() => typeof window.LegendAshmereViewV099?.create)).toBe('function');
     await expect(page.locator('.ash100-town')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
-    await expect(page.locator('.ash100-destination')).toHaveCount(7);
+    await expect(page.locator('.ash100-destination')).toHaveCount(8);
     await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
     await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
@@ -1765,9 +1765,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('Ashmere hub destinations use the dedicated local service icon artwork', async ({ page }) => {
     await startFreshCharacter(page, 'IconArtQA');
     const destinationIcons = page.locator('.ash100-destinations .ash100-destination-icon');
-    await expect(destinationIcons).toHaveCount(7);
+    await expect(destinationIcons).toHaveCount(8);
     const iconImages = page.locator('.ash100-destinations .ash100-destination-icon .ash099-asset-icon img');
-    await expect(iconImages).toHaveCount(7);
+    await expect(iconImages).toHaveCount(8);
     const iconSources = await iconImages.evaluateAll(nodes => nodes.map(node => node.getAttribute('src') || ''));
     expect(iconSources.every(src => src.startsWith('assets/generated/ui/icons/service-'))).toBe(true);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
