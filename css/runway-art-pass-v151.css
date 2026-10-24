@@ -45,8 +45,9 @@
 .ash100-route-strip-icon .ash099-icon img{padding:0!important}
 .ash100-town .ash099-topnav .ash099-icon{width:100%!important;height:100%!important}
 .ash100-town .ash099-topnav .ash099-icon img{padding:0!important}
+/* Keep destination art inside its hit target even while hovered/focused. */
 .ash100-destination:hover .ash100-destination-icon img,
-.ash100-destination:focus-visible .ash100-destination-icon img{transform:translateY(-2px) scale(1.05);filter:drop-shadow(0 5px 10px rgba(0,0,0,.4))!important}
+.ash100-destination:focus-visible .ash100-destination-icon img{transform:none!important;filter:drop-shadow(0 5px 10px rgba(0,0,0,.4))!important}
 .ash099-footer-item .ash099-icon img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen}
 .ash099-head-icon .ash099-icon img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen}
 
