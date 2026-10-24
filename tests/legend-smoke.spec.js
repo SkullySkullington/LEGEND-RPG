@@ -323,7 +323,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(await page.evaluate(() => typeof window.LegendAshmereViewV099?.create)).toBe('function');
     await expect(page.locator('.ash100-town')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
-    await expect(page.locator('.ash100-destination')).toHaveCount(8);
+    await expect(page.locator('.ash100-destination')).toHaveCount(7);
     await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
     await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
