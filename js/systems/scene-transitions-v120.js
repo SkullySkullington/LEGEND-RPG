@@ -22,7 +22,7 @@
 
   function destinationLabel(target) {
     if (target.dataset.legendSceneTransition) return target.dataset.legendSceneTransition;
-    if (target.matches('[data-ash-view="road"]')) return 'Leaving Ashmere';
+    if (target.matches('[data-ash-view="road"]')) return 'Leaving Ashmere for the Old Road';
     if (target.matches('[data-travel]')) return 'Crossing the realm';
     if (target.matches('[data-unlock]')) return 'Opening a new road';
     const labels = {
