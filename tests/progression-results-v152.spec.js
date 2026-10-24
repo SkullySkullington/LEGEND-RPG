@@ -114,6 +114,12 @@ test.describe('LEGEND level-up and road results v0.23.0', () => {
     await expect(page.locator('.v152-result-level-note')).toContainText('Level 1 → level 2');
     await page.locator('#v152CombatContinue').click();
     expect(await page.evaluate(() => window.__resultCallbacks.counts())).toEqual({ continued: 1, returned: 0 });
+    const sceneCurtain = page.locator('#legend-scene-curtain');
+    if (await sceneCurtain.count()) {
+      await expect.poll(() => sceneCurtain.evaluate(el =>
+        !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+      )).toBe(true);
+    }
 
     await page.evaluate(() => window.__resultViewQA.render({
       result: 'defeat',
