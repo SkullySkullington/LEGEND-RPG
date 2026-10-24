@@ -127,3 +127,33 @@
 @media(max-width:1160px){.v140-realm-overview.v151-realm-art{display:none!important}}
 @media(max-width:720px){.ash099-daily-grid{grid-template-columns:1fr}.ash099-road-cache{grid-template-columns:1fr}.ash099-road-cache-art{min-height:140px}.ash099-daily-card{padding:13px}}
 @media(prefers-reduced-motion:reduce){.v151-realm-feature>img,.ash100-destination:hover .ash100-destination-icon img,.ash100-destination:focus-visible .ash100-destination-icon img,.title-v136-rpg .v136-menu-btn:hover .v136-menu-icon img,.title-v136-rpg .v136-menu-btn:focus-visible .v136-menu-icon img,.ash099-daily-progress i{transition:none!important;transform:none!important}}
+
+/* High-specificity overrides beat the older service-icon tile rules. */
+.ash100-destination-icon .ash099-icon.ash099-asset-icon img,
+.ash100-destination-icon .ash099-icon.ash099-raster-icon img,
+.ash100-route-strip-icon .ash099-icon.ash099-asset-icon img,
+.ash100-route-strip-icon .ash099-icon.ash099-raster-icon img,
+.ash100-town .ash099-topnav .ash099-icon.ash099-asset-icon img,
+.ash100-town .ash099-topnav .ash099-icon.ash099-raster-icon img{
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  mix-blend-mode:screen!important;
+}
+.title-v136-rpg .v136-menu-icon{
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.title-v136-rpg .v136-menu-icon img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  padding:0!important;
+  object-fit:contain!important;
+  mix-blend-mode:screen!important;
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.32))!important;
+}
