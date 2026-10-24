@@ -7,6 +7,7 @@ async function createTravelerInAshmere(page) {
     sessionStorage.clear();
   });
   await page.reload();
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await expect(page.locator('.v120-title')).toBeVisible();
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
