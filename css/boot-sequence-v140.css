@@ -17,3 +17,7 @@
 @keyframes legendBootFrameIn140{from{opacity:0;transform:translateY(12px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @media(max-width:600px){#legend-boot-sequence:after{inset:8px}.legend-boot-frame{padding:24px 12px}.legend-boot-wordmark{width:min(280px,74vw);max-height:100px}.legend-boot-kicker{font-size:.51rem;letter-spacing:.22em}.legend-boot-detail{font-size:.8rem}.legend-boot-foot{font-size:.47rem;letter-spacing:.08em;margin-top:28px}}
 @media(prefers-reduced-motion:reduce){#legend-boot-sequence,#legend-boot-sequence:before,.legend-boot-frame,.legend-boot-progress>span{animation:none!important;transition:none!important;transform:none!important;filter:none!important}}
+
+.legend-boot-retry{min-height:42px;margin-top:18px;padding:9px 16px;border:1px solid rgba(224,190,111,.65);background:rgba(8,15,10,.86);color:#f0dca9;font:800 .72rem/1.2 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.legend-boot-retry:hover,.legend-boot-retry:focus-visible{background:rgba(47,48,32,.96);outline:2px solid #ffe7a6;outline-offset:3px}
+.legend-boot-retry[hidden]{display:none!important}
