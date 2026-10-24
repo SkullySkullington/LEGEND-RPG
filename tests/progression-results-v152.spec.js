@@ -135,6 +135,85 @@ test.describe('LEGEND level-up and road results v0.23.0', () => {
     expect(await page.evaluate(() => window.__resultCallbacks.counts())).toEqual({ continued: 1, returned: 1 });
   });
 
+
+  test('Bell Cellar fights use the same results frame with cellar-specific progress and choices', async ({ page }) => {
+    await page.evaluate(() => {
+      const callbacks = { continued: 0, returned: 0, reviewed: 0 };
+      window.__cellarResultCallbacks = callbacks;
+      window.__cellarResultsView = window.LegendRoadCombatResultsViewV152.create({
+        renderShell: html => { document.getElementById('root').innerHTML = html; },
+        getAssets: () => window.LegendAssetsV090,
+        escapeHtml: value => String(value ?? '').replace(/[&<>'"]/g, ch => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[ch]))
+      });
+      window.__cellarResultsView.render({
+        dungeon: true,
+        locationName: 'THE BELL CELLAR',
+        sceneArtKey: 'ashmereArchive',
+        result: 'victory',
+        player: { username: 'Cellar QA', className: 'Warrior', level: 3, hp: 64, maxHp: 70 },
+        enemy: { name: 'Mirebound Sentinel' },
+        progress: { gained: 45, levels: 0, level: 3 },
+        rewardName: 'Bell Fragment',
+        goldGained: 12,
+        room: 3,
+        progressLabel: 'CELLAR DEPTH',
+        progressValue: '3 / 3',
+        progressHint: 'Bell chamber reached',
+        primaryTitle: 'Return to the chamber',
+        primaryHint: 'Continue exploring the Bell Cellar',
+        primaryTransition: 'The bell chamber falls silent',
+        secondaryTitle: 'Return to Ashmere',
+        secondaryHint: 'Leave the cellar with your rewards',
+        secondaryTransition: 'Returning to Ashmere',
+        onContinue: () => { callbacks.continued += 1; },
+        onReturn: () => { callbacks.returned += 1; }
+      });
+    });
+
+    await expect(page.getByRole('main', { name: 'Cellar victory results' })).toBeVisible();
+    await expect(page.locator('.v152-results-kicker')).toContainText('THE BELL CELLAR');
+    await expect(page.locator('.v152-results-metrics')).toContainText('3 / 3');
+    await expect(page.locator('.v152-results-rewards')).toContainText('Bell Fragment');
+    await expect(page.locator('#v152CombatContinue')).toContainText('Return to the chamber');
+    await page.locator('#v152CombatContinue').click();
+    await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+      !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+    )).toBe(true);
+    expect(await page.evaluate(() => window.__cellarResultCallbacks.continued)).toBe(1);
+
+    await page.evaluate(() => window.__cellarResultsView.render({
+      dungeon: true,
+      locationName: 'THE BELL CELLAR',
+      result: 'defeat',
+      player: { username: 'Cellar QA', className: 'Warrior', level: 3, hp: 1, maxHp: 70 },
+      enemy: { name: 'Mirebound Sentinel' },
+      progress: { gained: 0, levels: 0, level: 3 },
+      room: 2,
+      progressLabel: 'CELLAR DEPTH',
+      progressValue: '2 / 3',
+      progressHint: 'Last room reached before retreat',
+      primaryTitle: 'Return to Ashmere',
+      primaryHint: 'Recover before attempting the cellar again',
+      primaryTransition: 'Returning wounded to Ashmere',
+      secondaryTitle: 'Review the cellar',
+      secondaryHint: 'Review the last chamber report',
+      secondaryTransition: 'Reviewing the bell chamber',
+      onReturn: () => { window.__cellarResultCallbacks.returned += 1; },
+      onSecondary: () => { window.__cellarResultCallbacks.reviewed += 1; }
+    }));
+
+    await expect(page.getByRole('main', { name: 'Cellar defeat results' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Driven Back' })).toBeVisible();
+    await expect(page.locator('#v152CombatSecondary')).toContainText('Review the cellar');
+    await page.locator('#v152CombatSecondary').click();
+    await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+      !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+    )).toBe(true);
+    expect(await page.evaluate(() => window.__cellarResultCallbacks.reviewed)).toBe(1);
+  });
+
   test('legacy traveler saves receive safe default growth values', async ({ page }) => {
     const result = await page.evaluate(() => {
       const normalizer = window.LegendPlayerNormalizerV120.create({
