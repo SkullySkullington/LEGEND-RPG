@@ -15,6 +15,7 @@ async function openTitle(page) {
     }
   ` });
   await expect(page.locator('.v120-title')).toBeVisible();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
 }
 
 async function startFreshTraveler(page) {
