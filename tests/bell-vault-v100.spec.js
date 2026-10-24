@@ -190,3 +190,51 @@ test('winning a Bell Cellar boss fight returns to the treasure room and equips t
   });
   expect(retainedDefense).toBe(6);
 });
+
+test('a cellar defeat shows a result debrief and preserves the safe town return', async ({ page }) => {
+  await createTraveler(page);
+  await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    player.flags.firstRoadReturnSeen = true;
+    player.hp = 8;
+    player.flags.bellVaultV100 = {
+      active: true, room: 2, battleWon: false, failed: false, tookFragment: false,
+      clears: 0, attempts: 1, inBattle: true, rewardClaimed: false, records: []
+    };
+    window.LegendRuntimeV120.savePlayer(player);
+    window.LegendRoadControllerV100.startDungeonEncounter({
+      id: 'bell-vault-test-defeat',
+      name: 'Mirebound Sentinel',
+      behavior: 'predator',
+      hp: 80,
+      maxHp: 80,
+      damage: [100, 100],
+      reward: 'roadHerb',
+      turn: 0,
+      intent: 'attack'
+    }, 'The sentinel closes the last safe angle.');
+  });
+
+  await expect(page.locator('.rpg-battle')).toBeVisible();
+  await page.locator('#guard').click();
+  await expect(page.getByRole('main', { name: 'Cellar defeat results' })).toBeVisible();
+
+  const defeated = await page.evaluate(() => {
+    const player = window.LegendRuntimeV120.loadPlayer();
+    return {
+      hp: player.hp,
+      failed: player.flags.bellVaultV100.failed,
+      active: player.flags.bellVaultV100.active,
+      inBattle: player.flags.bellVaultV100.inBattle,
+      withdrawals: player.stats.bellVaultWithdrawals
+    };
+  });
+  expect(defeated).toMatchObject({
+    hp: 1, failed: true, active: false, inBattle: false, withdrawals: 1
+  });
+
+  await expect(page.locator('#v152CombatReturn')).toContainText('Return to Ashmere');
+  await expect(page.locator('#v152CombatSecondary')).toContainText('Review the cellar');
+  await page.locator('#v152CombatReturn').click();
+  await expect(page.locator('.ash100-town')).toBeVisible();
+});
