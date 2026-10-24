@@ -1,0 +1,19 @@
+#legend-boot-sequence{position:fixed;inset:0;z-index:1000000;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:#030604;color:#eee7cf;opacity:1;visibility:visible;pointer-events:auto;transition:opacity .64s ease,visibility 0s}
+#legend-boot-sequence:before{content:"";position:absolute;inset:-2%;z-index:-2;background:linear-gradient(180deg,rgba(2,5,3,.62),rgba(2,5,3,.74) 52%,rgba(2,5,3,.92)),url('../assets/generated/title/title-ashmere-road.webp') center 54%/cover no-repeat;filter:saturate(.8) contrast(1.08);transform:scale(1.02);animation:legendBootLandscape140 26s ease-in-out infinite alternate}
+#legend-boot-sequence:after{content:"";position:absolute;inset:16px;z-index:-1;pointer-events:none;border:1px solid rgba(224,190,111,.25);box-shadow:inset 0 0 0 4px rgba(2,5,3,.22),inset 0 0 0 5px rgba(224,190,111,.065)}
+.legend-boot-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(600px,calc(100vw - 42px));padding:clamp(26px,5vw,48px) 20px;text-align:center;animation:legendBootFrameIn140 .85s cubic-bezier(.18,.7,.22,1) both}
+.legend-boot-kicker{margin:0 0 13px;color:#e5c87c;font:800 .59rem/1.5 system-ui,sans-serif;letter-spacing:.32em;text-transform:uppercase}
+.legend-boot-wordmark{display:block;width:min(360px,76vw);max-height:140px;object-fit:contain;filter:drop-shadow(0 8px 24px #000c)}
+.legend-boot-rule{display:block;width:min(240px,56vw);height:1px;margin:22px 0 20px;background:linear-gradient(90deg,transparent,rgba(227,193,111,.9),transparent)}
+.legend-boot-phase{margin:0;color:#f0dca9;font:500 clamp(1.2rem,3vw,1.8rem)/1.2 Georgia,"Times New Roman",serif;letter-spacing:.105em;text-transform:uppercase;text-shadow:0 3px 20px #000}
+.legend-boot-detail{min-height:2.9em;max-width:410px;margin:10px 0 20px;color:#c5c8b7;font:400 .86rem/1.55 system-ui,sans-serif}
+.legend-boot-progress{position:relative;width:min(360px,76vw);height:3px;overflow:hidden;background:rgba(228,198,128,.17);box-shadow:0 0 20px rgba(216,179,91,.08)}
+.legend-boot-progress>span{display:block;width:8%;height:100%;background:linear-gradient(90deg,#98713b,#ffe2a0);box-shadow:0 0 15px rgba(255,220,141,.5);transition:width .28s ease}
+.legend-boot-status{display:flex;justify-content:space-between;gap:16px;width:min(360px,76vw);margin-top:10px;color:#a9ad9b;font:700 .55rem/1.4 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.legend-boot-status span:last-child{color:#e1c680;font-variant-numeric:tabular-nums}
+.legend-boot-foot{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 24px;margin-top:36px;color:#858f81;font:700 .53rem/1.4 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase}.legend-boot-foot span:first-child{color:#d7bd7b}
+#legend-boot-sequence.is-exiting{opacity:0;visibility:hidden;pointer-events:none}
+@keyframes legendBootLandscape140{from{transform:scale(1.02) translate3d(-.3%,0,0)}to{transform:scale(1.075) translate3d(.3%,-.6%,0)}}
+@keyframes legendBootFrameIn140{from{opacity:0;transform:translateY(12px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(max-width:600px){#legend-boot-sequence:after{inset:8px}.legend-boot-frame{padding:24px 12px}.legend-boot-wordmark{width:min(280px,74vw);max-height:100px}.legend-boot-kicker{font-size:.51rem;letter-spacing:.22em}.legend-boot-detail{font-size:.8rem}.legend-boot-foot{font-size:.47rem;letter-spacing:.08em;margin-top:28px}}
+@media(prefers-reduced-motion:reduce){#legend-boot-sequence,#legend-boot-sequence:before,.legend-boot-frame,.legend-boot-progress>span{animation:none!important;transition:none!important;transform:none!important;filter:none!important}}
