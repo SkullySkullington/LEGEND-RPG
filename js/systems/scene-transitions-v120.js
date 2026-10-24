@@ -15,7 +15,7 @@
     el.id = 'legend-scene-curtain';
     el.setAttribute('aria-hidden', 'true');
     const logoSrc = window.LegendAssetsV090?.logo?.main || 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark';
-    el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="' + logoSrc + '" alt="" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="legend-transition-wordmark-fallback" hidden><strong>LEGEND</strong><em>THE AWAKENING</em></span><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><div class="legend-transition-loader" aria-hidden="true"><i></i></div><small class="legend-transition-caption">PREPARING THE NEXT SCENE</small></div>';
+    el.innerHTML = '<div class="legend-transition-scene"><img class="legend-transition-wordmark" src="' + logoSrc + '" alt="" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="legend-transition-wordmark-fallback" hidden><strong>LEGEND</strong><em>THE AWAKENING</em></span><span class="legend-transition-mode">REALM TRANSITION</span><span class="legend-transition-location">THE OLD ROAD</span><i class="legend-transition-rule" aria-hidden="true"></i><div class="legend-transition-loader" aria-hidden="true"><i></i></div><small class="legend-transition-caption">PREPARING LOCAL SCENE ASSETS</small></div>';
     document.body.appendChild(el);
     return el;
   }
@@ -36,6 +36,44 @@
     return 'The road turns';
   }
 
+  function transitionArt(target, label) {
+    const view = target?.dataset?.ashView || '';
+    const byView = {
+      home: 'assets/generated/locations/ashmere-town.webp',
+      people: 'assets/generated/locations/ashmere-town.webp',
+      inn: 'assets/generated/locations/ashmere-inn.webp',
+      trader: 'assets/generated/locations/ashmere-market.webp',
+      smith: 'assets/generated/locations/ashmere-forge.webp',
+      work: 'assets/generated/locations/ashmere-archive.webp',
+      crossing: 'assets/generated/locations/old-road-south-fork.webp',
+      craft: 'assets/generated/locations/ashmere-forge.webp',
+      sheet: 'assets/generated/locations/ashmere-town.webp',
+      archive: 'assets/generated/locations/ashmere-archive.webp',
+      routes: 'assets/generated/locations/old-road-south-fork.webp',
+      quests: 'assets/generated/locations/ashmere-archive.webp',
+      regions: 'assets/generated/locations/old-road-south-fork.webp',
+      dungeon: 'assets/generated/locations/bell-cellar-undercroft.webp',
+      profile: 'assets/generated/locations/ashmere-town.webp'
+    };
+    if (view) return byView[view] || 'assets/generated/title/title-ashmere-road.webp';
+    if (target?.matches?.('[data-travel]')) return 'assets/generated/locations/greyfen-marsh-walkway.webp';
+    if (target?.matches?.('[data-unlock]')) return 'assets/generated/locations/old-road-south-fork.webp';
+    if (/bell chamber|cellar|dungeon/i.test(String(label || ''))) return 'assets/generated/locations/bell-cellar-undercroft.webp';
+    if (/old road|road|expedition|field/i.test(String(label || ''))) return 'assets/generated/locations/old-road-south-fork.webp';
+    if (/greyfen|marsh|crossing|travel/i.test(String(label || ''))) return 'assets/generated/locations/greyfen-marsh-walkway.webp';
+    if (/ashmere|inn|market|forge|town/i.test(String(label || ''))) return 'assets/generated/locations/ashmere-town.webp';
+    return 'assets/generated/title/title-ashmere-road.webp';
+  }
+
+  function transitionCaption(label) {
+    if (/bell chamber|cellar|dungeon/i.test(String(label || ''))) return 'DESCENDING INTO THE BELL CELLAR';
+    if (/old road|road|expedition|field/i.test(String(label || ''))) return 'PREPARING THE FRONTIER SCENE';
+    if (/greyfen|marsh|crossing|travel/i.test(String(label || ''))) return 'READING THE LOWLAND ROUTE';
+    if (/ashmere|inn|market|forge|town/i.test(String(label || ''))) return 'RETURNING TO THE LANTERN TOWN';
+    if (/traveler|journey|title/i.test(String(label || ''))) return 'RESTORING THE TRAVELER RECORD';
+    return 'PREPARING LOCAL SCENE ASSETS';
+  }
+
   function waitForSceneAssets() {
     const images = Array.from(document.getElementById('root')?.querySelectorAll('img') || []).filter(img => !img.complete);
     const paint = new Promise(resolve => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
@@ -47,14 +85,19 @@
     return Promise.race([Promise.all([assets, paint]), safety]);
   }
 
-  function transitionTo(label, action) {
+  function transitionTo(label, action, artPath) {
     if (typeof action !== 'function') return;
-    if (busy || reduced()) return action();
+    if (busy) return;
+    if (reduced()) return action();
     busy = true;
     const startedAt = Date.now();
     const curtain = overlay();
     const location = curtain.querySelector('.legend-transition-location');
     if (location) location.textContent = String(label || 'The road turns').toUpperCase();
+    const caption = curtain.querySelector('.legend-transition-caption');
+    if (caption) caption.textContent = transitionCaption(label);
+    const art = String(artPath || transitionArt(null, label)).replace(/["\\]/g, '');
+    curtain.style.setProperty('--legend-transition-art', 'url("' + art + '")');
     curtain.classList.remove('is-revealing');
     curtain.classList.add('is-covering');
 
@@ -71,14 +114,14 @@
 
     void (async () => {
       await waitForSceneAssets();
-      const minimumCoverMs = Math.max(0, 650 - (Date.now() - startedAt));
+      const minimumCoverMs = Math.max(0, 1650 - (Date.now() - startedAt));
       window.setTimeout(() => {
         curtain.classList.remove('is-covering');
         curtain.classList.add('is-revealing');
         window.setTimeout(() => {
           curtain.classList.remove('is-revealing');
           busy = false;
-        }, 380);
+        }, 560);
       }, minimumCoverMs);
     })();
   }
@@ -99,7 +142,7 @@
         window.__legendSceneTransitionBypass = false;
         delete target.dataset.legendTransitioning;
       }
-    });
+    }, transitionArt(target, destinationLabel(target)));
   }, true);
 
   // Other systems (notably combat outcomes) can use the same curtain when a
