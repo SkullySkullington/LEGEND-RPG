@@ -78,12 +78,12 @@
       survival: 'assets/generated/skills/icons/survival.webp'
     },
     npcs: {
-      mara: 'assets/npcs/ashmere/npc_mara_portrait_v1.jpg',
-      brenn: 'assets/npcs/ashmere/npc_brenn_portrait_v1.jpg',
+      mara: 'assets/generated/ui/icons/service-journal.webp',
+      brenn: 'assets/generated/ui/icons/service-gatehouse.webp',
       oric: 'assets/generated/npcs/captain-oric.webp',
-      innkeeper: 'assets/npcs/vendors/npc_innkeeper_portrait_v1.jpg',
-      blacksmith: 'assets/npcs/vendors/npc_blacksmith_portrait_v1.jpg',
-      trader: 'assets/npcs/vendors/npc_trader_portrait_v1.jpg'
+      innkeeper: 'assets/generated/ui/icons/service-inn.webp',
+      blacksmith: 'assets/generated/ui/icons/service-blacksmith.webp',
+      trader: 'assets/generated/ui/icons/service-market.webp'
     },
     enemies: {
       roadGoblin: 'assets/generated/enemies/road-goblin.webp',
