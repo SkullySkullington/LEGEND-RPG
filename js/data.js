@@ -1,4 +1,4 @@
-// LEGEND v0.21.1 — immersive road screen, persistent field journal, and Ashmere hub polish.
+// LEGEND v0.22.0 — immersive road screen, persistent field journal, and Ashmere hub polish.
 window.LEGEND_DATA = {
   VERSION: 'v0.22.0',
   SAVE_KEY: 'legend-roads-of-ashmere-v09',
