@@ -34,6 +34,7 @@ async function openTitle(page) {
   ` });
   await expect(page.locator('.v120-title')).toBeVisible();
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
 }
 
 async function startFreshCharacter(page, name = 'QATraveler', options = {}) {
