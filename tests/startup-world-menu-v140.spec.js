@@ -48,10 +48,13 @@ test.describe('LEGEND v' + version + ' startup and realm entrance', () => {
   test('startup shell loads before the runtime and retains the raster logo', () => {
     expect(indexSource.indexOf('js/systems/boot-sequence-v140.js')).toBeGreaterThanOrEqual(0);
     expect(indexSource.indexOf('js/systems/boot-sequence-v140.js')).toBeLessThan(indexSource.indexOf('js/data.js'));
+    expect(indexSource.indexOf('js/systems/runtime-ready-v140.js')).toBeGreaterThan(indexSource.indexOf('js/systems/scene-transitions-v120.js'));
     expect(indexSource).toContain('css/boot-sequence-v140.css');
     expect(indexSource).toContain('css/title-world-console-v140.css');
     expect(indexSource).toContain('logo_legend_awakening_wordmark.png');
     expect(bootSource).toContain('MIN_DURATION_MS = 3200');
+    expect(bootSource).toContain('!window.__legendRuntimeScriptsReadyV140');
+    expect(indexSource).toContain('js/systems/runtime-ready-v140.js');
     expect(transitionSource).toContain('1650 - (Date.now() - startedAt)');
     expect(transitionSource).toContain('transitionArt(target, destinationLabel(target))');
   });
