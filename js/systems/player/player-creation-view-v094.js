@@ -94,8 +94,8 @@
         const classPortrait = key === 'class' ? classPortraits?.[item.id] : '';
         const artCell = key !== 'class' && Array.isArray(item.artCell) ? item.artCell : null;
         const atlas = item.artSource || '';
-        const atlasArt = atlas && artCell
-          ? '<span class="v094-choice-art" aria-hidden="true"><img src="' + escapeHtml(atlas) + '" alt="" aria-hidden="true" loading="lazy" decoding="async" style="left:-' + (Number(artCell[0]) * 100) + '%;top:-' + (Number(artCell[1]) * 100) + '%" ><span>' + escapeHtml(iconFallbacks[item.id] || '✧') + '</span></span>'
+        const atlasArt = atlas
+          ? '<span class="v094-choice-art" aria-hidden="true"><img ' + (artCell ? 'src="' + escapeHtml(atlas) + '" style="left:-' + (Number(artCell[0]) * 100) + '%;top:-' + (Number(artCell[1]) * 100) + '%"' : 'class="v094-choice-art-image" src="' + escapeHtml(atlas) + '"') + ' alt="" aria-hidden="true" loading="lazy" decoding="async"><span>' + escapeHtml(iconFallbacks[item.id] || '✧') + '</span></span>'
           : '';
         return '<button class="v094-choice' + (active ? ' is-selected' : '') + ((classPortrait || atlasArt) ? ' v094-choice-has-art' : '') +
           '" data-' + key + '="' + escapeHtml(item.id) + '" aria-pressed="' + active + '">' +
