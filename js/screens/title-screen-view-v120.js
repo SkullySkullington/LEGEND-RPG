@@ -22,7 +22,7 @@
 
     root.innerHTML = `
       <div class="title-wrap title-v100 portal-shell portal-v100 v120-title title-v136-rpg">
-        <img class="v120-title-backdrop" src="${esc(backgroundImage || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
+        <img class="v120-title-backdrop" src="${esc(backgroundImage || 'assets/generated/title/title-ashmere-road.webp')}" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/generated/title/title-ashmere-road.webp'}">
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
           <div class="portal100-brand">
