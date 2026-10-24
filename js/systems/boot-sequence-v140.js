@@ -16,7 +16,7 @@
     { title: 'Finalizing the journey', detail: 'Checking the last game modules before opening the realm.' },
     { title: 'Opening the Borderlands', detail: 'The lanterns are lit. The road is almost ready.' }
   ];
-  const trackedScripts = Array.from(document.querySelectorAll('script[src]'));
+  const trackedScripts = Array.from(document.querySelectorAll('script[src]')).filter(script => !/^(?:https?:)?\/\//i.test(script.getAttribute('src') || ''));
   const settledScripts = new WeakSet();
   let settledScriptCount = 0;
   let failedScriptCount = 0;
