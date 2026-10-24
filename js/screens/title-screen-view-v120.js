@@ -55,7 +55,7 @@
           </section>
         </main>
         <aside class="v140-realm-overview" aria-label="Realm overview">
-          <div class="v140-realm-overview-head"><span>REALM ATLAS</span><small>BUILD <b>\${esc(buildVersion)}</b></small></div>
+          <div class="v140-realm-overview-head"><span>REALM ATLAS</span><small>BUILD <b>${esc(buildVersion)}</b></small></div>
           <h2>The Borderlands</h2>
           <p>Beyond Ashmere’s lanterns, the old roads lead toward forgotten places.</p>
           <div class="v140-realm-route" aria-hidden="true">
@@ -66,9 +66,9 @@
             <li><span class="v140-realm-index">02</span><div><strong>The Old Road</strong><small>Expeditions · Routes and discoveries</small></div><em>FIELD</em></li>
             <li><span class="v140-realm-index">03</span><div><strong>Bell Cellar</strong><small>First delve · Echoes beneath the bell</small></div><em>DELVE</em></li>
           </ol>
-          <div class="v140-realm-player-state"><span>YOUR JOURNEY</span><strong>\${player ? 'Day ' + day + ' · ' + tokens + ' Road Tokens' : 'A new journey awaits'}</strong><small>\${player ? esc(name) + ' · ' + esc(cls) : 'Shape a traveler and enter the realm.'}</small></div>
+          <div class="v140-realm-player-state"><span>YOUR JOURNEY</span><strong>${player ? 'Day ' + day + ' · ' + tokens + ' Road Tokens' : 'A new journey awaits'}</strong><small>${player ? esc(name) + ' · ' + esc(cls) : 'Shape a traveler and enter the realm.'}</small></div>
         </aside>
-        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE AWAKENING</span><span>\${esc(buildVersion)} · ASHMERE · OLD ROAD · GREYFEN</span></footer>
+        <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE AWAKENING</span><span>${esc(buildVersion)} · ASHMERE · OLD ROAD · GREYFEN</span></footer>
       </div>`;
     return true;
   }
