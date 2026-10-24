@@ -56,7 +56,7 @@
       serviceIcons: {
         inn: 'assets/generated/ui/icons/service-inn.webp',
         market: 'assets/generated/ui/icons/service-market.webp',
-        blacksmith: 'assets/generated/ui/icons/service-blacksmith.webp',
+        blacksmith: 'assets/generated/classes/class-warrior.webp',
         journal: 'assets/generated/ui/icons/service-journal.webp',
         map: 'assets/generated/ui/icons/service-map.webp',
         jobBoard: 'assets/generated/ui/icons/service-job-board.webp',
@@ -78,12 +78,12 @@
       survival: 'assets/generated/skills/icons/survival.webp'
     },
     npcs: {
-      mara: 'assets/generated/ui/icons/service-journal.webp',
-      brenn: 'assets/generated/ui/icons/service-gatehouse.webp',
+      mara: 'assets/generated/classes/class-skiller.webp',
+      brenn: 'assets/generated/classes/class-warrior.webp',
       oric: 'assets/generated/npcs/captain-oric.webp',
-      innkeeper: 'assets/generated/ui/icons/service-inn.webp',
+      innkeeper: 'assets/generated/classes/class-adventurer.webp',
       blacksmith: 'assets/generated/ui/icons/service-blacksmith.webp',
-      trader: 'assets/generated/ui/icons/service-market.webp'
+      trader: 'assets/generated/classes/class-thief.webp'
     },
     enemies: {
       roadGoblin: 'assets/generated/enemies/road-goblin.webp',
