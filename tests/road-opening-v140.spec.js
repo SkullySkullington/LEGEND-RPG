@@ -60,7 +60,7 @@ test.describe('LEGEND v' + version + ' road-born opening', () => {
     await openTitle(page);
     await expect(page.getByRole('button', { name: /News & Roadmap/i })).toBeVisible();
     await page.getByRole('button', { name: /News & Roadmap/i }).click();
-    await expect(page.locator('#legend-scene-curtain')).toContainText('PREPARING THE NEXT SCENE');
+    await expect(page.locator('#legend-scene-curtain')).toContainText('OPENING THE REALM CHRONICLE');
     await expect(page.getByRole('heading', { name: 'News & Roadmap' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Development News' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Roadmap' })).toBeVisible();
