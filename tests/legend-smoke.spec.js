@@ -1783,9 +1783,9 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
   test('Ashmere hub destinations use the dedicated local service icon artwork', async ({ page }) => {
     await startFreshCharacter(page, 'IconArtQA');
     const destinationIcons = page.locator('.ash100-destinations .ash100-destination-icon');
-    await expect(destinationIcons).toHaveCount(8);
+    await expect(destinationIcons).toHaveCount(7);
     const iconImages = page.locator('.ash100-destinations .ash100-destination-icon .ash099-asset-icon img');
-    await expect(iconImages).toHaveCount(8);
+    await expect(iconImages).toHaveCount(7);
     const iconSources = await iconImages.evaluateAll(nodes => nodes.map(node => node.getAttribute('src') || ''));
     expect(iconSources.every(src => src.startsWith('assets/generated/') && /\.(?:webp|png)(?:\?.*)?$/i.test(src))).toBe(true);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
