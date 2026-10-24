@@ -4,6 +4,7 @@ async function startTraveler(page) {
   await page.goto('/');
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); });
   await page.reload();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
   await page.addStyleTag({ content:'*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}' });
   await page.getByRole('button', { name:/Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill('BlackrootFieldQA');
