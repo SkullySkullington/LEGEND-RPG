@@ -75,11 +75,12 @@
   checkReady();
   window.__legendBootSequenceV140 = Object.freeze({ checkReady });
   window.setTimeout(() => {
-    if (removed || sceneMounted()) return;
+    if (removed || (sceneMounted() && window.__legendRuntimeScriptsReadyV140)) return;
     if (title) title.textContent = 'The realm is taking longer than expected';
     if (detail) detail.textContent = 'The game is still waiting for its first scene. Try refreshing if this message remains.';
     if (bar) bar.style.width = '94%';
     if (value) value.textContent = '94%';
+    if (progress) { progress.setAttribute('aria-valuenow', '94'); progress.setAttribute('aria-valuetext', '94 percent'); }
     if (retry) retry.hidden = false;
   }, 9000);
 })();
