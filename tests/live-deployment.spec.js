@@ -88,6 +88,7 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
 
       }
     ` });
+    await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
     const titleBounds = await page.locator('.v120-title-hero').boundingBox();
     expect(titleBounds && titleBounds.width, 'Desktop title panel should render').toBeGreaterThan(450);
 
