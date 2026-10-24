@@ -20,6 +20,7 @@ test.describe('LEGEND v' + version + ' startup and realm entrance', () => {
     const metrics = await page.evaluate(() => window.__legendBootMetricsV140);
     expect(metrics).not.toBeNull();
     expect(metrics.completedAt - metrics.startedAt).toBeGreaterThanOrEqual(metrics.minimumDurationMs - 80);
+    expect(await page.evaluate(() => window.__legendRuntimeScriptsReadyV140)).toBe(true);
     await expect(page.locator('.title-v140-world')).toBeVisible();
     await expect(page.locator('.v140-world-console')).toBeVisible();
     await expect(page.locator('.v140-realm-feature')).toContainText(/Ashmere Vale|Greyfen Lowlands/i);
