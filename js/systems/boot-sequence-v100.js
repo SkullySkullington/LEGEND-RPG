@@ -49,7 +49,8 @@
 
     mark('manifest', dataReady ? 'READY' : 'MISSING', dataReady);
     mark('systems', systemsReady ? 'LINKED' : 'PARTIAL', systemsReady);
-    const saveFound = dataReady && Boolean(window.localStorage.getItem(window.LEGEND_DATA.SAVE_KEY));
+    let saveFound = false;
+    try { saveFound = dataReady && Boolean(window.localStorage.getItem(window.LEGEND_DATA.SAVE_KEY)); } catch (_) { /* Storage may be blocked; the title still works as a fresh journey. */ }
     mark('traveler', saveFound ? 'FOUND' : 'NEW JOURNEY', true);
 
     paint(91, 'Preparing the opening scene', 'Checking title art and scene links');
