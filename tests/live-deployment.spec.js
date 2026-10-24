@@ -15,8 +15,8 @@ function expectedAsset(regex, label) {
 }
 
 const expectedRefs = {
-  data: expectedAsset(/<script src="([^"]*js\/data\.js[^"]*)"/, 'data script URL'),
-  town: expectedAsset(/<script src="([^"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
+  data: expectedAsset(/<script\\b[^>]*\\bsrc="\1"]*js\/data\.js[^"]*)"/, 'data script URL'),
+  town: expectedAsset(/<script\\b[^>]*\\bsrc="\1"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
   workCss: expectedAsset(/<link rel="stylesheet" href="([^"]*ashmere-workshops-v100\.css[^"]*)"/, 'workshop stylesheet URL')
 };
 
