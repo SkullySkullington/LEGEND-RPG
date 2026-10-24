@@ -1,11 +1,11 @@
-// LEGEND v0.21.0 - Asset manifest; scene assets are local, corrected Runway raster wordmark is committed locally.
+// LEGEND v0.22.1 - Production art manifest; visible game artwork uses committed Runway-generated raster assets.
 // Generated production art is committed locally under assets/generated/.
 (() => {
   window.LegendAssetsV090 = {
     logo: {
       main: 'assets/ui/logos/logo_legend_awakening_wordmark.png?v=0.21.0-local-raster-wordmark',
-      emblem: 'assets/ui/logos/logo_legend_emblem_v2.svg',
-      emblemFull: 'assets/ui/logos/logo_legend_emblem_v2.svg'
+      emblem: 'assets/generated/ui/icons/service-milestone.webp',
+      emblemFull: 'assets/generated/ui/icons/service-milestone.webp'
     },
     title: {
       background: 'assets/generated/title/title-ashmere-road.webp'
@@ -26,10 +26,10 @@
       greyfenForge: 'assets/generated/locations/greyfen-forge.webp',
       greyfenArchive: 'assets/generated/locations/greyfen-archive.webp',
       greyfenMarshWalkway: 'assets/generated/locations/greyfen-marsh-walkway.webp',
-      oldRoadScene: 'assets/locations/roads/old_road_exploration_v1.svg'
+      oldRoadScene: 'assets/generated/locations/old-road-south-fork.webp'
     },
     creation: {
-      atlas: 'assets/generated/creation/creation-choice-atlas.svg?v=0.21.1-traveler-choice-art'
+      atlas: 'assets/generated/ui/icons/service-traveler.webp'
     },
     classes: {
       Adventurer: 'assets/generated/classes/class-adventurer.webp',
@@ -123,7 +123,7 @@
       bow: 'assets/generated/items/hunting-bow.webp',
       shield: 'assets/generated/items/round-shield.webp',
       iconSheet: 'assets/generated/items/item-icon-sheet.webp',
-      pelt: 'assets/items/materials/item_pelt_v1.png',
+      pelt: 'assets/generated/items/materials/torn-hide.webp',
       ironShortSword: 'assets/generated/items/equipment/iron-short-sword.webp',
       woodcuttersAxe: 'assets/generated/items/equipment/woodcutters-axe.webp',
       huntingBowV2: 'assets/generated/items/equipment/hunting-bow-v2.webp',
