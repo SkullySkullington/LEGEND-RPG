@@ -90,6 +90,6 @@ body.legend-booting{overflow:hidden!important}
   #legend-scene-curtain .legend-transition-scene{animation:none!important}
 }
 .a11y-reduced-motion .legend-boot-sigil span,.a11y-reduced-motion .legend-boot-sigil i{animation:none!important}
-.a11y-reduced-motion #legend-boot-screen,#legend-boot-screen.is-closing{transition:none!important}
+.a11y-reduced-motion #legend-boot-screen,.a11y-reduced-motion #legend-boot-screen.is-closing{transition:none!important}
 .a11y-reduced-motion #legend-scene-curtain,.a11y-reduced-motion #legend-scene-curtain span{transition:none!important}
 .a11y-reduced-motion #legend-scene-curtain .legend-transition-scene{animation:none!important}
