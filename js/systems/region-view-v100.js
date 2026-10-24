@@ -68,7 +68,7 @@
         '<div class="reg100-card-scene"><img src="' + esc(scenePath) + '" alt="' + esc(sceneAlt) + '" loading="lazy" decoding="async" onerror="this.parentElement.remove()"></div>' : '';
 
       return '<article class="reg100-card ' + (has ? 'unlocked ' : 'locked ') + (current ? 'current' : '') + '">' +
-        scene + '<div class="reg100-card-top"><span class="reg100-mark">' + (has ? '✦' : '•') + '</span><div>' +
+        scene + '<div class="reg100-card-top"><span class="reg100-mark"><img src="' + (has ? 'assets/generated/ui/icons/service-milestone.webp' : 'assets/generated/ui/icons/service-gatehouse.webp') + '" alt="" loading="lazy" decoding="async"></span><div>' +
         '<div class="reg100-kicker">' + (region.type === 'home' ? 'HOME REGION' : 'REGION') + '</div><h2>' + esc(region.name) +
         '</h2></div></div><p>' + esc(region.description || 'A place beyond the known road.') + '</p>' +
         '<div class="reg100-meta">' + meta + (has && !current && available ? ' • Fare ' + travel + 'g' : '') +
