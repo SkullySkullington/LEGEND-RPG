@@ -117,6 +117,7 @@ function roadCombatContext(){
   tone,
   toggleSound:()=>roadAudio().toggleSound?.(),
   awardProgress:(player,amount)=>window.LegendProgressionV100?.award(player,amount),
+  showCombatResults:payload=>combatResultsView?.render(payload)===true,
   onOpeningEncounterWin:(player,enemy,progress)=>window.LegendRoadOpeningV140?.afterAmbushWin?.(player,enemy,progress),
   onDungeonEncounterWin:(player,enemy,progress)=>window.LegendBellVaultV100?.afterCombatWin?.(player,enemy,progress),
   onDungeonEncounterDefeat:(player,enemy)=>window.LegendBellVaultV100?.afterCombatDefeat?.(player,enemy),
@@ -162,6 +163,13 @@ function reportToMaraFromRoad(){
     return window.LegendAshmereV099?.route?.('mara');
   }
 }
+const combatResultsView=window.LegendRoadCombatResultsViewV152?.create({
+  renderShell:shell,
+  getAssets:A,
+  escapeHtml:esc,
+  onContinue:()=>renderExpedition(),
+  onReturnToTown:returnToTownFromRoad
+});
 const roadResultsView=window.LegendRoadResultsViewV100?.create({
   renderHeader:header,
   renderShell:shell,
