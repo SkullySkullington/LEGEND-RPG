@@ -130,6 +130,14 @@ test('winning a Bell Cellar boss fight returns to the treasure room and equips t
   await expect(page.locator('.rpg-battle')).toContainText('Mirebound Sentinel');
   await page.locator('#strike').click();
 
+  await expect(page.getByRole('main', { name: 'Cellar victory results' })).toBeVisible();
+  await expect(page.locator('.v152-results-kicker')).toContainText('THE BELL CELLAR');
+  await expect(page.locator('.v152-results-rewards')).toContainText('Road Herb');
+  await expect(page.locator('#v152CombatContinue')).toContainText('Return to the chamber');
+  await page.locator('#v152CombatContinue').click();
+  await expect.poll(() => page.locator('#legend-scene-curtain').evaluate(el =>
+    !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+  )).toBe(true);
   await expect(page.locator('.bell-vault-banner h1')).toHaveText('The Bell Chamber', { timeout: 12000 });
   const won = await page.evaluate(() => {
     const player = window.LegendRuntimeV120.loadPlayer();
