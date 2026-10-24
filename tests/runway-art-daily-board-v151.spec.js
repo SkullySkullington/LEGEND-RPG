@@ -52,7 +52,11 @@ test('Ashmere hub uses transparent-blended raster icons and exposes the daily bo
   const iconPaths = await page.locator('.ash099-icon img').evaluateAll(imgs => imgs.map(img => img.getAttribute('src')));
   expect(iconPaths.length).toBeGreaterThan(4);
   expect(iconPaths.every(src => src && src.endsWith('.webp') && !src.endsWith('.svg'))).toBe(true);
-  await expect(page.getByRole('button', { name: /Daily Board & Caches/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Daily Board & Caches/i })).toHaveCount(0);
+  await page.locator('.ash100-destination[data-ash-view="work"]').click();
+  await expect(page.locator('#openDailyFieldBoard')).toBeVisible();
+  await page.locator('#openDailyFieldBoard').click();
+  await expect(page.locator('.ash099-daily-board')).toBeVisible();
 });
 
 test('road network illustrates Ashmere and daily contracts award keys for an odds-published cache', async ({ page }) => {
