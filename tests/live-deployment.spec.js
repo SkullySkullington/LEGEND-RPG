@@ -15,8 +15,8 @@ function expectedAsset(regex, label) {
 }
 
 const expectedRefs = {
-  data: expectedAsset(/<script src="([^"]*js\/data\.js[^"]*)"/, 'data script URL'),
-  town: expectedAsset(/<script src="([^"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
+  data: expectedAsset(/<script(?:\s+defer)? src="([^"]*js\/data\.js[^"]*)"/, 'data script URL'),
+  town: expectedAsset(/<script(?:\s+defer)? src="([^"]*ashmere-controller-v099\.js[^"]*)"/, 'Ashmere controller URL'),
   workCss: expectedAsset(/<link rel="stylesheet" href="([^"]*ashmere-workshops-v100\.css[^"]*)"/, 'workshop stylesheet URL')
 };
 
@@ -75,6 +75,7 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
     });
 
     await expect(page.locator('.v120-title')).toBeVisible();
+    await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
     // Keep this smoke test focused on usable gameplay rather than animation timing.
     // The actual animations are still enabled for players in the published game.
     await page.addStyleTag({ content: `
