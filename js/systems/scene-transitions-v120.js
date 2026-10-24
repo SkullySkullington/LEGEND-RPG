@@ -74,15 +74,23 @@
     return 'PREPARING LOCAL SCENE ASSETS';
   }
 
-  function waitForSceneAssets() {
+  function waitForSceneAssets(destinationArt) {
     const images = Array.from(document.getElementById('root')?.querySelectorAll('img') || []).filter(img => !img.complete);
     const paint = new Promise(resolve => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
     const assets = Promise.all(images.map(img => new Promise(resolve => {
       img.addEventListener('load', resolve, { once: true });
       img.addEventListener('error', resolve, { once: true });
     })));
-    const safety = new Promise(resolve => window.setTimeout(resolve, 1600));
-    return Promise.race([Promise.all([assets, paint]), safety]);
+    const destination = destinationArt ? new Promise(resolve => {
+      const image = new Image();
+      const settle = () => resolve();
+      image.addEventListener('load', settle, { once: true });
+      image.addEventListener('error', settle, { once: true });
+      image.src = destinationArt;
+      if (image.complete) resolve();
+    }) : Promise.resolve();
+    const safety = new Promise(resolve => window.setTimeout(resolve, 2400));
+    return Promise.race([Promise.all([assets, paint, destination]), safety]);
   }
 
   function transitionTo(label, action, artPath) {
@@ -113,7 +121,7 @@
     }
 
     void (async () => {
-      await waitForSceneAssets();
+      await waitForSceneAssets(art);
       const minimumCoverMs = Math.max(0, 1650 - (Date.now() - startedAt));
       window.setTimeout(() => {
         curtain.classList.remove('is-covering');
