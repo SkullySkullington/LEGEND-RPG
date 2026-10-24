@@ -35,7 +35,7 @@
         { id: 'ridgeway-cairn', name: 'Ridgeway Cairn', type: 'Trail Clue', route: 'ridge', stage: 1, poiKey: 'ridge-cairn', description: 'A stack of old stones marks the dry line. One stone sits beyond its weathered groove.' },
         { id: 'windbreak', name: 'Windbreak', type: 'Optional Shelter', route: 'ridge', stage: 1, optional: true, description: 'A broken rock shelf cuts the worst of the wind and looks down over the lowland tracks.' },
         { id: 'reed-cut', name: 'Reed Cut', type: 'Route', route: 'reeds', stage: 1, description: 'A wet, reed-choked passage with poor sight lines and rising pressure.' },
-        { id: 'lantern-ditch', name: 'Lantern Ditch', type: 'Strange Find', route: 'reeds', stage: 1, poiKey: 'ditch-lantern', description: 'A low ditch crosses the cut. A cold blue light moves beneath the reeds.' },
+        { id: 'lantern-ditch', name: 'Lantern Ditch', type: 'Strange Find', route: 'reeds', stage: 1, poiKey: 'marsh-watcher-tracks', description: 'A low ditch crosses the cut. A cold blue light moves beneath the reeds.' },
         { id: 'sunken-cart', name: 'Sunken Cart', type: 'Optional Salvage', route: 'reeds', stage: 1, optional: true, description: 'A partly submerged cart rests at the edge of the reed cut.' },
         { id: 'wayfarers-camp', name: "Wayfarer's Camp", type: 'Waystation', stage: 2, description: 'A shared clearing where travelers can rest, craft, and prepare for the dangerous stretch ahead.' },
         { id: 'blackroot-bend', name: 'Blackroot Bend', type: 'Dangerous Crossing', stage: 3, poiKey: 'blackroot-mark', description: 'Black roots buckle the road around a stone seal bearing the old mark.' },

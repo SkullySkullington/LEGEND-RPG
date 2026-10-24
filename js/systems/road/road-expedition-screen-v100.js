@@ -331,7 +331,7 @@
     document.getElementById('exp150OpenMap')?.addEventListener('click',()=>openPanel('map'));
     document.getElementById('exp150OpenJournal')?.addEventListener('click',()=>openPanel('journal'));
     document.getElementById('exp150OpenJournalAside')?.addEventListener('click',()=>openPanel('journal'));
-    document.getElementById('exp150OpenMap')?.addEventListener('click',()=>openPanel('map'));
+
     document.getElementById('town').onclick=()=>{const player=p();if(player?.flags?.openingRoadV140?.phase==='road'&&!player.flags.openingRoadV140.completed)window.LegendRoadOpeningV140?.complete?.(player,'abandoned');ret();};
     document.getElementById('campRest')?.addEventListener('click',()=>{
       const player=p();if(!player)return;const state=ensure(player);

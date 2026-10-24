@@ -128,7 +128,7 @@ test('Windbreak is an optional logged stop and the player can return to the rout
   expect(result.completed).toContain('windbreak');
   expect(result.discovery).toMatchObject({ place: 'Windbreak', route: 'ridge' });
   await page.locator('#exp160ReturnToRoute').click();
-  await expect(page.locator('.expedition').first()).toBeAttached();
+  await expect(page.locator('.exp150-world-page')).toBeVisible();
   await page.locator('#push').click();
   const current = await page.evaluate(() => {
     const state = window.LegendRuntimeV120.loadPlayer().flags.roadExpeditionV100;
@@ -137,6 +137,35 @@ test('Windbreak is an optional logged stop and the player can return to the rout
   expect(current.stage).toBe(2);
   expect(current.node).toBe('wayfarers-camp');
   expect(current.visited).toContain('windbreak');
+});
+
+test('the optional Windbreak stop can be skipped without blocking the shared road', async ({ page }) => {
+  await startFreshTraveler(page, 'SkipDetourQA');
+  await seedRoadStage(page, 1, 'ridge');
+  await page.locator('#push').click();
+  const state = await page.evaluate(() => {
+    const road = window.LegendRuntimeV120.loadPlayer().flags.roadExpeditionV100;
+    return { stage: road.stage, current: road.currentNodeIdV160, visited: road.visitedNodeIdsV160, pressure: road.pressure };
+  });
+  expect(state.stage).toBe(2);
+  expect(state.current).toBe('wayfarers-camp');
+  expect(state.visited).not.toContain('windbreak');
+});
+
+test('the map remains usable at 390px without horizontal overflow', async ({ page }) => {
+  await startFreshTraveler(page, 'MobileMapQA');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await seedRoadStage(page, 1, 'reeds');
+  await page.locator('#exp150OpenMap').click();
+  const layout = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    documentWidth: document.documentElement.scrollWidth,
+    mapWidth: document.querySelector('.exp160-route-graph')?.scrollWidth || 0,
+    mapClientWidth: document.querySelector('.exp160-route-graph')?.clientWidth || 0
+  }));
+  expect(layout.documentWidth).toBeLessThanOrEqual(layout.viewport);
+  expect(layout.mapWidth).toBeLessThanOrEqual(layout.mapClientWidth);
+  await expect(page.getByRole('dialog', { name: 'Road map' }).locator('[data-exp160-map-visit="sunken-cart"]')).toBeVisible();
 });
 
 test('Sunken Cart salvage discloses cost and records the recovered material without gating the route', async ({ page }) => {
