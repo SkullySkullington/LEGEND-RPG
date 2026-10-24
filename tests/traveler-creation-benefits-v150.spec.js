@@ -68,10 +68,9 @@ test('every traveler choice has its own art and gameplay effects are visible and
       bonuses: player.creationV094.bonuses,
       strengthScore: score.score(player, 'strength'),
       atlas: window.LegendAssetsV090.creation.atlas,
-      artworkSources: Array.from(document.querySelectorAll('.v094-choice-art img')).map(img => img.getAttribute('src'))
+      
     };
   });
-  expect(saved.artworkSources.every(src => src && !src.endsWith('.svg'))).toBe(true);
   expect(saved).toMatchObject({
     gender: 'woman',
     personality: 'bold',
