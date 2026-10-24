@@ -1,3 +1,13 @@
+## v0.22.0 — Realm startup, living title scene, and readable transitions (verification pending)
+
+- Add a full-screen startup sequence with staged initialization copy while the production game script graph loads; keep the startup curtain bounded so a missing first scene does not silently masquerade as a successful load.
+- Evolve the title from a framed menu alone into a realm entrance: full-bleed landscape, current-region overview, illustrated route cards for the Old Road and Greyfen, and a first-delve preview. Preserve the local raster LEGEND wordmark and existing game runtime.
+- Extend loading curtains to use destination-specific local art and captions, with a longer minimum hold and slower reveal so each transition can be read.
+- Add regression tests for startup lifecycle, transition duration, realm overview presentation, and script order.
+- Preserve `legend-roads-of-ashmere-v09` and existing traveler records. Full Playwright CI and deployed smoke must pass before promotion to `main`.
+
+---
+
 ## v0.21.1 — Traveler creation and immersive expedition loop (merged to `main`; automated verification passed)
 
 - Add a dedicated local 5×5 traveler-choice art atlas for every identity form, personality, origin, and keepsake; preserve the six existing class portraits. The actual title-screen logo remains a local raster wordmark, not an SVG logo.
