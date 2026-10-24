@@ -156,6 +156,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     await expect.poll(() => page.evaluate(() => typeof window.LegendTitleScreenV120?.render)).toBe('function');
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
+    await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
   });
 
   test('recovered-build saves are not imported by the current loader', async ({ page }) => {
