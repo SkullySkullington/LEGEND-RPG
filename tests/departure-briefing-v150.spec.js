@@ -9,6 +9,7 @@ async function createTravelerInAshmere(page) {
   await page.reload();
   await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
   await expect(page.locator('.v120-title')).toBeVisible();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
   await page.getByRole('button', { name: /Begin Your Journey/i }).click();
   await page.locator('#v094Name').fill('DepartureQA');
   await page.locator('#v094Next').click();
