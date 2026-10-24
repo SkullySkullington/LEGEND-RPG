@@ -19,6 +19,39 @@
     {id:'maraSafeReturn',title:'Mara’s Missing Road Ledger',giver:'Mara Vell',description:'Mara needs a complete field report, not another half-told rumor. Secure a five-stage expedition and return after accepting the posting.',objective:'Complete and secure one five-stage Old Road expedition.',counter:'return',gold:95,xp:50,item:'oil',amount:1,completeText:'Mara copies your route notes into the town archive and rewards the complete report.'},
     {id:'movedCairn',title:'The Moved Cairn',giver:'Captain Oric',description:'Oric suspects the Ridgeway Cairn no longer points where it was meant to. Take the High Ridge, inspect the stone, then choose whether to restore it, record both alignments, or mark the hazard.',objective:'Investigate the Ridgeway Cairn and file a report on its shifted stone.',counter:'movedCairn',gold:70,xp:40,item:'roadHerb',amount:1,completeText:'Oric files your report as a real warning instead of another rumor.'}
   ];
+  const dailyContracts=[
+    {id:'survey',title:'Map the Lantern Line',description:'Inspect one roadside point of interest and record what the lantern light reveals.',counter:'poi',goal:1,gold:30,xp:20,keys:1},
+    {id:'hold',title:'Hold the Blackroot Line',description:'Win a road battle. Watch the enemy intent and bring your proof back alive.',counter:'battle',goal:1,gold:35,xp:25,keys:1},
+    {id:'return',title:'Bring Proof Home',description:'Complete an Old Road outing and return to Ashmere with the field report.',counter:'return',goal:1,gold:45,xp:30,keys:1}
+  ];
+  function localDayKey(){
+    const d=new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function ensureDailyState(player){
+    player.flags=player.flags||{};
+    const today=localDayKey();
+    let state=player.flags.dailyContractsV151;
+    if(!state||state.dayKey!==today){
+      state={
+        dayKey:today,
+        baseline:{
+          poi:sideContractCounter(player,'poi'),
+          battle:sideContractCounter(player,'battle'),
+          return:sideContractCounter(player,'return')
+        },
+        claimed:[]
+      };
+      player.flags.dailyContractsV151=state;
+    }
+    state.baseline=state.baseline||{};
+    state.claimed=Array.isArray(state.claimed)?state.claimed:[];
+    return state;
+  }
+  function dailyProgress(player,state,quest){
+    const baseline=Number(state.baseline?.[quest.counter]||0);
+    return Math.max(0,Math.min(quest.goal,sideContractCounter(player,quest.counter)-baseline));
+  }
   function sideContractCounter(pl,key){
     const stats=pl?.stats||{};
     if(key==='poi')return Number(stats.pointsOfInterest||0);
