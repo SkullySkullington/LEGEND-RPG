@@ -93,6 +93,60 @@
     const dailyMarkup='<section class="ash099-daily-board" aria-label="Daily contracts"><div class="ash099-daily-intro"><span class="ash099-job-overline">DAILY FIELD BOARD · '+esc(daily.dayKey)+'</span><h2>Three reasons to take the road today</h2><p>These objectives reset by your local calendar day. Their progress is saved with your traveler. Complete them through normal play, then claim your gold, XP, and cache keys below.</p></div><div class="ash099-daily-grid">'+dailyCards+'</div>'+cacheMarkup+dailyNotice+'</section>';
     const body=dailyMarkup+'<section class="ash099-contract-ledger"><div class="ash099-contract-intro"><span class="ash099-job-overline">LOCAL STORIES · FIELD CONTRACTS</span><h2>Work that takes you beyond the board</h2><p>These one-time requests progress while you explore and fight. Accept a posting before doing the work; completed objectives can be turned in here.</p></div><div class="ash099-contract-list">'+cards+'</div></section>';
     screen(head('Journal & Notices','Daily Board & Road Contracts','Finish daily road objectives for gold, XP, and keys to transparent, earnable supply caches. Local stories remain below.',locationInterior('archive'),'quest'),body);
+    document.querySelectorAll('[data-daily-claim]').forEach(b=>b.onclick=()=>{
+      const q=dailyContracts.find(x=>x.id===b.dataset.dailyClaim);if(!q)return;
+      const player=p();if(!player)return;
+      const state=ensureDailyState(player);
+      if(state.claimed.includes(q.id))return renderSideContracts('That daily reward has already been claimed today.');
+      if(dailyProgress(player,state,q)<q.goal)return renderSideContracts('Finish the daily objective before claiming its reward.');
+      state.claimed.push(q.id);
+      player.gold=Number(player.gold||0)+q.gold;
+      player.inventory=player.inventory||{};
+      player.inventory.roadCacheKey=Number(player.inventory.roadCacheKey||0)+q.keys;
+      player.stats=player.stats||{};
+      player.stats.dailyContractsCompleted=Number(player.stats.dailyContractsCompleted||0)+1;
+      player.memories=Array.isArray(player.memories)?player.memories:[];
+      player.memories.push('Completed daily field contract: '+q.title+'.');
+      const progress=context.awardProgress?.(player,q.xp);
+      save(player);
+      renderSideContracts('Daily contract complete: '+q.title+'. +'+q.gold+'g, '+q.xp+' XP, and '+q.keys+' Road Cache Key.'+(progress?.levels?' Level up! You are now level '+progress.level+'.':''));
+    });
+    document.getElementById('dailyCacheOpen')?.addEventListener('click',()=>{
+      const player=p();if(!player)return;
+      player.inventory=player.inventory||{};
+      const keys=Math.max(0,Number(player.inventory.roadCacheKey||0));
+      if(keys<1)return renderSideContracts('You need a Road Cache Key. Complete a daily contract to earn one.');
+      player.inventory.roadCacheKey=keys-1;
+      let resultText='';
+      const roll=Math.random()*100;
+      if(roll<40){
+        player.inventory.food=Number(player.inventory.food||0)+2;
+        resultText='Field supplies · 2 Rations';
+      }else if(roll<70){
+        const amount=60+Math.floor(Math.random()*41);
+        player.gold=Number(player.gold||0)+amount;
+        resultText='Pouch of coin · '+amount+'g';
+      }else if(roll<90){
+        const materials=['roadHerb','clothScrap','oil'];
+        const material=materials[Math.floor(Math.random()*materials.length)];
+        player.inventory[material]=Number(player.inventory[material]||0)+2;
+        resultText='Crafting materials · 2 '+itemName(material);
+      }else if(roll<98){
+        player.inventory.food=Number(player.inventory.food||0)+2;
+        player.inventory.potion=Number(player.inventory.potion||0)+1;
+        resultText='Medic bundle · 2 Rations and 1 Healing Potion';
+      }else{
+        player.inventory.roadToken=Number(player.inventory.roadToken||0)+1;
+        player.gold=Number(player.gold||0)+100;
+        resultText='Rare route cache · 1 Road Token and 100g';
+      }
+      player.stats=player.stats||{};
+      player.stats.dailyCachesOpened=Number(player.stats.dailyCachesOpened||0)+1;
+      player.memories=Array.isArray(player.memories)?player.memories:[];
+      player.memories.push('Opened a Road Cache: '+resultText+'.');
+      save(player);
+      renderSideContracts('Road Cache opened: '+resultText+'. The published odds remain unchanged; every key is earned through play.');
+    });
     document.querySelectorAll('[data-contract-accept]').forEach(b=>b.onclick=()=>{
       const q=sideContracts.find(x=>x.id===b.dataset.contractAccept);if(!q)return;
       const player=p();if(!player)return;player.flags=player.flags||{};player.flags.sideContracts=player.flags.sideContracts||{};
