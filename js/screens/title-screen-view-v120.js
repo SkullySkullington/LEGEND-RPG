@@ -19,9 +19,20 @@
       logoImage
     } = config;
     if (!root || typeof root !== 'object') return false;
+    const locations = window.LegendAssetsV090?.locations || {};
+    const realmLabel = town === 'Greyfen' ? 'GREYFEN LOWLANDS' : 'ASHMERE VALE';
+    const realmTitle = town === 'Greyfen' ? 'Greyfen Lowlands' : 'Ashmere Vale';
+    const realmDescription = town === 'Greyfen'
+      ? 'Raised paths, drowned records, and the marsh’s quiet dangers.'
+      : 'Lanterns still burn here. Beyond the last gate, the Old Road does not forgive the unprepared.';
+    const realmImage = town === 'Greyfen'
+      ? (locations.greyfenMain || locations.ashmereMain || 'assets/generated/locations/greyfen-town.webp')
+      : (locations.ashmereMain || 'assets/generated/locations/ashmere-town.webp');
+    const greyfenKnown = Array.isArray(player?.discoveredRegions) && player.discoveredRegions.includes('Greyfen');
+    const greyfenStatus = greyfenKnown ? 'REGION DISCOVERED' : 'BEYOND THE FIRST CROSSING';
 
     root.innerHTML = `
-      <div class="title-wrap title-v100 portal-shell portal-v100 v120-title title-v136-rpg">
+      <div class="title-wrap title-v100 portal-shell portal-v100 v120-title title-v136-rpg title-v140-world">
         <img class="v120-title-backdrop" src="${esc(backgroundImage || 'assets/title/title_bg_ashmere_road_v089.jpg')}" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async" onerror="if(this.dataset.fallbackApplied){this.style.display='none'}else{this.dataset.fallbackApplied='1';this.src='assets/title/title_bg_ashmere_road_v089.jpg'}">
         <div class="title-atmosphere" aria-hidden="true"><div class="title-embers"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="title-fog"><i></i><i></i><i></i></div></div>
         <header class="portal100-header">
@@ -53,6 +64,33 @@
               </div>
             </nav>
           </section>
+          <aside class="v140-world-console" aria-label="Realm overview">
+            <div class="v140-console-head"><span>KNOWN REALM // FIELD OVERVIEW</span><span class="v140-realm-status"><i aria-hidden="true"></i> REALM INITIALIZED</span></div>
+            <section class="v140-realm-feature" aria-label="Current region: ${esc(realmTitle)}">
+              <img src="${esc(realmImage)}" alt="" aria-hidden="true" loading="eager" decoding="async" onerror="this.style.display='none'">
+              <div class="v140-realm-feature-copy">
+                <span class="v140-realm-overline">${esc(town === 'Greyfen' ? 'CURRENT REGION' : 'STARTING REGION')} // ${esc(realmLabel)}</span>
+                <h2>${esc(realmTitle)}</h2>
+                <p>${esc(realmDescription)}</p>
+              </div>
+            </section>
+            <div class="v140-realm-routes" aria-label="Known routes">
+              <article class="v140-realm-node">
+                <img src="${esc(locations.oldRoad || 'assets/generated/locations/old-road-south-fork.webp')}" alt="" aria-hidden="true" loading="eager" decoding="async" onerror="this.style.display='none'">
+                <div class="v140-realm-node-copy"><small>FRONTIER // 01</small><strong>The Old Road</strong><span>Expeditions, clues, and ambushes</span></div>
+              </article>
+              <article class="v140-realm-node">
+                <img src="${esc(locations.greyfenMarshWalkway || 'assets/generated/locations/greyfen-marsh-walkway.webp')}" alt="" aria-hidden="true" loading="eager" decoding="async" onerror="this.style.display='none'">
+                <div class="v140-realm-node-copy"><small>FURTHER EAST // 02</small><strong>Greyfen</strong><span>${esc(greyfenStatus)}</span></div>
+              </article>
+            </div>
+            <div class="v140-first-delve">
+              <span class="v140-delve-sigil" aria-hidden="true">✦</span>
+              <div><small>FIRST DELVE // BENEATH ASHMERE</small><strong>The Bell Cellar</strong><span>Four chamber beats · equipment and level matter</span></div>
+              <em>UNDERGROUND</em>
+            </div>
+            <div class="v140-console-foot"><span>THE BORDERLANDS // REALM OVERVIEW</span><span>${esc(buildVersion)} · LOCAL WORLD</span></div>
+          </aside>
         </main>
         <footer class="portal100-footer portal-footer v120-title-footer"><span>LEGEND: THE AWAKENING</span><span>${esc(buildVersion)} · ASHMERE · OLD ROAD · GREYFEN</span></footer>
       </div>`;
