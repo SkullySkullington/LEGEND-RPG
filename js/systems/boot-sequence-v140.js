@@ -21,7 +21,9 @@
   const bar = document.getElementById('legend-boot-progress-fill');
   const value = document.getElementById('legend-boot-progress-value');
   const progress = overlay.querySelector('[role="progressbar"]');
+  const retry = document.getElementById('legend-boot-retry');
   const root = document.getElementById('root');
+  retry?.addEventListener('click', () => window.location.reload());
   window.__legendBootMetricsV140 = { startedAt, completedAt: null, minimumDurationMs: MIN_DURATION_MS };
   function paint() {
     if (removed) return;
@@ -58,7 +60,7 @@
   }
   function sceneMounted() { return Boolean(root && root.firstElementChild); }
   function checkReady() {
-    if (finishScheduled || removed || !sceneMounted()) return;
+    if (finishScheduled || removed || !sceneMounted() || !window.__legendRuntimeScriptsReadyV140) return;
     finishScheduled = true;
     timeoutId = window.setTimeout(exit, Math.max(0, MIN_DURATION_MS - (performance.now() - startedAt)));
   }
@@ -78,5 +80,6 @@
     if (detail) detail.textContent = 'The game is still waiting for its first scene. Try refreshing if this message remains.';
     if (bar) bar.style.width = '94%';
     if (value) value.textContent = '94%';
+    if (retry) retry.hidden = false;
   }, 9000);
 })();
