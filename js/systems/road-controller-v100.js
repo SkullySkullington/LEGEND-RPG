@@ -170,6 +170,31 @@ const combatResultsView=window.LegendRoadCombatResultsViewV152?.create({
   onContinue:()=>renderExpedition(),
   onReturnToTown:returnToTownFromRoad
 });
+function showDungeonCombatResults(payload = {}){
+  const enemy=payload.enemy||{},victory=payload.result!=='defeat';
+  const rewardId=enemy.reward||'fur';
+  const rewardName=window.LEGEND_DATA?.itemNames?.[rewardId]||rewardId;
+  const room=Math.max(1,Number(payload.room||(victory?3:2)));
+  return combatResultsView?.render({
+    ...payload,
+    dungeon:true,
+    locationName:'THE BELL CELLAR',
+    sceneArtKey:'ashmereArchive',
+    progressLabel:'CELLAR DEPTH',
+    progressValue:room+' / 3',
+    progressHint:victory?'Bell chamber reached':'Last room reached before retreat',
+    rewardName:victory?(payload.rewardName||rewardName):'',
+    primaryTitle:victory?'Return to the chamber':'Return to Ashmere',
+    primaryHint:victory?'Continue exploring the Bell Cellar':'Recover before attempting the cellar again',
+    primaryTransition:victory?'Returning to the bell chamber':'Returning wounded to Ashmere',
+    secondaryTitle:victory?'Return to Ashmere':'Review the cellar',
+    secondaryHint:victory?'Leave the cellar with your rewards':'Review the last chamber report',
+    secondaryTransition:victory?'Returning to Ashmere':'Reviewing the bell chamber',
+    onContinue:()=>window.LegendAshmereV099?.route?.('dungeon'),
+    onReturn:returnToTownFromRoad,
+    onSecondary:victory?returnToTownFromRoad:()=>window.LegendAshmereV099?.route?.('dungeon')
+  })===true;
+}
 const roadResultsView=window.LegendRoadResultsViewV100?.create({
   renderHeader:header,
   renderShell:shell,
@@ -204,5 +229,5 @@ roadExpeditionScreen=window.LegendRoadExpeditionScreenV100?.create({
  clamp,
  returnToAshmere:ret
 });
-window.LegendRoadControllerV100={start,startOpeningEncounter,startDungeonEncounter,renderHub:renderExpedition,renderExpedition};
+window.LegendRoadControllerV100={start,startOpeningEncounter,startDungeonEncounter,showDungeonCombatResults,renderHub:renderExpedition,renderExpedition};
 })();
