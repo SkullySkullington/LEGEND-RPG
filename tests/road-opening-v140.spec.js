@@ -19,6 +19,7 @@ async function openTitle(page) {
   await expect(page.locator('.v120-title-hero .v120-legend-logo')).toHaveAttribute('src', /\.png(?:\?.*)?$/);
   await expect(page.locator('.v120-title-hero .v150-logo-lockup')).toHaveAttribute('aria-label', 'LEGEND: The Awakening');
   await expect(page.getByRole('button', { name: /Begin Your Journey/i })).toBeVisible();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
 }
 
 async function createTravelerToLantern(page, name = 'VeilRoadQA') {
