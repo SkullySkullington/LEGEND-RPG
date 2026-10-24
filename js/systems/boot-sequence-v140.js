@@ -10,33 +10,62 @@
   let intervalId = null;
   let timeoutId = null;
   const phases = [
-    { at: 0, title: 'Reading world archives', detail: 'Preparing known regions, routes, and field records.' },
-    { at: 650, title: 'Initializing game systems', detail: 'Waking the scene controller, progression, and combat systems.' },
-    { at: 1280, title: 'Restoring local assets', detail: 'Preparing the illustrated realm and its familiar landmarks.' },
-    { at: 1920, title: 'Checking traveler records', detail: 'Keeping your existing journey, equipment, and inventory safe.' },
-    { at: 2540, title: 'Opening the Borderlands', detail: 'The lanterns are lit. The road is almost ready.' }
+    { title: 'Loading local game files', detail: 'Reading the world data and loading the game’s script modules.' },
+    { title: 'Wiring game systems', detail: 'Bringing screens, traveler records, combat, and progression online.' },
+    { title: 'Preparing the world', detail: 'Loading Ashmere, the Old Road, regional scenes, and encounters.' },
+    { title: 'Finalizing the journey', detail: 'Checking the last game modules before opening the realm.' },
+    { title: 'Opening the Borderlands', detail: 'The lanterns are lit. The road is almost ready.' }
   ];
+  const trackedScripts = Array.from(document.querySelectorAll('script[src]'));
+  const settledScripts = new WeakSet();
+  let settledScriptCount = 0;
+  let failedScriptCount = 0;
+  const scriptTotal = trackedScripts.length;
   const title = document.getElementById('legend-boot-phase');
   const detail = document.getElementById('legend-boot-detail');
   const bar = document.getElementById('legend-boot-progress-fill');
   const value = document.getElementById('legend-boot-progress-value');
   const progress = overlay.querySelector('[role="progressbar"]');
+  const fileCount = document.getElementById('legend-boot-file-count');
+  const fileStatus = document.querySelector('.legend-boot-status span:first-child');
   const retry = document.getElementById('legend-boot-retry');
   const root = document.getElementById('root');
   retry?.addEventListener('click', () => window.location.reload());
-  window.__legendBootMetricsV140 = { startedAt, completedAt: null, minimumDurationMs: MIN_DURATION_MS };
+  const metrics = window.__legendBootMetricsV140 = {
+    startedAt, completedAt: null, minimumDurationMs: MIN_DURATION_MS,
+    scriptTotal, scriptSettled: 0, scriptFailures: 0
+  };
+  function settleScript(script, failed) {
+    if (!script || settledScripts.has(script)) return;
+    settledScripts.add(script);
+    settledScriptCount += 1;
+    if (failed) failedScriptCount += 1;
+    metrics.scriptSettled = settledScriptCount;
+    metrics.scriptFailures = failedScriptCount;
+    paint();
+  }
+  trackedScripts.forEach(script => {
+    script.addEventListener('load', () => settleScript(script, false), { once: true });
+    script.addEventListener('error', () => settleScript(script, true), { once: true });
+  });
   function paint() {
     if (removed) return;
-    const elapsed = performance.now() - startedAt;
-    let active = phases[0];
-    let index = 0;
-    phases.forEach((phase, i) => { if (elapsed >= phase.at) { active = phase; index = i; } });
+    const ratio = scriptTotal ? Math.min(1, settledScriptCount / scriptTotal) : 1;
+    const index = Math.min(phases.length - 1, Math.floor(ratio * phases.length));
+    const active = phases[index];
     if (title) title.textContent = active.title;
-    if (detail) detail.textContent = active.detail;
-    const pct = Math.min(90, Math.max(7, Math.round(7 + Math.min(1, elapsed / MIN_DURATION_MS) * 78 + index * 1.2)));
+    if (detail) detail.textContent = failedScriptCount
+      ? 'Some files could not be reached. The game is checking whether the remaining systems can start.'
+      : active.detail;
+    const pct = Math.min(94, Math.max(7, Math.round(7 + ratio * 87)));
     if (bar) bar.style.width = pct + '%';
     if (value) value.textContent = String(pct).padStart(2, '0') + '%';
-    if (progress) { progress.setAttribute('aria-valuenow', String(pct)); progress.setAttribute('aria-valuetext', pct + ' percent'); }
+    if (fileCount) fileCount.textContent = 'GAME FILES READY ' + settledScriptCount + ' / ' + scriptTotal;
+    if (fileStatus) fileStatus.textContent = settledScriptCount >= scriptTotal ? 'GAME FILES PROCESSED' : 'LOADING GAME FILES';
+    if (progress) {
+      progress.setAttribute('aria-valuenow', String(pct));
+      progress.setAttribute('aria-valuetext', pct + ' percent; ' + settledScriptCount + ' of ' + scriptTotal + ' game files processed');
+    }
     overlay.setAttribute('aria-label', 'Starting LEGEND: The Awakening — ' + active.title);
   }
   function exit() {
@@ -48,7 +77,9 @@
     if (detail) detail.textContent = 'Welcome to the Borderlands. Your journey is yours to shape.';
     if (bar) bar.style.width = '100%';
     if (value) value.textContent = '100%';
-    if (progress) { progress.setAttribute('aria-valuenow', '100'); progress.setAttribute('aria-valuetext', '100 percent'); }
+    if (fileCount) fileCount.textContent = 'ALL GAME FILES PROCESSED';
+    if (fileStatus) fileStatus.textContent = 'REALM READY';
+    if (progress) { progress.setAttribute('aria-valuenow', '100'); progress.setAttribute('aria-valuetext', '100 percent; realm ready'); }
     window.__legendBootMetricsV140.completedAt = performance.now();
     overlay.setAttribute('aria-label', 'LEGEND: The Awakening is ready');
     overlay.classList.add('is-exiting');
