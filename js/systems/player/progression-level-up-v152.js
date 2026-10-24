@@ -98,7 +98,7 @@
         const allocated = overlay.querySelector('[data-allocation="' + key + '"]');
         const minus = overlay.querySelector('[data-attr-minus="' + key + '"]');
         const plus = overlay.querySelector('[data-attr-add="' + key + '"]');
-        const card = overlay.querySelector('[data-growth-card=\\\"' + key + '\\\"]');
+        const card = overlay.querySelector('[data-growth-card="' + key + '"]');
         if (card) card.classList.toggle('has-growth', allocations[key] > 0);
         if (current) current.textContent = String(attributes[key]);
         if (allocated) allocated.textContent = String(allocations[key]);
