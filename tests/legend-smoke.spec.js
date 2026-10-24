@@ -1775,7 +1775,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     const iconImages = page.locator('.ash100-destinations .ash100-destination-icon .ash099-asset-icon img');
     await expect(iconImages).toHaveCount(8);
     const iconSources = await iconImages.evaluateAll(nodes => nodes.map(node => node.getAttribute('src') || ''));
-    expect(iconSources.every(src => src.startsWith('assets/generated/') && /\\.(?:webp|png)(?:\\?.*)?$/i.test(src))).toBe(true);
+    expect(iconSources.every(src => src.startsWith('assets/generated/') && /\.(?:webp|png)(?:\?.*)?$/i.test(src))).toBe(true);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-icon svg')).toHaveCount(0);
     await expect(page.locator('.ash100-destinations .ash100-destination-icon .ash099-region-shop-icon img')).toHaveCount(0);
     const iconBounds = await iconImages.evaluateAll(nodes => nodes.map(img => {
