@@ -7,6 +7,7 @@ async function openTitle(page) {
     sessionStorage.clear();
   });
   await page.reload();
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   await page.addStyleTag({ content: `
     *, *::before, *::after {
       animation: none !important;
@@ -178,6 +179,8 @@ test('expedition map and field journal preserve keyboard focus and recorded disc
   await expect(mapButton).toBeFocused();
 
   await page.reload();
+
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   const savedJournal = await page.evaluate(() => {
     const player = window.LegendRuntimeV120.loadPlayer();
     const journal = player?.flags?.roadFieldJournalV150;
@@ -244,6 +247,7 @@ test('waystation watch spends one ration, lowers pressure, and persists its camp
   await expect(dialog).toContainText(/Reed Cut/i);
   await expect(dialog).toContainText(/Water shifts in the reeds/i);
   await page.reload();
+  await expect(page.locator('#legend-boot-screen')).toBeHidden({ timeout: 10000 });
   const persisted=await page.evaluate(()=>{
     const player=window.LegendRuntimeV120.loadPlayer();
     return {
