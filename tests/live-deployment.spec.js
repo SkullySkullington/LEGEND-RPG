@@ -76,7 +76,6 @@ test.describe('LEGEND live GitHub Pages smoke test', () => {
 
     await expect(page.locator('.v120-title')).toBeVisible();
     await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
-    await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
     // Keep this smoke test focused on usable gameplay rather than animation timing.
     // The actual animations are still enabled for players in the published game.
     await page.addStyleTag({ content: `
