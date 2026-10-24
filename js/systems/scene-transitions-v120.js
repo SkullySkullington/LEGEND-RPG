@@ -41,8 +41,11 @@
     const byView = {
       home: 'assets/generated/locations/ashmere-town.webp',
       people: 'assets/generated/locations/ashmere-town.webp',
-      inn: 'assets/generated/locations/ashmere-inn.webp',
+      road: 'assets/generated/locations/old-road-south-fork.webp',
+      crossing: 'assets/generated/locations/old-road-south-fork.webp',
+      market: 'assets/generated/locations/ashmere-market.webp',
       trader: 'assets/generated/locations/ashmere-market.webp',
+      inn: 'assets/generated/locations/ashmere-inn.webp',
       smith: 'assets/generated/locations/ashmere-forge.webp',
       work: 'assets/generated/locations/ashmere-archive.webp',
       crossing: 'assets/generated/locations/old-road-south-fork.webp',
