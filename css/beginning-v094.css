@@ -253,3 +253,7 @@
 .v094-confirm-benefit>strong{color:#eaffef}
 .v094-confirm-benefit>p{grid-column:1/-1;margin:0;color:#c8d9ce;font-size:.84rem;line-height:1.45}
 @media(max-width:640px){.v094-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.v094-choice{padding:12px;min-height:190px}.v094-choice-art{width:68px}.v094-choice-effect{font-size:.74rem}.v094-confirm-benefit{grid-template-columns:1fr;gap:4px}}
+
+/* Standalone Runway raster art replaces the old SVG sprite atlas. */
+.v094-choice-art>img.v094-choice-art-image{left:0!important;top:0!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain!important;box-sizing:border-box!important;padding:5px!important;mix-blend-mode:screen;filter:drop-shadow(0 3px 7px rgba(0,0,0,.3))}
+.v094-choice-art{border-color:rgba(215,184,106,.18);background:linear-gradient(145deg,rgba(11,18,13,.75),rgba(0,0,0,.2));border-radius:12px}
