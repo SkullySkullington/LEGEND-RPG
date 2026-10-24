@@ -59,7 +59,7 @@ function finish(){
  const details={type:'expedition',complete,stagesCompleted:stageCount,rewardGold:reward,roadTokens:complete?1:0,
   xpGained:Number(progress?.gained||0),levelsGained:Number(progress?.levels||0),levelBefore,levelAfter:Math.max(1,Number(pl.level||1)),
   routeName,discoveriesThisTrip,campsThisTrip,pressureBefore,pressureAfter,trip};
- outcome('Expedition Secured','You bring the expedition home: '+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'')+routeReport,'Return',null,null,details)
+ outcome(complete?'Expedition Secured':'Field Report Secured',(complete?'You bring the expedition home: ':'You return early with: ')+reward+'g'+(complete?' and a Road Token. The Road Tokens can now open a new region.':'.')+(progress?' XP +'+progress.gained+(progress.levels?' · Level up! You are now level '+progress.level:'')+'.':'')+routeReport,'Return',null,null,details)
 }
 function outcome(title,text,kicker,skill,modifier,details){
  stopMusic();
