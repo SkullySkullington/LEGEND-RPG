@@ -71,7 +71,7 @@
             '<div class="v152-levelup-level-line"><span>LEVEL ' + previousLevel + '</span><b aria-hidden="true">→</b><strong>LEVEL ' + Number(player.level || 1) + '</strong></div>' +
           '</div>' +
         '</div>' +
-        '<div class="v152-growth-pointbar"><div><span>UNSPENT ATTRIBUTE POINTS</span><strong><b id="v152-growth-spent">0</b> / <i id="v152-growth-total">' + points + '</i></strong></div>' +
+        '<div class="v152-growth-pointbar" role="status" aria-live="polite"><div><span>UNSPENT ATTRIBUTE POINTS</span><strong><b id="v152-growth-spent">0</b> / <i id="v152-growth-total">' + points + '</i></strong></div>' +
           '<div class="v152-growth-point-track"><span id="v152-growth-point-fill"></span></div>' +
           '<p>Assign every point before confirming your growth. Your choices are saved to this traveler.</p>' +
         '</div>' +
@@ -98,6 +98,8 @@
         const allocated = overlay.querySelector('[data-allocation="' + key + '"]');
         const minus = overlay.querySelector('[data-attr-minus="' + key + '"]');
         const plus = overlay.querySelector('[data-attr-add="' + key + '"]');
+        const card = overlay.querySelector('[data-growth-card=\\\"' + key + '\\\"]');
+        if (card) card.classList.toggle('has-growth', allocations[key] > 0);
         if (current) current.textContent = String(attributes[key]);
         if (allocated) allocated.textContent = String(allocations[key]);
         if (minus) minus.disabled = allocations[key] < 1;
@@ -139,7 +141,6 @@
     });
 
     refresh();
-    window.LegendLevelUpV152?.focus?.();
     overlay.querySelector('#v152-growth-confirm')?.focus({ preventScroll: true });
     return true;
   }
@@ -150,6 +151,6 @@
   }
 
   window.LegendLevelUpV152 = Object.freeze({ open, ensureAttributes, attributes: ATTRIBUTES });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', resumePending, { once: true });
-  else resumePending();
+  if (document.readyState === 'complete') resumePending();
+  else document.addEventListener('DOMContentLoaded', resumePending, { once: true });
 })();
