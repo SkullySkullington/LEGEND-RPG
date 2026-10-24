@@ -45,6 +45,7 @@ test('Crafting Bench shows ingredients, recipe feedback, and armor comparisons',
     sessionStorage.clear();
   });
   await page.reload();
+  await expect(page.locator('#legend-boot-sequence')).toHaveCount(0, { timeout: 15000 });
   await page.evaluate(() => {
     const player = {
       username: 'Workshop QA',
