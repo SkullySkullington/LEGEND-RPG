@@ -334,7 +334,7 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     expect(await page.evaluate(() => typeof window.LegendAshmereViewV099?.create)).toBe('function');
     await expect(page.locator('.ash100-town')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Ashmere', exact: true })).toBeVisible();
-    await expect(page.locator('.ash100-destination')).toHaveCount(8);
+    await expect(page.locator('.ash100-destination')).toHaveCount(7);
     await expect(page.getByRole('heading', { name: 'Your Camp', exact: true })).toHaveCount(0);
     await expect(page.getByRole('navigation', { name: 'Ashmere terminal navigation' })).toBeVisible();
   });
@@ -1312,7 +1312,17 @@ test.describe(`LEGEND v${version} browser regression tests`, () => {
     });
     await page.locator('#finish').click();
     await expect(page.locator('.exp100-outcome')).toContainText(/Ridgeway Cairn/i);
+    const finishCurtain = page.locator('#legend-scene-curtain');
+    await expect(finishCurtain).toBeAttached();
+    await expect.poll(() => finishCurtain.evaluate(el =>
+      !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+    )).toBe(true);
     await allocatePendingGrowth(page);
+    await expect.poll(() => page.evaluate(() => Number(window.LegendRuntimeV120.loadPlayer().pendingStatPointsV152 || 0))).toBe(0);
+    await expect(page.locator('#legendLevelUpOverlay')).toHaveCount(0);
+    await expect.poll(() => finishCurtain.evaluate(el =>
+      !el.classList.contains('is-covering') && !el.classList.contains('is-revealing')
+    )).toBe(true);
     await page.locator('#outcomeReturn').click();
     const returnCurtain = page.locator('#legend-scene-curtain');
     await expect(returnCurtain).toBeAttached();
